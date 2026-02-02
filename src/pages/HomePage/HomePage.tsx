@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import "./HomePage.scss"
-import ActiveRequests from "../../components/ActiveGroup/ActiveGroup";
 import { Link } from "react-router-dom";
 import ActiveGroup from "../../components/ActiveGroup/ActiveGroup";
 
@@ -114,14 +113,16 @@ export default function HomePage() {
           p={t("active-requests-1st-p")}
           p2={t("active-requests-2nd-p")}
           seeAll={t("see-all-requests")}
-        /> 
+          path="/requests"
+        />
+
         <ActiveGroup
           title={t("active-offers-title")}
           p={t("active-offers-1st-p")}
           p2={t("active-offers-2nd-p")}
           seeAll={t("see-all-offers")}
+          path="/offers"
         /> 
-      
     </div>
   )
 }

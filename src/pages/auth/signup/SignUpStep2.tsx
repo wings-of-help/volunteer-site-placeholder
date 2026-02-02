@@ -8,6 +8,7 @@ import {
   isPhoneValid,
   formatPhone,
 } from '../../../utils/validators';
+import { useUserRole } from '../../../context/RoleContext';
 
 type Props = {
   admin: boolean;
@@ -15,6 +16,7 @@ type Props = {
 
 const SignUpStep2 = ({admin}: Props) => {
 const { data, setEmail, setPhone } = useSignUp();
+const { setUserRole } = useUserRole();
 const { email, phone_number: phone } = data;
 
   const [emailError, setEmailError] = useState(false);
@@ -30,7 +32,7 @@ const { email, phone_number: phone } = data;
 
     setEmailError(!emailOk);
     setPhoneError(!phoneOk);
-
+    setUserRole("distressed")
     if (!emailOk || !phoneOk) return;
 
     navigate(path);

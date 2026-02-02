@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import SignUpForm from './SignUpForm';
 import AdminStep3 from './AdminStep3';
 import { useSignUp } from '../../../context/SignUpContext';
+import { useUserRole } from '../../../context/RoleContext';
 
 type Props = {
   admin: boolean;
@@ -10,6 +11,7 @@ type Props = {
 const SignUpStep3 = ({admin}: Props) => {
   const { data, setRole } = useSignUp();
   const { role } = data;
+  const { setUserRole } = useUserRole();
 
   const navigate = useNavigate();
 
@@ -33,7 +35,10 @@ const SignUpStep3 = ({admin}: Props) => {
                 type='radio'
                 name='role'
                 checked={role === 'volunteer'}
-                onChange={() => setRole('volunteer')}
+                onChange={() => {
+                  setRole('volunteer');
+                  setUserRole("volunteer");
+                }}
               />
               <span>Provide help (Volunteer)</span>
             </label>
@@ -43,7 +48,10 @@ const SignUpStep3 = ({admin}: Props) => {
                 type='radio'
                 name='role'
                 checked={role === 'distressed'}
-                onChange={() => setRole('distressed')}
+                onChange={() => {
+                  setRole('distressed');
+                  setUserRole("distressed");
+                }}
               />
               <span>Request help</span>
             </label>

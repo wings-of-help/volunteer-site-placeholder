@@ -1,11 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import SignUpForm from './SignUpForm'
 import { useState } from 'react';
+import { useUserRole } from '../../../context/RoleContext';
 
 export default function AdminStep3() {
   const navigate = useNavigate();
 
   const [secretCode, setSecretCode] = useState('');
+
+  const { setUserRole } = useUserRole();
 
   const isValid: boolean = Boolean(secretCode.trim());
   
@@ -18,7 +21,10 @@ export default function AdminStep3() {
     <SignUpForm
       step={3}
       isValid={isValid}
-      onContinue={() => navigate('/administrationsignup/step-4')}
+      onContinue={() => {
+        navigate('/administrationsignup/step-4');
+        setUserRole("admin");
+      }}
       path='administrationsignup'
     >
       <label className='auth-form__label'>
@@ -27,7 +33,9 @@ export default function AdminStep3() {
           className='auth-form__input'
           value={secretCode}
           placeholder='enter secret code for admins success'
-          onChange={(e) => setSecretCode(capitalize(e.target.value))}
+          onChange={(e) => {
+            setSecretCode(capitalize(e.target.value));
+          }}
         />
       </label>
     </SignUpForm>

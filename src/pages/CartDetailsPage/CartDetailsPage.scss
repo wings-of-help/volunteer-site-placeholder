@@ -44,6 +44,7 @@
 
     &__about {
       margin-top: 24px;
+      border-bottom: 1px solid #000;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -66,15 +67,7 @@
         border-bottom: 1px solid #000;
 
         &__button {
-          background-color: #000;
-          color: #fff;
-          width: 288px;
-          height: 57px;
-          gap: 8px;
-          padding: 16px;
-          @include p-styles;
-          margin-top: 60px;
-          cursor: pointer;
+          @include blackButton;
         }
 
         &__signin {
@@ -95,6 +88,7 @@
       display: flex;
       flex-direction: column;
       margin-top: 24px;
+      margin-bottom: 120px;
 
       &__title {
         @include title-styles;
@@ -119,35 +113,6 @@
           align-items: center;
           @include p-styles;
           gap: 8px;
-        }
-      }
-
-      &__register {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-
-        &__button {
-          background-color: #fff;
-          color: #000;
-          width: 288px;
-          height: 57px;
-          gap: 8px;
-          padding: 16px;
-          @include p-styles;
-          cursor: pointer;
-        }
-
-        &__signin {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          @include p-styles;
-          font-size: 16px;
-
-          &__link {
-            color: #000;
-          }
         }
       }
     }
@@ -179,4 +144,21 @@
   background-color: #fff;
   color: #000;
   border: 1px solid #000;
+}
+
+.offer {
+  &__button {
+    margin-top: 48px;
+    margin-bottom: 80px;
+    @include blackButton;
+  }
+
+  &__wrong {
+    margin-top: 80px;
+    margin-bottom: 80px;
+    font-weight: 600;
+    font-style: Semi Bold;
+    font-size: 18px;
+    line-height: 140%;
+  }
 }

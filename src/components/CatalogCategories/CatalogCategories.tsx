@@ -3,9 +3,16 @@ import "./CatalogCategories.scss"
 import CustomCheckbox from "../UI-elements/CurtomCheckbox/CustomCheckbox";
 import { useAuth } from '../../context/AuthContext';
 import CustomSearchDropdown from "../UI-elements/CustomSearchDropdown/CustomSearchDropdown";
+import { useState } from "react";
+import citiesFromServer from "../../api/Locations.json"
 
 export default function CatalogCategories() {
   const { isAuth } = useAuth();
+
+  const cityOptions = citiesFromServer.map(city => ({
+    label: city,
+    value: city.toLowerCase().replace(/\s+/g, "-"),
+  }));
   return (
     <div className="catalog__categories">
 
@@ -43,11 +50,7 @@ export default function CatalogCategories() {
           /> */}
 
           <CustomSearchDropdown 
-            options={[
-              { label: "Kyiv", value: "kyiv" },
-              { label: "Lviv", value: "lviv" },
-              { label: "Odesa", value: "odesa" }
-            ]}
+            options={cityOptions}
             onSelect={(value) => console.log(value)}
           />
       </div>
@@ -55,9 +58,9 @@ export default function CatalogCategories() {
       {isAuth && 
         <div className="catalog__categories__status">
           <h1 className="catalog__categories__status__title">Status</h1>
-          <CustomCheckbox title="Available"/>
+          <CustomCheckbox title="New"/>
           <CustomCheckbox title="In progress"/>
-          <CustomCheckbox title="Completed"/>
+          <CustomCheckbox title="Done"/>
         </div>
       }
     </div>

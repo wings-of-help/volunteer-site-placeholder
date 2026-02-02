@@ -1,4 +1,10 @@
+@use '../../styles/mixins' as *;
+
 .home-active-requests__carts {
   display: flex;
   gap: 24px;
+}
+
+.home-active-requests__see-all__p {
+  @include disableLinkStyles;
 }

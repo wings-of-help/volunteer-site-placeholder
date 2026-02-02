@@ -20,58 +20,61 @@ import { ProfilePage } from './pages/profile/ProfilePage';
 import { AuthProvider } from './context/AuthContext';
 import CatalogPage from './pages/CatalogPage/CatalogPage';
 import CartDetails from './pages/CartDetailsPage/CartDetailsPage';
+import RoleProvider from './context/RoleContext';
 
 export const Root = () => (
   <StrictMode>
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path='/' element={<App />}>
-            <Route index element={<HomePage />} />
-            <Route path='profile' element={<ProfilePage />} />
+    <RoleProvider>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path='/' element={<App />}>
+              <Route index element={<HomePage />} />
+              <Route path='profile' element={<ProfilePage />} />
 
-            <Route path='requests' element={<CatalogPage 
-              title={"Requests"} 
-              p={"Browse verified requests from people and organizations who need support right now."}
-              p2={"Every response matters."}
-              />}
-             />
+              <Route path='requests' element={<CatalogPage 
+                title={"Requests"} 
+                p={"Browse verified requests from people and organizations who need support right now."}
+                p2={"Every response matters."}
+                />}
+              />
 
-            <Route path="requests/:cartId" element={<CartDetails type={"requests"} />} />
-            
-            <Route path='offers' element={<CatalogPage 
-              title={"Offers"} 
-              p={"Explore offers from people and organizations ready to help."}
-              p2={"Find support that matches your needs."}
-              />}
-            />
-            
-            <Route path="offers/:cartId" element={<CartDetails type={"offers"} />} />
+              <Route path="requests/:cartId" element={<CartDetails type={"requests"} />} />
+              
+              <Route path='offers' element={<CatalogPage 
+                title={"Offers"} 
+                p={"Explore offers from people and organizations ready to help."}
+                p2={"Find support that matches your needs."}
+                />}
+              />
+              
+              <Route path="offers/:cartId" element={<CartDetails type={"offers"} />} />
 
-            <Route path='home' element={<Navigate to='/' replace />} />
-          </Route>
-
-          <Route element={<AuthLayout />}>
-            <Route path='/signin' element={<SignInFormPage />} />
-
-            <Route path='/administrationsignup'>
-              <Route index element={<Navigate to='step-1' />} />
-              <Route path='step-1' element={<SignUpStep1 admin={true}/>} />
-              <Route path='step-2' element={<SignUpStep2 admin={true}/>} />
-              <Route path='step-3' element={<SignUpStep3 admin={true}/>} />
-              <Route path='step-4' element={<SignUpStep4 />} />
-            </Route> 
-
-            <Route path='signup'>
-              <Route index element={<Navigate to='step-1' />} />
-              <Route path='step-1' element={<SignUpStep1 admin={false}/>} />
-              <Route path='step-2' element={<SignUpStep2 admin={false}/>} />
-              <Route path='step-3' element={<SignUpStep3 admin={false}/>} />
-              <Route path='step-4' element={<SignUpStep4 />} />
+              <Route path='home' element={<Navigate to='/' replace />} />
             </Route>
-          </Route>
-        </Routes>
-      </Router>
-    </AuthProvider>
+
+            <Route element={<AuthLayout />}>
+              <Route path='/signin' element={<SignInFormPage />} />
+
+              <Route path='/administrationsignup'>
+                <Route index element={<Navigate to='step-1' />} />
+                <Route path='step-1' element={<SignUpStep1 admin={true}/>} />
+                <Route path='step-2' element={<SignUpStep2 admin={true}/>} />
+                <Route path='step-3' element={<SignUpStep3 admin={true}/>} />
+                <Route path='step-4' element={<SignUpStep4 admin={true}/>} />
+              </Route> 
+
+              <Route path='signup'>
+                <Route index element={<Navigate to='step-1' />} />
+                <Route path='step-1' element={<SignUpStep1 admin={false}/>} />
+                <Route path='step-2' element={<SignUpStep2 admin={false}/>} />
+                <Route path='step-3' element={<SignUpStep3 admin={false}/>} />
+                <Route path='step-4' element={<SignUpStep4 admin={false}/>} />
+              </Route>
+            </Route>
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </RoleProvider>
   </StrictMode>
 );
