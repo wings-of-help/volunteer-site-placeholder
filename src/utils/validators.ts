@@ -25,5 +25,26 @@ export const formatPhone = (value: string) => {
   return parts.join('-');
 };
 
+/* ================= PASSWORD VALIDATION ================= */
+
+export const hasMinLength = (password: string) =>
+  password.length >= 8;
+
+export const hasUppercaseLetter = (password: string) =>
+  /[A-Z]/.test(password);
+
+export const hasLowercaseLetter = (password: string) =>
+  /[a-z]/.test(password);
+
+export const hasSpecialCharacter = (password: string) =>
+  /[^A-Za-z0-9]/.test(password);
+
+export const isPasswordMatch = (password: string, confirm: string) =>
+  password === confirm;
+
 export const isPasswordValid = (password: string, confirm: string) =>
-  password.length >= 8 && password === confirm;
+  hasMinLength(password) &&
+  hasUppercaseLetter(password) &&
+  hasLowercaseLetter(password) &&
+  hasSpecialCharacter(password) &&
+  isPasswordMatch(password, confirm);

@@ -10,7 +10,7 @@ type Props = {
 const SignUpStep3 = ({admin}: Props) => {
   const { data, setRole } = useSignUp();
   const { role } = data;
-
+  
   const navigate = useNavigate();
 
   const isValid = Boolean(role);

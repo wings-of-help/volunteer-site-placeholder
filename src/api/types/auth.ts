@@ -11,3 +11,7 @@ export type RegisterRequest = {
   phone_number: string;
   role: 'distressed' | 'volunteer';
 };
+
+export type BackendErrors = Partial<Record<keyof RegisterRequest, string[]>> & {
+  detail?: string;
+};

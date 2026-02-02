@@ -4,14 +4,13 @@ import eyeClosed from '../../../assets/eye-closed.svg';
 import eyeOpen from '../../../assets/eye-open.svg';
 import { useAuth } from '../../../context/AuthContext';
 
-
-
 const SignInFormPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const { login } = useAuth();
+  const [formError, setFormError] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
@@ -19,18 +18,22 @@ const SignInFormPage = () => {
   const isEmailValid = emailRegex.test(email);
   const isFilled = Boolean(email && password);
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     if (!isEmailValid) {
       setEmailError(true);
       return;
     }
 
-    if (!password) {
-      return;
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (error: any) {
+      console.log('CATCH ERROR:', error);
+      console.log('DETAIL:', error?.detail);
+      setFormError(
+        error.detail || 'No active account found with the given credentials',
+      );
     }
-    console.log('SIGNIN: click');
-    login();
-    navigate('/');
   };
 
   return (
@@ -59,6 +62,7 @@ const SignInFormPage = () => {
             onChange={(e) => {
               setEmail(e.target.value);
               setEmailError(false);
+              setFormError(null);
             }}
           />
         </label>
@@ -72,7 +76,10 @@ const SignInFormPage = () => {
               type={showPassword ? 'text' : 'password'}
               value={password}
               placeholder='Create a password'
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setFormError(null);
+              }}
             />
             <img
               src={showPassword ? eyeClosed : eyeOpen}
@@ -86,6 +93,12 @@ const SignInFormPage = () => {
             Forgot password?
           </Link>
         </label>
+      </div>
+
+      <div className='auth-form__global-error-wrapper'>
+        {formError && (
+          <span className='auth-form__global-error'>{formError}</span>
+        )}
       </div>
 
       <div className='auth-form__actions'>

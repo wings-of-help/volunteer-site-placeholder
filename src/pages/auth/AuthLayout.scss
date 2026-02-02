@@ -44,26 +44,28 @@
 }
 
 .auth-form {
-  @include flex-column(24px);
+  display: flex;
+  flex-direction: column;
 
-  &--signin {
-    gap: 32px;
-  }
+  // &--signin {
+  //   gap: 32px;
+  // }
 
   &__actions {
     @include flex-column;
     align-items: center;
 
-    &--signup {
-      margin-top: 8px;
-    }
+    // &--signup {
+    //   margin-top: 32px;
+    // }
   }
 
   &__header {
     @include flex-column(8px);
+    margin-bottom: 24px;
 
     &--signin {
-      margin-bottom: 8px;
+      margin-bottom: 40px;
     }
   }
 
@@ -79,6 +81,7 @@
   &__step {
     display: flex;
     gap: 8px;
+    margin-bottom: 24px;
     @include text-body;
     @include text-semibold;
   }
@@ -97,7 +100,7 @@
   }
 
   &__fields {
-    @include flex-column(16px);
+    @include flex-column(32px);
   }
 
   &__label {
@@ -139,7 +142,6 @@
 
     &--active {
       @include button-primary;
-
     }
   }
 
@@ -268,5 +270,20 @@
     font-weight: 500;
     text-decoration: none;
     color: $color-black;
+  }
+
+  &__global-error {
+    color: $color-error;
+    font-size: 16px;
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  &__global-error-wrapper {
+    min-height: 26px;
+    width: 100%;
+    margin: 8px 0 4px;
+    display: flex;
+    justify-content: flex-end;
   }
 }
