@@ -1,36 +1,38 @@
-@use '../../styles/variables' as *;
-@use '../../styles/mixins' as *;
-
 .lang-dropdown {
   position: relative;
   height: 57px;
 
   &__menu {
-    @include flex-column(1px);
-    margin-top: 1px;
-
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    
     &-item {
-      @include flex-center;
-      
+      display: flex;
+      justify-content: center;
+      align-items: center;
       min-width: 80px;
       height: 28px;
-      background-color: $color-input-bg;     
+      background-color: #F1F1F4;
     }
   }
 }
 
 .lang-changer {
   padding: 0;
+  background-color: #F1F1F4;
   border: none;
-  cursor: pointer;
-
-  @include flex-center;
-  gap: 8px;
-
-  @include text-body-lg;
   font-weight: 500;
+  font-size: 18px;
+  line-height: 140%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .arrow {
-  @include icon-24;
+  width: 24px;
+  height: 24px;
 }

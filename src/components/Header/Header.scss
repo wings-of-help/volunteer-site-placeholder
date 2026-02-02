@@ -1,33 +1,28 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/mixins/index' as *;
-@use '../../styles/variables' as *;
-
 .header {
   height: 57px;
-  max-width: 1400px;
+  margin-top: 24px;
   width: 100%;
-  margin: 24px auto 1px;
-
-  @include flex-center;
+  display: flex;
+  margin-bottom: 1px;
 
   &__nav {
-    padding: 0 108px;
+    margin-inline: 108px;
     width: 100%;
-    @include flex-between;
-
+    // background-color: grey;
+    display: flex;
+    justify-content: space-between;
+    
     &__wings-sector {
       width: 288px;
-      @include flex-center;
-      justify-content: flex-start;
+      display: flex;
+      align-items: center;
       gap: 4px;
-      flex-shrink: 0;
 
       &__title {
-        @include text-body;
         font-weight: 500;
         font-style: Medium;
-        line-height: 100%;
         font-size: 16px;
+        line-height: 100%;
       }
     }
 
@@ -35,33 +30,17 @@
       display: flex;
       justify-self: center;
       align-self: center;
-
       &__page {
-        @include centeredFlexBox;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 184px;
         height: 41px;
-        
-        text-decoration: none;
-        color: #000;
-
-        position: relative;
 
         &__title {
-          @include title-styles;
+          font-weight: 500;
           font-size: 18px;
-        }
-
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50;
-
-          width: 0;
-          height: 2px;
-          background-color: #000;
-
-          transition: width 0.3s ease;
+          line-height: 140%;
         }
       }
     }
@@ -69,75 +48,27 @@
     &__buttons {
       display: flex;
       gap: 24px;
-      flex-shrink: 0;
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
       &__button {
-        padding: 16px;
         height: 100%;
         min-width: 80px;
         box-sizing: border-box;
-
-        background: none;
-        border: none;
-        cursor: pointer;
-
-        @include centeredFlexBox;
-
-        &.lang-changer {
-          background-color: $color-input-bg;
-        }
       }
-    }
-
-    &__brand {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      text-decoration: none;
-      color: inherit;
-    }
-  }
-
-  &__profile-btn {
-    width: 184px;
-    height: 57px;
-    padding: 16px;
-
-    @include button-base;
-    @include button-primary;
-    @include text-body-lg;
-
-    gap: 8px;
-
-    border: none;
-    @include p-styles;
-
-    img {
-      @include icon-24;
     }
   }
 }
 
 .sign-in {
   border: 1px solid #000;
-  @include p-styles;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 140%;
 }
 
 .sign-up {
   background-color: #000;
   color: #fff;
-  @include p-styles;
-}
-
-.has-underline {
-  color: #000;
-
-  &::after {
-    width: 50%;
-  }
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 18px;
+  line-height: 140%;
 }

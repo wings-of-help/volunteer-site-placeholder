@@ -1,5 +1,3 @@
-@use '../../styles/mixins' as *;
-
 .footer {
   // width: 100%;
   // height: 50%;
@@ -20,8 +18,9 @@
     &__wings-sector {
       max-width: 207px;
       height: 46px;
-      @include centeredFlexBox;
-      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       
       gap: 4px;
     
@@ -33,8 +32,10 @@
     }
 
     &__discribe {
-      @include p-styles;
-      margin-bottom: 40px;
+      font-weight: 400;
+      font-style: Regular;
+      font-size: 24px;
+      line-height: 140%;
     }
 
     &__logo {
@@ -48,7 +49,10 @@
     }
 
     &__support {
-      @include p-styles;
+      font-weight: 400;
+      font-style: Regular;
+      font-size: 18px;
+      line-height: 140%;
       padding-right: 10%;
     }
 
@@ -57,15 +61,18 @@
       flex-direction: column;
       gap: 40px;
 
-      
       &__requests {
-        @include p-styles;
-        @include disableLinkStyles;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 18px;
+        line-height: 140%;
       }
 
       &__offers {
-        @include p-styles;
-        @include disableLinkStyles;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 18px;
+        line-height: 140%;
       }
     }
 
@@ -76,10 +83,16 @@
       justify-content: space-between
       ;
       &__wings {
-        @include p-styles;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 18px;
+        line-height: 140%;
       }
       &__terms {
-        @include p-styles;
+        font-weight: 400;
+        font-style: Regular;
+        font-size: 18px;
+        line-height: 140%;
       }
     }
   }  
