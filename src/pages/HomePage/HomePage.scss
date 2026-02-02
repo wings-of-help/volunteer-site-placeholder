@@ -1,0 +1,200 @@
+@use '../../styles/mixins' as *;
+
+.home__page {
+  width: 100%;
+  @include centeredFlexBox;
+  flex-direction: column;
+  margin-top: 190px;
+  margin-bottom: 120px;
+  gap: 120px;
+}
+
+.home {
+  @include centeredFlexBox;
+  flex-direction: column;
+  gap: 80px;
+  margin-bottom: 160px;
+
+  &__main {
+    @include centeredFlexBox;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 807px;
+
+    &__title {
+      @include title-styles;
+      font-size: 56px;
+      text-align: center;
+    }
+    &__p {
+      @include p-styles;
+      letter-spacing: 0%;
+      text-align: center;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    @include p-styles;
+    gap: 24px;
+
+    &__button {
+      @include centeredFlexBox;
+      min-height: 57px;
+      padding: 16px;
+      min-width: 207px;
+      box-sizing: border-box;
+
+      text-decoration: none;
+    }
+  }
+}
+
+.button1 {
+  background-color: #000;
+  color: #fff;
+}
+
+.button2 {
+  border: 1px solid #000;
+  color: #000;
+}
+
+.home-instructions {
+  display: flex;
+  flex-direction: column;
+  max-width: 1224px;
+  gap: 40px;
+  
+  &__main {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 8px;
+
+    &__title {
+      @include title-styles;
+      font-size: 40px;
+    }
+
+    &__p {
+      @include p-styles;
+    }
+  }
+
+  &__blocks {
+    display: flex;
+    gap: 24px;
+
+    &__block {
+      display: flex;
+      flex-direction: column;
+      background-color: #F1F1F4;
+      justify-content: space-between;
+      align-items: center;
+      width: 288px;
+      height: 288px;
+      padding: 24px;
+      box-sizing: border-box; // ask sofia if need to change 
+
+      &__title {
+        @include title-styles;
+        font-size: 24px;
+
+        width: 240px;
+        height: 30px;
+      }
+
+      &__p {
+        @include p-styles;
+        width: 240px;
+      }
+    }
+  }
+}
+
+.home-description {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1224px;
+
+  &__title {
+    align-self: flex-start;
+    @include title-styles;
+  }
+
+  &__blocks {
+    display: flex;
+    gap: 24px;
+
+    &__block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      background-color: #F1F1F4;
+      width: 600px;
+      height: 187px;
+      justify-content: space-between;
+      padding: 24px;
+
+      &__title {
+        @include title-styles;
+        font-size: 32px;
+      }
+
+      &__paragraphs {
+        display: flex;
+        flex-direction: column;
+        &__p {
+          margin: 0;
+          @include p-styles;
+        }
+      }
+    }
+  }
+}
+
+
+.home-active-requests {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1224px;
+  
+  &__main {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 8px;
+    
+    &__title {
+      @include title-styles;
+    }
+
+    &__paragraphs {
+      display: flex;
+      flex-direction: column;
+      &__p {
+        margin: 0;
+        @include p-styles;
+      }
+    }
+  }
+
+  
+
+  &__see-all {
+    display: flex;
+    align-self: flex-end;
+    gap: 8px;
+
+    &__p {
+      @include p-styles;
+    }
+
+    &__button {
+      object-fit: contain;
+    }
+  }
+}

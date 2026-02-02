@@ -1,0 +1,27 @@
+@use '../../styles/mixins' as *;
+
+.catalog__container {
+  @include centeredFlexBox;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.catalog__items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 24px;
+}
+
+.catalog__load-more-button {
+  @include centeredFlexBox;
+  @include p-styles;
+  width: 184px;
+  height: 57px;
+  gap: 8px;
+  padding: 16px;
+}
+
+.arrow {
+  height: 24px;
+  width: 24px;
+}

@@ -1,0 +1,96 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins/index' as *;
+
+.user-request-card {
+  width: 100%;
+  max-width: 704px;
+  max-height: 402px;
+  padding: 24px;
+  background: $color-input-bg;
+
+  @include flex-column;
+
+  &__header {
+    height: 38px;
+    margin-bottom: 16px;
+
+    @include flex-between;
+    align-items: stretch;
+  }
+
+  &__city {
+    @include flex-center;
+    @include text-body-lg;
+  }
+
+  &__category {
+    min-width: 162px;
+    padding: 4px 8px;
+    border-radius: 2px;
+
+    background: $color-gray-dark;
+    color: $color-white;
+
+    @include flex-center;
+    @include text-body-lg;
+  }
+
+  &__title {
+    margin-bottom: 24px;
+    @include text-h2;
+  }
+
+  &__description {
+    margin-bottom: 24px;
+    @include text-body-lg;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+  }
+
+  &__status {
+    align-self: flex-start;
+    width: fit-content;
+    padding: 8px;
+    background: $color-white;
+    gap: 8px;
+
+    @include flex-center;
+    @include text-body;
+  }
+
+  &__status-icon {
+    @include icon-24;
+  }
+
+  &__status-text {
+    @include text-body-lg;
+  }
+
+  &__actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 8px;
+  }
+
+  &__edit {
+    flex: 1;
+    padding: 16px;
+
+    @include button-base;
+    @include button-secondary;
+    @include text-body-lg;
+  }
+
+  &__view {
+    flex: 1;
+    padding: 16px;
+
+    @include button-base;
+    @include button-primary;
+    @include text-body-lg;
+  }
+}

@@ -1,0 +1,77 @@
+@use '../../styles/mixins' as *;
+
+.catalog__categories {
+  display: flex;
+  flex-direction: column;
+  width: 392px;
+  gap: 10px;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+    box-sizing: border-box;
+
+    &__title {
+      @include title-styles;
+      font-size: 24px;
+    }
+
+    &__p {
+      @include p-styles;
+      font-size: 16px;
+      color: #868E96;
+    }
+  }
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 17px;
+
+    &__category {
+      @include p-styles;
+      display: flex;
+      gap: 1px;
+      max-width: 344px;
+    }
+  }
+
+  &__location {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__title {
+      @include title-styles;
+      font-size: 24px;
+      padding: 8px;
+    }
+
+    &__dropdown {
+      border: 1px solid #868E96;
+      padding: 16px;
+    }
+  }
+
+  &__status {
+    display: flex;
+    flex-direction: column;
+    margin-top: 27px;
+    gap: 16px;
+
+    &__title {
+      @include title-styles;
+      font-size: 24px;
+      padding: 8px;
+    }
+  }
+}
+
+.arrow {
+  width: 24px;
+  height: 24px;
+  color: #868E96;
+}

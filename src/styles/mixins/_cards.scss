@@ -1,0 +1,7 @@
+@use '../variables' as *;
+
+@mixin card-base {
+  background: $color-white;
+  padding: 24px;
+  border-radius: 2px;
+}

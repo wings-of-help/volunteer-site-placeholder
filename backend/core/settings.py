@@ -2,19 +2,33 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import dj_database_url
 from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 SECRET_KEY = os.environ["SECRET_KEY"]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+USE_X_FORWARDED_HOST = True
 
-DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1").split(",")
+CSRF_TRUSTED_ORIGINS = [
+    "https://alert-ambition-dev.up.railway.app",
+]
 
 
 # Application definition
@@ -27,26 +41,40 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #Third-party
-    'debug_toolbar',
+    # Third-party
     'rest_framework',
+    "rest_framework_simplejwt.token_blacklist",
     'drf_spectacular',
+    "django_filters",
+    "corsheaders",
 
-    #Local
+    # Local
     'main',
     'user'
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "debug_toolbar.middleware.DebugToolbarMiddleware"
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:8000",
+]
+CORS_ALLOW_CREDENTIALS = True
+
+if DEBUG:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
 
 ROOT_URLCONF = 'core.urls'
 
@@ -69,12 +97,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 
 # Database
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=os.environ["DATABASE_URL"],
+        conn_max_age=600,
+        ssl_require=not DEBUG,
+    )
 }
 
 
@@ -106,7 +134,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -115,13 +145,18 @@ INTERNAL_IPS = [
 AUTH_USER_MODEL = 'user.User'
 
 REST_FRAMEWORK = {
-'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
 }
 
 SPECTACULAR_SETTINGS = {
@@ -150,3 +185,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
 EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
+
+ADMIN_SECRET_CODE = os.environ.get("ADMIN_SECRET_CODE")
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True

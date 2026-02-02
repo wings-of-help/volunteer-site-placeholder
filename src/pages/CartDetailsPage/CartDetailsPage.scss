@@ -1,0 +1,182 @@
+@use '../../styles/mixins' as *;
+
+.cart-details-page {
+  @include centeredFlexBox;
+  flex-direction: column;
+  margin-top: 72px;
+  margin-bottom: 120px;
+  width: 100%;
+  position: relative;
+  
+  &__nav {
+    display: flex;
+    margin-bottom: 64px;
+    
+    &-links {
+      @include centeredFlexBox;
+      @include disableLinkStyles;
+      @include title-styles;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+      @include title-styles;
+      margin-bottom: 27px;
+    }
+
+    &__points {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &-point {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+
+    &__about {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      &__title {
+        @include title-styles;
+        font-size: 24px;
+      }
+
+      &__p {
+        @include p-styles;
+        max-width: 790px;
+      }
+
+      &__register {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-bottom: 80px;
+        border-bottom: 1px solid #000;
+
+        &__button {
+          background-color: #000;
+          color: #fff;
+          width: 288px;
+          height: 57px;
+          gap: 8px;
+          padding: 16px;
+          @include p-styles;
+          margin-top: 60px;
+          cursor: pointer;
+        }
+
+        &__signin {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          @include p-styles;
+          font-size: 16px;
+
+          &__link {
+            color: #000;
+          }
+        }
+      }
+    }
+
+    &__person-info {
+      display: flex;
+      flex-direction: column;
+      margin-top: 24px;
+
+      &__title {
+        @include title-styles;
+        font-size: 24px;
+        margin-bottom: 24px;
+      }
+
+      &__details {
+        display: flex;
+        align-items: center;
+        gap: 250px;
+
+        &__name {
+          font-weight: 600;
+          font-style: Semi Bold;
+          font-size: 18px;
+          line-height: 140%;
+        }
+
+        &__d {
+          display: flex;
+          align-items: center;
+          @include p-styles;
+          gap: 8px;
+        }
+      }
+
+      &__register {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        &__button {
+          background-color: #fff;
+          color: #000;
+          width: 288px;
+          height: 57px;
+          gap: 8px;
+          padding: 16px;
+          @include p-styles;
+          cursor: pointer;
+        }
+
+        &__signin {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          @include p-styles;
+          font-size: 16px;
+
+          &__link {
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+.cart-details-page__nav-link {
+  transform: rotate(90deg);
+}
+
+.cart-details-page__container {
+  width: 1224px;
+}
+
+.point-text {
+  @include p-styles;
+}
+
+.aid {
+  margin-top: 10px;
+  background-color: #5C6569;
+  color: #fff;
+  padding: 8px;
+}
+
+.white-style {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}

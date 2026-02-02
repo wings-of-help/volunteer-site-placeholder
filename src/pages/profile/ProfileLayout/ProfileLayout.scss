@@ -1,0 +1,22 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins/index' as *;
+
+.profile {
+  padding: 80px 0;
+  @include flex-center;
+
+  &__layout {
+    max-width: 1400px;
+    width: 100%;
+    padding: 0 108px;
+    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: 392px minmax(24px, 128px) 1fr;
+  }
+
+  &__content {
+    grid-column: 3;
+    min-width: 400px;
+  }
+}

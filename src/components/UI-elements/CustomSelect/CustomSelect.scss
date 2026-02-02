@@ -1,0 +1,115 @@
+@use '../../../styles/mixins.scss' as *;
+
+.custom-select {
+  position: relative;
+
+  &__trigger {
+    width: 100%;
+    padding: 12px 14px;
+    background: #f1f1f4;
+    border: 1px solid #dcdcdc;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &.open .arrow {
+      transform: rotate(180deg);
+    }
+
+    .arrow {
+      transition: 0.2s;
+    }
+  }
+
+  &__options {
+    position: absolute;
+    top: calc(100% + 6px);
+    width: 100%;
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+  }
+
+  &__option {
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: 0.15s;
+    @include p-styles;
+
+    &:hover {
+      background: #f3f3f3;
+    }
+  }
+}
+
+.selected-ops {
+  color: #868E96;
+  @include p-styles;
+}
+
+.arrow {
+  height: 24px;
+  width: 24px;
+}
+
+.custom-select--lang {
+  @include centeredFlexBox;
+  gap: 8px;
+  width: 80px;
+  height: 57px;
+  background-color: #F1F1F4;
+
+  .custom-select__trigger {
+    background: transparent;
+    border: none;
+  }
+
+  // .custom-select__options {
+  //   min-width: 80px;
+  //   border: none;
+  //   box-shadow: none;
+  //   margin-top: 4px;
+  // }
+
+  // .custom-select__option {
+  //   background: #f1f1f4;
+  //   height: 28px;
+  //   @include centeredFlexBox;
+
+  //   &:hover {
+  //     background: #e6e6ea;
+  //   }
+  // }
+
+  //styles above are for changing ops styles
+
+  .selected-ops {
+    @include p-styles;
+    color: #000;
+  }
+}
+
+.custom-select--filter {
+  @include centeredFlexBox;
+  width: 141px;
+  gap: 8px;
+  padding-block: 16px;
+  padding-inline: 26px;
+
+  height: 57px;
+  background-color: #F1F1F4;
+
+  .custom-select__trigger {
+    padding: 0;
+    background: transparent;
+    border: none;
+  }
+
+  .selected-ops {
+    @include p-styles;
+    color: #000;
+  }
+}

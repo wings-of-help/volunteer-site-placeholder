@@ -1,0 +1,207 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins/index' as *;
+
+.modal-overlay {
+  @include overlay-center;
+  background: rgba($color-black, 0.45);
+  z-index: 1000;
+}
+
+.modal {
+  width: 600px;
+  background: $color-white;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba($color-black, 0.12);
+
+  &__header {
+    @include flex-between;
+    height: $control-height;
+    margin-bottom: 8px;
+  }
+
+  &__title {
+    @include text-h2;
+    @include text-semibold;
+  }
+
+  &__subtitle-hint {
+    @include text-caption;
+    color: $color-gray-main;
+    margin-bottom: 16px;
+  }
+
+  &__close {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: $color-input-bg;
+    border: none;
+    cursor: pointer;
+
+    @include flex-center;
+
+    img {
+      @include icon-24;
+    }
+  }
+
+  &__body {
+    @include flex-column(4px);
+    margin-bottom: 32px;
+  }
+
+  &__label-row {
+    @include flex-between;
+    padding: 0 16px;
+  }
+
+  &__label {
+    @include text-body;
+  }
+
+  &__phone {
+    @include flex-center;
+    height: $control-height;
+    border: 1px solid $color-gray-border;
+  }
+
+  &__phone-input {
+    flex: 1;
+    border: none;
+    padding: 0 8px;
+    @include text-body-lg;
+    outline: none;
+
+    &::placeholder {
+      color: $color-gray-main;
+      @include text-body-lg;
+    }
+  }
+
+  &__phone.modal__input--error {
+    border-color: $color-error;
+  }
+
+  &__country {
+    @include flex-center;
+    gap: 8px;
+    padding: 0 16px;
+    background: $color-gray-bg;
+    border-right: 1px solid $color-gray-border;
+
+    span {
+      @include text-body-lg;
+      color: $color-black;
+    }
+  }
+
+  &__error {
+    @include text-caption;
+    color: $color-error;
+  }
+
+  &__input {
+    @include control-base;
+    background: $color-input-bg;
+    border-color: transparent;
+
+    &::placeholder {
+      @include text-body-lg;
+      color: $color-placeholder;
+    }
+
+    &--error {
+      border-color: $color-error;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+    @include button-base;
+    @include button-disabled;
+    @include text-body-lg;
+
+    &--active {
+      @include button-primary;
+    }
+  }
+
+  &__subtitle {
+    @include text-body;
+    margin-bottom: 24px;
+
+    strong {
+      font-weight: 700;
+    }
+  }
+
+  &__back {
+    @include icon-24;
+    margin-bottom: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    @include flex-center;
+  }
+
+  &__code-label {
+    @include text-body;
+    margin-bottom: 8px;
+  }
+
+  &__code-row {
+    @include flex-center;
+    gap: 4px;
+    margin-bottom: 32px;
+  }
+
+  &__code-separator {
+    width: 24px;
+    height: 1px;
+    background: $color-gray-main;
+    flex-shrink: 0;
+  }
+
+  &__code-input {
+    width: 84px;
+    height: $control-height;
+    border-radius: 40px;
+    background: $color-input-bg;
+    border: 1px solid transparent;
+    text-align: center;
+    @include text-body-lg;
+    color: $color-black;
+
+    &:focus {
+      background: $color-white;
+      border-color: $color-black;
+    }
+  }
+
+  &__resend {
+    margin-top: 16px;
+    @include flex-center;
+    gap: 8px;
+    @include text-body;
+    color: $color-gray-main;
+  }
+
+  &__resend-link {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    @include text-body;
+    font-weight: 500;
+  }
+
+  &__password-group {
+    margin-bottom: 32px;
+  }
+
+  &__actions {
+    margin-top: 32px;
+  }
+}

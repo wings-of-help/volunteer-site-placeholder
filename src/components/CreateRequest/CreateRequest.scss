@@ -1,0 +1,99 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins/index' as *;
+
+.create-request {
+  &__back {
+    @include flex-center;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 40px;
+
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    @include text-body;
+
+    img {
+      @include icon-24;
+    }
+  }
+
+  &__title {
+    margin-bottom: 24px;
+    @include text-h2;
+  }
+
+  &__form {
+    @include flex-column;
+  }
+
+  &__field {
+    @include flex-column;
+    margin-bottom: 24px;
+
+    &:nth-last-of-type(2) {
+      margin-bottom: 48px;
+    }
+  }
+
+  &__label {
+    margin-bottom: 4px;
+    padding-left: 16px;
+    @include text-body;
+  }
+
+  &__input,
+  &__select,
+  &__textarea {
+    @include control-base;
+  }
+
+  &__input,
+  &__select {
+    height: $control-height;
+
+    appearance: none;
+    background-image: url('../../assets/arrow-down.svg');
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 24px 24px;
+  }
+
+  &__textarea {
+    @include textarea-base;
+    padding: 8px 16px;
+  }
+
+  &__hint {
+    margin-top: 4px;
+    @include text-caption;
+    color: $color-gray-hint;
+  }
+
+  &__actions {
+    @include flex-between;
+    justify-content: flex-end;
+    gap: 16px;
+  }
+
+  &__cancel,
+  &__publish {
+    min-width: 184px;
+    @include button-base;
+    @include text-body;
+  }
+
+  &__cancel {
+    @include button-secondary;
+  }
+
+  &__publish {
+    @include button-disabled;
+
+    &--active {
+      @include button-primary;
+    }
+  }
+}

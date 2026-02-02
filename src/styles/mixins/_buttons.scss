@@ -1,0 +1,30 @@
+@use '../variables' as *;
+@use './flex' as *;
+
+@mixin button-base {
+  height: $control-height;
+  padding: 0 24px;
+  @include flex-center;
+  font-size: 16px;
+  line-height: 1.4;
+  border: none;
+  cursor: pointer;
+}
+
+@mixin button-primary {
+  background: $color-black;
+  color: $color-white;
+  cursor: pointer;
+}
+
+@mixin button-secondary {
+  background: $color-white;
+  color: $color-black;
+  border: 1px solid $color-black;
+}
+
+@mixin button-disabled {
+  background: $color-gray-main;
+  color: $color-white;
+  cursor: not-allowed;
+}

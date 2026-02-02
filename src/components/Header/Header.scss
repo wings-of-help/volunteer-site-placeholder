@@ -1,28 +1,33 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
+@use '../../styles/variables' as *;
+
 .header {
   height: 57px;
-  margin-top: 24px;
+  max-width: 1400px;
   width: 100%;
-  display: flex;
-  margin-bottom: 1px;
+  margin: 24px auto 1px;
+
+  @include flex-center;
 
   &__nav {
-    margin-inline: 108px;
+    padding: 0 108px;
     width: 100%;
-    // background-color: grey;
-    display: flex;
-    justify-content: space-between;
-    
+    @include flex-between;
+
     &__wings-sector {
       width: 288px;
-      display: flex;
-      align-items: center;
+      @include flex-center;
+      justify-content: flex-start;
       gap: 4px;
+      flex-shrink: 0;
 
       &__title {
+        @include text-body;
         font-weight: 500;
         font-style: Medium;
-        font-size: 16px;
         line-height: 100%;
+        font-size: 16px;
       }
     }
 
@@ -30,17 +35,33 @@
       display: flex;
       justify-self: center;
       align-self: center;
+
       &__page {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include centeredFlexBox;
         width: 184px;
         height: 41px;
+        
+        text-decoration: none;
+        color: #000;
+
+        position: relative;
 
         &__title {
-          font-weight: 500;
+          @include title-styles;
           font-size: 18px;
-          line-height: 140%;
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 50;
+
+          width: 0;
+          height: 2px;
+          background-color: #000;
+
+          transition: width 0.3s ease;
         }
       }
     }
@@ -48,27 +69,75 @@
     &__buttons {
       display: flex;
       gap: 24px;
+      flex-shrink: 0;
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
       &__button {
+        padding: 16px;
         height: 100%;
         min-width: 80px;
         box-sizing: border-box;
+
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        @include centeredFlexBox;
+
+        &.lang-changer {
+          background-color: $color-input-bg;
+        }
       }
+    }
+
+    &__brand {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  &__profile-btn {
+    width: 184px;
+    height: 57px;
+    padding: 16px;
+
+    @include button-base;
+    @include button-primary;
+    @include text-body-lg;
+
+    gap: 8px;
+
+    border: none;
+    @include p-styles;
+
+    img {
+      @include icon-24;
     }
   }
 }
 
 .sign-in {
   border: 1px solid #000;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 140%;
+  @include p-styles;
 }
 
 .sign-up {
   background-color: #000;
   color: #fff;
-  font-weight: 400;
-  font-style: Regular;
-  font-size: 18px;
-  line-height: 140%;
+  @include p-styles;
+}
+
+.has-underline {
+  color: #000;
+
+  &::after {
+    width: 50%;
+  }
 }

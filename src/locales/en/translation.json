@@ -47,11 +47,18 @@
   "active-requests-1st-p": "Browse verified requests from people and organizations who need support right now.",
   "active-requests-2nd-p": "Every response matters.",
 
+  "active-offers-title": "Active Offers",
+  "active-offers-1st-p": "Explore current offers from volunteers and organizations ready to help.",
+  "active-offers-2nd-p": "Find support or join an initiative.",
+
   "active-requests-1st-block-title": "Food and Hygiene Supplies Needed for IDP Family",
   "active-requests-1st-block-p": "Two elderly people need transportation from Kharkiv to Poltava. Limited mobility, minimal luggage. Evacuation required within 24 hours.",
 
   "Kharkiv-city": "Kharkiv",
   "Logistics": "Logistics",
 
-  "see-all": "See All Requests"
+  "see-all-requests": "See All Requests",
+  "see-all-offers": "See All Offers",
+
+  "my-profile": "My profile"
 }

@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: wings_postgres_dev
+    restart: unless-stopped
+
+    ports:
+      - "5432:5432"
+
+    environment:
+      POSTGRES_DB: wings_of_help
+      POSTGRES_USER: wings_user
+      POSTGRES_PASSWORD: wings_password
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

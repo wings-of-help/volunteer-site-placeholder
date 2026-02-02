@@ -1,0 +1,113 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins/index' as *;
+
+.profile {
+  &__card {
+    background: $color-white;
+  }
+
+  &__header {
+    @include flex-column;
+  }
+
+  &__title {
+    @include text-h2;
+    margin-bottom: 24px;
+  }
+
+  &__form {
+    margin-bottom: 40px;
+  }
+
+  &__label {
+    display: block;
+    padding: 0 16px;
+    margin-bottom: 4px;
+    color: $color-black;
+    @include text-body;
+  }
+
+  &__input {
+    width: 100%;
+    margin-bottom: 16px;
+    @include control-base;
+    border-color: $color-gray-border;
+  }
+
+  &__role {
+    height: $control-height;
+    margin-bottom: 40px;
+
+    @include flex-center;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  &__role-label {
+    @include text-body-lg;
+    font-weight: 500;
+  }
+
+  &__role-value {
+    @include text-body-lg;
+  }
+
+  &__actions {
+    @include flex-between;
+    justify-content: flex-end;
+  }
+
+  &__save-btn {
+    width: 302px;
+    @include button-base;
+    @include button-disabled;
+    @include text-body-lg;
+
+    &--active {
+      @include button-primary;
+    }
+  }
+
+  &__contacts {
+    margin-top: 40px;
+  }
+
+  &__contacts-title {
+    @include text-h2;
+    margin-bottom: 24px;
+  }
+
+  &__contact-row {
+    display: grid;
+    grid-template-columns: 1fr 184px;
+    gap: 24px;
+    align-items: end;
+    margin-bottom: 16px;
+  }
+
+  &__contact-field {
+    @include flex-column(4px);
+  }
+
+  &__contact-label {
+    padding-left: 16px;
+    color: $color-black;
+    @include text-body;
+  }
+
+  &__contact-input {
+    @include control-base;
+    background: $color-input-bg;
+    color: $color-placeholder;
+    font-size: 18px;
+
+    border: none;
+  }
+
+  &__contact-btn {
+    width: 184px;
+    @include button-base;
+    @include button-secondary;
+    @include text-body-lg;
+  }
+}
