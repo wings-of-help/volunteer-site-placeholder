@@ -1,4 +1,7 @@
+from urllib import response
+
 from django.contrib.auth import get_user_model
+from django.conf import settings
 
 
 User = get_user_model()
@@ -112,7 +115,7 @@ def test_register_user_email_and_phone_number_are_taken(api_client, user):
     assert response.data["phone_number"] == ["user with this phone number already exists."]
 
 
-def test_register_user_password_is_too_short(api_client, user):
+def test_register_user_password_is_too_short(api_client, db):
     payload = {
         "email": "new_user@test.com",
         "first_name": "test_first_name",
@@ -132,7 +135,7 @@ def test_register_user_password_is_too_short(api_client, user):
     assert response.data["password"] == ["Password must be between 8 and 20 characters long."]
 
 
-def test_register_user_password_is_too_long(api_client, user):
+def test_register_user_password_is_too_long(api_client, db):
     payload = {
         "email": "new_user@test.com",
         "first_name": "test_first_name",
@@ -152,7 +155,7 @@ def test_register_user_password_is_too_long(api_client, user):
     assert response.data["password"] == ["Password must be between 8 and 20 characters long."]
 
 
-def test_register_user_password_must_include_uppercase_letter(api_client, user):
+def test_register_user_password_must_include_uppercase_letter(api_client, db):
     payload = {
         "email": "new_user@test.com",
         "first_name": "test_first_name",
@@ -172,7 +175,7 @@ def test_register_user_password_must_include_uppercase_letter(api_client, user):
     assert response.data["password"] == ["Password must contain at least one uppercase Latin letter."]
 
 
-def test_register_user_password_must_include_digit(api_client, user):
+def test_register_user_password_must_include_digit(api_client, db):
     payload = {
         "email": "new_user@test.com",
         "first_name": "test_first_name",
@@ -192,7 +195,7 @@ def test_register_user_password_must_include_digit(api_client, user):
     assert response.data["password"] == ["Password must contain at least one digit."]
 
 
-def test_register_user_password_must_include_special_character(api_client, user):
+def test_register_user_password_must_include_special_character(api_client, db):
     payload = {
         "email": "new_user@test.com",
         "first_name": "test_first_name",
@@ -210,3 +213,63 @@ def test_register_user_password_must_include_special_character(api_client, user)
 
     assert response.status_code == 400
     assert response.data["password"] == ["Password must contain at least one special character."]
+
+
+# Admin register endpoint tests
+def test_register_admin_success(api_client, db):
+    payload = {
+        "email": "new_admin@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "Correct1[",
+        "phone_number": "987654321",
+        "secret_code": settings.ADMIN_SECRET_CODE,
+    }
+
+    response = api_client.post(
+        "/api/v1/user/register/admin/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 201
+    assert response.data["message"] == "Admin user created successfully"
+
+
+def test_register_admin_not_provided_secret_code(api_client, db):
+    payload = {
+        "email": "new_admin@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "Correct1[",
+        "phone_number": "987654321",
+    }
+
+    response = api_client.post(
+        "/api/v1/user/register/admin/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 400
+    assert response.data["secret_code"] == ["This field is required."]
+
+
+def test_register_admin_wrong_secret_code(api_client, db):
+    payload = {
+        "email": "new_admin@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "Correct1[",
+        "phone_number": "987654321",
+        "secret_code": "wrong",
+    }
+
+    response = api_client.post(
+        "/api/v1/user/register/admin/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 400
+    assert response.data["secret_code"] == ["Invalid secret code."]
