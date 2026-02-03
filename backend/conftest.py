@@ -12,5 +12,6 @@ def api_client():
 def user(db):
     return User.objects.create_user(
         email="user@test.com",
-        password="password123"
+        password="password123",
+        phone_number="123456789"
     )
