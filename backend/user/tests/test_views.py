@@ -1,3 +1,9 @@
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
+
+
 def test_users_list_requires_auth(api_client):
     response = api_client.get("/api/v1/user/")
     assert response.status_code == 401
@@ -61,3 +67,146 @@ def test_phone_number_is_not_available(api_client, user):
     )
     assert response.status_code == 400
     assert response.data["phone_number"] == ["This phone number is already in use."]
+
+# Registration endpoint checks
+def test_register_user_success(api_client, db):
+    payload = {
+        "email": "new_user@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "StrongPass123!",
+        "phone_number": "987654321",
+        "role": "volunteer",
+    }
+    response = api_client.post(
+        "/api/v1/user/register/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 201
+    assert response.data["message"] == "User registered successfully"
+    assert response.data["email"] == payload["email"]
+    assert response.data["role"] == payload["role"]
+
+    assert User.objects.filter(email=payload["email"]).exists()
+
+
+def test_register_user_email_and_phone_number_are_taken(api_client, user):
+    payload = {
+        "email": user.email,
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "StrongPass123!",
+        "phone_number": user.phone_number,
+        "role": "volunteer",
+    }
+    response = api_client.post(
+        "/api/v1/user/register/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 400
+    assert response.data["email"] == ["user with this email already exists."]
+    assert response.data["phone_number"] == ["user with this phone number already exists."]
+
+
+def test_register_user_password_is_too_short(api_client, user):
+    payload = {
+        "email": "new_user@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "wrong",
+        "phone_number": "987654321",
+        "role": "volunteer",
+    }
+
+    response = api_client.post(
+        "/api/v1/user/register/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 400
+    assert response.data["password"] == ["Password must be between 8 and 20 characters long."]
+
+
+def test_register_user_password_is_too_long(api_client, user):
+    payload = {
+        "email": "new_user@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "wrong!!!!!!!!!!!!!!!!!!!!!!!!!",
+        "phone_number": "987654321",
+        "role": "volunteer",
+    }
+
+    response = api_client.post(
+        "/api/v1/user/register/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 400
+    assert response.data["password"] == ["Password must be between 8 and 20 characters long."]
+
+
+def test_register_user_password_must_include_uppercase_letter(api_client, user):
+    payload = {
+        "email": "new_user@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "wrong123!!",
+        "phone_number": "987654321",
+        "role": "volunteer",
+    }
+
+    response = api_client.post(
+        "/api/v1/user/register/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 400
+    assert response.data["password"] == ["Password must contain at least one uppercase Latin letter."]
+
+
+def test_register_user_password_must_include_digit(api_client, user):
+    payload = {
+        "email": "new_user@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "Wrongggggg!!",
+        "phone_number": "987654321",
+        "role": "volunteer",
+    }
+
+    response = api_client.post(
+        "/api/v1/user/register/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 400
+    assert response.data["password"] == ["Password must contain at least one digit."]
+
+
+def test_register_user_password_must_include_special_character(api_client, user):
+    payload = {
+        "email": "new_user@test.com",
+        "first_name": "test_first_name",
+        "last_name": "test_last_name",
+        "password": "Wrong123",
+        "phone_number": "987654321",
+        "role": "volunteer",
+    }
+
+    response = api_client.post(
+        "/api/v1/user/register/",
+        data=payload,
+        format="json",
+    )
+
+    assert response.status_code == 400
+    assert response.data["password"] == ["Password must contain at least one special character."]
