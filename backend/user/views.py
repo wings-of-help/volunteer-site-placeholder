@@ -31,27 +31,30 @@ from .serializers import (
     UserRetrieveSerializer,
 )
 from .utils import generate_reset_code
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class CustomTokenRefreshView(TokenRefreshView):
+    permission_classes = [AllowAny]
+
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
         summary="Refresh JWT tokens",
         description="Get a new access token using a refresh token.",
-        request={
-            "refresh": "jwt_refresh_token"
-        },
+        request={"refresh": "jwt_refresh_token"},
         responses={
             200: OpenApiResponse(
                 description="Tokens refreshed",
                 examples=[
                     OpenApiExample(
                         "Success",
-                        value={
-                            "access": "new_jwt_access_token"
-                        }
+                        value={"access": "new_jwt_access_token"},
                     )
-                ]
+                ],
             ),
             401: OpenApiResponse(description="Invalid refresh token"),
         },
@@ -61,8 +64,13 @@ class CustomTokenRefreshView(TokenRefreshView):
         return super().post(request, *args, **kwargs)
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    permission_classes = [AllowAny]
+
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
         summary="Login user",
