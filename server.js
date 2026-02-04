@@ -9,16 +9,16 @@ const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ====== STATIC (Vite build) ======
+// ====== STATIC (Vite build output) ======
 const distPath = path.join(__dirname, "dist");
 app.use(express.static(distPath));
 
-// ====== SPA FALLBACK ======
+// ====== SPA FALLBACK (React Router) ======
 app.get("*", (_req, res) => {
   res.sendFile(path.join(distPath, "index.html"));
 });
 
 // ====== START ======
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Frontend running on port ${PORT}`);
 });

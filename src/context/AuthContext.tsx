@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { loginRequest } from '../api/auth.api';
 
 type AuthContextType = {
   isAuth: boolean;
@@ -20,6 +21,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (email: string, password: string) => {
+    const tokens = await loginRequest(email, password);
+
+    localStorage.setItem('access', tokens.access);
+    localStorage.setItem('refresh', tokens.refresh);
+
     setIsAuth(true);
     localStorage.setItem('isAuth', 'true');
   };

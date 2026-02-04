@@ -12,7 +12,6 @@ const SignUpStep3 = ({admin}: Props) => {
   const { data, setRole } = useSignUp();
   const { role } = data;
   const { setUserRole } = useUserRole();
-
   const navigate = useNavigate();
 
   const isValid = Boolean(role);

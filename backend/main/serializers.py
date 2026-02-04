@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+from user.models import User
 from user.serializers import UserRetrieveSerializer
 
-from .models import Help, HelpCategory
-from user.models import User
+from .models import City, Help, HelpCategory
 
 
 class HelpCategorySerializer(serializers.ModelSerializer):
@@ -13,9 +13,19 @@ class HelpCategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ["id", "name"]
+
+
 class HelpListSerializer(serializers.ModelSerializer):
     category_name = serializers.CharField(
         source="category.name",
+        read_only=True,
+    )
+    location_name = serializers.CharField(
+        source="location.name",
         read_only=True,
     )
 
@@ -24,6 +34,7 @@ class HelpListSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "title",
+            "location_name",
             "location",
             "description",
             "kind",
@@ -85,6 +96,7 @@ class HelpRetrieveSerializer(HelpListSerializer):
         fields = [
             "id",
             "title",
+            "location_name",
             "location",
             "description",
             "kind",
@@ -108,15 +120,3 @@ class HelpRetrieveSerializer(HelpListSerializer):
             "counterpart",
             "kind",
         ]
-
-
-class HelpRespondSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Help
-        fields = ()
-
-
-class HelpCompleteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Help
-        fields = ()

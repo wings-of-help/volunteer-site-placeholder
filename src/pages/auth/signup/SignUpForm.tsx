@@ -3,13 +3,16 @@ import arrowLeft from '../../../assets/arrow-left.svg';
 
 type Props = {
   step: number;
-  isValid?: boolean;
-  onContinue?: () => void;
-  children?: React.ReactNode;
+  isValid: boolean;
+  onContinue: () => void;
+  children: React.ReactNode;
   path?: string;
+   globalError?: string;
+  submitLabel?: string;
 };
 
-const SignUpForm = ({ step, isValid, onContinue, children, path = "signup" }: Props) => {
+const SignUpForm = ({ step, isValid, onContinue, children, path = "signup", globalError,
+  submitLabel, }: Props) => {
   return (
     <div className='auth-layout__container auth-form'>
       <div className='auth-form__header'>
@@ -31,13 +34,17 @@ const SignUpForm = ({ step, isValid, onContinue, children, path = "signup" }: Pr
       <div className='auth-form__fields'>{children}</div>
 
       <div className='auth-form__actions auth-form__actions--signup'>
+        <div className='auth-form__global-error-wrapper'>
+          <div className='auth-form__global-error'>{globalError ?? ''}</div>
+        </div>
+
         <button
           className={`auth-form__button ${isValid ? 'auth-form__button--active' : ''}`}
           disabled={!isValid}
           onClick={onContinue}
           type='button'
         >
-          Continue
+          {submitLabel ?? 'Continue'}
         </button>
 
         <div className='auth-form__signin'>

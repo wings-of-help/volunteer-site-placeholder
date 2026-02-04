@@ -1,9 +1,9 @@
 import os
-import dj_database_url
 from datetime import timedelta
 from pathlib import Path
-from dotenv import load_dotenv
 
+import dj_database_url
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -13,9 +13,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
@@ -43,8 +43,10 @@ INSTALLED_APPS = [
 
     # Third-party
     'rest_framework',
+    "rest_framework_simplejwt.token_blacklist",
     'drf_spectacular',
     "django_filters",
+    "corsheaders",
 
     # Local
     'main',
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,6 +64,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:8000",
+]
+CORS_ALLOW_CREDENTIALS = True
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]
