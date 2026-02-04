@@ -6,6 +6,7 @@ export default function CartItem() {
   const { isAuth } = useAuth();
   const { pathname } = useLocation()
 
+  
   return (
     <Link to={`cartId`} className="cart-item">
         <div className="cart-item__header">
