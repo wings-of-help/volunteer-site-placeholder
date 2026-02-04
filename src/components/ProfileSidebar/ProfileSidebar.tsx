@@ -1,4 +1,3 @@
-import profileFoto from '../../assets/Profile_foto.svg';
 import infoIcon from '../../assets/profile2.svg';
 import requestsIcon from '../../assets/HandsPraying.svg';
 import responsesIcon from '../../assets/ArrowsClockwise.svg';
@@ -25,9 +24,9 @@ export const ProfileSidebar = ({
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
-        <div className='profile__avatar--sidebar'>
+        {/* <div className='profile__avatar--sidebar'>
           <img src={profileFoto} alt='Profile avatar' />
-        </div>
+        </div> */}
         <div className='profile__user-info'>
           <p className='profile__name'>
             {user.firstName} {user.lastName}

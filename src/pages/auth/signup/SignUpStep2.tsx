@@ -9,13 +9,24 @@ import {
   formatPhone,
 } from '../../../utils/validators';
 
+import {
+  checkEmailAvailability,
+  checkPhoneAvailability,
+} from '../../../api/auth.api';
+
 type Props = {
   admin?: boolean;
 };
 
 const SignUpStep2 = ({ admin = false }: Props) => {
-  const { data, setEmail, setPhone, backendErrors, clearBackendError } =
-    useSignUp();
+  const {
+    data,
+    setEmail,
+    setPhone,
+    backendErrors,
+    clearBackendError,
+    setBackendErrors,
+  } = useSignUp();
 
   const { email, phone_number: phone } = data;
 
@@ -26,7 +37,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 
   const isFilled = Boolean(email && phone);
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     const emailOk = isEmailValid(email);
     const phoneOk = isPhoneValid(phone);
 
@@ -35,11 +46,35 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 
     if (!emailOk || !phoneOk) return;
 
-    navigate(
-      admin
-        ? '/administrationsignup/step-3'
-        : '/signup/step-3'
-    );
+    // backend-помилки
+    let hasBackendError = false;
+    const newBackendErrors: Partial<typeof backendErrors> = {};
+
+    // ===== EMAIL =====
+    try {
+      await checkEmailAvailability(email);
+    } catch (error: any) {
+      newBackendErrors.email = error?.email || ['This email is already in use'];
+      hasBackendError = true;
+    }
+
+    // ===== PHONE =====
+    try {
+      await checkPhoneAvailability(phone);
+    } catch (error: any) {
+      newBackendErrors.phone_number = error?.phone_number || [
+        'This phone number is already in use',
+      ];
+      hasBackendError = true;
+    }
+
+    // якщо бекенд помилки є залишаємось на step-2
+    if (hasBackendError) {
+      setBackendErrors(newBackendErrors);
+      return;
+    }
+
+    navigate(admin ? '/administrationsignup/step-3' : '/signup/step-3');
   };
 
   return (
@@ -58,9 +93,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 
         <input
           className={`auth-form__input ${
-            emailError || backendErrors.email
-              ? 'auth-form__input--error'
-              : ''
+            emailError || backendErrors.email ? 'auth-form__input--error' : ''
           }`}
           type='email'
           value={email}
@@ -80,8 +113,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 
           {(phoneError || backendErrors.phone_number) && (
             <span className='auth-form__error'>
-              {backendErrors.phone_number?.[0] ||
-                'Enter full phone number'}
+              {backendErrors.phone_number?.[0] || 'Enter full phone number'}
             </span>
           )}
         </span>
@@ -119,4 +151,3 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 };
 
 export default SignUpStep2;
-

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ProfileModal } from '../../ProfileModal/ProfileModal';
-import { userFromServer } from '../../../../api/user.mock';
+import { userFromServer } from '../../../../api/user.api';
 import './ProfileInfo.scss';
 
 export const ProfileInfo = () => {

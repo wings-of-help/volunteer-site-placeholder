@@ -6,7 +6,7 @@ import { ProfileLayout } from './ProfileLayout/ProfileLayout';
 import { ProfileInfo } from './sections/ProfileInfo/ProfileInfo';
 import { MyRequests } from './sections/MyRequests/MyRequests';
 import { MyResponses } from './sections/MyResponses/MyResponses';
-import { userFromServer } from '../../api/user.mock';
+import { userFromServer } from '../../api/user.api';
 import { CreateRequest } from '../../components/CreateRequest/CreateRequest';
 
 export const ProfilePage = () => {
@@ -14,6 +14,7 @@ export const ProfilePage = () => {
     'info',
   );
   const [isCreating, setIsCreating] = useState(false);
+  // const { user, isLoading } = useAuth();
 
   const { logout } = useAuth();
   const navigate = useNavigate();

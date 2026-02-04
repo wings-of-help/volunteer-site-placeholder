@@ -75,7 +75,7 @@ const SignInFormPage = () => {
               className='auth-form__input'
               type={showPassword ? 'text' : 'password'}
               value={password}
-              placeholder='Create a password'
+              placeholder='Enter your password'
               onChange={(e) => {
                 setPassword(e.target.value);
                 setFormError(null);
