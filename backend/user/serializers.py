@@ -77,6 +77,8 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "last_name",
             "phone_number",
             "role",
+            "date_joined",
+            "last_login",
         ]
         read_only_fields = ["id", "role"]
 
