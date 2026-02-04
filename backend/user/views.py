@@ -406,3 +406,22 @@ class LogoutView(APIView):
             {"detail": "Successfully logged out"},
             status=status.HTTP_205_RESET_CONTENT,
         )
+
+@extend_schema(
+    summary="My profile",
+    description="See your profile, just pass access token in headers.",
+    responses={
+        200: OpenApiResponse(description="See user data"),
+        400: OpenApiResponse(description="Token wasn't provided or invalid."),
+    },
+    tags=["Users"],
+    )
+class MyProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = UserRetrieveSerializer(request.user).data
+        return Response(
+            user,
+            status=status.HTTP_200_OK,
+        )
