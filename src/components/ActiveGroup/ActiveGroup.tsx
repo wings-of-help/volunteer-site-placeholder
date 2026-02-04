@@ -1,16 +1,18 @@
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
+import CartItem from "../CartItem/CartItem";
 import RequestCart from "../RequestCart/RequestCart";
 import "./ActiveGroup.scss"
+import { Link } from "react-router-dom";
 
 type Props = {
   title: string;
   p: string;
   p2: string;
   seeAll: string;
+  path: string;
 }
 
-export default function ActiveGroup({title, p, p2, seeAll}: Props) {
-  const { t } = useTranslation();
+export default function ActiveGroup({title, p, p2, seeAll, path}: Props) {
   return (
     <div className="home-active-requests">
 
@@ -27,19 +29,19 @@ export default function ActiveGroup({title, p, p2, seeAll}: Props) {
         </div>
 
         <div className="home-active-requests__carts">
-          <RequestCart />
-          <RequestCart />
-          <RequestCart />
+          <CartItem />
+          <CartItem />
+          <CartItem />
         </div>
         
-      <div className="home-active-requests__see-all">
-        <p className="home-active-requests__see-all__p">{seeAll}</p>
-        <img 
-          src="/images/ui/ph_arrow-right-light.png" 
-          alt="arrow-right-button" 
-          className="home-active-requests__see-all__button" 
-        />
-      </div>
+        <div className="home-active-requests__see-all">
+          <Link to={path} className="home-active-requests__see-all__p">{seeAll}</Link>
+          <img 
+            src="/images/ui/ph_arrow-right-light.png" 
+            alt="arrow-right-button" 
+            className="home-active-requests__see-all__button" 
+          />
+        </div>
     </div>
   )
 }
