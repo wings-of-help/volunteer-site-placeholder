@@ -10,6 +10,7 @@ djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
 dotenv==0.9.9
 drf-spectacular==0.29.0
+gunicorn==25.0.1
 inflection==0.5.1
 iniconfig==2.3.0
 jsonschema==4.26.0
