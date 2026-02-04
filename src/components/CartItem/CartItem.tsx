@@ -1,12 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./CartItem.scss"
-import hourglass from "../../assets/Hourglass.svg"
-import dot from "../../assets/Dot.png"
+import dot from "../../assets/Ellipse 3.png"
 
 export default function CartItem() {
   const { isAuth } = useAuth();
-  const { pathname } = useLocation()
 
   return (
     <Link to={`cartId`} className="cart-item">
@@ -23,16 +21,12 @@ export default function CartItem() {
           needed within the next 3 days.
         </p>
         
-        {isAuth && pathname === "/offers" ? 
-          <div className="cart-item__status" style={{ maxWidth: "124px" }}>
+        {isAuth && (
+          <div className="cart-item__status" style={{ maxWidth: "71px" }}>
             <img src={dot} alt="dot" />
-            <p>Available</p>
+            <p>New</p>
           </div>
-          :
-          <div className="cart-item__status" style={{ maxWidth: "182px", gap: "8px" }}>
-            <img src={hourglass} alt="hourglass" />
-            <p>Waiting for help</p>
-          </div>
+          )
         }
     </Link>
   )

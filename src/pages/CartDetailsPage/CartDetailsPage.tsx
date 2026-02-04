@@ -9,18 +9,23 @@ import { useAuth } from "../../context/AuthContext"
 import { useUserRole } from "../../context/RoleContext"
 import ActiveGroup from "../../components/ActiveGroup/ActiveGroup"
 import { useTranslation } from "react-i18next"
+import dot from "../../assets/Ellipse 3.png"
+import { useState } from "react"
+import Modal from "../../components/UI-elements/Modal/Modal"
 
 type Props = {
   type: "requests" | "offers";
 }
 
 export default function CartDetailsPage({type}: Props) {
+  const [activeModal, setActiveModal] = useState(false);
   const navigate = useNavigate();
   const { isAuth } = useAuth();
   const { isVolunteer } = useUserRole();
   const { t } = useTranslation();
 
   return (
+    <>
     <div className="cart-details-page">
       <div className="cart-details-page__container">
         
@@ -50,10 +55,24 @@ export default function CartDetailsPage({type}: Props) {
               <p className="point-text">Lviv</p>
             </div>
 
-            <div className="cart-details-page__info__points-point">
-              <p className="point-text aid">Humanitarian Aid</p>
-            </div>
+            {isAuth ? (
+              <div className="status-box">
+                <div className="cart-details-page__info__points-point">
+                  <p className="point-text aid">Humanitarian Aid</p>
+                </div>
 
+                <div className="status">
+                  <img src={dot} alt="dot" className="status__dot"/>
+                  <p>New</p>
+                </div>
+
+              </div>
+            ) : (
+              <div className="cart-details-page__info__points-point">
+                <p className="point-text aid">Humanitarian Aid</p>
+              </div>
+            )}
+            
           </div>
 
           <div className="cart-details-page__info__about">
@@ -88,7 +107,11 @@ export default function CartDetailsPage({type}: Props) {
             )}
 
             {isAuth && isVolunteer && type === "requests" && (
-              <button onClick={() => {}} 
+              <button onClick={() => {
+                setActiveModal(true);
+
+                //should change status to in progress and disable button
+              }} 
                 className="offer__button">
                 Offer help
               </button>
@@ -122,7 +145,11 @@ export default function CartDetailsPage({type}: Props) {
             )}
 
             {isAuth && !isVolunteer && type === "offers" && (
-              <button onClick={() => {}} 
+              <button onClick={() => {
+                setActiveModal(true)
+
+                //should change status to in progress and disable button
+              }} 
                 className="offer__button">
                 Request Help
               </button>
@@ -164,5 +191,8 @@ export default function CartDetailsPage({type}: Props) {
           path="/requests"
         /> 
     </div>
+
+    {activeModal && <Modal setActive={setActiveModal}/>}
+    </>
   )
 }

@@ -134,7 +134,6 @@
 }
 
 .aid {
-  margin-top: 10px;
   background-color: #5C6569;
   color: #fff;
   padding: 8px;
@@ -161,4 +160,25 @@
     font-size: 18px;
     line-height: 140%;
   }
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include p-styles;
+  gap: 8px;
+  padding: 8px;
+}
+
+.status__dot {
+  object-fit: contain;
+  width: 8px;
+  height: 8px;
+}
+
+.status-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
