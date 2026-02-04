@@ -6,6 +6,7 @@ import dot from "../../assets/Ellipse 3.png"
 export default function CartItem() {
   const { isAuth } = useAuth();
 
+  
   return (
     <Link to={`cartId`} className="cart-item">
         <div className="cart-item__header">
