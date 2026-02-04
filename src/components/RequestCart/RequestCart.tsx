@@ -5,7 +5,6 @@ export default function RequestCart() {
   const { t } = useTranslation();
   return (
     <div className="home-active-requests__carts__cart">
-      <div className="home-active-requests__carts__cart__photo"></div>
 
       <div className="home-active-requests__carts__cart__title">
         {t("active-requests-1st-block-title")}

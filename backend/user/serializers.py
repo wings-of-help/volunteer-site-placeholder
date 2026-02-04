@@ -2,8 +2,23 @@ from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
+
+
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+
+    def validate(self, attrs):
+        try:
+            self.token = RefreshToken(attrs["refresh"])
+        except Exception:
+            raise serializers.ValidationError("Invalid refresh token")
+        return attrs
+
+    def save(self, **kwargs):
+        self.token.blacklist()
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -62,6 +77,8 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "last_name",
             "phone_number",
             "role",
+            "date_joined",
+            "last_login",
         ]
         read_only_fields = ["id", "role"]
 
@@ -104,3 +121,25 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
     email = serializers.EmailField()
     code = serializers.CharField()
     new_password = serializers.CharField()
+
+
+class EmailAvailabilitySerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError(
+                "This email is already in use."
+            )
+        return value
+
+
+class PhoneNumberAvailabilitySerializer(serializers.Serializer):
+    phone_number = serializers.CharField()
+
+    def validate_phone_number(self, value):
+        if User.objects.filter(phone_number=value).exists():
+            raise serializers.ValidationError(
+                "This phone number is already in use."
+            )
+        return value

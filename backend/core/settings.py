@@ -1,9 +1,15 @@
 import os
-import dj_database_url
 from datetime import timedelta
 from pathlib import Path
+
+import dj_database_url
 from dotenv import load_dotenv
 
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "authorization",
+]
 
 load_dotenv()
 
@@ -26,10 +32,19 @@ USE_X_FORWARDED_HOST = True
 
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1").split(",")
+
+
 CSRF_TRUSTED_ORIGINS = [
-    "https://alert-ambition-dev.up.railway.app",
+    "https://volunteer-site-placeholder-dev.up.railway.app"
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:8000",
+    "https://volunteer-site-placeholder-dev.up.railway.app",
+]
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -43,6 +58,7 @@ INSTALLED_APPS = [
 
     # Third-party
     'rest_framework',
+    "rest_framework_simplejwt.token_blacklist",
     'drf_spectacular',
     "django_filters",
     "corsheaders",
@@ -64,12 +80,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:8000",
-]
-CORS_ALLOW_CREDENTIALS = True
+
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]

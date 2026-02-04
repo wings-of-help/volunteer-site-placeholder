@@ -1,0 +1,58 @@
+@use '../../../styles/mixins' as *;
+
+.modal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color: #000, $alpha: 0.4);
+  top: 0;
+  left: 0;
+  @include centeredFlexBox;
+}
+
+.modal__content {
+  width: 600px;
+  height: 356px;
+  padding: 24px;
+  gap: 24px;
+  top: 272px;
+  left: 420px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal__title {
+  @include p-styles;
+  font-size: 24px;
+  text-align: center;
+}
+
+.modal__desc {
+  @include p-styles;
+  text-align: center;
+}
+
+@media (max-width: 639px) {
+  .modal__content {
+    padding: 15px;
+  }
+
+  .modal__title {
+    font-size: 16px;
+  }
+}
+
+.modal__button {
+  @include blackButton;
+  @include p-styles;
+  width: 100%;
+}
+
+.modal__photo {
+  height: 120px;
+  width: 120px;
+  justify-self: center;
+}

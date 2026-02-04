@@ -1,0 +1,17 @@
+[run]
+source =
+    .
+omit =
+    */migrations/*
+    */tests/*
+    */settings/*
+    manage.py
+    */venv/*
+    */__init__.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    if settings.DEBUG
+    if TYPE_CHECKING
+    raise NotImplementedError

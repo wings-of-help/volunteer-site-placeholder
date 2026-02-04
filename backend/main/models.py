@@ -14,6 +14,17 @@ class HelpCategory(models.Model):
         return self.name
 
 
+class City(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = "city"
+        verbose_name_plural = "cities"
+
+    def __str__(self):
+        return self.name
+
+
 class Help(models.Model):
     class Kind(models.TextChoices):
         REQUEST = "request", "Request"
@@ -25,7 +36,7 @@ class Help(models.Model):
         DONE = "done", "Done"
 
     title = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
+    location = models.ForeignKey(City, on_delete=models.PROTECT, default=1)
     description = models.TextField()
     kind = models.CharField(
         max_length=20,

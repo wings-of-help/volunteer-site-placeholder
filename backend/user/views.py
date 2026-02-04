@@ -12,7 +12,7 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -22,33 +22,40 @@ from .permissions import UserAccessPermission
 from .serializers import (
     AdminRegisterSerializer,
     CustomTokenObtainPairSerializer,
+    EmailAvailabilitySerializer,
+    LogoutSerializer,
     PasswordResetConfirmSerializer,
     PasswordResetRequestSerializer,
+    PhoneNumberAvailabilitySerializer,
     RegisterSerializer,
     UserRetrieveSerializer,
 )
 from .utils import generate_reset_code
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class CustomTokenRefreshView(TokenRefreshView):
+    permission_classes = [AllowAny]
+
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
         summary="Refresh JWT tokens",
         description="Get a new access token using a refresh token.",
-        request={
-            "refresh": "jwt_refresh_token"
-        },
+        request=TokenRefreshSerializer,
         responses={
             200: OpenApiResponse(
                 description="Tokens refreshed",
                 examples=[
                     OpenApiExample(
                         "Success",
-                        value={
-                            "access": "new_jwt_access_token"
-                        }
+                        value={"access": "new_jwt_access_token"},
                     )
-                ]
+                ],
             ),
             401: OpenApiResponse(description="Invalid refresh token"),
         },
@@ -58,8 +65,13 @@ class CustomTokenRefreshView(TokenRefreshView):
         return super().post(request, *args, **kwargs)
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    permission_classes = [AllowAny]
+
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
         summary="Login user",
@@ -333,3 +345,92 @@ def confirm_password_reset(request):
     reset_code.save()
 
     return Response({"detail": "Password successfully changed"}, status=status.HTTP_200_OK)
+
+
+class CheckEmailAvailabilityView(APIView):
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        summary="Check email availability",
+        description="Check if an email can be used for registration.",
+        request=EmailAvailabilitySerializer,
+        responses={
+            200: OpenApiResponse(description="Email is available"),
+            400: OpenApiResponse(description="Email is invalid or already registered"),
+        },
+        tags=["Auth"],
+    )
+    def post(self, request):
+        serializer = EmailAvailabilitySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(
+            {"detail": "Email is available"},
+            status=status.HTTP_200_OK,
+        )
+
+
+class CheckPhoneNumberAvailabilityView(APIView):
+    permission_classes = [AllowAny]
+
+    @extend_schema(
+        summary="Check phone number availability",
+        description="Check if a phone number can be used for registration.",
+        request=PhoneNumberAvailabilitySerializer,
+        responses={
+            200: OpenApiResponse(description="phone number is available"),
+            400: OpenApiResponse(description="phone number is invalid or already registered"),
+        },
+        tags=["Auth"],
+    )
+    def post(self, request):
+        serializer = PhoneNumberAvailabilitySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(
+            {"detail": "Phone number is available"},
+            status=status.HTTP_200_OK,
+        )
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @extend_schema(
+        summary="Logout user",
+        description="Invalidate refresh token (logout).",
+        request=LogoutSerializer,
+        responses={
+            205: OpenApiResponse(description="Successfully logged out"),
+            400: OpenApiResponse(description="Invalid token"),
+        },
+        tags=["Auth"],
+    )
+    def post(self, request):
+        serializer = LogoutSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"detail": "Successfully logged out"},
+            status=status.HTTP_205_RESET_CONTENT,
+        )
+
+@extend_schema(
+    summary="My profile",
+    description="See your profile, just pass access token in headers.",
+    responses={
+        200: OpenApiResponse(description="See user data"),
+        400: OpenApiResponse(description="Token wasn't provided or invalid."),
+    },
+    tags=["Users"],
+    )
+class MyProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = UserRetrieveSerializer(request.user).data
+        return Response(
+            user,
+            status=status.HTTP_200_OK,
+        )

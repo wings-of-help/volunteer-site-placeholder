@@ -1,5 +1,6 @@
 asgiref==3.11.0
 attrs==25.4.0
+coverage==7.13.2
 dj-database-url==3.1.0
 Django==6.0.1
 django-cors-headers==4.9.0
@@ -9,11 +10,19 @@ djangorestframework==3.16.1
 djangorestframework_simplejwt==5.5.1
 dotenv==0.9.9
 drf-spectacular==0.29.0
+gunicorn==25.0.1
 inflection==0.5.1
+iniconfig==2.3.0
 jsonschema==4.26.0
 jsonschema-specifications==2025.9.1
+packaging==26.0
+pluggy==1.6.0
 psycopg2-binary==2.9.11
+Pygments==2.19.2
 PyJWT==2.10.1
+pytest==9.0.2
+pytest-cov==7.0.0
+pytest-django==4.11.1
 python-dotenv==1.2.1
 PyYAML==6.0.3
 referencing==0.37.0
@@ -22,4 +31,3 @@ ruff==0.14.11
 sqlparse==0.5.5
 uritemplate==4.2.0
 whitenoise==6.11.0
-gunicorn==21.2.0

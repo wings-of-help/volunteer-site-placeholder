@@ -8,6 +8,7 @@ import {
   isPhoneValid,
   formatPhone,
 } from '../../../utils/validators';
+import { useUserRole } from '../../../context/RoleContext';
 
 import {
   checkEmailAvailability,
@@ -27,6 +28,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
     clearBackendError,
     setBackendErrors,
   } = useSignUp();
+  const { setUserRole } = useUserRole();
 
   const { email, phone_number: phone } = data;
 
@@ -43,7 +45,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 
     setEmailError(!emailOk);
     setPhoneError(!phoneOk);
-
+    setUserRole("distressed")
     if (!emailOk || !phoneOk) return;
 
     // backend-помилки
