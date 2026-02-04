@@ -33,6 +33,7 @@ from .serializers import (
 from .utils import generate_reset_code
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -45,7 +46,7 @@ class CustomTokenRefreshView(TokenRefreshView):
     @extend_schema(
         summary="Refresh JWT tokens",
         description="Get a new access token using a refresh token.",
-        request={"refresh": "jwt_refresh_token"},
+        request=TokenRefreshSerializer,
         responses={
             200: OpenApiResponse(
                 description="Tokens refreshed",
