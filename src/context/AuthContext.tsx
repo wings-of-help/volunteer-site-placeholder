@@ -1,24 +1,31 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { loginRequest } from '../api/auth.api';
+import { getMyProfileRequest } from '../api/user.api';
+import type { User } from '../api/types/auth';
 
 type AuthContextType = {
   isAuth: boolean;
+  user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  getMyProfile: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const isAuth = Boolean(user);
 
-  useEffect(() => {
-    const savedAuth = localStorage.getItem('isAuth');
-    if (savedAuth === 'true') {
-      setIsAuth(true);
+  const getMyProfile = async () => {
+    try {
+      const profile = await getMyProfileRequest();
+      setUser(profile);
+    } catch (error) {
+      logout();
     }
-  }, []);
+  };
 
   const login = async (email: string, password: string) => {
     const tokens = await loginRequest(email, password);
@@ -26,17 +33,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem('access', tokens.access);
     localStorage.setItem('refresh', tokens.refresh);
 
-    setIsAuth(true);
-    localStorage.setItem('isAuth', 'true');
+    await getMyProfile();
   };
 
   const logout = () => {
-    setIsAuth(false);
-    localStorage.removeItem('isAuth');
+    setUser(null);
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
   };
 
+  useEffect(() => {
+    const access = localStorage.getItem('access');
+    if (access) {
+      getMyProfile();
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ isAuth, login, logout }}>
+    <AuthContext.Provider value={{ isAuth, user, login, logout, getMyProfile }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,7 +1,6 @@
 import type { LoginResponse } from './types/auth';
 import type { RegisterRequest } from './types/auth';
-
-const BASE_URL = 'https://alert-ambition-dev.up.railway.app/api/v1';
+import { BASE_URL } from './config';
 
 export const registerRequest = async (data: RegisterRequest) => {
   const response = await fetch(`${BASE_URL}/user/register/`, {

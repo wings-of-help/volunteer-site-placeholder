@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://alert-ambition-dev.up.railway.app/api/v1';
