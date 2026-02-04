@@ -1,18 +1,24 @@
 import { useState } from 'react';
 import { ProfileModal } from '../../ProfileModal/ProfileModal';
-import { userFromServer } from '../../../../api/user.mock';
 import './ProfileInfo.scss';
 
-export const ProfileInfo = () => {
-  const [originalUser, setOriginalUser] = useState(userFromServer);
-  const [form, setForm] = useState(userFromServer);
+import type { User } from '../../../../api/types/auth';
+
+interface Props {
+  user: User;
+}
+
+export const ProfileInfo = ({ user }: Props) => {
+  const [originalUser, setOriginalUser] = useState(user);
+  const [form, setForm] = useState(user);
+
   const [activeModal, setActiveModal] = useState<
     null | 'email' | 'phone' | 'password'
   >(null);
 
   const isDirty =
-    form.firstName !== originalUser.firstName ||
-    form.lastName !== originalUser.lastName;
+    form.first_name !== originalUser.first_name ||
+    form.last_name !== originalUser.last_name;
 
   const capitalize = (value: string) => {
     if (!value) return value;
@@ -36,9 +42,9 @@ export const ProfileInfo = () => {
             <input
               className='profile__input'
               type='text'
-              value={form.firstName}
+              value={form.first_name}
               onChange={(e) =>
-                setForm({ ...form, firstName: capitalize(e.target.value) })
+                setForm({ ...form, first_name: capitalize(e.target.value) })
               }
             />
           </label>
@@ -48,9 +54,9 @@ export const ProfileInfo = () => {
             <input
               className='profile__input'
               type='text'
-              value={form.lastName}
+              value={form.last_name}
               onChange={(e) =>
-                setForm({ ...form, lastName: capitalize(e.target.value) })
+                setForm({ ...form, last_name: capitalize(e.target.value) })
               }
             />
           </label>
@@ -99,7 +105,7 @@ export const ProfileInfo = () => {
               <input
                 className='profile__contact-input'
                 disabled
-                value={form.phone}
+                value={form.phone_number}
               />
             </div>
             <button

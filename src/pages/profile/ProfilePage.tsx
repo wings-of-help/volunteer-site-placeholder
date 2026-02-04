@@ -6,7 +6,6 @@ import { ProfileLayout } from './ProfileLayout/ProfileLayout';
 import { ProfileInfo } from './sections/ProfileInfo/ProfileInfo';
 import { MyRequests } from './sections/MyRequests/MyRequests';
 import { MyResponses } from './sections/MyResponses/MyResponses';
-import { userFromServer } from '../../api/user.mock';
 import { CreateRequest } from '../../components/CreateRequest/CreateRequest';
 
 export const ProfilePage = () => {
@@ -14,6 +13,11 @@ export const ProfilePage = () => {
     'info',
   );
   const [isCreating, setIsCreating] = useState(false);
+  const { user } = useAuth();
+
+  if (!user) {
+    return <div>Loading profile...</div>;
+  }
 
   const { logout } = useAuth();
   const navigate = useNavigate();
@@ -27,10 +31,10 @@ export const ProfilePage = () => {
     <ProfileLayout
       activeTab={activeTab}
       onTabChange={setActiveTab}
-      user={userFromServer}
+      user={user}
       onLogout={handleLogout}
     >
-      {activeTab === 'info' && <ProfileInfo />}
+      {activeTab === 'info' && <ProfileInfo user={user} />}
       {activeTab === 'requests' && !isCreating && (
         <MyRequests onCreate={() => setIsCreating(true)} />
       )}

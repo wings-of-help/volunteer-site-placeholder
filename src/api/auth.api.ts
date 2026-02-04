@@ -1,7 +1,6 @@
 import type { LoginResponse } from './types/auth';
 import type { RegisterRequest } from './types/auth';
-
-const BASE_URL = 'https://alert-ambition-dev.up.railway.app/api/v1';
+import { BASE_URL } from './config';
 
 export const registerRequest = async (data: RegisterRequest) => {
   const response = await fetch(`${BASE_URL}/user/register/`, {
@@ -32,4 +31,36 @@ export const loginRequest = async (
   }
 
   return response.json();
+};
+
+export const checkEmailAvailability = async (email: string) => {
+  const response = await fetch(
+    `${BASE_URL}/user/check-email-availability/`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    },
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw error;
+  }
+};
+
+export const checkPhoneAvailability = async (phone: string) => {
+  const response = await fetch(
+    `${BASE_URL}/user/check-phone-number-availability/`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone_number: phone }),
+    },
+  );
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw error;
+  }
 };
