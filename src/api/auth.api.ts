@@ -34,14 +34,11 @@ export const loginRequest = async (
 };
 
 export const checkEmailAvailability = async (email: string) => {
-  const response = await fetch(
-    `${BASE_URL}/user/check-email-availability/`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    },
-  );
+  const response = await fetch(`${BASE_URL}/user/check-email-availability/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
 
   if (!response.ok) {
     const error = await response.json();
@@ -63,4 +60,39 @@ export const checkPhoneAvailability = async (phone: string) => {
     const error = await response.json();
     throw error;
   }
+};
+
+type RefreshResponse = {
+  access: string;
+  refresh?: string;
+};
+
+export const refreshTokenRequest = async (): Promise<string> => {
+  const refresh = localStorage.getItem('refresh');
+
+  if (!refresh) {
+    throw new Error('No refresh token');
+  }
+
+  const response = await fetch(`${BASE_URL}/user/token/refresh/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ refresh }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Refresh token is invalid');
+  }
+
+  const data: RefreshResponse = await response.json();
+
+  localStorage.setItem('access', data.access);
+
+  if (data.refresh) {
+    localStorage.setItem('refresh', data.refresh);
+  }
+
+  return data.access;
 };

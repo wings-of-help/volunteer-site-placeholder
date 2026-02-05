@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { loginRequest } from '../api/auth.api';
 import { getMyProfileRequest } from '../api/user.api';
 import type { User } from '../api/types/auth';
+import { refreshTokenRequest } from '../api/auth.api';
 
 type AuthContextType = {
   isAuth: boolean;
@@ -22,8 +23,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const profile = await getMyProfileRequest();
       setUser(profile);
-    } catch (error) {
-      logout();
+    } catch (error: any) {
+      if (error?.status === 401) {
+        try {
+          await refreshTokenRequest();
+          const profile = await getMyProfileRequest();
+          setUser(profile);
+        } catch {
+          logout();
+        }
+      } else {
+        logout();
+      }
     }
   };
 

@@ -12,6 +12,7 @@ export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<'info' | 'requests' | 'responses'>(
     'info',
   );
+  
   const [isCreating, setIsCreating] = useState(false);
   const { user } = useAuth();
 
