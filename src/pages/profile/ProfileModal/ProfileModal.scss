@@ -1,14 +1,15 @@
 @use '../../../styles/variables' as *;
 @use '../../../styles/mixins/index' as *;
 
-.modal-overlay {
+.profile-modal-overlay {
   @include overlay-center;
   background: rgba($color-black, 0.45);
   z-index: 1000;
 }
 
-.modal {
+.profile-modal {
   width: 600px;
+  height: auto;
   background: $color-white;
   padding: 24px;
   box-shadow: 0 8px 32px rgba($color-black, 0.12);
@@ -78,7 +79,7 @@
     }
   }
 
-  &__phone.modal__input--error {
+  &__phone.profile-modal__input--error {
     border-color: $color-error;
   }
 

@@ -14,10 +14,10 @@ import uaFlag from '../../../assets/flag-ukraine.svg';
 import eyeOpen from '../../../assets/eye-open.svg';
 import eyeClosed from '../../../assets/eye-closed.svg';
 
-type ModalType = 'email' | 'phone' | 'password';
+type modalType = 'email' | 'phone' | 'password';
 
 interface Props {
-  type: ModalType;
+  type: modalType;
   onClose: () => void;
   onSuccess: (value: string) => void;
 }
@@ -42,25 +42,25 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
 
   const isActive = Boolean(value);
 
-  const titleMap: Record<ModalType, string> = {
+  const titleMap: Record<modalType, string> = {
     email: 'Change email',
     phone: 'Change phone number',
     password: 'Change password',
   };
 
-  const labelMap: Record<ModalType, string> = {
+  const labelMap: Record<modalType, string> = {
     email: 'Enter new email',
     phone: 'Phone number',
     password: 'Enter your email',
   };
 
-  const placeholderMap: Record<ModalType, string> = {
+  const placeholderMap: Record<modalType, string> = {
     email: 'email@example.com',
     phone: '+380...',
     password: '********',
   };
 
-  const buttonMap: Record<ModalType, string> = {
+  const buttonMap: Record<modalType, string> = {
     email: 'Verify email',
     phone: 'Save phone number',
     password: 'Verify password',
@@ -102,28 +102,28 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   return (
     <>
       {step === 'edit' && (
-        <div className='modal-overlay' onClick={onClose}>
-          <div className='modal' onClick={(e) => e.stopPropagation()}>
-            <div className='modal__header'>
-              <h2 className='modal__title'>
+        <div className='profile-modal-overlay' onClick={onClose}>
+          <div className='profile-modal' onClick={(e) => e.stopPropagation()}>
+            <div className='profile-modal__header'>
+              <h2 className='profile-modal__title'>
                 {titleMap[type]}
                 {type === 'password' && step === 'edit' && (
-                  <p className='modal__subtitle-hint'>
+                  <p className='profile-modal__subtitle-hint'>
                     To change password, verify email first.
                   </p>
                 )}
               </h2>
 
-              <button className='modal__close' onClick={onClose}>
+              <button className='profile-modal__close' onClick={onClose}>
                 <img src={crossIcon} alt='Close' />
               </button>
             </div>
 
-            <div className='modal__body'>
-              <div className='modal__label-row'>
-                <label className='modal__label'>{labelMap[type]}</label>
+            <div className='profile-modal__body'>
+              <div className='profile-modal__label-row'>
+                <label className='profile-modal__label'>{labelMap[type]}</label>
                 {error && (
-                  <span className='modal__error'>
+                  <span className='profile-modal__error'>
                     {type === 'phone'
                       ? 'Invalid phone number'
                       : 'Invalid email'}
@@ -132,14 +132,14 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               </div>
 
               {type === 'phone' ? (
-                <div className='modal__phone'>
-                  <div className='modal__country'>
+                <div className='profile-modal__phone'>
+                  <div className='profile-modal__country'>
                     <img src={uaFlag} alt='UA' />
                     <span>+380</span>
                   </div>
 
                   <input
-                    className={`modal__phone-input ${error ? 'modal__input--error' : ''}`}
+                    className={`profile-modal__phone-input ${error ? 'profile-modal__input--error' : ''}`}
                     type='tel'
                     placeholder='12-345-67-89'
                     value={value}
@@ -151,7 +151,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                 </div>
               ) : (
                 <input
-                  className={`modal__input ${error ? 'modal__input--error' : ''}`}
+                  className={`profile-modal__input ${error ? 'profile-modal__input--error' : ''}`}
                   value={value}
                   onChange={(e) => {
                     setValue(e.target.value);
@@ -168,7 +168,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
             </div>
 
             <button
-              className={`modal__submit ${isActive ? 'modal__submit--active' : ''}`}
+              className={`profile-modal__submit ${isActive ? 'profile-modal__submit--active' : ''}`}
               onClick={handleSubmit}
             >
               {buttonMap[type]}
@@ -178,43 +178,43 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
       )}
 
       {step === 'code' && type !== 'phone' && (
-        <div className='modal-overlay' onClick={onClose}>
-          <div className='modal' onClick={(e) => e.stopPropagation()}>
-            <div className='modal__header'>
-              <h2 className='modal__title'>{titleMap[type]}</h2>
-              <button className='modal__close' onClick={onClose}>
+        <div className='profile-modal-overlay' onClick={onClose}>
+          <div className='profile-modal' onClick={(e) => e.stopPropagation()}>
+            <div className='profile-modal__header'>
+              <h2 className='profile-modal__title'>{titleMap[type]}</h2>
+              <button className='profile-modal__close' onClick={onClose}>
                 <img src={crossIcon} alt='Close' />
               </button>
             </div>
 
-            <p className='modal__subtitle'>
+            <p className='profile-modal__subtitle'>
               We’ve sent a verification code to <strong>{value}</strong>
             </p>
 
-            <button className='modal__back' onClick={() => setStep('edit')}>
+            <button className='profile-modal__back' onClick={() => setStep('edit')}>
               <img src={arrowLeftIcon} alt='Back' />
             </button>
 
-            <p className='modal__code-label'>Enter verification code</p>
+            <p className='profile-modal__code-label'>Enter verification code</p>
 
-            <div className='modal__code-row'>
+            <div className='profile-modal__code-row'>
               {code.map((digit, i) => (
                 <Fragment key={i}>
                   <input
                     key={i}
                     id={`code-${i}`}
-                    className='modal__code-input'
+                    className='profile-modal__code-input'
                     value={digit}
                     onChange={(e) => handleCodeChange(i, e.target.value)}
                     maxLength={1}
                   />
-                  {i === 2 && <span className='modal__code-separator' />}
+                  {i === 2 && <span className='profile-modal__code-separator' />}
                 </Fragment>
               ))}
             </div>
 
             <button
-              className={`modal__submit ${isCodeComplete ? 'modal__submit--active' : ''}`}
+              className={`profile-modal__submit ${isCodeComplete ? 'profile-modal__submit--active' : ''}`}
               disabled={!isCodeComplete}
               onClick={() => {
                 console.log('Code confirmed:', code.join(''));
@@ -231,28 +231,28 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               Confirm
             </button>
 
-            <div className='modal__resend'>
+            <div className='profile-modal__resend'>
               <span>Didn’t receive code?</span>
-              <button className='modal__resend-link'>Resend</button>
+              <button className='profile-modal__resend-link'>Resend</button>
             </div>
           </div>
         </div>
       )}
 
       {step === 'new-password' && type === 'password' && (
-        <div className='modal-overlay' onClick={onClose}>
-          <div className='modal' onClick={(e) => e.stopPropagation()}>
-            <div className='modal__header'>
-              <h2 className='modal__title'>Change password</h2>
+        <div className='profile-modal-overlay' onClick={onClose}>
+          <div className='profile-modal' onClick={(e) => e.stopPropagation()}>
+            <div className='profile-modal__header'>
+              <h2 className='profile-modal__title'>Change password</h2>
 
-              <button className='modal__close' onClick={onClose}>
+              <button className='profile-modal__close' onClick={onClose}>
                 <img src={crossIcon} alt='Close' />
               </button>
             </div>
-            <button className='modal__back' onClick={() => setStep('code')}>
+            <button className='profile-modal__back' onClick={() => setStep('code')}>
               <img src={arrowLeftIcon} alt='Back' />
             </button>
-            <div className='modal__password-group'>
+            <div className='profile-modal__password-group'>
               <label className='auth-form__label auth-form__label--with-error'>
                 <span className='auth-form__label-row'>
                   <span className='auth-form__label-text'>New password</span>
@@ -285,7 +285,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               </label>
             </div>
 
-            <div className='modal__password-group'>
+            <div className='profile-modal__password-group'>
               <label className='auth-form__label auth-form__label--with-error'>
                 <span className='auth-form__label-row'>
                   <span className='auth-form__label-text'>
@@ -315,7 +315,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                 </div>
               </label>
             </div>
-            <div className='modal__actions'>
+            <div className='profile-modal__actions'>
               <button
                 className={`auth-form__button ${isPasswordValid ? 'auth-form__button--active' : ''}`}
                 disabled={!isPasswordValid}

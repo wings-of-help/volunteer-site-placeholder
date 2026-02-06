@@ -1,8 +1,10 @@
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const isNameValid = (value: string) => {
-  return /^[A-Za-zА-Яа-яІіЇїЄє' -]{2,}$/.test(value.trim());
-};
+export const isOnlyLetters = (value: string) =>
+  /^[A-Za-zА-Яа-яІіЇїЄє' -]+$/.test(value.trim());
+
+export const hasMinTwoLetters = (value: string) =>
+  value.trim().length >= 2;
 
 export const isEmailValid = (email: string) => {
   return emailRegex.test(email);

@@ -34,14 +34,11 @@ export const loginRequest = async (
 };
 
 export const checkEmailAvailability = async (email: string) => {
-  const response = await fetch(
-    `${BASE_URL}/user/check-email-availability/`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    },
-  );
+  const response = await fetch(`${BASE_URL}/user/check-email-availability/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
 
   if (!response.ok) {
     const error = await response.json();
@@ -64,3 +61,63 @@ export const checkPhoneAvailability = async (phone: string) => {
     throw error;
   }
 };
+
+type RefreshResponse = {
+  access: string;
+  refresh?: string;
+};
+
+export const refreshTokenRequest = async (): Promise<string> => {
+  const refresh = localStorage.getItem('refresh');
+
+  if (!refresh) {
+    throw new Error('No refresh token');
+  }
+
+  const response = await fetch(`${BASE_URL}/user/token/refresh/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ refresh }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Refresh token is invalid');
+  }
+
+  const data: RefreshResponse = await response.json();
+
+  localStorage.setItem('access', data.access);
+
+  if (data.refresh) {
+    localStorage.setItem('refresh', data.refresh);
+  }
+
+  return data.access;
+};
+
+export const logoutRequest = async () => {
+  const refresh = localStorage.getItem('refresh');
+  const access = localStorage.getItem('access');
+
+  if (!refresh || !access) {
+    console.warn('No tokens for logout');
+    return;
+  }
+
+  const response = await fetch(`${BASE_URL}/user/logout/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access}`,
+    },
+    body: JSON.stringify({ refresh }),
+  });
+
+  if (!response.ok) {
+    console.warn('Logout request failed');
+  }
+};
+
+

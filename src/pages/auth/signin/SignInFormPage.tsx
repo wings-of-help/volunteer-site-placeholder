@@ -37,7 +37,7 @@ const SignInFormPage = () => {
   };
 
   return (
-    <div className='auth-layout__container auth-form auth-form--signin'>
+    <form className='auth-layout__container auth-form auth-form--signin'>
       <div className='auth-form__header auth-form__header--signin'>
         <h1 className='auth-form__title'>Welcome Back</h1>
         <p className='auth-form__subtitle'>
@@ -57,6 +57,7 @@ const SignInFormPage = () => {
           <input
             className={`auth-form__input ${emailError ? 'auth-form__input--error' : ''}`}
             type='email'
+            autoComplete='email'
             value={email}
             placeholder='Enter your email'
             onChange={(e) => {
@@ -74,6 +75,7 @@ const SignInFormPage = () => {
             <input
               className='auth-form__input'
               type={showPassword ? 'text' : 'password'}
+              autoComplete='current-password'
               value={password}
               placeholder='Enter your password'
               onChange={(e) => {
@@ -104,7 +106,7 @@ const SignInFormPage = () => {
       <div className='auth-form__actions'>
         <button
           className={`auth-form__button ${isFilled ? 'auth-form__button--active' : ''}`}
-          type='button'
+          type='submit'
           onClick={handleSignIn}
         >
           Sign in
@@ -117,7 +119,7 @@ const SignInFormPage = () => {
           </Link>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
