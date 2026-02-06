@@ -154,12 +154,15 @@ export const ProfileInfo = ({ user }: Props) => {
         <ProfileModal
           type={activeModal}
           onClose={() => setActiveModal(null)}
+          // Email та phone поки що змінюються лише локально.
+          // Бекенд потребує окремих ендпоінтів з підтвердженням коду
           onSuccess={(newValue) => {
             if (activeModal === 'email') {
               setForm((prev) => ({ ...prev, email: newValue }));
             }
+
             if (activeModal === 'phone') {
-              setForm((prev) => ({ ...prev, phone: newValue }));
+              setForm((prev) => ({ ...prev, phone_number: newValue }));
             }
           }}
         />

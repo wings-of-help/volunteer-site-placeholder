@@ -4,6 +4,7 @@ import { loginRequest } from '../api/auth.api';
 import { getMyProfileRequest } from '../api/user.api';
 import type { User } from '../api/types/auth';
 import { refreshTokenRequest } from '../api/auth.api';
+import { logoutRequest } from '../api/auth.api';
 
 type AuthContextType = {
   isAuth: boolean;
@@ -50,10 +51,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
+  const logout = async () => {
+    try {
+      await logoutRequest();
+    } catch (e) {
+      console.warn('Logout request failed', e);
+    } finally {
+       setUser(null);
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+    }
   };
 
   useEffect(() => {

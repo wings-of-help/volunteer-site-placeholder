@@ -96,3 +96,28 @@ export const refreshTokenRequest = async (): Promise<string> => {
 
   return data.access;
 };
+
+export const logoutRequest = async () => {
+  const refresh = localStorage.getItem('refresh');
+  const access = localStorage.getItem('access');
+
+  if (!refresh || !access) {
+    console.warn('No tokens for logout');
+    return;
+  }
+
+  const response = await fetch(`${BASE_URL}/user/logout/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${access}`,
+    },
+    body: JSON.stringify({ refresh }),
+  });
+
+  if (!response.ok) {
+    console.warn('Logout request failed');
+  }
+};
+
+

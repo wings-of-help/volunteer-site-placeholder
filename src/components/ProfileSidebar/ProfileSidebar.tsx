@@ -11,14 +11,14 @@ interface Props {
   activeTab: 'info' | 'requests' | 'responses';
   onTabChange: (tab: 'info' | 'requests' | 'responses') => void;
   user: User;
-  onLogout: () => void;
+  onLogoutClick: () => void;
 }
 
 export const ProfileSidebar = ({
   activeTab,
   onTabChange,
   user,
-  onLogout,
+  onLogoutClick,
 }: Props) => {
   return (
     <aside className='profile__sidebar'>
@@ -33,7 +33,9 @@ export const ProfileSidebar = ({
 
       <nav className='profile__menu'>
         <button
-          className={`profile__menu-item ${activeTab === 'info' ? 'profile__menu-item--active' : ''}`}
+          className={`profile__menu-item ${
+            activeTab === 'info' ? 'profile__menu-item--active' : ''
+          }`}
           onClick={() => onTabChange('info')}
         >
           <img src={activeTab === 'info' ? infoIcon : infoIconGrey} alt='' />
@@ -41,7 +43,9 @@ export const ProfileSidebar = ({
         </button>
 
         <button
-          className={`profile__menu-item ${activeTab === 'requests' ? 'profile__menu-item--active' : ''}`}
+          className={`profile__menu-item ${
+            activeTab === 'requests' ? 'profile__menu-item--active' : ''
+          }`}
           onClick={() => onTabChange('requests')}
         >
           <img src={requestsIcon} alt='' />
@@ -49,7 +53,9 @@ export const ProfileSidebar = ({
         </button>
 
         <button
-          className={`profile__menu-item ${activeTab === 'responses' ? 'profile__menu-item--active' : ''}`}
+          className={`profile__menu-item ${
+            activeTab === 'responses' ? 'profile__menu-item--active' : ''
+          }`}
           onClick={() => onTabChange('responses')}
         >
           <img src={responsesIcon} alt='' />
@@ -58,7 +64,7 @@ export const ProfileSidebar = ({
 
         <button
           className='profile__menu-item profile__menu-item--logout'
-          onClick={onLogout}
+          onClick={onLogoutClick}
         >
           <img src={logoutIcon} alt='' />
           <span>Log out</span>

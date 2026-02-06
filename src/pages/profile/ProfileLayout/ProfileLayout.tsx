@@ -25,7 +25,7 @@ export const ProfileLayout = ({
           activeTab={activeTab}
           onTabChange={onTabChange}
           user={user}
-          onLogout={onLogout}
+          onLogoutClick={onLogout}
         />
 
         <main className='profile__content'>{children}</main>
