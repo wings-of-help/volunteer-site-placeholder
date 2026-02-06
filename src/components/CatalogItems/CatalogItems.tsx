@@ -3,7 +3,7 @@ import "./CatalogItems.scss"
 import arrowDown from '../../assets/arrow-down.svg';
 // import { useEffect, useState } from "react";
 // import { GetHelpCarts } from "../../api/helpCarts.api";
-import type { HelpCart } from "../../api/types/HelpCart";
+// import type { HelpCart } from "../../api/types/HelpCart";
 
 export default function CatalogItems() {
   // const [carts, setCarts] = useState<HelpCart[]>([]);
