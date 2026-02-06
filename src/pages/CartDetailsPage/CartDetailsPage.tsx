@@ -167,12 +167,6 @@ export default function CartDetailsPage({type}: Props) {
                 <h1 className="cart-details-page__info__person-info__title">Volunteer: <strong>Cody warren</strong></h1>
               )}
 
-              {/* {type === "requests" ? (
-                <h1 className="cart-details-page__info__person-info__title">Requester</h1>
-              ) : (
-                <h1 className="cart-details-page__info__person-info__title">Volunteer</h1>
-              )} */}
-
               <div className="cart-details-page__info__person-info__details">
 
                 {isAuth && (
