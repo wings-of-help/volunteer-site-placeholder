@@ -159,13 +159,24 @@ export default function CartDetailsPage({type}: Props) {
             <div className="cart-details-page__info__person-info">
     
               {type === "requests" ? (
+                <h1 className="cart-details-page__info__person-info__title">
+                  Requester
+                  {!isAuth && <>: <strong>Cody Warren</strong></>}
+                  </h1>
+              ) : (
+                <h1 className="cart-details-page__info__person-info__title">Volunteer: <strong>Cody warren</strong></h1>
+              )}
+
+              {/* {type === "requests" ? (
                 <h1 className="cart-details-page__info__person-info__title">Requester</h1>
               ) : (
                 <h1 className="cart-details-page__info__person-info__title">Volunteer</h1>
-              )}
+              )} */}
+
               <div className="cart-details-page__info__person-info__details">
 
-                <div className="cart-details-page__info__person-info__details-box">
+                {isAuth && (
+                  <div className="cart-details-page__info__person-info__details-box">
                   <div className="cart-details-page__info__person-info__details__name">
                     Cody Warren
                   </div>
@@ -178,6 +189,7 @@ export default function CartDetailsPage({type}: Props) {
                     cody.warren@example.com
                   </div>
                 </div>
+                )}
               </div>
             </div>
         </div>
