@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import "./HomePage.scss"
 import { Link } from "react-router-dom";
 import ActiveGroup from "../../components/ActiveGroup/ActiveGroup";
-
+  
 export default function HomePage() {
   const { t } = useTranslation();
   return (
