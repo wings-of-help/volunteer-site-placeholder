@@ -8,9 +8,10 @@ type Props = {
   title: string;
   p: string;
   p2: string;
+  path: 'offers' | 'requests';
 }
 
-export default function CatalogPage ({title, p, p2}: Props) {
+export default function CatalogPage ({title, p, p2, path}: Props) {
   return (
     <div className="catalog__page">
       <div className="catalog">
@@ -37,7 +38,7 @@ export default function CatalogPage ({title, p, p2}: Props) {
 
         <div className="catalog__main">
           <CatalogCategories/>
-          <CatalogItems/>
+          <CatalogItems type={path}/>
         </div>
       </div>
     </div>

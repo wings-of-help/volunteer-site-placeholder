@@ -4,6 +4,8 @@ import "./CartItem.scss"
 import dot from "../../assets/Ellipse 3.png"
 
 type Props = {
+  type: 'offers' | 'requests';
+  id: number;
   title: string;
   location: string;
   description: string;
@@ -11,12 +13,13 @@ type Props = {
   status: string;
 }
 
-export default function CartItem({title, location, description, category, status}: Props) {
-  const { isAuth } = useAuth();
-
-  
+export default function CartItem({title, location, description, category, status, id, type}: Props) {
+  const { isAuth } = useAuth(); 
   return (
-    <Link to={`cartId`} className="cart-item">
+    <Link 
+      to={`/${type}/${id}`}
+      className="cart-item"
+    >
         <div className="cart-item__header">
           <p className="cart-item__header__city">{location}</p>
           <p className="cart-item__header__category">{category}</p>

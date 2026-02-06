@@ -10,12 +10,11 @@ export default function CustomCheckbox({title}: Props) {
   const [agree, setAgree] = useState(false);
 
   return (
-    <label className='custom__checkbox'>
+    <label className='custom__checkbox' onClick={() => setAgree(!agree)}>
         <span
           className={`custom__checkbox-box ${
             agree ? 'custom__checkbox-box--checked' : ''
           }`}
-          onClick={() => setAgree(!agree)}
         >
           {agree && <img src={checkIcon} alt='checked' />}
         </span>

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import "./CartDetailsPage.scss"
 import arrow from "../../assets/arrow-down.svg"
 import calendar from "../../assets/CalendarBlank.png"
@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next"
 import dot from "../../assets/Ellipse 3.png"
 import { useState } from "react"
 import Modal from "../../components/UI-elements/Modal/Modal"
+import { mockHelpCarts } from "../../api/helpCarts.api"
 
 type Props = {
   type: "requests" | "offers";
@@ -23,6 +24,16 @@ export default function CartDetailsPage({type}: Props) {
   const { isAuth } = useAuth();
   const { isVolunteer } = useUserRole();
   const { t } = useTranslation();
+
+  const { cartId } = useParams();
+
+  const cart = mockHelpCarts.find(
+    item => item.id === Number(cartId)
+  );
+
+  if (!cart) {
+    return <h2>Cart not found</h2>;
+  }
 
   return (
     <>
@@ -41,35 +52,35 @@ export default function CartDetailsPage({type}: Props) {
         </nav>
 
         <div className="cart-details-page__info">
-          <h1 className="cart-details-page__info__title">Food & Hygiene Supplies for IDP Family</h1>
+          <h1 className="cart-details-page__info__title">{cart.title}</h1>
 
           <div className="cart-details-page__info__points">
 
             <div className="cart-details-page__info__points-point">
               <img src={calendar} alt="calendar" className="date-point" />
-              <p className="point-text">Jan 18, 2026</p>
+              <p className="point-text">{cart.date}</p>
             </div>
 
             <div className="cart-details-page__info__points-point">
               <img src={map} alt="map" className="map-point" />
-              <p className="point-text">Lviv</p>
+              <p className="point-text">{cart.location_name}</p>
             </div>
 
             {isAuth ? (
               <div className="status-box">
                 <div className="cart-details-page__info__points-point">
-                  <p className="point-text aid">Humanitarian Aid</p>
+                  <p className="point-text aid">{cart.category_name}</p>
                 </div>
 
                 <div className="status">
                   <img src={dot} alt="dot" className="status__dot"/>
-                  <p>New</p>
+                  <p>{cart.status}</p>
                 </div>
 
               </div>
             ) : (
               <div className="cart-details-page__info__points-point">
-                <p className="point-text aid">Humanitarian Aid</p>
+                <p className="point-text aid">{cart.category_name}</p>
               </div>
             )}
             
@@ -79,16 +90,7 @@ export default function CartDetailsPage({type}: Props) {
             <div className="cart-details-page__info__about__title">About</div>
 
             <div className="cart-details-page__info__about__p">
-              A family of four, recently displaced due to ongoing conflict,
-              has just relocated to Lviv and is facing urgent basic needs.
-              The family includes two young children, aged 5 and 9, who 
-              require daily meals and essential hygiene products. The parents 
-              are doing their best to settle in, but currently do not have enough
-              food, cleaning supplies, or personal care items to cover the next 
-              few days. Immediate assistance with food packages, hygiene kits, 
-              and other essentials is critical to ensure the family’s well-being 
-              and to help them stabilize in their new environment. They would greatly 
-              benefit from support within the next three days.
+              {cart.description}
             </div>
 
             {!isAuth && type === "requests" && (
@@ -190,11 +192,11 @@ export default function CartDetailsPage({type}: Props) {
       </div>
 
       <ActiveGroup
-          title={t("active-requests-title")}
-          p={t("active-requests-1st-p")}
-          p2={t("active-requests-2nd-p")}
-          seeAll={t("see-all-requests")}
-          path="/requests"
+          title={type === 'requests' ? t("active-requests-title") : t("active-offers-title")}
+          p={type === 'requests' ? t("active-requests-1st-p") : t("active-offers-1st-p")}
+          p2={type === 'requests' ? t("active-requests-2nd-p") : t("active-offers-2nd-p")}
+          seeAll={type === 'requests' ? t("see-all-requests") : t("see-all-offers")}
+          path={type}
         /> 
     </div>
 
