@@ -7,18 +7,21 @@ import { ProfileInfo } from './sections/ProfileInfo/ProfileInfo';
 import { MyRequests } from './sections/MyRequests/MyRequests';
 import { MyResponses } from './sections/MyResponses/MyResponses';
 import { CreateRequest } from '../../components/CreateRequest/CreateRequest';
+import { Navigate } from 'react-router-dom';
+import { Loader } from '../../components/Loader/Loader';
 
 export const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState<'info' | 'requests' | 'responses'>(
     'info',
   );
-  
-  const [isCreating, setIsCreating] = useState(false);
-  const { user } = useAuth();
 
-  if (!user) {
-    return <div>Loading profile...</div>;
+  const [isCreating, setIsCreating] = useState(false);
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <Loader />;
   }
+  if (!user) return <Navigate to='/' replace />;
 
   const { logout } = useAuth();
   const navigate = useNavigate();

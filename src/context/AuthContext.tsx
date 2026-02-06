@@ -7,6 +7,7 @@ import { refreshTokenRequest } from '../api/auth.api';
 
 type AuthContextType = {
   isAuth: boolean;
+  isLoading: boolean;
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -17,6 +18,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const isAuth = Boolean(user);
 
   const getMyProfile = async () => {
@@ -24,7 +26,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const profile = await getMyProfileRequest();
       setUser(profile);
     } catch (error: any) {
-      if (error?.status === 401) {
+      if (error.status === 401) {
         try {
           await refreshTokenRequest();
           const profile = await getMyProfileRequest();
@@ -43,8 +45,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     localStorage.setItem('access', tokens.access);
     localStorage.setItem('refresh', tokens.refresh);
-
+    setIsLoading(true);
     await getMyProfile();
+    setIsLoading(false);
   };
 
   const logout = () => {
@@ -54,14 +57,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const access = localStorage.getItem('access');
-    if (access) {
-      getMyProfile();
-    }
+    const initAuth = async () => {
+      try {
+        const access = localStorage.getItem('access');
+
+        if (!access) {
+          return;
+        }
+
+        await getMyProfile();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initAuth();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuth, user, login, logout, getMyProfile }}>
+    <AuthContext.Provider
+      value={{ isAuth, user, isLoading, login, logout, getMyProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );

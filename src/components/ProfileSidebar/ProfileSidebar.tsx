@@ -1,4 +1,5 @@
 import infoIcon from '../../assets/profile2.svg';
+import infoIconGrey from '../../assets/infoIcon-grey.svg';
 import requestsIcon from '../../assets/HandsPraying.svg';
 import responsesIcon from '../../assets/ArrowsClockwise.svg';
 import logoutIcon from '../../assets/Logout.svg';
@@ -13,7 +14,6 @@ interface Props {
   onLogout: () => void;
 }
 
-
 export const ProfileSidebar = ({
   activeTab,
   onTabChange,
@@ -23,9 +23,6 @@ export const ProfileSidebar = ({
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
-        {/* <div className='profile__avatar--sidebar'>
-          <img src={profileFoto} alt='Profile avatar' />
-        </div> */}
         <div className='profile__user-info'>
           <p className='profile__name'>
             {user.first_name} {user.last_name}
@@ -39,7 +36,7 @@ export const ProfileSidebar = ({
           className={`profile__menu-item ${activeTab === 'info' ? 'profile__menu-item--active' : ''}`}
           onClick={() => onTabChange('info')}
         >
-          <img src={infoIcon} alt='' />
+          <img src={activeTab === 'info' ? infoIcon : infoIconGrey} alt='' />
           <span>Personal Information</span>
         </button>
 

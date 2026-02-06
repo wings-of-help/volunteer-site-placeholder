@@ -1,6 +1,6 @@
 @use '../../../styles/mixins' as *;
 
-.profile-modal {
+.modal {
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -10,7 +10,7 @@
   @include centeredFlexBox;
 }
 
-.profile-modal__content {
+.modal__content {
   width: 600px;
   height: 356px;
   padding: 24px;
@@ -24,34 +24,34 @@
   flex-direction: column;
 }
 
-.profile-modal__title {
+.modal__title {
   @include p-styles;
   font-size: 24px;
   text-align: center;
 }
 
-.profile-modal__desc {
+.modal__desc {
   @include p-styles;
   text-align: center;
 }
 
 @media (max-width: 639px) {
-  .profile-modal__content {
+  .modal__content {
     padding: 15px;
   }
 
-  .profile-modal__title {
+  .modal__title {
     font-size: 16px;
   }
 }
 
-.profile-modal__button {
+.modal__button {
   @include blackButton;
   @include p-styles;
   width: 100%;
 }
 
-.profile-modal__photo {
+.modal__photo {
   height: 120px;
   width: 120px;
   justify-self: center;
