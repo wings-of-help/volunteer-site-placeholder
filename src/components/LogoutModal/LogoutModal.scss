@@ -1,0 +1,61 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins/index' as *;
+
+.modal-backdrop {
+  @include overlay-center;
+  background: rgba($color-black, 0.45);
+  z-index: 1000;
+}
+
+.logout-modal {
+  width: 600px;
+  padding: 24px;
+  background: $color-white;
+  box-shadow: 0 8px 32px rgba($color-black, 0.12);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.logout-modal__icon {
+  width: 80px;
+  height: 80px;
+}
+
+.logout-modal__title {
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 120%;
+  color: #212529;
+  text-align: center;
+}
+
+.logout-modal__actions {
+  display: flex;
+  width: 100%;
+  gap: 32px;
+}
+
+.logout-modal__btn {
+  height: 56px;
+  flex: 1;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Cancel */
+.logout-modal__btn--cancel {
+  background: transparent;
+  border: 1px solid $color-black;
+  color: $color-black;
+}
+
+/* Logout */
+.logout-modal__btn--confirm {
+  background: $color-black;
+  border: none;
+  color: $color-white;
+}

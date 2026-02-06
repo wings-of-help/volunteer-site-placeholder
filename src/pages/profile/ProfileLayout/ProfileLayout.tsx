@@ -1,16 +1,13 @@
 import React from 'react';
 import { ProfileSidebar } from '../../../components/ProfileSidebar/ProfileSidebar';
 import './ProfileLayout.scss';
+import type { User } from '../../../api/types/auth';
 
 interface Props {
   children: React.ReactNode;
   activeTab: 'info' | 'requests' | 'responses';
   onTabChange: (tab: 'info' | 'requests' | 'responses') => void;
-  user: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
+  user: User;
   onLogout: () => void;
 }
 
@@ -28,7 +25,7 @@ export const ProfileLayout = ({
           activeTab={activeTab}
           onTabChange={onTabChange}
           user={user}
-          onLogout={onLogout}
+          onLogoutClick={onLogout}
         />
 
         <main className='profile__content'>{children}</main>

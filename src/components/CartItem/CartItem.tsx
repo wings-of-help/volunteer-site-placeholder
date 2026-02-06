@@ -14,6 +14,7 @@ type Props = {
 export default function CartItem({title, location, description, category, status}: Props) {
   const { isAuth } = useAuth();
 
+  
   return (
     <Link to={`cartId`} className="cart-item">
         <div className="cart-item__header">
