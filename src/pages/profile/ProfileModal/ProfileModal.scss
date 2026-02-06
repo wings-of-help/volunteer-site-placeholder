@@ -10,13 +10,9 @@
 .modal {
   width: 600px;
   height: auto;
-  display: block;
   background: $color-white;
   padding: 24px;
   box-shadow: 0 8px 32px rgba($color-black, 0.12);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 
   &__header {
     @include flex-between;
