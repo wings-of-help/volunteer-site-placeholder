@@ -3,6 +3,8 @@ from datetime import timedelta
 from django.contrib.auth.password_validation import validate_password
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiResponse,
@@ -15,6 +17,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .models import PasswordResetCode, User
@@ -31,9 +34,6 @@ from .serializers import (
     UserRetrieveSerializer,
 )
 from .utils import generate_reset_code
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
 
 @method_decorator(csrf_exempt, name="dispatch")
