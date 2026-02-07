@@ -60,5 +60,116 @@
   "see-all-requests": "Дивитись всі запити",
   "see-all-offers": "Дивитись всі пропозиції",
 
-  "my-profile": "Мій профіль"
+  "my-profile": "Мій профіль",
+
+  "requests-page-p1": "Переглядайте перевірені запити від людей та організацій, які потребують підтримки прямо зараз.",
+  "requests-page-p2": "Кожна відповідь має значення.",
+
+  "offers-page-p1": "Explore offers from people and organizations ready to help.",
+  "offers-page-p2": "Every response matters.",
+
+  "Help-category": "Категорії Допомоги",
+  "choose-category": "Виберіть одну або кілька категорій",
+
+  "Evacuation/Relocation" : "Евакуація/Переїзд",
+  "Medical-Support" : "Медична Допомога",
+  "Shelter/Housing" : "Притулок/Житло",
+  "Food-&-Basic-Supplies": "Їжа & Базові Потреби",
+  "Logistics/Transportation": "Логістика/Транспорт",
+  "Psychological-Support": "Психологічна допомога",
+  "Child-&-Family-Support": "Діти & Сімейна Підтримка",
+  "Legal/Administrative Assistance": "Юридична / Адміністративна допомога",
+  "Employment/Livelihoods": "Працевлаштування / Життєдіяльність",
+  "Education/Tutoring": "Освіта / Навчання",
+  "Volunteer-Coordination/Community-Support": "Координація Волонтерів / Соціальна Підтримка",
+  "Animal/Pet-Assistance": "Домашні Улюбленці / Допомога Домашнім Тваринам",
+  "Other": "Інше",
+
+  "New": "Новий",
+  "In-progress": "В Обробці",
+  "Done": "Готовий",
+  
+  "Load-more": "Дивитись ще",
+  "Location": "Локація",
+  "Status": "Статус",
+  "Sort-by": "Сортувати за:",
+  "Newest": "Новіші",
+  "Oldest": "Старші",
+
+  "Welcome-Back": "З Поверненням",
+  "Sign-in-to-continue-using-Wings-of-Help": "Увійдіть, щоб продовжувати використовувати Wings of Help.",
+  "Email": "Електронна пошта",
+  "Invalid-email": "Неправильна адреса електронної пошти",
+  "Enter-your-email": "Введіть вашу електронну пошту",
+  "Password": "Пароль",
+  "Enter-your-password": "Введіть ваш пароль",
+  "Forgot-password": "Забули пароль?",
+  "No-active-account-found-with-the-given-credentials": "Активний обліковий запис із заданими обліковими даними не знайдено",
+  "Don't-have-an-account": "Немає облікового запису?",
+
+  "Create-an-Account": "Cтворити обліковий запис",
+  "Join-Wings-of-Help-to-request-or-provide-help": "Приєднуйтесь до Wings of Help, щоб попросити або надати допомогу.",
+  "Step": "Крок",
+  "of-4": "з 4",
+  "Already-have-an-account": "вже зареєстровані?",
+
+  "First-name": "Ім'я",
+  "Enter-your-first-name": "Введіть ваше ім'я",
+  "Last-name": "Прізвище",
+  "Enter-your-last-name": "Введіть ваше прізвище",
+  "Must-contain-only-letters": "Повинні містити тільки літери",
+  "Must-contain-more-than-one-letter": "Повинен містити більше однієї літери",
+
+  "Continue": "Продовжити",
+
+  "This-email-is-already-in-use": "Ця електронна пошта уже використовується",
+
+  "Phone-number": "Номер телефону",
+  "Enter-full-phone-number": "Введіть повний номер телефону",
+
+  "Used-only-for-volunteering-coordination": "Використовується тільки для координації волонтерства",
+
+  "I-want-to": "Я хочу:",
+  "Provide-help-(Volunteer)": "Надавати допомогу (Волонтер)",
+  "Request help": "Отримувати допомогу",
+
+  
+  "Minimum-8-characters": "Мінімум 8 символів",
+  "Must-contain-at-least-one-uppercase-Latin-letter": "Має містити щонайменше одну велику латинську літеру",
+  "Must-contain-at-least-one-lowercase-Latin-letter": "Має містити щонайменше одну малу латинську літеру",
+  "Must-contain-at-least-one-special-character": "Має містити щонайменше один спеціальний символ",
+  "Password-looks-good": "Пароль виглядає добре",
+  "First-name-and-last-name-must-not-be-empty": "Ім’я та прізвище не можуть бути порожніми",
+  "Registration-successful": "Реєстрація успішна 🎉",
+  "Create-a-password": "Створіть пароль",
+  "Confirm-password": "Підтвердьте пароль",
+  "Passwords-do-not-match": "Паролі не співпадають",
+  "Confirm-your-password": "Підтвердьте свій пароль",
+  "I-agree-to-the-Terms-of-Use-and-Privacy-Policy": "Я погоджуюся з Умовами використання та Політикою конфіденційності",
+
+  
+  "Personal-Information": "Персональна Інформація",
+  "My-Requests": "Мої Запити",
+  "My-Responses": "Мої Відповіді",
+  "Log-out": "Вийти",
+
+  "Profile": "Профіль",
+  "Role": "Роль:",
+  "Save-changes": "Зберегти зміни",
+  "Contact-Information": "Ваші Контакти",
+  "Change": "Змінити",
+
+  "Back-to-My-Requests": "Назад до моїх Запитів",
+  "Create-New-Request": "Створити новий запит",
+  "Title": "Заголовок",
+  "Add-title-here": "Додайте заголовок сюди...",
+  "Max-length-80-characters": "Максимальна довжина ~80 символів",
+  "Category": "Категорія",
+  "Choose-a-category": "Оберіть категорію",
+  "City": "Місто",
+  "Description": "Пояснення",
+  "/1000-characters-(min 500)": "/ 1000 символів (мінімум 500)",
+  "Cancel": "Відмінити",
+  "Publish": "Опублікувати"
+
 }

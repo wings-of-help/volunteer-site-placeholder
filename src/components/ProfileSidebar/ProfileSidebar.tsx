@@ -1,15 +1,14 @@
+import { NavLink } from 'react-router-dom';
 import infoIcon from '../../assets/profile2.svg';
 import infoIconGrey from '../../assets/infoIcon-grey.svg';
 import requestsIcon from '../../assets/HandsPraying.svg';
 import responsesIcon from '../../assets/ArrowsClockwise.svg';
 import logoutIcon from '../../assets/Logout.svg';
 import './ProfileSidebar.scss';
-
 import type { User } from '../../api/types/auth';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
-  activeTab: 'info' | 'requests' | 'responses';
-  onTabChange: (tab: 'info' | 'requests' | 'responses') => void;
   user: User;
   onLogoutClick: () => void;
 }
@@ -20,6 +19,8 @@ export const ProfileSidebar = ({
   user,
   onLogoutClick,
 }: Props) => {
+
+  const {t} = useTranslation();
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
@@ -32,42 +33,53 @@ export const ProfileSidebar = ({
       </div>
 
       <nav className='profile__menu'>
-        <button
-          className={`profile__menu-item ${
-            activeTab === 'info' ? 'profile__menu-item--active' : ''
-          }`}
-          onClick={() => onTabChange('info')}
+        {/* PERSONAL INFO */}
+        <NavLink
+          to='/profile'
+          end
+          className={({ isActive }) =>
+            `profile__menu-item ${
+              isActive ? 'profile__menu-item--active' : ''
+            }`
+          }
         >
           <img src={activeTab === 'info' ? infoIcon : infoIconGrey} alt='' />
-          <span>Personal Information</span>
+          <span>{t("Personal-Information")}</span>
         </button>
 
-        <button
-          className={`profile__menu-item ${
-            activeTab === 'requests' ? 'profile__menu-item--active' : ''
-          }`}
-          onClick={() => onTabChange('requests')}
+        {/* MY REQUESTS */}
+        <NavLink
+          to='/profile/requests'
+          className={({ isActive }) =>
+            `profile__menu-item ${
+              isActive ? 'profile__menu-item--active' : ''
+            }`
+          }
         >
           <img src={requestsIcon} alt='' />
-          <span>My Requests</span>
+          <span>{t("My-Requests")}</span>
         </button>
 
-        <button
-          className={`profile__menu-item ${
-            activeTab === 'responses' ? 'profile__menu-item--active' : ''
-          }`}
-          onClick={() => onTabChange('responses')}
+        {/* MY RESPONSES */}
+        <NavLink
+          to='/profile/responses'
+          className={({ isActive }) =>
+            `profile__menu-item ${
+              isActive ? 'profile__menu-item--active' : ''
+            }`
+          }
         >
           <img src={responsesIcon} alt='' />
-          <span>My Responses</span>
+          <span>{t("My-Responses")}</span>
         </button>
 
+        {/* LOGOUT */}
         <button
           className='profile__menu-item profile__menu-item--logout'
           onClick={onLogoutClick}
         >
           <img src={logoutIcon} alt='' />
-          <span>Log out</span>
+          <span>{("Log-out")}</span>
         </button>
       </nav>
     </aside>
