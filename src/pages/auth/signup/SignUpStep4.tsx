@@ -85,7 +85,9 @@ const SignUpStep4 = ({ admin }: Props) => {
   };
 
   return (
-    <SignUpForm
+    <>
+    {admin === true ? (
+      <SignUpForm
       step={4}
       isValid={canSubmit}
       onContinue={handleSubmit}
@@ -173,8 +175,8 @@ const SignUpStep4 = ({ admin }: Props) => {
         </span>
       </label>
     </SignUpForm>
-  ) : (
-    <SignUpForm
+    ) : (
+      <SignUpForm
       step={4}
       isValid={canSubmit}
       onContinue={handleSubmit}
@@ -261,6 +263,8 @@ const SignUpStep4 = ({ admin }: Props) => {
         </span>
       </label>
     </SignUpForm>
+    )}
+    </>
   );
 };
 
