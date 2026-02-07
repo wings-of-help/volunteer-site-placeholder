@@ -6,13 +6,21 @@ import responsesIcon from '../../assets/ArrowsClockwise.svg';
 import logoutIcon from '../../assets/Logout.svg';
 import './ProfileSidebar.scss';
 import type { User } from '../../api/types/auth';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   user: User;
   onLogoutClick: () => void;
 }
 
-export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
+export const ProfileSidebar = ({
+  activeTab,
+  onTabChange,
+  user,
+  onLogoutClick,
+}: Props) => {
+
+  const {t} = useTranslation();
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
@@ -35,13 +43,9 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
             }`
           }
         >
-          {({ isActive }) => (
-            <>
-              <img src={isActive ? infoIcon : infoIconGrey} alt='' />
-              <span>Personal Information</span>
-            </>
-          )}
-        </NavLink>
+          <img src={activeTab === 'info' ? infoIcon : infoIconGrey} alt='' />
+          <span>{t("Personal-Information")}</span>
+        </button>
 
         {/* MY REQUESTS */}
         <NavLink
@@ -53,8 +57,8 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           }
         >
           <img src={requestsIcon} alt='' />
-          <span>My Requests</span>
-        </NavLink>
+          <span>{t("My-Requests")}</span>
+        </button>
 
         {/* MY RESPONSES */}
         <NavLink
@@ -66,8 +70,8 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           }
         >
           <img src={responsesIcon} alt='' />
-          <span>My Responses</span>
-        </NavLink>
+          <span>{t("My-Responses")}</span>
+        </button>
 
         {/* LOGOUT */}
         <button
@@ -75,7 +79,7 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           onClick={onLogoutClick}
         >
           <img src={logoutIcon} alt='' />
-          <span>Log out</span>
+          <span>{("Log-out")}</span>
         </button>
       </nav>
     </aside>

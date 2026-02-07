@@ -145,5 +145,31 @@
   "Confirm-password": "Підтвердьте пароль",
   "Passwords-do-not-match": "Паролі не співпадають",
   "Confirm-your-password": "Підтвердьте свій пароль",
-  "I-agree-to-the-Terms-of-Use-and-Privacy-Policy": "Я погоджуюся з Умовами використання та Політикою конфіденційності"
+  "I-agree-to-the-Terms-of-Use-and-Privacy-Policy": "Я погоджуюся з Умовами використання та Політикою конфіденційності",
+
+  
+  "Personal-Information": "Персональна Інформація",
+  "My-Requests": "Мої Запити",
+  "My-Responses": "Мої Відповіді",
+  "Log-out": "Вийти",
+
+  "Profile": "Профіль",
+  "Role": "Роль:",
+  "Save-changes": "Зберегти зміни",
+  "Contact-Information": "Ваші Контакти",
+  "Change": "Змінити",
+
+  "Back-to-My-Requests": "Назад до моїх Запитів",
+  "Create-New-Request": "Створити новий запит",
+  "Title": "Заголовок",
+  "Add-title-here": "Додайте заголовок сюди...",
+  "Max-length-80-characters": "Максимальна довжина ~80 символів",
+  "Category": "Категорія",
+  "Choose-a-category": "Оберіть категорію",
+  "City": "Місто",
+  "Description": "Пояснення",
+  "/1000-characters-(min 500)": "/ 1000 символів (мінімум 500)",
+  "Cancel": "Відмінити",
+  "Publish": "Опублікувати"
+
 }

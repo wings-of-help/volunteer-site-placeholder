@@ -40,22 +40,33 @@ export default function CartDetailsPage({ type }: Props) {
 
   return (
     <>
-      <div className='cart-details-page'>
-        <div className='cart-details-page__container'>
-          <nav className='cart-details-page__nav'>
-            <div
-              onClick={() => navigate(backPath)}
-              className='cart-details-page__nav-links'
-            >
-              <img
-                className='cart-details-page__nav-link'
-                src={arrow}
-                alt='home'
-              />
-              <p className='cart-details-page__nav-text'>
-                Back to {backPath.startsWith('/profile') ? 'My ' : ''}
-                {type === 'requests' ? 'Requests' : 'Offers'}
-              </p>
+    <div className="cart-details-page">
+      <div className="cart-details-page__container">
+        
+        <nav className="cart-details-page__nav">
+          <div onClick={() => navigate(-1)} className="cart-details-page__nav-links">
+            <img
+              className="cart-details-page__nav-link"
+              src={arrow}
+              alt="home"
+            />
+            <p className="cart-details-page__nav-text">{t("Back-to")} {type}</p>
+          </div>
+        </nav>
+
+        <div className="cart-details-page__info">
+          <h1 className="cart-details-page__info__title">{cart.title}</h1>
+
+          <div className="cart-details-page__info__points">
+
+            <div className="cart-details-page__info__points-point">
+              <img src={calendar} alt="calendar" className="date-point" />
+              <p className="point-text">{cart.date}</p>
+            </div>
+
+            <div className="cart-details-page__info__points-point">
+              <img src={map} alt="map" className="map-point" />
+              <p className="point-text">{cart.location_name}</p>
             </div>
           </nav>
 
@@ -73,11 +84,8 @@ export default function CartDetailsPage({ type }: Props) {
                 <p className='point-text'>{cart.location_name}</p>
               </div>
 
-              {isAuth ? (
-                <div className='status-box'>
-                  <div className='cart-details-page__info__points-point'>
-                    <p className='point-text aid'>{cart.category_name}</p>
-                  </div>
+          <div className="cart-details-page__info__about">
+            <div className="cart-details-page__info__about__title">{t("About")}</div>
 
                   <div className='status'>
                     <img src={dot} alt='dot' className='status__dot' />
@@ -91,54 +99,58 @@ export default function CartDetailsPage({ type }: Props) {
               )}
             </div>
 
-            <div className='cart-details-page__info__about'>
-              <div className='cart-details-page__info__about__title'>About</div>
+            {!isAuth && type === "requests" && (
+              <div className="cart-details-page__info__about__register">
+              <button onClick={() => navigate("/signup")} className="cart-details-page__info__about__register__button">
+                {t("Register-to-Help")}
+              </button>
 
-              <div className='cart-details-page__info__about__p'>
-                {cart.description}
-              </div>
-
-              {!isAuth && type === 'requests' && (
-                <div className='cart-details-page__info__about__register'>
-                  <button
-                    onClick={() => navigate('/signup')}
-                    className='cart-details-page__info__about__register__button'
-                  >
-                    Register to Help
-                  </button>
-
-                  <div className='cart-details-page__info__about__register__signin'>
-                    <p className='cart-details-page__info__about__register__signin__p'>
-                      Already have an account?
-                    </p>
-                    <Link
-                      to='/signin'
-                      className='cart-details-page__info__about__register__signin__link'
-                    >
-                      Sign In
-                    </Link>
-                  </div>
-                </div>
-              )}
-
-              {isAuth && isVolunteer && type === 'requests' && (
-                <button
-                  onClick={() => {
-                    setActiveModal(true);
-
-                    //should change status to in progress and disable button
-                  }}
-                  className='offer__button'
-                >
-                  Offer help
-                </button>
-              )}
-
-              {isAuth && !isVolunteer && type === 'requests' && (
-                <p className='offer__wrong'>
-                  Only registered volunteers can respond to this request.
+              <div className="cart-details-page__info__about__register__signin">
+                <p className="cart-details-page__info__about__register__signin__p">
+                  {t("Already-have-an-account")}
                 </p>
-              )}
+                <Link to="/signin" className="cart-details-page__info__about__register__signin__link">{t("Sign-In")}</Link>
+              </div>
+            </div>
+            )}
+
+            {isAuth && isVolunteer && type === "requests" && (
+              <button onClick={() => {
+                setActiveModal(true);
+
+                //should change status to in progress and disable button
+              }} 
+                className="offer__button">
+                {t("Offer-help")}
+              </button>
+            )}
+
+            {isAuth && !isVolunteer && type === "requests" && (
+              <p className="offer__wrong">
+                {("Only-registered-volunteers-can-respond-to-this-request")}
+              </p>
+            )}
+
+            {!isAuth && type === "offers" && (
+              <div className="cart-details-page__info__about__register">
+              <button onClick={() => {navigate("/signup")}} className="cart-details-page__info__about__register__button">
+                {t("Sign-up-to-Request-Help")}
+              </button>
+
+              <div className="cart-details-page__info__about__register__signin">
+                <p className="cart-details-page__info__about__register__signin__p">
+                  {t("Already-have-an-account")}
+                </p>
+                <Link to="/signin" className="cart-details-page__info__about__register__signin__link">{t("Sign-In")}</Link>
+              </div>
+            </div>
+            )}
+
+            {isAuth && isVolunteer && type === "offers" && (
+              <p className="offer__wrong">
+                {t("Only registered requesters can respond to this offer.")}
+              </p>
+            )}
 
               {!isAuth && type === 'offers' && (
                 <div className='cart-details-page__info__about__register'>
@@ -165,39 +177,23 @@ export default function CartDetailsPage({ type }: Props) {
                 </div>
               )}
 
-              {isAuth && isVolunteer && type === 'offers' && (
-                <p className='offer__wrong'>
-                  Only registered requesters can respond to this offer.
-                </p>
-              )}
+                //should change status to in progress and disable button
+              }} 
+                className="offer__button">
+                {t("Request-Help")}
+              </button>
+            )}
 
-              {isAuth && !isVolunteer && type === 'offers' && (
-                <button
-                  onClick={() => {
-                    setActiveModal(true);
-
-                    //should change status to in progress and disable button
-                  }}
-                  className='offer__button'
-                >
-                  Request Help
-                </button>
-              )}
-            </div>
-            <div className='cart-details-page__info__person-info'>
-              {type === 'requests' ? (
-                <h1 className='cart-details-page__info__person-info__title'>
-                  Requester
-                  {!isAuth && (
-                    <>
-                      : <strong>Cody Warren</strong>
-                    </>
-                  )}
-                </h1>
+          </div>
+            <div className="cart-details-page__info__person-info">
+    
+              {type === "requests" ? (
+                <h1 className="cart-details-page__info__person-info__title">
+                  {t("Requester")}
+                  {!isAuth && <>: <strong>Cody Warren</strong></>}
+                  </h1>
               ) : (
-                <h1 className='cart-details-page__info__person-info__title'>
-                  Volunteer: <strong>Cody warren</strong>
-                </h1>
+                <h1 className="cart-details-page__info__person-info__title">{t("Volunteer")}: <strong>Cody warren</strong></h1>
               )}
 
               <div className='cart-details-page__info__person-info__details'>

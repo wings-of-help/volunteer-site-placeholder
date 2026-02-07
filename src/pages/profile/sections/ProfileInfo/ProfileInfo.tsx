@@ -4,6 +4,7 @@ import { useAuth } from '../../../../context/AuthContext';
 import { updateMyProfileRequest } from '../../../../api/user.api';
 import { formatPhoneForDisplay } from '../../../../utils/phone';
 import './ProfileInfo.scss';
+import { useTranslation } from 'react-i18next';
 
 export const ProfileInfo = () => {
   const { user, getMyProfile } = useAuth();
@@ -12,6 +13,8 @@ export const ProfileInfo = () => {
     return null;
   }
 
+export const ProfileInfo = ({ user }: Props) => {
+  const {t} = useTranslation();
   const [originalUser, setOriginalUser] = useState(user);
   const [form, setForm] = useState(user);
 
@@ -46,14 +49,14 @@ export const ProfileInfo = () => {
 
   return (
     <>
-      <div className="profile__card">
-        <div className="profile__header">
-          <h1 className="profile__title">Profile</h1>
+      <div className='profile__card'>
+        <div className='profile__header'>
+          <h1 className='profile__title'>{t("Profile")}</h1>
         </div>
 
-        <div className="profile__form">
-          <label className="profile__field">
-            <span className="profile__label">First name</span>
+        <div className='profile__form'>
+          <label className='profile__field'>
+            <span className='profile__label'>{t("First-name")}</span>
             <input
               className="profile__input"
               value={form.first_name}
@@ -63,8 +66,8 @@ export const ProfileInfo = () => {
             />
           </label>
 
-          <label className="profile__field">
-            <span className="profile__label">Last name</span>
+          <label className='profile__field'>
+            <span className='profile__label'>{t("Last-name")}</span>
             <input
               className="profile__input"
               value={form.last_name}
@@ -74,9 +77,9 @@ export const ProfileInfo = () => {
             />
           </label>
 
-          <div className="profile__role">
-            <span className="profile__role-label">Role:</span>
-            <span className="profile__role-value">Requester</span>
+          <div className='profile__role'>
+            <span className='profile__role-label'>{t("Role")}</span>
+            <span className='profile__role-value'>Requester</span>
           </div>
 
           <div className="profile__actions">
@@ -87,17 +90,17 @@ export const ProfileInfo = () => {
               disabled={!isDirty}
               onClick={handleSave}
             >
-              Save changes
+              {t("Save-changes")}
             </button>
           </div>
         </div>
 
-        <div className="profile__contacts">
-          <h2 className="profile__contacts-title">Contact Information</h2>
+        <div className='profile__contacts'>
+          <h2 className='profile__contacts-title'>{t("Contact-Information")}</h2>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">Email</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>{t("Email")}</span>
               <input
                 className="profile__contact-input"
                 disabled
@@ -108,13 +111,13 @@ export const ProfileInfo = () => {
               className="profile__contact-btn"
               onClick={() => setActiveModal('email')}
             >
-              Change
+              {t("Change")}
             </button>
           </div>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">Phone number</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>{t("Phone-number")}</span>
               <input
                 className="profile__contact-input"
                 disabled
@@ -125,13 +128,13 @@ export const ProfileInfo = () => {
               className="profile__contact-btn"
               onClick={() => setActiveModal('phone')}
             >
-              Change
+              {t("Change")}
             </button>
           </div>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">Password</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>{t("Password")}</span>
               <input
                 className="profile__contact-input"
                 disabled
@@ -142,7 +145,7 @@ export const ProfileInfo = () => {
               className="profile__contact-btn"
               onClick={() => setActiveModal('password')}
             >
-              Change
+              {t("Change")}
             </button>
           </div>
         </div>

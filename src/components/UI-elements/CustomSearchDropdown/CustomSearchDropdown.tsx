@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./CustomSearchDropdown.scss";
 import arrow from "../../../assets/arrow-down-gray.svg"
+import { useTranslation } from "react-i18next";
 
 type Option = {
   label: string;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export default function CustomSearchDropdown({ options, onSelect }: Props) {
+  const {t} = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<Option | null>(null);
@@ -59,7 +61,7 @@ export default function CustomSearchDropdown({ options, onSelect }: Props) {
           <input
             ref={inputRef}
             className="custom-dropdown__search"
-            placeholder="Search..."
+            placeholder={t("Search")}
             value={search}
             onChange={e => setSearch(e.target.value)}
             onClick={e => e.stopPropagation()} 
@@ -70,7 +72,7 @@ export default function CustomSearchDropdown({ options, onSelect }: Props) {
               selected ? "custom-dropdown__value--selected" : ""
             }`}
           >
-            {selected?.label || "Choose a city"}
+            {selected?.label || t("Choose-a-city")}
           </span>
         )}
 
@@ -90,7 +92,7 @@ export default function CustomSearchDropdown({ options, onSelect }: Props) {
               </div>
             ))
           ) : (
-            <div className="custom-dropdown__option empty">Nothing found</div>
+            <div className="custom-dropdown__option empty">{t("Nothing-found")}</div>
           )}
         </div>
       )}

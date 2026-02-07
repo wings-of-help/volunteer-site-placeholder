@@ -144,5 +144,62 @@
   "Confirm-password": "Confirm password",
   "Passwords-do-not-match": "Passwords do not match",
   "Confirm-your-password": "Confirm your password",
-  "I-agree-to-the-Terms-of-Use-and-Privacy-Policy": "I agree to the Terms of Use and Privacy Policy"
+  "I-agree-to-the-Terms-of-Use-and-Privacy-Policy": "I agree to the Terms of Use and Privacy Policy",
+
+  "Personal-Information": "Personal Information",
+  "My-Requests": "My Requests",
+  "My-Responses": "My Responses",
+  "Log-out": "Log-out",
+
+  "Profile": "Profile",
+  "Role": "Role:",
+  "Save-changes": "Save changes",
+  "Contact-Information": "Contact Information",
+  "Change": "Change",
+
+  "Back-to-My-Requests": "Back to My Requests",
+  "Create-New-Request": "Create New Request",
+  "Title": "Title",
+  "Add-title-here": "Add title here...",
+  "Max-length-80-characters": "Max length ~80 characters",
+  "Category": "Category",
+  "Choose-a-category": "Choose a category",
+  "City": "City",
+  "Description": "Description",
+  "/1000-characters-(min 500)": "/ 1000 characters (min 500)",
+  "Cancel": "Cancel",
+  "Publish": "Publish",
+
+  "Are-you-sure-you-want-to-log-out": "Are you sure you want to log out?",
+  "Logout": "Logout",
+
+  "Search": "Search...",
+  "Choose-a-city": "Choose a city",
+  "Nothing-found": "Nothing found",
+
+  "Okay": "Okay",
+
+  "Back-to": "Back to",
+  "About": "About",
+  "Register-to-Help": "Register to Help",
+  "Offer-help": "Offer help",
+  "Only-registered-volunteers-can-respond-to-this-request": "Only registered volunteers can respond to this request.",
+  "Sign-up-to-Request-Help": "Sign up to Request Help",
+  "Only-registered-requesters-can-respond-to-this-offer": "Only registered requesters can respond to this offer.",
+  "Request-Help": "Request Help",
+  "Requester": "Requester",
+  "Volunteer": "Volunteer",
+  "To-change-password-verify-email-first": "To change password, verify email first.",
+  "Weve-sent-a-verification-code-to": "We’ve sent a verification code to ",
+  "Enter-verification-code": "Enter verification code",
+  "Confirm": "Confirm",
+  "Didnt-receive-code": "Didn’t receive code?",
+  "Resend": "Resend",
+  "Change-password": "Change password",
+  "New-password": "New password",
+  "Your-new-password-must-be-at-least-8-characters-long": "Your new password must be at least 8 characters long",
+  "Confirm-new-password": "Confirm new password",
+
+  "Active-Requests": "Active Requests",
+  "Past-Requests": "Past Requests"
 }

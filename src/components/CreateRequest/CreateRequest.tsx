@@ -3,10 +3,14 @@ import { getCategories, getLocations } from '../../api/catalog.api';
 import type { Category, Location } from '../../api/types/catalog';
 import './CreateRequest.scss';
 import breakIcon from '../../assets/ep_arrow-left.svg';
-import { createHelpRequest } from '../../api/helpCarts.api';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-export const CreateRequest = () => {
+interface Props {
+  onBack: () => void;
+}
+
+export const CreateRequest = ({ onBack }: Props) => {
+  const {t} = useTranslation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -135,96 +139,53 @@ export const CreateRequest = () => {
           onClick={() => navigate('/profile/requests')}
         >
           <img src={breakIcon} alt='back icon' />
-          <span>Back to My Requests</span>
+          <span>{t("Back-to-My-Requests")}</span>
         </button>
 
-        <h1 className='create-request__title'>Create New Request</h1>
+        <h1 className='create-request__title'>{t("Create-New-Request")}</h1>
       </div>
 
       <form className='create-request__form' onSubmit={handleSubmit}>
         {/* TITLE */}
         <div className='create-request__field'>
-          <label className='create-request__label'>Title</label>
+          <label className='create-request__label'>{t("Title")}</label>
           <input
             className='create-request__input'
-            placeholder='Add title here...'
+            placeholder={t('Add-title-here')}
             value={title}
             maxLength={80}
             onChange={(e) => setTitle(capitalizeFirstLetter(e.target.value))}
           />
           <span className='create-request__hint'>
-            Max length ~80 characters
+            {t("Max-length-80-characters")}
           </span>
         </div>
 
         {/* CATEGORY */}
         <div className='create-request__field'>
-          <label className='create-request__label'>Category</label>
-
-          <div className='create-request__dropdown' ref={categoryDropdownRef}>
-            <button
-              type='button'
-              className='create-request__select'
-              onClick={() => setCategoryOpen((prev) => !prev)}
-            >
-              {selectedCategory?.name || 'Choose a category'}
-            </button>
-
-            {categoryOpen && (
-              <ul className='create-request__dropdown-list'>
-                {categories.map((category) => (
-                  <li
-                    key={category.id}
-                    className='create-request__dropdown-item'
-                    onClick={() => {
-                      console.log('category selected:', category.id);
-                      setCategoryId(category.id);
-                      setCategoryOpen(false);
-                    }}
-                  >
-                    {category.name}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <label className='create-request__label'>{t("Category")}</label>
+          <select className='create-request__select'>
+            <option value=''>{t("Choose-a-category")}</option>
+            // Буде заповнено динамічно пізніше
+            <option value='medicine'>Medicine</option>
+            <option value='food'>Food</option>
+          </select>
         </div>
 
         {/* CITY */}
         <div className='create-request__field'>
-          <label className='create-request__label'>City</label>
-
-          <div className='create-request__dropdown' ref={cityDropdownRef}>
-            <button
-              type='button'
-              className='create-request__select'
-              onClick={() => setCityOpen((prev) => !prev)}
-            >
-              {selectedCity?.name || 'Choose a city'}
-            </button>
-
-            {cityOpen && (
-              <ul className='create-request__dropdown-list'>
-                {locations.map((city) => (
-                  <li
-                    key={city.id}
-                    className='create-request__dropdown-item'
-                    onClick={() => {
-                      setLocationId(city.id);
-                      setCityOpen(false);
-                    }}
-                  >
-                    {city.name}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <label className='create-request__label'>{t("City")}</label>
+          <select className='create-request__select'>
+            <option value=''>Choose a city</option>
+            // Буде заповнено динамічно пізніше
+            <option value='Kyiv'>Kyiv</option>
+            <option value='Lviv'>Lviv</option>
+          </select>
         </div>
 
         {/* DESCRIPTION */}
         <div className='create-request__field'>
-          <label className='create-request__label'>Description</label>
+          <label className='create-request__label'>{t("Description")}</label>
           <textarea
             className='create-request__textarea'
             value={description}
@@ -237,18 +198,14 @@ export const CreateRequest = () => {
             }}
           />
           <span className='create-request__hint'>
-            {description.length} / 1000 characters (min 50)
+            {description.length} {t("/1000-characters-(min 500)")}
           </span>
         </div>
 
         {/* ACTIONS */}
         <div className='create-request__actions'>
-          <button
-            type='button'
-            className='create-request__cancel'
-            onClick={() => navigate('/profile/requests')}
-          >
-            Cancel
+          <button type='button' className='create-request__cancel'>
+            {t("Cancel")}
           </button>
 
           <button
@@ -258,7 +215,7 @@ export const CreateRequest = () => {
             }`}
             disabled={!isFormValid}
           >
-            Publish
+            {t("Publish")}
           </button>
         </div>
       </form>
