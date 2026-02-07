@@ -65,7 +65,8 @@ INSTALLED_APPS = [
 
     # Local
     'main',
-    'user'
+    'user',
+    'team'
 ]
 
 MIDDLEWARE = [
