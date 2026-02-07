@@ -11,6 +11,8 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   user: User;
   onLogoutClick: () => void;
+  activeTab: string;
+  onTabChange?: (tab: string) => void;
 }
 
 export const ProfileSidebar = ({
@@ -19,8 +21,8 @@ export const ProfileSidebar = ({
   user,
   onLogoutClick,
 }: Props) => {
-
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
@@ -38,40 +40,34 @@ export const ProfileSidebar = ({
           to='/profile'
           end
           className={({ isActive }) =>
-            `profile__menu-item ${
-              isActive ? 'profile__menu-item--active' : ''
-            }`
+            `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
           }
         >
           <img src={activeTab === 'info' ? infoIcon : infoIconGrey} alt='' />
           <span>{t("Personal-Information")}</span>
-        </button>
+        </NavLink>
 
         {/* MY REQUESTS */}
         <NavLink
           to='/profile/requests'
           className={({ isActive }) =>
-            `profile__menu-item ${
-              isActive ? 'profile__menu-item--active' : ''
-            }`
+            `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
           }
         >
           <img src={requestsIcon} alt='' />
           <span>{t("My-Requests")}</span>
-        </button>
+        </NavLink>
 
         {/* MY RESPONSES */}
         <NavLink
           to='/profile/responses'
           className={({ isActive }) =>
-            `profile__menu-item ${
-              isActive ? 'profile__menu-item--active' : ''
-            }`
+            `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
           }
         >
           <img src={responsesIcon} alt='' />
           <span>{t("My-Responses")}</span>
-        </button>
+        </NavLink>
 
         {/* LOGOUT */}
         <button
@@ -79,7 +75,7 @@ export const ProfileSidebar = ({
           onClick={onLogoutClick}
         >
           <img src={logoutIcon} alt='' />
-          <span>{("Log-out")}</span>
+          <span>{t("Log-out")}</span>
         </button>
       </nav>
     </aside>
