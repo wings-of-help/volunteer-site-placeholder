@@ -11,14 +11,14 @@ interface Props {
   user: User;
 }
 
+type ActiveModal = 'email' | 'phone' | 'password' | null;
+
 export const ProfileInfo = ({ user }: Props) => {
   const {t} = useTranslation();
   const [originalUser, setOriginalUser] = useState(user);
   const [form, setForm] = useState(user);
 
-  const [activeModal, setActiveModal] = useState<
-    null | 'email' | 'phone' | 'password'
-  >(null);
+  const [activeModal, setActiveModal] = useState<ActiveModal>(null);
   const { getMyProfile } = useAuth();
 
   const isDirty =
