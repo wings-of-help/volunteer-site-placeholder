@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 
 from main.permissions import IsAdminOrReadOnly
@@ -10,3 +9,4 @@ class TeammateViewSet(ModelViewSet):
     queryset = Teammate.objects.all().prefetch_related("social_links")
     serializer_class = TeammateSerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = None
