@@ -31,8 +31,6 @@ const SignUpStep2 = ({ admin = false }: Props) => {
   } = useSignUp();
   const {t} = useTranslation();
   const { setUserRole } = useUserRole();
-
-  const { setUserRole } = useUserRole();
   const { email, phone_number: phone } = data;
 
   const [emailError, setEmailError] = useState(false);
