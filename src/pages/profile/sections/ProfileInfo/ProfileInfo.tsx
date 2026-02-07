@@ -5,22 +5,21 @@ import { updateMyProfileRequest } from '../../../../api/user.api';
 import { formatPhoneForDisplay } from '../../../../utils/phone';
 import './ProfileInfo.scss';
 import { useTranslation } from 'react-i18next';
+import type { User } from '../../../../api/types/auth';
 
-export const ProfileInfo = () => {
-  const { user, getMyProfile } = useAuth();
+interface Props {
+  user: User;
+}
 
-  if (!user) {
-    return null;
-  }
+type ActiveModal = 'email' | 'phone' | 'password' | null;
 
 export const ProfileInfo = ({ user }: Props) => {
   const {t} = useTranslation();
   const [originalUser, setOriginalUser] = useState(user);
   const [form, setForm] = useState(user);
 
-  const [activeModal, setActiveModal] = useState<
-    null | 'email' | 'phone' | 'password'
-  >(null);
+  const [activeModal, setActiveModal] = useState<ActiveModal>(null);
+  const { getMyProfile } = useAuth();
 
   const isDirty =
     form.first_name !== originalUser.first_name ||
