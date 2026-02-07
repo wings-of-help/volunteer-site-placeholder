@@ -45,10 +45,11 @@ export const Root = () => (
                         'Browse verified requests from people and organizations who need support right now.'
                       }
                       p2={'Every response matters.'}
+                      path={'requests'}
                     />
                   }
                 />
-                <Route path='requests/:cartId' element={<CartDetails type={'requests'} />} />
+                <Route path='/requests/:cartId' element={<CartDetails type={'requests'} />} />
 
                 <Route
                   path='offers'
@@ -57,6 +58,7 @@ export const Root = () => (
                       title={'Offers'}
                       p={'Explore offers from people and organizations ready to help.'}
                       p2={'Find support that matches your needs.'}
+                      path={'offers'}
                     />
                   }
                 />

@@ -5,6 +5,7 @@ export type HelpCart = {
   description: string;
   category_name: string;
   status: 'new' | 'in progress' | 'done';
+  date: string,
 };
 
 

@@ -3,8 +3,9 @@ import "./CatalogCategories.scss"
 import CustomCheckbox from "../UI-elements/CurtomCheckbox/CustomCheckbox";
 import { useAuth } from '../../context/AuthContext';
 import CustomSearchDropdown from "../UI-elements/CustomSearchDropdown/CustomSearchDropdown";
-import { useState } from "react";
+// import { useState } from "react";
 import citiesFromServer from "../../api/Locations.json"
+
 
 export default function CatalogCategories() {
   const { isAuth } = useAuth();
