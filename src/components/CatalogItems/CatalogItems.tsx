@@ -4,12 +4,14 @@ import arrowDown from '../../assets/arrow-down.svg';
 import { mockHelpCarts } from "../../api/helpCarts.api";
 import type { HelpCart } from "../../api/types/HelpCart";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   type: 'offers' | 'requests';
 }
 
 export default function CatalogItems({type}: Props) {
+  const {t} = useTranslation();
   const [carts, setCarts] = useState<HelpCart[]>(mockHelpCarts);
   
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function CatalogItems({type}: Props) {
       </div>
       
       <div className="catalog__load-more-button">
-        Load more
+        {t("Load-more")}
 
         <img className="arrow" src={arrowDown} alt="dropdown" />
       </div>
