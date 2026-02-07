@@ -16,6 +16,10 @@ import SignUpStep2 from './pages/auth/signup/SignUpStep2';
 import SignUpStep3 from './pages/auth/signup/SignUpStep3';
 import SignUpStep4 from './pages/auth/signup/SignUpStep4';
 import { ProfilePage } from './pages/profile/ProfilePage';
+import { ProfileInfo } from './pages/profile/sections/ProfileInfo/ProfileInfo';
+import { MyRequests } from './pages/profile/sections/MyRequests/MyRequests';
+import { MyResponses } from './pages/profile/sections/MyResponses/MyResponses';
+import { CreateRequest } from './components/CreateRequest/CreateRequest';
 
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
@@ -37,7 +41,12 @@ export const Root = () => {
               {/* MAIN APP */}
               <Route path='/' element={<App />}>
                 <Route index element={<HomePage />} />
-                <Route path='profile' element={<ProfilePage />} />
+                <Route path='profile' element={<ProfilePage />}>
+                  <Route index element={<ProfileInfo />} />
+                  <Route path='requests' element={<MyRequests />} />
+                  <Route path='requests/new' element={<CreateRequest />} />
+                  <Route path='responses' element={<MyResponses />} />
+                </Route>
 
                 <Route
                   path='requests'
@@ -50,7 +59,10 @@ export const Root = () => {
                     />
                   }
                 />
-                <Route path='/requests/:cartId' element={<CartDetails type={'requests'} />} />
+                <Route
+                  path='/requests/:cartId'
+                  element={<CartDetails type={'requests'} />}
+                />
 
                 <Route
                   path='offers'
@@ -63,7 +75,10 @@ export const Root = () => {
                     />
                   }
                 />
-                <Route path='offers/:cartId' element={<CartDetails type={'offers'} />} />
+                <Route
+                  path='offers/:cartId'
+                  element={<CartDetails type={'offers'} />}
+                />
 
                 <Route path='home' element={<Navigate to='/' replace />} />
               </Route>
@@ -82,10 +97,22 @@ export const Root = () => {
 
                 <Route path='/signup'>
                   <Route index element={<Navigate to='step-1' replace />} />
-                  <Route path='step-1' element={<SignUpStep1 admin={false} />} />
-                  <Route path='step-2' element={<SignUpStep2 admin={false} />} />
-                  <Route path='step-3' element={<SignUpStep3 admin={false} />} />
-                  <Route path='step-4' element={<SignUpStep4 admin={false} />} />
+                  <Route
+                    path='step-1'
+                    element={<SignUpStep1 admin={false} />}
+                  />
+                  <Route
+                    path='step-2'
+                    element={<SignUpStep2 admin={false} />}
+                  />
+                  <Route
+                    path='step-3'
+                    element={<SignUpStep3 admin={false} />}
+                  />
+                  <Route
+                    path='step-4'
+                    element={<SignUpStep4 admin={false} />}
+                  />
                 </Route>
               </Route>
             </Routes>
