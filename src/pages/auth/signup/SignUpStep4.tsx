@@ -18,9 +18,9 @@ import {
 
 type Props = {
   admin: boolean;
-}
+};
 
-const SignUpStep4 = ({admin}: Props) => {
+const SignUpStep4 = ({ admin }: Props) => {
   const {
     data,
     setPassword,
@@ -43,7 +43,7 @@ const SignUpStep4 = ({admin}: Props) => {
   // ===== SUBMIT CONDITIONS =====
   const canSubmit = password.length >= 8 && password === confirm && agree;
 
-  // ===== STATIC / DYNAMIC HINT =====
+  // ===== PASSWORD HINT =====
   const passwordHint = (() => {
     if (!password || password.length < 8) return 'Minimum 8 characters';
     if (!hasUppercaseLetter(password))
@@ -55,7 +55,7 @@ const SignUpStep4 = ({admin}: Props) => {
     return 'Password looks good';
   })();
 
-  // ===== BACKEND ERROR =====
+  // ===== GLOBAL BACKEND ERROR =====
   const globalError =
     backendErrors.first_name?.[0] || backendErrors.last_name?.[0]
       ? 'First name and last name must not be empty.'
@@ -63,6 +63,7 @@ const SignUpStep4 = ({admin}: Props) => {
         backendErrors.email?.[0] ||
         backendErrors.phone_number?.[0];
 
+  // ===== SUBMIT =====
   const handleSubmit = async () => {
     setHasSubmitted(true);
     if (!canSubmit) return;
@@ -82,14 +83,13 @@ const SignUpStep4 = ({admin}: Props) => {
   };
 
   return (
-  <>
-  {admin ? (
     <SignUpForm
       step={4}
       isValid={canSubmit}
       onContinue={handleSubmit}
       globalError={globalError}
       submitLabel='Sign up'
+      path={admin ? 'administrationsignup' : 'signup'}
     >
       {/* PASSWORD */}
       <label className='auth-form__label auth-form__label--with-error'>
@@ -113,6 +113,7 @@ const SignUpStep4 = ({admin}: Props) => {
             type={showPassword ? 'text' : 'password'}
             value={password}
             placeholder='Create a password'
+            autoComplete='new-password'
             onChange={(e) => {
               setPassword(e.target.value);
               clearBackendError('password');
@@ -127,11 +128,10 @@ const SignUpStep4 = ({admin}: Props) => {
           />
         </div>
 
-        {/* GREY HINT */}
         <span className='auth-form__hint'>{passwordHint}</span>
       </label>
 
-      {/* CONFIRM */}
+      {/* CONFIRM PASSWORD */}
       <label className='auth-form__label auth-form__label--with-error'>
         <span className='auth-form__label-row'>
           <span className='auth-form__label-text'>Confirm password</span>
@@ -150,61 +150,8 @@ const SignUpStep4 = ({admin}: Props) => {
             type={showPassword ? 'text' : 'password'}
             value={confirm}
             placeholder='Confirm your password'
+            autoComplete='new-password'
             onChange={(e) => setConfirm(e.target.value)}
-          />
-        </div>
-      </label>
-
-      {/* CHECKBOX */}
-      <label className='auth-form__checkbox'>
-        <span
-          className={`auth-form__checkbox-box ${
-            agree ? 'auth-form__checkbox-box--checked' : ''
-          }`}
-          onClick={() => setAgree(!agree)}
-        >
-          {agree && <img src={checkIcon} alt='checked' />}
-        </span>
-
-        <span className='auth-form__checkbox-text'>
-          I agree to the Terms of Use and Privacy Policy
-        </span>
-      </label>
-    </SignUpForm>
-  ) : (
-    <SignUpForm
-      step={4}
-      isValid={canSubmit}
-      onContinue={handleSubmit}
-      globalError={globalError}
-      submitLabel='Sign up'
-    >
-      {/* PASSWORD */}
-      <label className='auth-form__label auth-form__label--with-error'>
-        <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>Password</span>
-
-          {hasSubmitted && backendErrors.password && (
-            <span className='auth-form__error'>
-              {backendErrors.password[0]}
-            </span>
-          )}
-        </span>
-
-        <div className='auth-form__password'>
-          <input
-            className={`auth-form__input ${
-              hasSubmitted && backendErrors.password
-                ? 'auth-form__input--error'
-                : ''
-            }`}
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            placeholder='Create a password'
-            onChange={(e) => {
-              setPassword(e.target.value);
-              clearBackendError('password');
-            }}
           />
 
           <img
@@ -214,36 +161,9 @@ const SignUpStep4 = ({admin}: Props) => {
             onClick={() => setShowPassword((v) => !v)}
           />
         </div>
-
-        {/* GREY HINT */}
-        <span className='auth-form__hint'>{passwordHint}</span>
       </label>
 
-      {/* CONFIRM */}
-      <label className='auth-form__label auth-form__label--with-error'>
-        <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>Confirm password</span>
-          {hasSubmitted && confirm !== password && (
-            <span className='auth-form__error'>Passwords do not match</span>
-          )}
-        </span>
-
-        <div className='auth-form__password'>
-          <input
-            className={`auth-form__input ${
-              hasSubmitted && confirm !== password
-                ? 'auth-form__input--error'
-                : ''
-            }`}
-            type={showPassword ? 'text' : 'password'}
-            value={confirm}
-            placeholder='Confirm your password'
-            onChange={(e) => setConfirm(e.target.value)}
-          />
-        </div>
-      </label>
-
-      {/* CHECKBOX */}
+      {/* TERMS */}
       <label className='auth-form__checkbox'>
         <span
           className={`auth-form__checkbox-box ${
@@ -259,8 +179,6 @@ const SignUpStep4 = ({admin}: Props) => {
         </span>
       </label>
     </SignUpForm>
-  )}
-  </>
   );
 };
 

@@ -7,14 +7,21 @@ type Props = {
   onContinue: () => void;
   children: React.ReactNode;
   path?: string;
-   globalError?: string;
+  globalError?: string;
   submitLabel?: string;
 };
 
-const SignUpForm = ({ step, isValid, onContinue, children, path = "signup", globalError,
-  submitLabel, }: Props) => {
+const SignUpForm = ({
+  step,
+  isValid,
+  onContinue,
+  children,
+  path = 'signup',
+  globalError,
+  submitLabel,
+}: Props) => {
   return (
-    <div className='auth-layout__container auth-form'>
+    <form className='auth-layout__container auth-form'>
       <div className='auth-form__header'>
         <h1 className='auth-form__title'>Create an Account</h1>
         <p className='auth-form__subtitle'>
@@ -54,7 +61,7 @@ const SignUpForm = ({ step, isValid, onContinue, children, path = "signup", glob
           </Link>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

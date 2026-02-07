@@ -3,6 +3,7 @@ import { ProfileModal } from '../../ProfileModal/ProfileModal';
 import { useAuth } from '../../../../context/AuthContext';
 import { updateMyProfileRequest } from '../../../../api/user.api';
 import type { User } from '../../../../api/types/auth';
+import { formatPhoneForDisplay } from '../../../../utils/phone';
 import './ProfileInfo.scss';
 
 interface Props {
@@ -120,7 +121,7 @@ export const ProfileInfo = ({ user }: Props) => {
               <input
                 className='profile__contact-input'
                 disabled
-                value={form.phone_number}
+               value={formatPhoneForDisplay(form.phone_number)}
               />
             </div>
             <button
