@@ -6,10 +6,10 @@ from user.views import (
     CheckEmailAvailabilityView,
     CheckPhoneNumberAvailabilityView,
     LogoutView,
+    MyProfileView,
     UserViewSet,
     confirm_password_reset,
     request_password_reset,
-    MyProfileView
 )
 
 from .views import RegisterView

@@ -34,6 +34,7 @@ urlpatterns = [
 
     path("api/v1/", include("main.urls")),
     path("api/v1/", include("user.urls")),
+    path("api/v1/", include("team.urls")),
 ]
 
 
