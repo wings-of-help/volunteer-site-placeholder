@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import './CreateRequest.scss';
 import breakIcon from '../../assets/ep_arrow-left.svg';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onBack: () => void;
 }
 
 export const CreateRequest = ({ onBack }: Props) => {
+  const {t} = useTranslation();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -26,18 +28,18 @@ export const CreateRequest = ({ onBack }: Props) => {
       <div className='create-request__header'>
         <button className='create-request__back' onClick={onBack}>
           <img src={breakIcon} alt='back icon' />
-          <span>Back to My Requests</span>
+          <span>{t("Back-to-My-Requests")}</span>
         </button>
 
-        <h1 className='create-request__title'>Create New Request</h1>
+        <h1 className='create-request__title'>{t("Create-New-Request")}</h1>
       </div>
 
       <form className='create-request__form'>
         <div className='create-request__field'>
-          <label className='create-request__label'>Title</label>
+          <label className='create-request__label'>{t("Title")}</label>
           <input
             className='create-request__input'
-            placeholder='Add title here...'
+            placeholder={t('Add-title-here')}
             value={title}
             maxLength={80}
             onChange={(e) => {
@@ -46,14 +48,14 @@ export const CreateRequest = ({ onBack }: Props) => {
             }}
           />
           <span className='create-request__hint'>
-            Max length ~80 characters
+            {t("Max-length-80-characters")}
           </span>
         </div>
 
         <div className='create-request__field'>
-          <label className='create-request__label'>Category</label>
+          <label className='create-request__label'>{t("Category")}</label>
           <select className='create-request__select'>
-            <option value=''>Choose a category</option>
+            <option value=''>{t("Choose-a-category")}</option>
             // Буде заповнено динамічно пізніше
             <option value='medicine'>Medicine</option>
             <option value='food'>Food</option>
@@ -61,7 +63,7 @@ export const CreateRequest = ({ onBack }: Props) => {
         </div>
 
         <div className='create-request__field'>
-          <label className='create-request__label'>City</label>
+          <label className='create-request__label'>{t("City")}</label>
           <select className='create-request__select'>
             <option value=''>Choose a city</option>
             // Буде заповнено динамічно пізніше
@@ -71,7 +73,7 @@ export const CreateRequest = ({ onBack }: Props) => {
         </div>
 
         <div className='create-request__field'>
-          <label className='create-request__label'>Description</label>
+          <label className='create-request__label'>{t("Description")}</label>
           <textarea
             className='create-request__textarea'
             value={description}
@@ -84,13 +86,13 @@ export const CreateRequest = ({ onBack }: Props) => {
             }}
           />
           <span className='create-request__hint'>
-            {description.length} / 1000 characters (min 500)
+            {description.length} {t("/1000-characters-(min 500)")}
           </span>
         </div>
 
         <div className='create-request__actions'>
           <button type='button' className='create-request__cancel'>
-            Cancel
+            {t("Cancel")}
           </button>
           <button
             type='submit'
@@ -99,7 +101,7 @@ export const CreateRequest = ({ onBack }: Props) => {
             }`}
             disabled={!isFormValid}
           >
-            Publish
+            {t("Publish")}
           </button>
         </div>
       </form>

@@ -47,7 +47,7 @@ export default function CartDetailsPage({type}: Props) {
               src={arrow}
               alt="home"
             />
-            <p className="cart-details-page__nav-text">Back to {type}</p>
+            <p className="cart-details-page__nav-text">{t("Back-to")} {type}</p>
           </div>
         </nav>
 
@@ -87,7 +87,7 @@ export default function CartDetailsPage({type}: Props) {
           </div>
 
           <div className="cart-details-page__info__about">
-            <div className="cart-details-page__info__about__title">About</div>
+            <div className="cart-details-page__info__about__title">{t("About")}</div>
 
             <div className="cart-details-page__info__about__p">
               {cart.description}
@@ -96,14 +96,14 @@ export default function CartDetailsPage({type}: Props) {
             {!isAuth && type === "requests" && (
               <div className="cart-details-page__info__about__register">
               <button onClick={() => navigate("/signup")} className="cart-details-page__info__about__register__button">
-                Register to Help
+                {t("Register-to-Help")}
               </button>
 
               <div className="cart-details-page__info__about__register__signin">
                 <p className="cart-details-page__info__about__register__signin__p">
-                  Already have an account?
+                  {t("Already-have-an-account")}
                 </p>
-                <Link to="/signin" className="cart-details-page__info__about__register__signin__link">Sign In</Link>
+                <Link to="/signin" className="cart-details-page__info__about__register__signin__link">{t("Sign-In")}</Link>
               </div>
             </div>
             )}
@@ -115,34 +115,34 @@ export default function CartDetailsPage({type}: Props) {
                 //should change status to in progress and disable button
               }} 
                 className="offer__button">
-                Offer help
+                {t("Offer-help")}
               </button>
             )}
 
             {isAuth && !isVolunteer && type === "requests" && (
               <p className="offer__wrong">
-                Only registered volunteers can respond to this request.
+                {("Only-registered-volunteers-can-respond-to-this-request")}
               </p>
             )}
 
             {!isAuth && type === "offers" && (
               <div className="cart-details-page__info__about__register">
               <button onClick={() => {navigate("/signup")}} className="cart-details-page__info__about__register__button">
-                Sign up to Request Help
+                {t("Sign-up-to-Request-Help")}
               </button>
 
               <div className="cart-details-page__info__about__register__signin">
                 <p className="cart-details-page__info__about__register__signin__p">
-                  Already have an account?
+                  {t("Already-have-an-account")}
                 </p>
-                <Link to="/signin" className="cart-details-page__info__about__register__signin__link">Sign In</Link>
+                <Link to="/signin" className="cart-details-page__info__about__register__signin__link">{t("Sign-In")}</Link>
               </div>
             </div>
             )}
 
             {isAuth && isVolunteer && type === "offers" && (
               <p className="offer__wrong">
-                Only registered requesters can respond to this offer.
+                {t("Only registered requesters can respond to this offer.")}
               </p>
             )}
 
@@ -153,7 +153,7 @@ export default function CartDetailsPage({type}: Props) {
                 //should change status to in progress and disable button
               }} 
                 className="offer__button">
-                Request Help
+                {t("Request-Help")}
               </button>
             )}
 
@@ -162,11 +162,11 @@ export default function CartDetailsPage({type}: Props) {
     
               {type === "requests" ? (
                 <h1 className="cart-details-page__info__person-info__title">
-                  Requester
+                  {t("Requester")}
                   {!isAuth && <>: <strong>Cody Warren</strong></>}
                   </h1>
               ) : (
-                <h1 className="cart-details-page__info__person-info__title">Volunteer: <strong>Cody warren</strong></h1>
+                <h1 className="cart-details-page__info__person-info__title">{t("Volunteer")}: <strong>Cody warren</strong></h1>
               )}
 
               <div className="cart-details-page__info__person-info__details">

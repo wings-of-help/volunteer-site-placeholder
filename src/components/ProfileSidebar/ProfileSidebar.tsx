@@ -6,6 +6,7 @@ import logoutIcon from '../../assets/Logout.svg';
 import './ProfileSidebar.scss';
 
 import type { User } from '../../api/types/auth';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   activeTab: 'info' | 'requests' | 'responses';
@@ -20,6 +21,8 @@ export const ProfileSidebar = ({
   user,
   onLogoutClick,
 }: Props) => {
+
+  const {t} = useTranslation();
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
@@ -39,7 +42,7 @@ export const ProfileSidebar = ({
           onClick={() => onTabChange('info')}
         >
           <img src={activeTab === 'info' ? infoIcon : infoIconGrey} alt='' />
-          <span>Personal Information</span>
+          <span>{t("Personal-Information")}</span>
         </button>
 
         <button
@@ -49,7 +52,7 @@ export const ProfileSidebar = ({
           onClick={() => onTabChange('requests')}
         >
           <img src={requestsIcon} alt='' />
-          <span>My Requests</span>
+          <span>{t("My-Requests")}</span>
         </button>
 
         <button
@@ -59,7 +62,7 @@ export const ProfileSidebar = ({
           onClick={() => onTabChange('responses')}
         >
           <img src={responsesIcon} alt='' />
-          <span>My Responses</span>
+          <span>{t("My-Responses")}</span>
         </button>
 
         <button
@@ -67,7 +70,7 @@ export const ProfileSidebar = ({
           onClick={onLogoutClick}
         >
           <img src={logoutIcon} alt='' />
-          <span>Log out</span>
+          <span>{("Log-out")}</span>
         </button>
       </nav>
     </aside>

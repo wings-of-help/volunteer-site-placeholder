@@ -3,6 +3,7 @@ import { mockRequests } from '../../../../api/requests.mock';
 import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequestCard';
 import './MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
+import { useTranslation } from 'react-i18next';
 
 type Tab = 'active' | 'past';
 
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export const MyRequests = ({ onCreate }: Props) => {
+  const {t} = useTranslation();
   const [tab, setTab] = useState<Tab>('active');
 
   const filteredRequests = mockRequests.filter((request) =>
@@ -24,7 +26,7 @@ export const MyRequests = ({ onCreate }: Props) => {
       <div className='my-requests__header'>
         <button className='my-requests__create-btn' onClick={onCreate}>
           <img src={plusIcon} alt='' />
-          <span>Create New Request</span>
+          <span>{t("Create-New-Request")}</span>
         </button>
       </div>
 
@@ -33,14 +35,14 @@ export const MyRequests = ({ onCreate }: Props) => {
           className={`my-requests__tab ${tab === 'active' ? 'my-requests__tab--active' : ''}`}
           onClick={() => setTab('active')}
         >
-          Active Requests
+          {t("Active-Requests")}
         </button>
 
         <button
           className={`my-requests__tab ${tab === 'past' ? 'my-requests__tab--active' : ''}`}
           onClick={() => setTab('past')}
         >
-          Past Requests
+          {t("Past Requests")}
         </button>
       </div>
 
