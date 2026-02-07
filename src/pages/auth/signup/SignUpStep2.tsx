@@ -6,10 +6,10 @@ import uaFlag from '../../../assets/flag-ukraine.svg';
 import {
   isEmailValid,
   isPhoneValid,
-  formatPhone,
+  formatUAWithoutCode,
+  getDigits,
 } from '../../../utils/validators';
 import { useUserRole } from '../../../context/RoleContext';
-
 import {
   checkEmailAvailability,
   checkPhoneAvailability,
@@ -28,15 +28,14 @@ const SignUpStep2 = ({ admin = false }: Props) => {
     clearBackendError,
     setBackendErrors,
   } = useSignUp();
-  const { setUserRole } = useUserRole();
 
+  const { setUserRole } = useUserRole();
   const { email, phone_number: phone } = data;
 
   const [emailError, setEmailError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
 
   const navigate = useNavigate();
-
   const isFilled = Boolean(email && phone);
 
   const handleContinue = async () => {
@@ -45,14 +44,13 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 
     setEmailError(!emailOk);
     setPhoneError(!phoneOk);
-    setUserRole("distressed")
+    setUserRole('distressed');
+
     if (!emailOk || !phoneOk) return;
 
-    // backend-помилки
     let hasBackendError = false;
     const newBackendErrors: Partial<typeof backendErrors> = {};
 
-    // ===== EMAIL =====
     try {
       await checkEmailAvailability(email);
     } catch (error: any) {
@@ -60,7 +58,6 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       hasBackendError = true;
     }
 
-    // ===== PHONE =====
     try {
       await checkPhoneAvailability(phone);
     } catch (error: any) {
@@ -70,7 +67,6 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       hasBackendError = true;
     }
 
-    // якщо бекенд помилки є залишаємось на step-2
     if (hasBackendError) {
       setBackendErrors(newBackendErrors);
       return;
@@ -85,7 +81,6 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       <label className='auth-form__label auth-form__label--with-error'>
         <span className='auth-form__label-row'>
           <span className='auth-form__label-text'>Email</span>
-
           {(emailError || backendErrors.email) && (
             <span className='auth-form__error'>
               {backendErrors.email?.[0] || 'Invalid email'}
@@ -112,7 +107,6 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       <label className='auth-form__label auth-form__label--with-error'>
         <span className='auth-form__label-row'>
           <span className='auth-form__label-text'>Phone number</span>
-
           {(phoneError || backendErrors.phone_number) && (
             <span className='auth-form__error'>
               {backendErrors.phone_number?.[0] || 'Enter full phone number'}
@@ -134,10 +128,10 @@ const SignUpStep2 = ({ admin = false }: Props) => {
             }`}
             type='tel'
             placeholder='12-345-67-89'
-            maxLength={12}
-            value={phone}
+            value={formatUAWithoutCode(phone)}
             onChange={(e) => {
-              setPhone(formatPhone(e.target.value));
+              const digits = getDigits(e.target.value).slice(0, 9);
+              setPhone(digits);
               setPhoneError(false);
               clearBackendError('phone_number');
             }}
