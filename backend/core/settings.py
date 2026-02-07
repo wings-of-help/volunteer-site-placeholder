@@ -3,9 +3,8 @@ from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
-from dotenv import load_dotenv
-
 from corsheaders.defaults import default_headers
+from dotenv import load_dotenv
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     "authorization",

@@ -1,5 +1,5 @@
-from django.db import models
 from cloudinary.models import CloudinaryField
+from django.db import models
 
 
 class Teammate(models.Model):

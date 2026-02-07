@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Teammate, SocialLink
+
+from .models import SocialLink, Teammate
 
 
 class SocialLinkInline(admin.TabularInline):

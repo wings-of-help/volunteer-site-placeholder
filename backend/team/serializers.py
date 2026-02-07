@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from team.models import Teammate, SocialLink
+from team.models import SocialLink, Teammate
 
 
 class SocialLinkSerializer(serializers.ModelSerializer):
