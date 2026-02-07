@@ -68,6 +68,7 @@ class HelpCategoryViewSet(ModelViewSet):
     queryset = HelpCategory.objects.all()
     serializer_class = HelpCategorySerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = None
 
 
 @extend_schema_view(
@@ -349,3 +350,4 @@ class CityViewSet(ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = None

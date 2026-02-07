@@ -3,6 +3,7 @@ import "./CatalogPage.scss"
 import CatalogCategories from "../../components/CatalogCategories/CatalogCategories";
 import CatalogItems from "../../components/CatalogItems/CatalogItems";
 import CustomSelect from "../../components/UI-elements/CustomSelect/CustomSelect";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   title: string;
@@ -12,6 +13,10 @@ type Props = {
 }
 
 export default function CatalogPage ({title, p, p2, path}: Props) {
+  const {t} = useTranslation();
+
+  const newestLabel = t("Newest");
+  const oldestLabel = t("Oldest");
   return (
     <div className="catalog__page">
       <div className="catalog">
@@ -26,13 +31,13 @@ export default function CatalogPage ({title, p, p2, path}: Props) {
         </div>
 
         <div className="catalog__sort">
-          <p className="catalog__sort__sort-by">Sort by:</p>
+          <p className="catalog__sort__sort-by">{t("Sort-by")}</p>
 
           <CustomSelect options={[
-            { label: "Newest", value: "newest" },
-            { label: "Oldest", value: "oldest" }
+            { label: newestLabel, value: "newest" },
+            { label: oldestLabel, value: "oldest" }
           ]}
-          placeholder="Newest"
+          placeholder={t("Newest")}
           variant="filter"/>
         </div>
 

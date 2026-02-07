@@ -60,5 +60,89 @@
   "see-all-requests": "See All Requests",
   "see-all-offers": "See All Offers",
 
-  "my-profile": "My profile"
+  "my-profile": "My profile",
+
+  "requests-page-p1": "Browse verified requests from people and organizations who need support right now.",
+  "requests-page-p2": "Every response matters.",
+
+  "offers-page-p1": "Explore offers from people and organizations ready to help.",
+  "offers-page-p2": "Every response matters.",
+
+  "Help-category": "Help Category",
+  "choose-category": "Choose one or more categories",
+
+  "Evacuation/Relocation" : "Evacuation / Relocation",
+  "Medical-Support" : "Medical Support",
+  "Shelter/Housing" : "Shelter / Housing",
+  "Food-&-Basic-Supplies": "Food & Basic Supplies",
+  "Logistics/Transportation": "Logistics / Transportation",
+  "Psychological-Support": "Psychological Support",
+  "Child-&-Family-Support": "Child & Family Support",
+  "Legal/Administrative Assistance": "Legal / Administrative Assistance",
+  "Employment/Livelihoods": "Employment / Livelihoods",
+  "Education/Tutoring": "Education / Tutoring",
+  "Volunteer Coordination / Community Support": "Volunteer Coordination / Community Support",
+  "Animal/Pet-Assistance": "Animal / Pet Assistance",
+  "Other": "Other",
+
+  "New": "New",
+  "In-progress": "In-progress",
+  "Done": "Done",
+  
+  "Load-more": "Load more",
+  "Location": "Location",
+  "Status": "Status",
+  "Sort-by": "Sort by:",
+  "Newest": "Newest",
+  "Oldest": "Oldest",
+
+  "Welcome-Back": "Welcome Back",
+  "Sign-in-to-continue-using-Wings-of-Help": "Sign in to continue using Wings of Help.",
+  "Email": "Email",
+  "Invalid-email": "Invalid email",
+  "Enter-your-email": "Enter your email",
+  "Password": "Password",
+  "Enter-your-password": "Enter your password",
+  "Forgot-password": "Forgot password?",
+  "No-active-account-found-with-the-given-credentials": "No active account found with the given credentials",
+  "Don't-have-an-account": "Don't have an account?",
+
+  "Create-an-Account": "Create an Account",
+  "Join-Wings-of-Help-to-request-or-provide-help": "Join Wings of Help to request or provide help.",
+  "Step": "Step",
+  "of-4": "of 4", 
+  "Already-have-an-account": "Already have an account?",
+
+  "First-name": "First name",
+  "Enter-your-first-name": "Enter your first name",
+  "Last-name": "Last name",
+  "Enter-your-last-name": "Enter your last name",
+  "Must-contain-only-letters": "Must contain only letters",
+  "Must-contain-more-than-one-letter": "Must contain more than one letter",
+
+  "Continue": "Continue",
+
+  "This-email-is-already-in-use": "This email is already in use",
+
+  "Phone-number": "Phone number",
+  "Enter-full-phone-number": "Enter full phone number",
+
+  "Used-only-for-volunteering-coordination": "Used only for volunteering coordination",
+
+  "I-want-to": "I want to:",
+  "Provide-help-(Volunteer)": "Provide help (Volunteer)",
+  "Request help": "Request help",
+
+  "Minimum-8-characters": "Minimum 8 characters",
+  "Must-contain-at-least-one-uppercase-Latin-letter": "Must contain at least one uppercase Latin letter",
+  "Must-contain-at-least-one-lowercase-Latin-letter": "Must contain at least one lowercase Latin letter",
+  "Must-contain-at-least-one-special-character": "Must contain at least one special character",
+  "Password-looks-good": "Password looks good",
+  "First-name-and-last-name-must-not-be-empty": "First name and last name must not be empty.",
+  "Registration-successful": "Registration successful 🎉",
+  "Create-a-password": "Create a password",
+  "Confirm-password": "Confirm password",
+  "Passwords-do-not-match": "Passwords do not match",
+  "Confirm-your-password": "Confirm your password",
+  "I-agree-to-the-Terms-of-Use-and-Privacy-Policy": "I agree to the Terms of Use and Privacy Policy"
 }

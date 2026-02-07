@@ -3,8 +3,10 @@ import { useState } from 'react';
 import eyeClosed from '../../../assets/eye-closed.svg';
 import eyeOpen from '../../../assets/eye-open.svg';
 import { useAuth } from '../../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const SignInFormPage = () => {
+  const {t} = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +33,7 @@ const SignInFormPage = () => {
       navigate('/');
     } catch (error: any) {
       setFormError(
-        error?.detail || 'No active account found with the given credentials',
+        error.detail || t('No-active-account-found-with-the-given-credentials'),
       );
     }
   };
@@ -39,18 +41,18 @@ const SignInFormPage = () => {
   return (
     <form className='auth-layout__container auth-form auth-form--signin' onSubmit={handleSignIn}>
       <div className='auth-form__header auth-form__header--signin'>
-        <h1 className='auth-form__title'>Welcome Back</h1>
+        <h1 className='auth-form__title'>{t("Welcome-Back")}</h1>
         <p className='auth-form__subtitle'>
-          Sign in to continue using Wings of Help.
+          {t("Sign-in-to-continue-using-Wings-of-Help")}
         </p>
       </div>
 
       <div className='auth-form__fields'>
         <label className='auth-form__label auth-form__label--with-error'>
           <span className='auth-form__label-row'>
-            <span className='auth-form__label-text'>Email</span>
+            <span className='auth-form__label-text'>{t("Email")}</span>
             {emailError && (
-              <span className='auth-form__error'>Invalid email</span>
+              <span className='auth-form__error'>{t("Invalid-email")}</span>
             )}
           </span>
 
@@ -59,7 +61,7 @@ const SignInFormPage = () => {
             type='email'
             autoComplete='email'
             value={email}
-            placeholder='Enter your email'
+            placeholder={t('Enter-your-email')}
             onChange={(e) => {
               setEmail(e.target.value);
               setEmailError(false);
@@ -69,7 +71,7 @@ const SignInFormPage = () => {
         </label>
 
         <label className='auth-form__label'>
-          <span className='auth-form__label-text'>Password</span>
+          <span className='auth-form__label-text'>{t("Password")}</span>
 
           <div className='auth-form__password'>
             <input
@@ -77,7 +79,7 @@ const SignInFormPage = () => {
               type={showPassword ? 'text' : 'password'}
               autoComplete='current-password'
               value={password}
-              placeholder='Enter your password'
+              placeholder={t("Enter-your-password")}
               onChange={(e) => {
                 setPassword(e.target.value);
                 setFormError(null);
@@ -92,7 +94,7 @@ const SignInFormPage = () => {
           </div>
 
           <Link to='/forgot-password' className='auth-form__forgot-link'>
-            Forgot password?
+            {t("Forgot-password")}
           </Link>
         </label>
       </div>
@@ -109,13 +111,13 @@ const SignInFormPage = () => {
           type='submit'
           onClick={handleSignIn}
         >
-          Sign in
+          {t("Sign-in")}
         </button>
 
         <div className='auth-form__signin'>
-          <span>Don't have an account?</span>
+          <span>{t("Don't-have-an-account")}</span>
           <Link to='/signup/step-1' className='auth-form__signin-link'>
-            Sign up
+            {t("Sign-up")}
           </Link>
         </div>
       </div>
