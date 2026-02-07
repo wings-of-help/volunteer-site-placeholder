@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import arrowLeft from '../../../assets/arrow-left.svg';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   step: number;
@@ -13,12 +14,13 @@ type Props = {
 
 const SignUpForm = ({ step, isValid, onContinue, children, path = "signup", globalError,
   submitLabel, }: Props) => {
+    const {t} = useTranslation();
   return (
     <div className='auth-layout__container auth-form'>
       <div className='auth-form__header'>
-        <h1 className='auth-form__title'>Create an Account</h1>
+        <h1 className='auth-form__title'>{t("Create-an-Account")}</h1>
         <p className='auth-form__subtitle'>
-          Join Wings of Help to request or provide help.
+          {t("Join-Wings-of-Help-to-request-or-provide-help")}
         </p>
       </div>
 
@@ -28,7 +30,7 @@ const SignUpForm = ({ step, isValid, onContinue, children, path = "signup", glob
             <img src={arrowLeft} alt='Back' />
           </Link>
         )}
-        <span>Step {step} of 4</span>
+        <span>{`${t("Step")} ${step} ${t("of-4")}`}</span>
       </div>
 
       <div className='auth-form__fields'>{children}</div>
@@ -44,13 +46,13 @@ const SignUpForm = ({ step, isValid, onContinue, children, path = "signup", glob
           onClick={onContinue}
           type='button'
         >
-          {submitLabel ?? 'Continue'}
+          {submitLabel ?? t("Continue")}
         </button>
 
         <div className='auth-form__signin'>
-          <span>Already have an account?</span>
+          <span>{t("Already-have-an-account")}</span>
           <Link to='/signin' className='auth-form__signin-link'>
-            Sign in
+            {t("Sign-in")}
           </Link>
         </div>
       </div>

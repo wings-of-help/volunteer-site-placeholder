@@ -3,12 +3,14 @@ import SignUpForm from './SignUpForm';
 import AdminStep3 from './AdminStep3';
 import { useSignUp } from '../../../context/SignUpContext';
 import { useUserRole } from '../../../context/RoleContext';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   admin: boolean;
 }
 
 const SignUpStep3 = ({admin}: Props) => {
+  const {t} = useTranslation();
   const { data, setRole } = useSignUp();
   const { role } = data;
   const { setUserRole } = useUserRole();
@@ -27,7 +29,7 @@ const SignUpStep3 = ({admin}: Props) => {
           onContinue={() => navigate('/signup/step-4')}
         >
           <div className='auth-form__radio-group'>
-            <span className='auth-form__radio-title'>I want to:</span>
+            <span className='auth-form__radio-title'>{t("I-want-to")}</span>
 
             <label className='auth-form__radio'>
               <input
@@ -39,7 +41,7 @@ const SignUpStep3 = ({admin}: Props) => {
                   setUserRole("volunteer");
                 }}
               />
-              <span>Provide help (Volunteer)</span>
+              <span>{t("Provide-help-(Volunteer)")}</span>
             </label>
 
             <label className='auth-form__radio'>
@@ -52,7 +54,7 @@ const SignUpStep3 = ({admin}: Props) => {
                   setUserRole("distressed");
                 }}
               />
-              <span>Request help</span>
+              <span>{t("Request help")}</span>
             </label>
           </div>
         </SignUpForm>

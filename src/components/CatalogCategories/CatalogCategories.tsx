@@ -5,10 +5,11 @@ import { useAuth } from '../../context/AuthContext';
 import CustomSearchDropdown from "../UI-elements/CustomSearchDropdown/CustomSearchDropdown";
 // import { useState } from "react";
 import citiesFromServer from "../../api/Locations.json"
-
+import { useTranslation } from "react-i18next";
 
 export default function CatalogCategories() {
   const { isAuth } = useAuth();
+  const {t} = useTranslation();
 
   const cityOptions = citiesFromServer.map(city => ({
     label: city,
@@ -18,28 +19,28 @@ export default function CatalogCategories() {
     <div className="catalog__categories">
 
       <div className="catalog__categories__header">
-        <h1 className="catalog__categories__header__title">Help Category</h1>
-        <p className="catalog__categories__header__p">Choose one or more categories</p>
+        <h1 className="catalog__categories__header__title">{t("Help-category")}</h1>
+        <p className="catalog__categories__header__p">{t("choose-category")}</p>
       </div>
 
       <div className="catalog__categories__box">
-        <CustomCheckbox title={"Evacuation / Relocation"}/>
-        <CustomCheckbox title={"Medical Support"}/>
-        <CustomCheckbox title={"Shelter / Housing"}/>
-        <CustomCheckbox title={"Food & Basic Supplies"}/>
-        <CustomCheckbox title={"Logistics / Transportation"}/>
-        <CustomCheckbox title={"Psychological Support"}/>
-        <CustomCheckbox title={"Child & Family Support"}/>
-        <CustomCheckbox title={"Legal / Administrative Assistance"}/>
-        <CustomCheckbox title={"Employment / Livelihoods"}/>
-        <CustomCheckbox title={"Education / Tutoring"}/>
-        <CustomCheckbox title={"Volunteer Coordination / Community Support"}/>
-        <CustomCheckbox title={"Animal / Pet Assistance"}/>
-        <CustomCheckbox title={"Other"}/>
+        <CustomCheckbox title={t("Evacuation/Relocation")}/>
+        <CustomCheckbox title={t("Medical-Support")}/>
+        <CustomCheckbox title={t("Shelter/Housing")}/>
+        <CustomCheckbox title={t("Food-&-Basic-Supplies")}/>
+        <CustomCheckbox title={t("Logistics/Transportation")}/>
+        <CustomCheckbox title={t("Psychological-Support")}/>
+        <CustomCheckbox title={t("Child-&-Family-Support")}/>
+        <CustomCheckbox title={t("Legal/Administrative Assistance")}/>
+        <CustomCheckbox title={t("Employment/Livelihoods")}/>
+        <CustomCheckbox title={t("Education/Tutoring")}/>
+        <CustomCheckbox title={t("Volunteer-Coordination/Community-Support")}/>
+        <CustomCheckbox title={t("Animal/Pet-Assistance")}/>
+        <CustomCheckbox title={t("Other")}/>
       </div>
 
       <div className="catalog__categories__location">
-        <h1 className="catalog__categories__location__title">Location</h1>
+        <h1 className="catalog__categories__location__title">{t("Location")}</h1>
         {/* <CustomSelect
           options={[
             { label: "Kyiv", value: "kyiv" },
@@ -58,10 +59,10 @@ export default function CatalogCategories() {
 
       {isAuth && 
         <div className="catalog__categories__status">
-          <h1 className="catalog__categories__status__title">Status</h1>
-          <CustomCheckbox title="New"/>
-          <CustomCheckbox title="In progress"/>
-          <CustomCheckbox title="Done"/>
+          <h1 className="catalog__categories__status__title">{t("Status")}</h1>
+          <CustomCheckbox title={t("New")}/>
+          <CustomCheckbox title={t("In-progress")}/>
+          <CustomCheckbox title={t("Done")}/>
         </div>
       }
     </div>

@@ -23,9 +23,12 @@ import { ToastProvider } from './context/ToastContext';
 import CatalogPage from './pages/CatalogPage/CatalogPage';
 import CartDetails from './pages/CartDetailsPage/CartDetailsPage';
 import RoleProvider from './context/RoleContext';
+import { useTranslation } from 'react-i18next';
 
-export const Root = () => (
-  <StrictMode>
+export const Root = () => {
+  const {t} = useTranslation();
+  return (
+    <StrictMode>
     <RoleProvider>
       <AuthProvider>
         <ToastProvider>
@@ -40,11 +43,9 @@ export const Root = () => (
                   path='requests'
                   element={
                     <CatalogPage
-                      title={'Requests'}
-                      p={
-                        'Browse verified requests from people and organizations who need support right now.'
-                      }
-                      p2={'Every response matters.'}
+                      title={t("Requests")}
+                      p={t("requests-page-p1")}
+                      p2={t("requests-page-p2")}
                       path={'requests'}
                     />
                   }
@@ -55,9 +56,9 @@ export const Root = () => (
                   path='offers'
                   element={
                     <CatalogPage
-                      title={'Offers'}
-                      p={'Explore offers from people and organizations ready to help.'}
-                      p2={'Find support that matches your needs.'}
+                      title={t('Offers')}
+                      p={t("offers-page-p1")}
+                      p2={t("offers-page-p2")}
                       path={'offers'}
                     />
                   }
@@ -93,4 +94,5 @@ export const Root = () => (
       </AuthProvider>
     </RoleProvider>
   </StrictMode>
-);
+  )
+}

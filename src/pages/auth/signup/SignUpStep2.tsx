@@ -14,6 +14,7 @@ import {
   checkEmailAvailability,
   checkPhoneAvailability,
 } from '../../../api/auth.api';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   admin?: boolean;
@@ -28,6 +29,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
     clearBackendError,
     setBackendErrors,
   } = useSignUp();
+  const {t} = useTranslation();
   const { setUserRole } = useUserRole();
 
   const { email, phone_number: phone } = data;
@@ -56,7 +58,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
     try {
       await checkEmailAvailability(email);
     } catch (error: any) {
-      newBackendErrors.email = error?.email || ['This email is already in use'];
+      newBackendErrors.email = error?.email || [t("This-email-is-already-in-use")];
       hasBackendError = true;
     }
 
@@ -65,7 +67,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       await checkPhoneAvailability(phone);
     } catch (error: any) {
       newBackendErrors.phone_number = error?.phone_number || [
-        'This phone number is already in use',
+        t("This phone number is already in use"),
       ];
       hasBackendError = true;
     }
@@ -84,11 +86,11 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       {/* Email */}
       <label className='auth-form__label auth-form__label--with-error'>
         <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>Email</span>
+          <span className='auth-form__label-text'>{t("Email")}</span>
 
           {(emailError || backendErrors.email) && (
             <span className='auth-form__error'>
-              {backendErrors.email?.[0] || 'Invalid email'}
+              {backendErrors.email?.[0] || t('Invalid-email')}
             </span>
           )}
         </span>
@@ -99,7 +101,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
           }`}
           type='email'
           value={email}
-          placeholder='Enter your email'
+          placeholder={t('Enter-your-email')}
           onChange={(e) => {
             setEmail(e.target.value);
             setEmailError(false);
@@ -111,11 +113,11 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       {/* Phone */}
       <label className='auth-form__label auth-form__label--with-error'>
         <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>Phone number</span>
+          <span className='auth-form__label-text'>{t("Phone-number")}</span>
 
           {(phoneError || backendErrors.phone_number) && (
             <span className='auth-form__error'>
-              {backendErrors.phone_number?.[0] || 'Enter full phone number'}
+              {backendErrors.phone_number?.[0] || t('Enter-full-phone-number')}
             </span>
           )}
         </span>
@@ -145,7 +147,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
         </div>
 
         <span className='auth-form__hint'>
-          Used only for volunteering coordination
+          {t("Used-only-for-volunteering-coordination")}
         </span>
       </label>
     </SignUpForm>
