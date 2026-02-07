@@ -20,7 +20,9 @@ const SignInFormPage = () => {
   const isEmailValid = emailRegex.test(email);
   const isFilled = Boolean(email && password);
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!isEmailValid) {
       setEmailError(true);
       return;
@@ -30,8 +32,6 @@ const SignInFormPage = () => {
       await login(email, password);
       navigate('/');
     } catch (error: any) {
-      console.log('CATCH ERROR:', error);
-      console.log('DETAIL:', error?.detail);
       setFormError(
         error.detail || t('No-active-account-found-with-the-given-credentials'),
       );
@@ -39,7 +39,7 @@ const SignInFormPage = () => {
   };
 
   return (
-    <form className='auth-layout__container auth-form auth-form--signin'>
+    <form className='auth-layout__container auth-form auth-form--signin' onSubmit={handleSignIn}>
       <div className='auth-form__header auth-form__header--signin'>
         <h1 className='auth-form__title'>{t("Welcome-Back")}</h1>
         <p className='auth-form__subtitle'>

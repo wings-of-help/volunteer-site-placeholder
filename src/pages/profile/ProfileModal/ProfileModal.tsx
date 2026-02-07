@@ -2,7 +2,8 @@ import { useState, Fragment } from 'react';
 import {
   isEmailValid,
   isPhoneValid,
-  formatPhone,
+  formatUAWithoutCode,
+  getDigits,
 } from '../../../utils/validators';
 
 import '../../auth/AuthLayout.scss';
@@ -144,9 +145,10 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                     className={`profile-modal__phone-input ${error ? 'profile-modal__input--error' : ''}`}
                     type='tel'
                     placeholder='12-345-67-89'
-                    value={value}
+                    value={formatUAWithoutCode(value)}
                     onChange={(e) => {
-                      setValue(formatPhone(e.target.value));
+                      const digits = getDigits(e.target.value).slice(0, 9);
+                      setValue(digits);
                       setError(false);
                     }}
                   />
@@ -193,7 +195,10 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               {t("Weve-sent-a-verification-code-to")}<strong>{value}</strong>
             </p>
 
-            <button className='profile-modal__back' onClick={() => setStep('edit')}>
+            <button
+              className='profile-modal__back'
+              onClick={() => setStep('edit')}
+            >
               <img src={arrowLeftIcon} alt='Back' />
             </button>
 
@@ -210,7 +215,9 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                     onChange={(e) => handleCodeChange(i, e.target.value)}
                     maxLength={1}
                   />
-                  {i === 2 && <span className='profile-modal__code-separator' />}
+                  {i === 2 && (
+                    <span className='profile-modal__code-separator' />
+                  )}
                 </Fragment>
               ))}
             </div>
@@ -251,7 +258,10 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                 <img src={crossIcon} alt='Close' />
               </button>
             </div>
-            <button className='profile-modal__back' onClick={() => setStep('code')}>
+            <button
+              className='profile-modal__back'
+              onClick={() => setStep('code')}
+            >
               <img src={arrowLeftIcon} alt='Back' />
             </button>
             <div className='profile-modal__password-group'>
