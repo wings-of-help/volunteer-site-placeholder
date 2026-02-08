@@ -24,6 +24,23 @@ body {
   flex-direction: column;
 }
 
+.home-layout--bg {
+  height: 900px;
+
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(248, 249, 250, 0) 60%,
+      rgba(248, 249, 250, 1) 100%
+    ),
+    url('../src/assets/bg-img.png');
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
 @font-face {
   font-family: 'Satoshi';
   src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');

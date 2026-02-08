@@ -6,7 +6,8 @@
   height: 57px;
   max-width: 1400px;
   width: 100%;
-  margin: 24px auto 1px;
+  margin: 0 auto 1px;
+  padding-top: 24px;
 
   @include flex-center;
 
@@ -14,6 +15,7 @@
     padding: 0 108px;
     width: 100%;
     @include flex-between;
+    padding-top: 24px;
 
     &__wings-sector {
       width: 288px;
@@ -39,7 +41,7 @@
         @include centeredFlexBox;
         width: 184px;
         height: 41px;
-        
+
         text-decoration: none;
         color: #000;
 
