@@ -45,7 +45,7 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           {({ isActive }) => (
             <>
               <img src={isActive ? infoIcon : infoIconGrey} alt='' />
-              <span>{t('Personal-Information')}</span>
+              <span>{t('Personal Information')}</span>
             </>
           )}
         </NavLink>
@@ -61,7 +61,7 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
             }
           >
             <img src={requestsIcon} alt='' />
-            <span>{t('My-Requests')}</span>
+            <span>{t('My Requests')}</span>
           </NavLink>
         )}
 
@@ -76,7 +76,7 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
             }
           >
             <img src={requestsIcon} alt='' />
-            <span>{t('My-Offers')}</span>
+            <span>{t('My Offers')}</span>
           </NavLink>
         )}
 
@@ -88,7 +88,7 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           }
         >
           <img src={responsesIcon} alt='' />
-          <span>{t('My-Responses')}</span>
+          <span>{t('My Responses')}</span>
         </NavLink>
 
         {/* LOGOUT */}
@@ -97,7 +97,7 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           onClick={onLogoutClick}
         >
           <img src={logoutIcon} alt='' />
-          <span>{t('Log-out')}</span>
+          <span>{t('Log out')}</span>
         </button>
       </nav>
     </aside>
