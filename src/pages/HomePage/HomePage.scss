@@ -53,11 +53,11 @@
 }
 
 .button1 {
-  @include button-primary;
+@include button-primary;
 }
 
 .button2 {
-  @include button-border;
+@include button-border;
 }
 
 .home-instructions {

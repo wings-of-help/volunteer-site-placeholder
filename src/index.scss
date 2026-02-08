@@ -45,28 +45,37 @@ body {
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');
+  src: url('../src/assets/fonts/Satoshi-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('../assets/fonts/Satoshi-Medium.otf') format('opentype');
+  src: url('../src/assets/fonts/Satoshi-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('../assets/fonts/Satoshi-Bold.otf') format('opentype');
+  src: url('../src/assets/fonts/Satoshi-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Satoshi';
-  src: url('../assets/fonts/Satoshi-Italic.otf') format('opentype');
+  src: url('../src/assets/fonts/Satoshi-Italic.otf') format('opentype');
   font-weight: 400;
   font-style: italic;
 }
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../src/assets/fonts/Satoshi-Variable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
