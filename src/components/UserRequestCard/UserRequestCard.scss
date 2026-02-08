@@ -6,7 +6,7 @@
   max-width: 704px;
   max-height: 402px;
   padding: 24px;
-  background: $color-input-bg;
+  background: $color-grey-1;
 
   @include flex-column;
 
@@ -28,7 +28,7 @@
     padding: 4px 8px;
     border-radius: 2px;
 
-    background: $color-gray-dark;
+    background: $color-gray-7;
     color: $color-white;
 
     @include flex-center;

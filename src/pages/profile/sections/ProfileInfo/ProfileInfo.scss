@@ -31,7 +31,7 @@
     width: 100%;
     margin-bottom: 16px;
     @include control-base;
-    border-color: $color-gray-border;
+    border-color: $color-gray-4;
   }
 
   &__role {
@@ -97,8 +97,8 @@
 
   &__contact-input {
     @include control-base;
-    background: $color-input-bg;
-    color: $color-placeholder;
+    background: $color-gray-2;
+    color: $color-primary-200;
     font-size: 18px;
 
     border: none;

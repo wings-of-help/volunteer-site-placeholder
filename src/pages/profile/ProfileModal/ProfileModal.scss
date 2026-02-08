@@ -27,7 +27,7 @@
 
   &__subtitle-hint {
     @include text-caption;
-    color: $color-gray-main;
+    color: $color-gray-7;
     margin-bottom: 16px;
   }
 
@@ -35,7 +35,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: $color-input-bg;
+    background: $color-gray-3;
     border: none;
     cursor: pointer;
 
@@ -63,7 +63,7 @@
   &__phone {
     @include flex-center;
     height: $control-height;
-    border: 1px solid $color-gray-border;
+    border: 1px solid $color-gray-4;
   }
 
   &__phone-input {
@@ -74,7 +74,7 @@
     outline: none;
 
     &::placeholder {
-      color: $color-gray-main;
+      color: $color-gray-7;
       @include text-body-lg;
     }
   }
@@ -87,8 +87,8 @@
     @include flex-center;
     gap: 8px;
     padding: 0 16px;
-    background: $color-gray-bg;
-    border-right: 1px solid $color-gray-border;
+    background: $color-gray-5;
+    border-right: 1px solid $color-gray-4;
 
     span {
       @include text-body-lg;
@@ -103,12 +103,12 @@
 
   &__input {
     @include control-base;
-    background: $color-input-bg;
+    background: $color-grey-1;
     border-color: transparent;
 
     &::placeholder {
       @include text-body-lg;
-      color: $color-placeholder;
+      color: $color-primary-200;
     }
 
     &--error {
@@ -160,7 +160,7 @@
   &__code-separator {
     width: 24px;
     height: 1px;
-    background: $color-gray-main;
+    background: $color-gray-7;
     flex-shrink: 0;
   }
 
@@ -168,7 +168,7 @@
     width: 84px;
     height: $control-height;
     border-radius: 40px;
-    background: $color-input-bg;
+    background: $color-gray-2;
     border: 1px solid transparent;
     text-align: center;
     @include text-body-lg;
@@ -185,7 +185,7 @@
     @include flex-center;
     gap: 8px;
     @include text-body;
-    color: $color-gray-main;
+    color: $color-gray-7;
   }
 
   &__resend-link {

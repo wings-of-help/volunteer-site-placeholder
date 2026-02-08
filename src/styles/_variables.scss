@@ -3,21 +3,24 @@ $font-main: 'Inter', sans-serif;
 $color-white: #ffffff;
 $color-black: #000000;
 
-$color-gray-main: #868e96;
-$color-gray-border: #cfd4dc;
-$color-gray-light-border: #e5e7eb;
-$color-gray-bg: #f5f6f7;
-$color-gray-hint: #8a8f98;
-$color-gray-light: #f5f5f5;
-$color-gray: #f2f2f2;
-$color-gray-dark: #6c757d;
-$color-blue-light: #93bdfd;
+$color-grey-0: #F8F9FA;
+$color-grey-1: #F1F3F5;
+$color-gray-2: #E9ECEF;
+$color-gray-3: #DEE2E6;
+$color-gray-4: #CED4DA;
+$color-gray-5: #ADB5BD;
+$color-gray-6: #868E96;
+$color-gray-7: #495057;
 
-$color-input-bg: #f1f1f4;
-$color-upload-bg: #f1f3f5;
-$color-placeholder: #a7b3bf;
+$color-primary-500: #a9a8fe;
+$color-primary-200: #A6D2FF;
+$color-hover: #0051D2;
+$color-disabled: #B3D0FF;
 
-$color-error: #d92d20;
+$color-error: #D40404;
+$color-success: #0EA800;
+$color-warning: #FFB121;
+$color-information: #4297FF;
 
 $container-width: 600px;
 $control-height: 56px;

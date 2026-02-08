@@ -128,7 +128,7 @@
 
     &::placeholder {
       @include text-body-lg;
-      color: $color-gray-hint;
+      color: $color-gray-6;
     }
 
     &--error {
@@ -162,21 +162,21 @@
 
   &__hint {
     @include text-body;
-    color: $color-gray-hint;
+    color: $color-gray-6;
   }
 
   &__phone {
     @include flex-center;
     height: $control-height;
-    border: 1px solid $color-gray-border;
+    border: 1px solid $color-gray-4;
   }
 
   &__country {
     @include flex-center;
     gap: 8px;
     padding: 0 16px;
-    background: $color-gray-bg;
-    border-right: 1px solid $color-gray-border;
+    background: $color-gray-5;
+    border-right: 1px solid $color-gray-4;
 
     img {
       width: 18px;
@@ -196,7 +196,7 @@
     outline: none;
 
     &::placeholder {
-      color: $color-gray-main;
+      color: $color-gray-7;
       @include text-body-lg;
     }
   }
@@ -220,7 +220,7 @@
       width: 24px;
       height: 24px;
       cursor: pointer;
-      accent-color: $color-gray-main;
+      accent-color: $color-gray-7;
     }
   }
 
@@ -249,7 +249,7 @@
     @include flex-center;
     width: 24px;
     height: 24px;
-    border: 1px solid $color-gray-main;
+    border: 1px solid $color-gray-7;
 
     &--checked {
       border-color: $color-black;
