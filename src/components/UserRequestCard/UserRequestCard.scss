@@ -6,7 +6,7 @@
   max-width: 704px;
   max-height: 402px;
   padding: 24px;
-  background: $color-grey-1;
+  background: $color-gray-1;
 
   @include flex-column;
 
@@ -20,7 +20,7 @@
 
   &__city {
     @include flex-center;
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__category {
@@ -32,7 +32,7 @@
     color: $color-white;
 
     @include flex-center;
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__title {
@@ -42,7 +42,7 @@
 
   &__description {
     margin-bottom: 24px;
-    @include text-body-lg;
+    @include text-body-regular;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -67,7 +67,7 @@
   }
 
   &__status-text {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__actions {
@@ -82,7 +82,7 @@
 
     @include button-base;
     @include button-secondary;
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__view {
@@ -91,6 +91,6 @@
 
     @include button-base;
     @include button-primary;
-    @include text-body-lg;
+    @include text-body-regular;
   }
 }

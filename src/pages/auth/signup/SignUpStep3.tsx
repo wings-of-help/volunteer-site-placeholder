@@ -7,10 +7,10 @@ import { useTranslation } from 'react-i18next';
 
 type Props = {
   admin: boolean;
-}
+};
 
-const SignUpStep3 = ({admin}: Props) => {
-  const {t} = useTranslation();
+const SignUpStep3 = ({ admin }: Props) => {
+  const { t } = useTranslation();
   const { data, setRole } = useSignUp();
   const { role } = data;
   const { setUserRole } = useUserRole();
@@ -20,16 +20,16 @@ const SignUpStep3 = ({admin}: Props) => {
 
   return (
     <>
-    {admin === true ? (
-      <AdminStep3 
-       />
-        ) : <SignUpForm
+      {admin === true ? (
+        <AdminStep3 />
+      ) : (
+        <SignUpForm
           step={3}
           isValid={isValid}
           onContinue={() => navigate('/signup/step-4')}
         >
           <div className='auth-form__radio-group'>
-            <span className='auth-form__radio-title'>{t("I-want-to")}</span>
+            <span className='auth-form__radio-title'>{t('I-want-to')}</span>
 
             <label className='auth-form__radio'>
               <input
@@ -38,10 +38,15 @@ const SignUpStep3 = ({admin}: Props) => {
                 checked={role === 'volunteer'}
                 onChange={() => {
                   setRole('volunteer');
-                  setUserRole("volunteer");
+                  setUserRole('volunteer');
                 }}
               />
-              <span>{t("Provide-help-(Volunteer)")}</span>
+
+              <span className='auth-form__radio-control' />
+
+              <span className='auth-form__radio-label'>
+                {t('Provide-help-(Volunteer)')}
+              </span>
             </label>
 
             <label className='auth-form__radio'>
@@ -51,14 +56,19 @@ const SignUpStep3 = ({admin}: Props) => {
                 checked={role === 'distressed'}
                 onChange={() => {
                   setRole('distressed');
-                  setUserRole("distressed");
+                  setUserRole('distressed');
                 }}
               />
-              <span>{t("Request help")}</span>
+
+              <span className='auth-form__radio-control' />
+
+              <span className='auth-form__radio-label'>
+                {t('Request help')}
+              </span>
             </label>
           </div>
         </SignUpForm>
-      }
+      )}
     </>
   );
 };

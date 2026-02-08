@@ -12,7 +12,7 @@
   &__create-btn {
     @include button-base;
     @include button-primary;
-    @include text-body-lg;
+    @include text-body-regular;
 
     gap: 8px;
 
@@ -25,7 +25,7 @@
     display: flex;
     gap: 8px;
     padding: 8px;
-    background: $color-grey-1;
+    background: $color-gray-1;
   }
 
   &__tab {
@@ -37,7 +37,7 @@
     border: none;
     cursor: pointer;
 
-    @include text-body-lg;
+    @include text-body-regular;
     text-align: center;
 
     &--active {
@@ -56,7 +56,7 @@
   }
 
   &__empty {
-    @include text-body-lg;
+    @include text-body-regular;
     color: #868e96;
     text-align: center;
   }
@@ -82,7 +82,7 @@
 
   &__title {
     margin-bottom: 8px;
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__description {

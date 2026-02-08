@@ -70,12 +70,12 @@
     flex: 1;
     border: none;
     padding: 0 8px;
-    @include text-body-lg;
+    @include text-body-regular;
     outline: none;
 
     &::placeholder {
       color: $color-gray-7;
-      @include text-body-lg;
+      @include text-body-regular;
     }
   }
 
@@ -91,7 +91,7 @@
     border-right: 1px solid $color-gray-4;
 
     span {
-      @include text-body-lg;
+      @include text-body-regular;
       color: $color-black;
     }
   }
@@ -103,11 +103,11 @@
 
   &__input {
     @include control-base;
-    background: $color-grey-1;
+    background: $color-gray-1;
     border-color: transparent;
 
     &::placeholder {
-      @include text-body-lg;
+      @include text-body-regular;
       color: $color-primary-200;
     }
 
@@ -120,7 +120,7 @@
     width: 100%;
     @include button-base;
     @include button-disabled;
-    @include text-body-lg;
+    @include text-body-regular;
 
     &--active {
       @include button-primary;
@@ -171,7 +171,7 @@
     background: $color-gray-2;
     border: 1px solid transparent;
     text-align: center;
-    @include text-body-lg;
+    @include text-body-regular;
     color: $color-gray-9;
 
     &:focus {

@@ -48,17 +48,9 @@
   display: flex;
   flex-direction: column;
 
-  // &--signin {
-  //   gap: 32px;
-  // }
-
   &__actions {
     @include flex-column;
     align-items: center;
-
-    // &--signup {
-    //   margin-top: 32px;
-    // }
   }
 
   &__header {
@@ -76,15 +68,14 @@
   }
 
   &__subtitle {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__step {
     display: flex;
     gap: 8px;
     margin-bottom: 24px;
-    @include text-body;
-    @include text-semibold;
+    @include text-small;
   }
 
   &__back {
@@ -106,7 +97,7 @@
 
   &__label {
     @include flex-column(4px);
-    @include text-body;
+    @include text-body-regular;
 
     &-text {
       padding-left: 16px;
@@ -123,27 +114,17 @@
   }
 
   &__input {
-    width: 100%;
-    @include control-base;
-
-    &::placeholder {
-      @include text-body-lg;
-      color: $color-gray-6;
-    }
-
-    &--error {
-      border-color: $color-error;
-    }
+    @include input-base;
+    @include input-hover;
+    @include input-focus;
+    @include input-error;
+    @include input-disabled;
   }
 
   &__button {
     width: 100%;
     @include button-base;
-    @include button-disabled;
-
-    &--active {
-      @include button-primary;
-    }
+    @include button-primary;
   }
 
   &__signin {
@@ -157,7 +138,7 @@
     @include text-body;
     text-decoration: underline;
     align-self: flex-end;
-    color: $color-black;
+    color: $color-primary-500;
   }
 
   &__hint {
@@ -166,16 +147,31 @@
   }
 
   &__phone {
-    @include flex-center;
+    display: flex;
     height: $control-height;
     border: 1px solid $color-gray-4;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: $color-white;
+    @include input-base;
+
+    &--error {
+      border-color: $color-error;
+    }
+
+    &:focus-within {
+      border-color: $color-primary-500;
+    }
   }
 
   &__country {
-    @include flex-center;
+    display: flex;
+    align-items: center;
     gap: 8px;
+
     padding: 0 16px;
-    background: $color-gray-5;
+    background: $color-gray-1;
+
     border-right: 1px solid $color-gray-4;
 
     img {
@@ -184,7 +180,9 @@
     }
 
     span {
-      @include text-body-lg;
+      @include text-body-regular;
+      color: $color-gray-9;
+      white-space: nowrap;
     }
   }
 
@@ -192,12 +190,12 @@
     flex: 1;
     border: none;
     padding: 0 16px;
-    @include text-body-lg;
+    @include text-body-regular;
     outline: none;
 
     &::placeholder {
-      color: $color-gray-7;
-      @include text-body-lg;
+      color: $color-gray-6;
+      @include text-body-regular;
     }
   }
 
@@ -206,22 +204,43 @@
   }
 
   &__radio-title {
-    @include text-body-lg;
+    @include text-body-regular;
+    font-weight: 500;
   }
 
   &__radio {
-    @include flex-center;
-    justify-content: flex-start;
+    display: flex;
+    align-items: center;
     gap: 12px;
-    @include text-body-lg;
     cursor: pointer;
 
     input {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-      accent-color: $color-gray-7;
+      display: none;
     }
+  }
+
+  &__radio-control {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid $color-primary-500;
+    position: relative;
+  }
+  &__radio-label {
+    @include text-body-regular;
+    color: $color-gray-9;
+  }
+
+  &__radio input:checked + &__radio-control::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: $color-primary-500;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   &__password {
@@ -262,12 +281,12 @@
   }
 
   &__checkbox-text {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__forgot-link {
     margin-left: auto;
-    @include text-body-lg;
+    @include text-body-regular;
     font-weight: 500;
     text-decoration: none;
     color: $color-gray-9;

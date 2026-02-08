@@ -90,7 +90,7 @@
         @include centeredFlexBox;
 
         &.lang-changer {
-          background-color: $color-grey-0;
+          background-color: $color-gray-0;
         }
       }
     }
@@ -111,7 +111,7 @@
 
     @include button-base;
     @include button-primary;
-    @include text-body-lg;
+    @include text-body-regular;
 
     gap: 8px;
 

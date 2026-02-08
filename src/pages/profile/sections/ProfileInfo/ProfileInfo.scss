@@ -44,12 +44,12 @@
   }
 
   &__role-label {
-    @include text-body-lg;
+    @include text-body-regular;
     font-weight: 500;
   }
 
   &__role-value {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__actions {
@@ -61,7 +61,7 @@
     width: 302px;
     @include button-base;
     @include button-disabled;
-    @include text-body-lg;
+    @include text-body-regular;
 
     &--active {
       @include button-primary;
@@ -108,6 +108,6 @@
     width: 184px;
     @include button-base;
     @include button-secondary;
-    @include text-body-lg;
+    @include text-body-regular;
   }
 }
