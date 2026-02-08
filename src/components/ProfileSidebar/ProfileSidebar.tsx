@@ -16,6 +16,12 @@ interface Props {
 export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
   const { t } = useTranslation();
 
+  const role = user.role;
+
+  // admin поводиться як distressed
+  const isRequester = role === 'distressed' || role === 'admin';
+  const isVolunteer = role === 'volunteer';
+
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
@@ -44,12 +50,14 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           )}
         </NavLink>
 
-        {/* DISTRESSED → MY REQUESTS */}
-        {user.role === 'distressed' && (
+        {/* REQUESTER (distressed + admin) */}
+        {isRequester && (
           <NavLink
             to='/profile/requests'
             className={({ isActive }) =>
-              `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
+              `profile__menu-item ${
+                isActive ? 'profile__menu-item--active' : ''
+              }`
             }
           >
             <img src={requestsIcon} alt='' />
@@ -57,12 +65,14 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           </NavLink>
         )}
 
-        {/* VOLUNTEER → MY OFFERS */}
-        {user.role === 'volunteer' && (
+        {/* VOLUNTEER */}
+        {isVolunteer && (
           <NavLink
             to='/profile/offers'
             className={({ isActive }) =>
-              `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
+              `profile__menu-item ${
+                isActive ? 'profile__menu-item--active' : ''
+              }`
             }
           >
             <img src={requestsIcon} alt='' />
@@ -70,7 +80,7 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           </NavLink>
         )}
 
-        {/* MY RESPONSES — поки для всіх */}
+        {/* MY RESPONSES — для всіх */}
         <NavLink
           to='/profile/responses'
           className={({ isActive }) =>
