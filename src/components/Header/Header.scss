@@ -23,11 +23,10 @@
       flex-shrink: 0;
 
       &__title {
-        @include text-body;
+        @include africad;
         font-weight: 500;
         font-style: Medium;
         line-height: 100%;
-        font-size: 16px;
       }
     }
 

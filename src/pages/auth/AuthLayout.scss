@@ -23,12 +23,13 @@
   }
 
   &__logo {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
   }
 
   &__title {
-    @include text-body;
+    font-family: 'Afacad';
+    font-size: 24px;
     font-weight: 500;
     line-height: 1;
   }
