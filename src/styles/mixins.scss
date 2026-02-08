@@ -6,14 +6,12 @@
 
 @mixin p-styles {
   font-weight: 400;
-  font-style: Regular;
   font-size: 18px;
   line-height: 140%;
 }
 
 @mixin title-styles {
   font-weight: 500;
-  font-style: Medium;
   font-size: 40px;
   line-height: 125%;
 }

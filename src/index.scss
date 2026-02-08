@@ -1,6 +1,10 @@
+@use '../src/styles/variables' as *;
+@use '../src/styles/mixins/index' as *;
+
 html {
   position: relative;
   overflow-y: scroll;
+  color: $color-gray-9;
 }
 
 *,
@@ -15,7 +19,6 @@ html {
 body {
   margin: 0;
   padding: 0;
-  // font-weight: 800;
   font-size: 12px;
   line-height: 1.4;
   letter-spacing: 0;
@@ -39,7 +42,6 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 }
-
 
 @font-face {
   font-family: 'Satoshi';
@@ -68,4 +70,3 @@ body {
   font-weight: 400;
   font-style: italic;
 }
-

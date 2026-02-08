@@ -1,4 +1,6 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
+@use '../../styles/variables' as *;
 
 .home__page {
   width: 100%;
@@ -51,13 +53,11 @@
 }
 
 .button1 {
-  background-color: #000;
-  color: #fff;
+  @include button-primary;
 }
 
 .button2 {
-  border: 1px solid #000;
-  color: #000;
+  @include button-border;
 }
 
 .home-instructions {

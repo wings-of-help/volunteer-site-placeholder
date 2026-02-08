@@ -3,7 +3,7 @@
 
 .modal-backdrop {
   @include overlay-center;
-  background: rgba($color-black, 0.45);
+  background: rgba($color-gray-9, 0.45);
   z-index: 1000;
 }
 
@@ -11,7 +11,7 @@
   width: 600px;
   padding: 24px;
   background: $color-white;
-  box-shadow: 0 8px 32px rgba($color-black, 0.12);
+  box-shadow: 0 8px 32px rgba($color-gray-9, 0.12);
 
   display: flex;
   flex-direction: column;

@@ -43,7 +43,7 @@
         height: 41px;
 
         text-decoration: none;
-        color: #000;
+        color: $color-gray-9;
 
         position: relative;
 
@@ -60,7 +60,7 @@
 
           width: 0;
           height: 2px;
-          background-color: #000;
+          background-color: $color-gray-9;
 
           transition: width 0.3s ease;
         }
@@ -125,13 +125,12 @@
 }
 
 .sign-in {
-  border: 1px solid #000;
+  @include button-border;
   @include p-styles;
 }
 
 .sign-up {
-  background-color: #000;
-  color: #fff;
+@include button-primary;
   @include p-styles;
 }
 

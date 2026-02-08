@@ -28,3 +28,51 @@
   color: $color-white;
   cursor: not-allowed;
 }
+
+@mixin button-border {
+  border: 2px solid $color-primary-500;
+  border-radius: 4px;
+  background-color: transparent;
+  color: $color-gray-9;
+
+  transition: border-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    border-color: $color-hover;
+  }
+
+  &:active {
+    border-color: $color-pressed;
+  }
+
+  &:disabled {
+    border-color: $color-disabled;
+    color: $color-disabled;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  background-color: $color-primary-500;
+  border: 2px solid $color-primary-500;
+  border-radius: 4px;
+  color: $color-grey-0;
+
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    background-color: $color-hover;
+    border-color: $color-hover;
+  }
+   &:active {
+    background-color: $color-pressed;
+    border-color: $color-pressed;
+  }
+
+  &:disabled {
+    background-color: $color-disabled;
+    border-color: $color-disabled;
+    cursor: not-allowed;
+  }
+}
+
