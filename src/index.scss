@@ -6,7 +6,7 @@ html {
 *,
 *::before,
 *::after {
-  font-family: Inter, Arial, sans-serif;
+  font-family: 'Satoshi', Inter, sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -23,3 +23,32 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../assets/fonts/Satoshi-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
