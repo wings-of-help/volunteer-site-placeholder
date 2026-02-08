@@ -18,6 +18,18 @@ export const getMyRequests = async (
   return data.results;
 };
 
+export const getMyOffers = async (userId: number) => {
+  const res = await authFetch(
+    `${BASE_URL}/help/?kind=offer&creator=${userId}&ordering=-created_at`
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to load my offers');
+  }
+
+  const data: Paginated<HelpRequest> = await res.json();
+  return data.results;
+};
 
 export const getMyResponses = async (userId: number): Promise<HelpRequest[]> => {
   const res = await authFetch(
