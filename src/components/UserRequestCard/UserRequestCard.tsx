@@ -113,7 +113,7 @@ export const UserRequestCard = ({
 
       {isDeleteModalOpen && (
         <ConfirmModal
-          title='Are you sure you want to delete this request?'
+          title='Are you sure you want to delete this post?'
           confirmText='Delete'
           cancelText='Cancel'
           variant='danger'

@@ -81,9 +81,7 @@ export const MyOffers = () => {
 
       {isEmpty ? (
         <div className='help-list help-list--empty'>
-          <p className='help-list__empty'>
-            You haven’t created any offers yet
-          </p>
+          <p className='help-list__empty'>You haven’t created any offers yet</p>
         </div>
       ) : (
         <div className='help-list__list'>
@@ -96,11 +94,9 @@ export const MyOffers = () => {
               title={offer.title}
               description={offer.description}
               status={offer.status}
-              onView={(id) =>
-                navigate(`/offers/${id}`, {
-                  state: { from: '/profile/offers' },
-                })
-              }
+              onDeleted={(id) => {
+                setOffers((prev) => prev.filter((item) => item.id !== id));
+              }}
             />
           ))}
         </div>
