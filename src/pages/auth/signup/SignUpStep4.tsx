@@ -9,6 +9,7 @@ import checkIcon from '../../../assets/checkbox-check.svg';
 import { useSignUp } from '../../../context/SignUpContext';
 import { registerRequest } from '../../../api/auth.api';
 import { useToast } from '../../../context/ToastContext';
+import { PasswordHint } from '../../../components/PasswordHint/PasswordHint';
 
 import {
   hasUppercaseLetter,
@@ -107,19 +108,19 @@ const SignUpStep4 = ({ admin }: Props) => {
         />
       </div>
 
-      {/* ===== PASSWORD HINTS (ВСЕГДА ВИДНЫ) ===== */}
+      {/* ===== PASSWORD HINTS ===== */}
       <ul className='auth-form__password-hints'>
-        <PasswordHint ok={passwordChecks.length} text='8–20 characters' />
+        <PasswordHint isValid={passwordChecks.length} text='8–20 characters' />
         <PasswordHint
-          ok={passwordChecks.uppercase}
-          text='One uppercase Latin letter'
+          isValid={passwordChecks.uppercase}
+          text='One uppercase latin letter'
         />
         <PasswordHint
-          ok={passwordChecks.lowercase}
-          text='One lowercase Latin letter'
+          isValid={passwordChecks.lowercase}
+          text='One lowercase latin letter'
         />
         <PasswordHint
-          ok={passwordChecks.special}
+          isValid={passwordChecks.special}
           text='One special character'
         />
       </ul>
@@ -208,16 +209,3 @@ const SignUpStep4 = ({ admin }: Props) => {
 };
 
 export default SignUpStep4;
-
-/* ===== PASSWORD HINT ITEM ===== */
-type HintProps = {
-  ok: boolean;
-  text: string;
-};
-
-const PasswordHint = ({ ok, text }: HintProps) => (
-  <li className={`auth-form__password-hint ${ok ? 'is-valid' : ''}`}>
-    <span className='auth-form__password-hint-icon' />
-    <span>{text}</span>
-  </li>
-);

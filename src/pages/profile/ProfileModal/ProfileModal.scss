@@ -16,7 +16,7 @@
 
   &__header {
     @include flex-between;
-    height: $control-height;
+    height: 46px;
     margin-bottom: 8px;
   }
 
@@ -25,7 +25,7 @@
   }
 
   &__subtitle-hint {
-    @include text-caption;
+    @include text-body-regular;
     color: $color-gray-7;
     margin-bottom: 16px;
   }
@@ -59,40 +59,8 @@
     @include text-body-med;
   }
 
-  &__phone {
-    @include flex-center;
-    height: $control-height;
-    border: 1px solid $color-gray-4;
-  }
-
-  &__phone-input {
-    flex: 1;
-    border: none;
-    padding: 0 8px;
-    @include text-body-regular;
-    outline: none;
-
-    &::placeholder {
-      color: $color-gray-7;
-      @include text-body-regular;
-    }
-  }
-
   &__phone.profile-modal__input--error {
     border-color: $color-error;
-  }
-
-  &__country {
-    @include flex-center;
-    gap: 8px;
-    padding: 0 16px;
-    background: $color-gray-5;
-    border-right: 1px solid $color-gray-4;
-
-    span {
-      @include text-body-regular;
-      color: $color-black;
-    }
   }
 
   &__error {

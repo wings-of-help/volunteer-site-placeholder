@@ -126,6 +126,7 @@
     width: 100%;
     @include button-base;
     @include button-primary;
+    @include text-body-med;
   }
 
   &__signin {
@@ -260,10 +261,11 @@
     cursor: pointer;
   }
 
-  /* ===== PASSWORD HINTS (NEW, НЕ ЛОМАЕТ НИЧЕГО) ===== */
+  /* ===== PASSWORD HINTS ===== */
 
   &__password-hints {
     padding: 0;
+    margin-top: 4px;
     list-style: none;
 
     display: flex;
