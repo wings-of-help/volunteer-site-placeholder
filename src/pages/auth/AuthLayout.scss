@@ -154,6 +154,7 @@
     overflow: hidden;
     background-color: $color-white;
     @include input-base;
+    padding: 0;
 
     &--error {
       border-color: $color-error;
@@ -243,6 +244,8 @@
     transform: translate(-50%, -50%);
   }
 
+  /* ===== PASSWORD ===== */
+
   &__password {
     position: relative;
   }
@@ -256,6 +259,39 @@
     cursor: pointer;
   }
 
+  /* ===== PASSWORD HINTS (NEW, НЕ ЛОМАЕТ НИЧЕГО) ===== */
+
+  &__password-hints {
+    padding: 0;
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__password-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    @include text-small;
+    color: $color-gray-6;
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    &.is-valid {
+      .auth-form__password-hint-icon {
+        background-image: url('../../assets/checkbox-check-gray.svg');
+      }
+    }
+  }
+
   &__checkbox {
     @include flex-center;
     justify-content: flex-start;
@@ -266,17 +302,11 @@
 
   &__checkbox-box {
     @include flex-center;
-    width: 24px;
-    height: 24px;
-    border: 1px solid $color-gray-7;
+    @include checkbox-base;
+    @include checkbox-hover;
 
     &--checked {
-      border-color: $color-black;
-    }
-
-    img {
-      width: 16px;
-      height: 12px;
+      @include checkbox-checked;
     }
   }
 

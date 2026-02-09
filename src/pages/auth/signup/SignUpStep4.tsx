@@ -31,7 +31,7 @@ const SignUpStep4 = ({ admin }: Props) => {
     clearBackendError,
   } = useSignUp();
 
-  const {t} =  useTranslation();
+  const { t } = useTranslation();
   const { password } = data;
 
   const [confirm, setConfirm] = useState('');
@@ -42,22 +42,18 @@ const SignUpStep4 = ({ admin }: Props) => {
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  // ===== SUBMIT CONDITIONS =====
+  /* ===== SUBMIT CONDITIONS ===== */
   const canSubmit = password.length >= 8 && password === confirm && agree;
 
-  // ===== PASSWORD HINT =====
-  const passwordHint = (() => {
-    if (!password || password.length < 8) return t('Minimum-8-characters');
-    if (!hasUppercaseLetter(password))
-      return t('Must-contain-at-least-one-uppercase-Latin-letter');
-    if (!hasLowercaseLetter(password))
-      return t('Must-contain-at-least-one-lowercase-Latin-letter');
-    if (!hasSpecialCharacter(password))
-      return t('Must-contain-at-least-one-special-character');
-    return t('Password-looks-good');
-  })();
+  /* ===== PASSWORD CHECKS (НЕ МЕНЯЕМ) ===== */
+  const passwordChecks = {
+    length: password.length >= 8 && password.length <= 20,
+    uppercase: hasUppercaseLetter(password),
+    lowercase: hasLowercaseLetter(password),
+    special: hasSpecialCharacter(password),
+  };
 
-  // ===== GLOBAL BACKEND ERROR =====
+  /* ===== GLOBAL BACKEND ERROR ===== */
   const globalError =
     backendErrors.first_name?.[0] || backendErrors.last_name?.[0]
       ? t('First-name-and-last-name-must-not-be-empty')
@@ -65,14 +61,13 @@ const SignUpStep4 = ({ admin }: Props) => {
         backendErrors.email?.[0] ||
         backendErrors.phone_number?.[0];
 
-  // ===== SUBMIT =====
+  /* ===== SUBMIT ===== */
   const handleSubmit = async () => {
     setHasSubmitted(true);
     if (!canSubmit) return;
 
     try {
       await registerRequest(data);
-
       showToast(t('Registration-successful'));
 
       setTimeout(() => {
@@ -84,188 +79,145 @@ const SignUpStep4 = ({ admin }: Props) => {
     }
   };
 
+  /* ===== PASSWORD BLOCK (ОБЩИЙ) ===== */
+  const PasswordBlock = (
+    <>
+      <div className='auth-form__password'>
+        <input
+          className={`auth-form__input ${
+            hasSubmitted && backendErrors.password
+              ? 'auth-form__input--error'
+              : ''
+          }`}
+          type={showPassword ? 'text' : 'password'}
+          value={password}
+          placeholder={t('Create a password')}
+          autoComplete='new-password'
+          onChange={(e) => {
+            setPassword(e.target.value);
+            clearBackendError('password');
+          }}
+        />
+
+        <img
+          src={showPassword ? eyeOpen : eyeClosed}
+          alt='Toggle password'
+          className='auth-form__eye'
+          onClick={() => setShowPassword((v) => !v)}
+        />
+      </div>
+
+      {/* ===== PASSWORD HINTS (ВСЕГДА ВИДНЫ) ===== */}
+      <ul className='auth-form__password-hints'>
+        <PasswordHint ok={passwordChecks.length} text='8–20 characters' />
+        <PasswordHint
+          ok={passwordChecks.uppercase}
+          text='One uppercase Latin letter'
+        />
+        <PasswordHint
+          ok={passwordChecks.lowercase}
+          text='One lowercase Latin letter'
+        />
+        <PasswordHint
+          ok={passwordChecks.special}
+          text='One special character'
+        />
+      </ul>
+    </>
+  );
+
   return (
     <>
-    {admin === true ? (
       <SignUpForm
-      step={4}
-      isValid={canSubmit}
-      onContinue={handleSubmit}
-      globalError={globalError}
-      submitLabel='Sign up'
-      path={admin ? 'administrationsignup' : 'signup'}
-    >
-      {/* PASSWORD */}
-      <label className='auth-form__label auth-form__label--with-error'>
-        <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>{t("Password")}</span>
+        step={4}
+        isValid={canSubmit}
+        onContinue={handleSubmit}
+        globalError={globalError}
+        submitLabel='Sign up'
+        path={admin ? 'administrationsignup' : 'signup'}
+      >
+        {/* ===== PASSWORD ===== */}
+        <label className='auth-form__label auth-form__label--with-error'>
+          <span className='auth-form__label-row'>
+            <span className='auth-form__label-text'>{t('Password')}</span>
 
-          {hasSubmitted && backendErrors.password && (
-            <span className='auth-form__error'>
-              {backendErrors.password[0]}
+            {hasSubmitted && backendErrors.password && (
+              <span className='auth-form__error'>
+                {backendErrors.password[0]}
+              </span>
+            )}
+          </span>
+
+          {PasswordBlock}
+        </label>
+
+        {/* ===== CONFIRM PASSWORD ===== */}
+        <label className='auth-form__label auth-form__label--with-error'>
+          <span className='auth-form__label-row'>
+            <span className='auth-form__label-text'>
+              {t('Confirm-password')}
             </span>
-          )}
-        </span>
 
-        <div className='auth-form__password'>
-          <input
-            className={`auth-form__input ${
-              hasSubmitted && backendErrors.password
-                ? 'auth-form__input--error'
-                : ''
+            {hasSubmitted && confirm !== password && (
+              <span className='auth-form__error'>
+                {t('Passwords-do-not-match')}
+              </span>
+            )}
+          </span>
+
+          <div className='auth-form__password'>
+            <input
+              className={`auth-form__input ${
+                hasSubmitted && confirm !== password
+                  ? 'auth-form__input--error'
+                  : ''
+              }`}
+              type={showPassword ? 'text' : 'password'}
+              value={confirm}
+              placeholder={t('Confirm your password')}
+              onChange={(e) => setConfirm(e.target.value)}
+            />
+
+            <img
+              src={showPassword ? eyeOpen : eyeClosed}
+              alt='Toggle password'
+              className='auth-form__eye'
+              onClick={() => setShowPassword((v) => !v)}
+            />
+          </div>
+        </label>
+
+        {/* ===== TERMS ===== */}
+        <label className='auth-form__checkbox'>
+          <span
+            className={`auth-form__checkbox-box ${
+              agree ? 'auth-form__checkbox-box--checked' : ''
             }`}
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            placeholder={t('Create a password')}
-            autoComplete='new-password'
-            onChange={(e) => {
-              setPassword(e.target.value);
-              clearBackendError('password');
-            }}
-          />
+            onClick={() => setAgree(!agree)}
+          >
+            {agree && <img src={checkIcon} alt='checked' />}
+          </span>
 
-          <img
-            src={showPassword ? eyeOpen : eyeClosed}
-            alt='Toggle password'
-            className='auth-form__eye'
-            onClick={() => setShowPassword((v) => !v)}
-          />
-        </div>
-
-        <span className='auth-form__hint'>{passwordHint}</span>
-      </label>
-
-      {/* CONFIRM PASSWORD */}
-      <label className='auth-form__label auth-form__label--with-error'>
-        <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>{t("Confirm-password")}</span>
-          {hasSubmitted && confirm !== password && (
-            <span className='auth-form__error'>{t("Passwords-do-not-match")}</span>
-          )}
-        </span>
-
-        <div className='auth-form__password'>
-          <input
-            className={`auth-form__input ${
-              hasSubmitted && confirm !== password
-                ? 'auth-form__input--error'
-                : ''
-            }`}
-            type={showPassword ? 'text' : 'password'}
-            value={confirm}
-            placeholder={t('Confirm your password')}
-            onChange={(e) => setConfirm(e.target.value)}
-          />
-        </div>
-      </label>
-
-      {/* CHECKBOX */}
-      <label className='auth-form__checkbox'>
-        <span
-          className={`auth-form__checkbox-box ${
-            agree ? 'auth-form__checkbox-box--checked' : ''
-          }`}
-          onClick={() => setAgree(!agree)}
-        >
-          {agree && <img src={checkIcon} alt='checked' />}
-        </span>
-
-        <span className='auth-form__checkbox-text'>
-          {t("I agree-to-the-Terms-of-Use-and-Privacy-Policy")}
-        </span>
-      </label>
-    </SignUpForm>
-    ) : (
-      <SignUpForm
-      step={4}
-      isValid={canSubmit}
-      onContinue={handleSubmit}
-      globalError={globalError}
-      submitLabel='Sign up'
-    >
-      {/* PASSWORD */}
-      <label className='auth-form__label auth-form__label--with-error'>
-        <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>{t("Password")}</span>
-
-          {hasSubmitted && backendErrors.password && (
-            <span className='auth-form__error'>
-              {backendErrors.password[0]}
-            </span>
-          )}
-        </span>
-
-        <div className='auth-form__password'>
-          <input
-            className={`auth-form__input ${
-              hasSubmitted && backendErrors.password
-                ? 'auth-form__input--error'
-                : ''
-            }`}
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            placeholder={t('Create-a-password')}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              clearBackendError('password');
-            }}
-          />
-
-          <img
-            src={showPassword ? eyeOpen : eyeClosed}
-            alt='Toggle password'
-            className='auth-form__eye'
-            onClick={() => setShowPassword((v) => !v)}
-          />
-        </div>
-
-        {/* GREY HINT */}
-        <span className='auth-form__hint'>{passwordHint}</span>
-      </label>
-
-      {/* CONFIRM */}
-      <label className='auth-form__label auth-form__label--with-error'>
-        <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>{t("Confirm-password")}</span>
-          {hasSubmitted && confirm !== password && (
-            <span className='auth-form__error'>{t("Passwords-do-not-match")}</span>
-          )}
-        </span>
-
-        <div className='auth-form__password'>
-          <input
-            className={`auth-form__input ${
-              hasSubmitted && confirm !== password
-                ? 'auth-form__input--error'
-                : ''
-            }`}
-            type={showPassword ? 'text' : 'password'}
-            value={confirm}
-            placeholder={t('Confirm-your-password')}
-            onChange={(e) => setConfirm(e.target.value)}
-          />
-        </div>
-      </label>
-
-      {/* TERMS */}
-      <label className='auth-form__checkbox'>
-        <span
-          className={`auth-form__checkbox-box ${
-            agree ? 'auth-form__checkbox-box--checked' : ''
-          }`}
-          onClick={() => setAgree(!agree)}
-        >
-          {agree && <img src={checkIcon} alt='checked' />}
-        </span>
-
-        <span className='auth-form__checkbox-text'>
-          {t("I-agree-to-the-Terms-of-Use-and-Privacy-Policy")}
-        </span>
-      </label>
-    </SignUpForm>
-    )}
+          <span className='auth-form__checkbox-text'>
+            {t('I agree to the Terms of Use and Privacy Policy')}
+          </span>
+        </label>
+      </SignUpForm>
     </>
   );
 };
 
 export default SignUpStep4;
+
+/* ===== PASSWORD HINT ITEM ===== */
+type HintProps = {
+  ok: boolean;
+  text: string;
+};
+
+const PasswordHint = ({ ok, text }: HintProps) => (
+  <li className={`auth-form__password-hint ${ok ? 'is-valid' : ''}`}>
+    <span className='auth-form__password-hint-icon' />
+    <span>{text}</span>
+  </li>
+);
