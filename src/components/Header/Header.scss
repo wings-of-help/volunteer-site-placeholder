@@ -111,12 +111,10 @@
 
     @include button-base;
     @include button-primary;
-    @include text-body-regular;
+    @include text-body-med;
 
     gap: 8px;
-
     border: none;
-    @include p-styles;
 
     img {
       @include icon-24;

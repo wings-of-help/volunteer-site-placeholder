@@ -14,6 +14,7 @@ import arrowLeftIcon from '../../../assets/ep_arrow-left.svg';
 import uaFlag from '../../../assets/flag-ukraine.svg';
 import eyeOpen from '../../../assets/eye-open.svg';
 import eyeClosed from '../../../assets/eye-closed.svg';
+import checkCircleIcon from '../../../assets/CircleСheck.svg';
 import { useTranslation } from 'react-i18next';
 
 type modalType = 'email' | 'phone' | 'password';
@@ -25,10 +26,12 @@ interface Props {
 }
 
 export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
-  const [step, setStep] = useState<'edit' | 'code' | 'new-password'>('edit');
+  const [step, setStep] = useState<
+    'edit' | 'code' | 'new-password' | 'success'
+  >('edit');
 
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -112,7 +115,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                 {titleMap[type]}
                 {type === 'password' && step === 'edit' && (
                   <p className='profile-modal__subtitle-hint'>
-                    {t("To-change-password-verify-email-first")}
+                    {t('To-change-password-verify-email-first')}
                   </p>
                 )}
               </h2>
@@ -192,7 +195,8 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
             </div>
 
             <p className='profile-modal__subtitle'>
-              {t("Weve-sent-a-verification-code-to")}<strong>{value}</strong>
+              {t('Weve-sent-a-verification-code-to')}
+              <strong>{value}</strong>
             </p>
 
             <button
@@ -202,7 +206,9 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               <img src={arrowLeftIcon} alt='Back' />
             </button>
 
-            <p className='profile-modal__code-label'>{t("Enter-verification-code")}</p>
+            <p className='profile-modal__code-label'>
+              {t('Enter-verification-code')}
+            </p>
 
             <div className='profile-modal__code-row'>
               {code.map((digit, i) => (
@@ -215,9 +221,6 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                     onChange={(e) => handleCodeChange(i, e.target.value)}
                     maxLength={1}
                   />
-                  {i === 2 && (
-                    <span className='profile-modal__code-separator' />
-                  )}
                 </Fragment>
               ))}
             </div>
@@ -231,18 +234,19 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                 if (type === 'password') {
                   setStep('new-password');
                 } else {
-                  // потім тут буде оновлення даних email
                   onSuccess(value);
-                  onClose();
+                  setStep('success');
                 }
               }}
             >
-              {t("Confirm")}
+              {t('Confirm')}
             </button>
 
             <div className='profile-modal__resend'>
-              <span>{t("Didnt-receive-code")}</span>
-              <button className='profile-modal__resend-link'>{t("Resend")}</button>
+              <span>{t('Didnt-receive-code')}</span>
+              <button className='profile-modal__resend-link'>
+                {t('Resend')}
+              </button>
             </div>
           </div>
         </div>
@@ -252,7 +256,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
         <div className='profile-modal-overlay' onClick={onClose}>
           <div className='profile-modal' onClick={(e) => e.stopPropagation()}>
             <div className='profile-modal__header'>
-              <h2 className='profile-modal__title'>{t("Change-password")}</h2>
+              <h2 className='profile-modal__title'>{t('Change-password')}</h2>
 
               <button className='profile-modal__close' onClick={onClose}>
                 <img src={crossIcon} alt='Close' />
@@ -267,10 +271,12 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
             <div className='profile-modal__password-group'>
               <label className='auth-form__label auth-form__label--with-error'>
                 <span className='auth-form__label-row'>
-                  <span className='auth-form__label-text'>{t("New password")}</span>
+                  <span className='auth-form__label-text'>
+                    {t('New password')}
+                  </span>
                   {!isMinLength && password && (
                     <span className='auth-form__error'>
-                      {t("Minimum-8-characters")}
+                      {t('Minimum-8-characters')}
                     </span>
                   )}
                 </span>
@@ -292,7 +298,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                 </div>
 
                 <span className='auth-form__hint'>
-                  {t("Your-new-password-must-be-at-least-8-characters-long")}
+                  {t('Your-new-password-must-be-at-least-8-characters-long')}
                 </span>
               </label>
             </div>
@@ -301,11 +307,11 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               <label className='auth-form__label auth-form__label--with-error'>
                 <span className='auth-form__label-row'>
                   <span className='auth-form__label-text'>
-                    {("Confirm-new-password")}
+                    {'Confirm-new-password'}
                   </span>
                   {confirm && !isMatch && (
                     <span className='auth-form__error'>
-                      {t("Passwords-do-not-match")}
+                      {t('Passwords-do-not-match')}
                     </span>
                   )}
                 </span>
@@ -336,9 +342,41 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                   onClose();
                 }}
               >
-                {t("Confirm")}
+                {t('Confirm')}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {step === 'success' && (
+        <div className='profile-modal-overlay' onClick={onClose}>
+          <div
+            className='profile-modal profile-modal--success'
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={checkCircleIcon}
+              alt='Success'
+              className='profile-modal__success-icon'
+            />
+
+            <h2 className='profile-modal__success-title'>
+              Email updated successfully
+            </h2>
+
+            <p className='profile-modal__success-text'>
+              Your email address has been updated to:
+              <br />
+              <strong>{value}</strong>
+            </p>
+
+            <button
+              className='profile-modal__submit profile-modal__submit--active'
+              onClick={onClose}
+            >
+              Done
+            </button>
           </div>
         </div>
       )}

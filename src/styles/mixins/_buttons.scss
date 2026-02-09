@@ -3,11 +3,8 @@
 
 @mixin button-base {
   height: $control-height;
-  padding: 0 24px;
+  padding: 0 16px;
   @include flex-center;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.35;
   letter-spacing: 0;
   border-radius: 4px;
   cursor: pointer;
@@ -20,7 +17,7 @@
 }
 
 @mixin button-disabled {
-  background: $color-gray-7;
+  background: $color-disabled;
   color: $color-white;
   cursor: not-allowed;
 }
@@ -55,6 +52,7 @@
   border: 2px solid $color-primary-500;
   border-radius: 4px;
   color: $color-gray-0;
+  cursor: pointer;
 
   transition:
     background-color 0.2s ease,
