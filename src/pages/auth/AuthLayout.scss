@@ -75,7 +75,7 @@
     display: flex;
     gap: 8px;
     margin-bottom: 24px;
-    @include text-small;
+    @include text-small-med;
   }
 
   &__back {
@@ -275,7 +275,7 @@
     align-items: center;
     gap: 8px;
 
-    @include text-small;
+    @include text-small-reg;
     color: $color-gray-6;
 
     &-icon {
@@ -283,11 +283,13 @@
       height: 16px;
       border-radius: 3px;
       flex-shrink: 0;
+      background-image: url('../../assets/checkbox-check-gray.svg');
     }
 
     &.is-valid {
+      color: $color-success;
       .auth-form__password-hint-icon {
-        background-image: url('../../assets/checkbox-check-gray.svg');
+        background-image: url('../../assets/checkbox-check-green.svg');
       }
     }
   }

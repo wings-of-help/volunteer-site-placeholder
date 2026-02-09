@@ -22,10 +22,16 @@
   font-weight: 400;
 }
 
-@mixin text-small {
+@mixin text-small-med {
   font-size: 16px;
   line-height: 1.4;
   font-weight: 500;
+}
+
+@mixin text-small-reg {
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 400;
 }
 
 @mixin text-body-regular {
