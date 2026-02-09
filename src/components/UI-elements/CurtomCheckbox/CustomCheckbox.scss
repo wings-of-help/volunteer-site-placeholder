@@ -15,7 +15,7 @@
     @include flex-center;
     width: 24px;
     height: 24px;
-    border: 1px solid $color-gray-main;
+    border: 1px solid $color-gray-7;
 
     &--checked {
       border-color: $color-black;
@@ -28,7 +28,7 @@
   }
 
   &__checkbox-text {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 }
  

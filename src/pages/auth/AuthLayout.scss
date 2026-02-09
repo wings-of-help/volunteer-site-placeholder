@@ -23,12 +23,13 @@
   }
 
   &__logo {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
   }
 
   &__title {
-    @include text-body;
+    font-family: 'Afacad';
+    font-size: 24px;
     font-weight: 500;
     line-height: 1;
   }
@@ -47,17 +48,9 @@
   display: flex;
   flex-direction: column;
 
-  // &--signin {
-  //   gap: 32px;
-  // }
-
   &__actions {
     @include flex-column;
     align-items: center;
-
-    // &--signup {
-    //   margin-top: 32px;
-    // }
   }
 
   &__header {
@@ -65,7 +58,7 @@
     margin-bottom: 24px;
 
     &--signin {
-      margin-bottom: 40px;
+      margin-bottom: 24px;
     }
   }
 
@@ -75,15 +68,14 @@
   }
 
   &__subtitle {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__step {
     display: flex;
     gap: 8px;
     margin-bottom: 24px;
-    @include text-body;
-    @include text-semibold;
+    @include text-small-med;
   }
 
   &__back {
@@ -100,15 +92,16 @@
   }
 
   &__fields {
-    @include flex-column(32px);
+    @include flex-column(16px);
   }
 
   &__label {
     @include flex-column(4px);
-    @include text-body;
+    @include text-body-regular;
 
     &-text {
-      padding-left: 16px;
+      @include text-body-med;
+      padding: 0 16px;
     }
   }
 
@@ -122,27 +115,18 @@
   }
 
   &__input {
-    width: 100%;
-    @include control-base;
-
-    &::placeholder {
-      @include text-body-lg;
-      color: $color-gray-hint;
-    }
-
-    &--error {
-      border-color: $color-error;
-    }
+    @include input-base;
+    @include input-hover;
+    @include input-focus;
+    @include input-error;
+    @include input-disabled;
   }
 
   &__button {
     width: 100%;
     @include button-base;
-    @include button-disabled;
-
-    &--active {
-      @include button-primary;
-    }
+    @include button-primary;
+    @include text-body-med;
   }
 
   &__signin {
@@ -156,26 +140,42 @@
     @include text-body;
     text-decoration: underline;
     align-self: flex-end;
-    color: $color-black;
+    color: $color-primary-500;
   }
 
   &__hint {
     @include text-body;
-    color: $color-gray-hint;
+    color: $color-gray-6;
   }
 
   &__phone {
-    @include flex-center;
+    display: flex;
     height: $control-height;
-    border: 1px solid $color-gray-border;
+    border: 1px solid $color-gray-4;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: $color-white;
+    @include input-base;
+    padding: 0;
+
+    &--error {
+      border-color: $color-error;
+    }
+
+    &:focus-within {
+      border-color: $color-primary-500;
+    }
   }
 
   &__country {
-    @include flex-center;
+    display: flex;
+    align-items: center;
     gap: 8px;
+
     padding: 0 16px;
-    background: $color-gray-bg;
-    border-right: 1px solid $color-gray-border;
+    background: $color-gray-1;
+
+    border-right: 1px solid $color-gray-4;
 
     img {
       width: 18px;
@@ -183,7 +183,9 @@
     }
 
     span {
-      @include text-body-lg;
+      @include text-body-regular;
+      color: $color-gray-9;
+      white-space: nowrap;
     }
   }
 
@@ -191,12 +193,12 @@
     flex: 1;
     border: none;
     padding: 0 16px;
-    @include text-body-lg;
+    @include text-body-regular;
     outline: none;
 
     &::placeholder {
-      color: $color-gray-main;
-      @include text-body-lg;
+      color: $color-gray-6;
+      @include text-body-regular;
     }
   }
 
@@ -205,23 +207,46 @@
   }
 
   &__radio-title {
-    @include text-body-lg;
+    @include text-body-regular;
+    font-weight: 500;
   }
 
   &__radio {
-    @include flex-center;
-    justify-content: flex-start;
+    display: flex;
+    align-items: center;
     gap: 12px;
-    @include text-body-lg;
     cursor: pointer;
 
     input {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-      accent-color: $color-gray-main;
+      display: none;
     }
   }
+
+  &__radio-control {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid $color-primary-500;
+    position: relative;
+  }
+  &__radio-label {
+    @include text-body-regular;
+    color: $color-gray-9;
+  }
+
+  &__radio input:checked + &__radio-control::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: $color-primary-500;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ===== PASSWORD ===== */
 
   &__password {
     position: relative;
@@ -236,6 +261,42 @@
     cursor: pointer;
   }
 
+  /* ===== PASSWORD HINTS ===== */
+
+  &__password-hints {
+    padding: 0;
+    margin-top: 4px;
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__password-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    @include text-small-reg;
+    color: $color-gray-6;
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      flex-shrink: 0;
+      background-image: url('../../assets/checkbox-check-gray.svg');
+    }
+
+    &.is-valid {
+      color: $color-success;
+      .auth-form__password-hint-icon {
+        background-image: url('../../assets/checkbox-check-green.svg');
+      }
+    }
+  }
+
   &__checkbox {
     @include flex-center;
     justify-content: flex-start;
@@ -246,30 +307,23 @@
 
   &__checkbox-box {
     @include flex-center;
-    width: 24px;
-    height: 24px;
-    border: 1px solid $color-gray-main;
+    @include checkbox-base;
+    @include checkbox-hover;
 
     &--checked {
-      border-color: $color-black;
-    }
-
-    img {
-      width: 16px;
-      height: 12px;
+      @include checkbox-checked;
     }
   }
 
   &__checkbox-text {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__forgot-link {
     margin-left: auto;
-    @include text-body-lg;
-    font-weight: 500;
+    @include text-small-med;
     text-decoration: none;
-    color: $color-black;
+    color: $color-gray-9;
   }
 
   &__global-error {
