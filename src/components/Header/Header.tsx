@@ -45,13 +45,13 @@ export default function Header() {
             <>
               <Link to='/signin'>
                 <button className='header__nav__buttons__button sign-in'>
-                  {t('Sign in')}
+                  {t("Sign-in")}
                 </button>
               </Link>
 
               <Link to='/signup/step-1'>
                 <button className='header__nav__buttons__button sign-up'>
-                  {t('Sign up')}
+                  {t('Sign-up')}
                 </button>
               </Link>
             </>

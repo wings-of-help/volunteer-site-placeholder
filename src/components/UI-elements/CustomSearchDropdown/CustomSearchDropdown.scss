@@ -105,3 +105,10 @@
     color: #000;
   }
 }
+
+.custom-dropdown {
+  &__options {
+    max-height: 240px; // або 200–300px, як подобається
+    overflow-y: auto;
+  }
+}
