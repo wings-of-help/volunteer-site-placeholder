@@ -7,16 +7,11 @@ import type { HelpRequest } from '../../../../api/types/help';
 import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequestCard';
 import './MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
-import { useTranslation } from 'react-i18next';
 
 type Tab = 'active' | 'past';
 
-interface Props {
-  onCreate: () => void;
-}
-
-export const MyRequests = ({ onCreate }: Props) => {
-  const {t} = useTranslation();
+export const MyRequests = () => {
+  const { user } = useAuth();
   const [tab, setTab] = useState<Tab>('active');
   const [requests, setRequests] = useState<HelpRequest[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +21,7 @@ export const MyRequests = ({ onCreate }: Props) => {
 
   useEffect(() => {
     if (!user) return;
-    
+
     const loadRequests = async () => {
       try {
         const data = await getMyRequests(user.id);
@@ -63,25 +58,31 @@ export const MyRequests = ({ onCreate }: Props) => {
           onClick={() => navigate('/profile/requests/new')}
         >
           <img src={plusIcon} alt='' />
-          <span>{t("Create-New-Request")}</span>
+          <span>Create New Request</span>
         </button>
       </div>
 
-      <div className='my-requests__tabs'>
-        <button
-          className={`my-requests__tab ${tab === 'active' ? 'my-requests__tab--active' : ''}`}
-          onClick={() => setTab('active')}
-        >
-          {t("Active-Requests")}
-        </button>
+      {!isEmpty && (
+        <div className='help-list__tabs'>
+          <button
+            className={`help-list__tab ${
+              tab === 'active' ? 'help-list__tab--active' : ''
+            }`}
+            onClick={() => setTab('active')}
+          >
+            Active Requests
+          </button>
 
-        <button
-          className={`my-requests__tab ${tab === 'past' ? 'my-requests__tab--active' : ''}`}
-          onClick={() => setTab('past')}
-        >
-          {t("Past Requests")}
-        </button>
-      </div>
+          <button
+            className={`help-list__tab ${
+              tab === 'past' ? 'help-list__tab--active' : ''
+            }`}
+            onClick={() => setTab('past')}
+          >
+            Past Requests
+          </button>
+        </div>
+      )}
 
       {isEmpty ? (
         <div className='help-list help-list--empty'>
@@ -100,11 +101,9 @@ export const MyRequests = ({ onCreate }: Props) => {
               title={request.title}
               description={request.description}
               status={request.status}
-              onView={(id) =>
-                navigate(`/requests/${id}`, {
-                  state: { from: '/profile/requests' },
-                })
-              }
+              onDeleted={(id) => {
+                setRequests((prev) => prev.filter((item) => item.id !== id));
+              }}
             />
           ))}
         </div>

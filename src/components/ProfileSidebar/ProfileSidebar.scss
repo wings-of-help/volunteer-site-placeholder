@@ -7,7 +7,7 @@
     width: 392px;
     height: 374px;
     padding: 24px;
-    border: 1px solid $color-gray-main;
+    background-color: $color-primary-100;
   }
 
   &__user {
@@ -24,13 +24,13 @@
   }
 
   &__name {
-    @include text-body-lg;
-    @include text-semibold;
+    @include text-h4;
+    margin-bottom: 4px;
   }
 
   &__email {
-    @include text-body-lg;
-    color: $color-gray-main;
+    @include text-body-regular;
+    color: $color-gray-7;
   }
 
   &__menu {
@@ -51,11 +51,12 @@
     justify-content: flex-start;
     gap: 16px;
 
-    @include text-body-lg;
+    @include text-body-regular;
 
     &--active {
-      background: $color-black;
-      color: $color-white;
+      background: $color-primary-500;
+      @include text-body-med;
+      color: $color-gray-0;
     }
 
     &--logout {

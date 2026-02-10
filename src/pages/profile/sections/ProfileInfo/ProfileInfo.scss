@@ -11,7 +11,7 @@
   }
 
   &__title {
-    @include text-h2;
+    @include text-h4;
     margin-bottom: 24px;
   }
 
@@ -23,20 +23,18 @@
     display: block;
     padding: 0 16px;
     margin-bottom: 4px;
-    color: $color-black;
-    @include text-body;
+    color: $color-gray-9;
+    @include text-body-med;
   }
 
   &__input {
-    width: 100%;
     margin-bottom: 16px;
-    @include control-base;
-    border-color: $color-gray-border;
+    @include input-base;
+    @include input-hover;
   }
 
   &__role {
     height: $control-height;
-    margin-bottom: 40px;
 
     @include flex-center;
     justify-content: flex-start;
@@ -44,12 +42,12 @@
   }
 
   &__role-label {
-    @include text-body-lg;
+    @include text-body-regular;
     font-weight: 500;
   }
 
   &__role-value {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 
   &__actions {
@@ -58,10 +56,11 @@
   }
 
   &__save-btn {
-    width: 302px;
+    width: 160px;
     @include button-base;
     @include button-disabled;
-    @include text-body-lg;
+    @include text-body-med;
+    border: none;
 
     &--active {
       @include button-primary;
@@ -73,13 +72,13 @@
   }
 
   &__contacts-title {
-    @include text-h2;
+    @include text-h4;
     margin-bottom: 24px;
   }
 
   &__contact-row {
     display: grid;
-    grid-template-columns: 1fr 184px;
+    grid-template-columns: 1fr 104px;
     gap: 24px;
     align-items: end;
     margin-bottom: 16px;
@@ -90,24 +89,25 @@
   }
 
   &__contact-label {
-    padding-left: 16px;
-    color: $color-black;
-    @include text-body;
+    @include text-body-med;
+    padding: 0 16px;
   }
 
   &__contact-input {
-    @include control-base;
-    background: $color-input-bg;
-    color: $color-placeholder;
-    font-size: 18px;
+    @include input-base;
+    @include input-disabled;
 
-    border: none;
+    background-color: $color-gray-2;
+    color: $color-gray-6;
+
+    font-size: 20px;
   }
 
   &__contact-btn {
-    width: 184px;
+    width: 104px;
     @include button-base;
-    @include button-secondary;
-    @include text-body-lg;
+    border: none;
+    @include button-primary;
+    @include text-body-med;
   }
 }

@@ -29,7 +29,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
     clearBackendError,
     setBackendErrors,
   } = useSignUp();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const { setUserRole } = useUserRole();
   const { email, phone_number: phone } = data;
 
@@ -55,7 +55,9 @@ const SignUpStep2 = ({ admin = false }: Props) => {
     try {
       await checkEmailAvailability(email);
     } catch (error: any) {
-      newBackendErrors.email = error?.email || [t("This-email-is-already-in-use")];
+      newBackendErrors.email = error?.email || [
+        t('This-email-is-already-in-use'),
+      ];
       hasBackendError = true;
     }
 
@@ -63,7 +65,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       await checkPhoneAvailability(phone);
     } catch (error: any) {
       newBackendErrors.phone_number = error?.phone_number || [
-        t("This phone number is already in use"),
+        t('This phone number is already in use'),
       ];
       hasBackendError = true;
     }
@@ -81,7 +83,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       {/* Email */}
       <label className='auth-form__label auth-form__label--with-error'>
         <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>{t("Email")}</span>
+          <span className='auth-form__label-text'>{t('Email')}</span>
 
           {(emailError || backendErrors.email) && (
             <span className='auth-form__error'>
@@ -108,7 +110,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
       {/* Phone */}
       <label className='auth-form__label auth-form__label--with-error'>
         <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>{t("Phone-number")}</span>
+          <span className='auth-form__label-text'>{t('Phone-number')}</span>
 
           {(phoneError || backendErrors.phone_number) && (
             <span className='auth-form__error'>
@@ -117,7 +119,13 @@ const SignUpStep2 = ({ admin = false }: Props) => {
           )}
         </span>
 
-        <div className='auth-form__phone'>
+        <div
+          className={`auth-form__phone ${
+            phoneError || backendErrors.phone_number
+              ? 'auth-form__phone--error'
+              : ''
+          }`}
+        >
           <div className='auth-form__country'>
             <img src={uaFlag} alt='UA' />
             <span>+380</span>
@@ -142,7 +150,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
         </div>
 
         <span className='auth-form__hint'>
-          {t("Used-only-for-volunteering-coordination")}
+          {t('Used-only-for-volunteering-coordination')}
         </span>
       </label>
     </SignUpForm>

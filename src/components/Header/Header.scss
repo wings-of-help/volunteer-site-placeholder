@@ -6,7 +6,8 @@
   height: 57px;
   max-width: 1400px;
   width: 100%;
-  margin: 24px auto 1px;
+  margin: 0 auto 1px;
+  padding-top: 24px;
 
   @include flex-center;
 
@@ -14,6 +15,7 @@
     padding: 0 108px;
     width: 100%;
     @include flex-between;
+    padding-top: 24px;
 
     &__wings-sector {
       width: 288px;
@@ -23,11 +25,10 @@
       flex-shrink: 0;
 
       &__title {
-        @include text-body;
+        @include africad;
         font-weight: 500;
         font-style: Medium;
         line-height: 100%;
-        font-size: 16px;
       }
     }
 
@@ -40,9 +41,9 @@
         @include centeredFlexBox;
         width: 184px;
         height: 41px;
-        
+
         text-decoration: none;
-        color: #000;
+        color: $color-gray-9;
 
         position: relative;
 
@@ -59,7 +60,7 @@
 
           width: 0;
           height: 2px;
-          background-color: #000;
+          background-color: $color-gray-9;
 
           transition: width 0.3s ease;
         }
@@ -89,7 +90,7 @@
         @include centeredFlexBox;
 
         &.lang-changer {
-          background-color: $color-input-bg;
+          background-color: $color-gray-0;
         }
       }
     }
@@ -110,12 +111,10 @@
 
     @include button-base;
     @include button-primary;
-    @include text-body-lg;
+    @include text-body-med;
 
     gap: 8px;
-
     border: none;
-    @include p-styles;
 
     img {
       @include icon-24;
@@ -124,13 +123,12 @@
 }
 
 .sign-in {
-  border: 1px solid #000;
+  @include button-border;
   @include p-styles;
 }
 
 .sign-up {
-  background-color: #000;
-  color: #fff;
+@include button-primary;
   @include p-styles;
 }
 

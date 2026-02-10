@@ -11,7 +11,7 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework import status, viewsets
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -19,6 +19,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import PasswordResetCode, User
 from .permissions import UserAccessPermission
@@ -32,6 +33,7 @@ from .serializers import (
     PhoneNumberAvailabilitySerializer,
     RegisterSerializer,
     UserRetrieveSerializer,
+    UserProfilePictureSerializer
 )
 from .utils import generate_reset_code
 
@@ -438,3 +440,36 @@ class MyProfileView(APIView):
             user,
             status=status.HTTP_200_OK,
         )
+
+
+class ChangeProfilePictureView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    @extend_schema(
+        summary="Change profile picture.",
+        description="Changes profile picture of users who sends the request.",
+        request={
+            "multipart/form-data": {
+                "type": "object",
+                "properties": {
+                    "profile_picture": {
+                        "type": "string",
+                        "format": "binary",
+                    }
+                },
+                "required": ["profile_picture"],
+            }
+        },
+        responses={
+            200: OpenApiResponse(description="profile picture was successfully changed."),
+        },
+        tags=["Users"],
+    )
+    def patch(self, request):
+        user = request.user
+        serializer = UserProfilePictureSerializer(user, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({"detail": "profile picture was successfully changed."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

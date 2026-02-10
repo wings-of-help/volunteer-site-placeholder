@@ -3,6 +3,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+from cloudinary.models import CloudinaryField
 from django.db import models
 from django.utils import timezone
 
@@ -39,6 +40,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         ADMIN = "admin", "Admin"
 
     email = models.EmailField(unique=True)
+    profile_picture = CloudinaryField(
+        "photo",
+        blank=True,
+        null=True,
+        folder="profile_pictures"
+    )
     phone_number = models.CharField(max_length=20, unique=True)
 
     first_name = models.CharField(max_length=150)

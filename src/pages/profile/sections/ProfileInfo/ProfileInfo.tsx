@@ -4,22 +4,20 @@ import { useAuth } from '../../../../context/AuthContext';
 import { updateMyProfileRequest } from '../../../../api/user.api';
 import { formatPhoneForDisplay } from '../../../../utils/phone';
 import './ProfileInfo.scss';
-import { useTranslation } from 'react-i18next';
-import type { User } from '../../../../api/types/auth';
 
-interface Props {
-  user: User;
-}
+export const ProfileInfo = () => {
+  const { user, getMyProfile } = useAuth();
 
-type ActiveModal = 'email' | 'phone' | 'password' | null;
+  if (!user) {
+    return null;
+  }
 
-export const ProfileInfo = ({ user }: Props) => {
-  const {t} = useTranslation();
   const [originalUser, setOriginalUser] = useState(user);
   const [form, setForm] = useState(user);
 
-  const [activeModal, setActiveModal] = useState<ActiveModal>(null);
-  const { getMyProfile } = useAuth();
+  const [activeModal, setActiveModal] = useState<
+    null | 'email' | 'phone' | 'password'
+  >(null);
 
   const isDirty =
     form.first_name !== originalUser.first_name ||
@@ -48,14 +46,14 @@ export const ProfileInfo = ({ user }: Props) => {
 
   return (
     <>
-      <div className='profile__card'>
-        <div className='profile__header'>
-          <h1 className='profile__title'>{t("Profile")}</h1>
+      <div className="profile__card">
+        <div className="profile__header">
+          <h1 className="profile__title">Profile</h1>
         </div>
 
-        <div className='profile__form'>
-          <label className='profile__field'>
-            <span className='profile__label'>{t("First-name")}</span>
+        <div className="profile__form">
+          <label className="profile__field">
+            <span className="profile__label">First name</span>
             <input
               className="profile__input"
               value={form.first_name}
@@ -65,8 +63,8 @@ export const ProfileInfo = ({ user }: Props) => {
             />
           </label>
 
-          <label className='profile__field'>
-            <span className='profile__label'>{t("Last-name")}</span>
+          <label className="profile__field">
+            <span className="profile__label">Last name</span>
             <input
               className="profile__input"
               value={form.last_name}
@@ -76,9 +74,9 @@ export const ProfileInfo = ({ user }: Props) => {
             />
           </label>
 
-          <div className='profile__role'>
-            <span className='profile__role-label'>{t("Role")}</span>
-            <span className='profile__role-value'>Requester</span>
+          <div className="profile__role">
+            <span className="profile__role-label">Role:</span>
+            <span className="profile__role-value">Requester</span>
           </div>
 
           <div className="profile__actions">
@@ -89,17 +87,17 @@ export const ProfileInfo = ({ user }: Props) => {
               disabled={!isDirty}
               onClick={handleSave}
             >
-              {t("Save-changes")}
+              Save changes
             </button>
           </div>
         </div>
 
-        <div className='profile__contacts'>
-          <h2 className='profile__contacts-title'>{t("Contact-Information")}</h2>
+        <div className="profile__contacts">
+          <h2 className="profile__contacts-title">Contact Information</h2>
 
-          <div className='profile__contact-row'>
-            <div className='profile__contact-field'>
-              <span className='profile__contact-label'>{t("Email")}</span>
+          <div className="profile__contact-row">
+            <div className="profile__contact-field">
+              <span className="profile__contact-label">Email</span>
               <input
                 className="profile__contact-input"
                 disabled
@@ -110,13 +108,13 @@ export const ProfileInfo = ({ user }: Props) => {
               className="profile__contact-btn"
               onClick={() => setActiveModal('email')}
             >
-              {t("Change")}
+              Change
             </button>
           </div>
 
-          <div className='profile__contact-row'>
-            <div className='profile__contact-field'>
-              <span className='profile__contact-label'>{t("Phone-number")}</span>
+          <div className="profile__contact-row">
+            <div className="profile__contact-field">
+              <span className="profile__contact-label">Phone number</span>
               <input
                 className="profile__contact-input"
                 disabled
@@ -127,13 +125,13 @@ export const ProfileInfo = ({ user }: Props) => {
               className="profile__contact-btn"
               onClick={() => setActiveModal('phone')}
             >
-              {t("Change")}
+              Change
             </button>
           </div>
 
-          <div className='profile__contact-row'>
-            <div className='profile__contact-field'>
-              <span className='profile__contact-label'>{t("Password")}</span>
+          <div className="profile__contact-row">
+            <div className="profile__contact-field">
+              <span className="profile__contact-label">Password</span>
               <input
                 className="profile__contact-input"
                 disabled
@@ -144,7 +142,7 @@ export const ProfileInfo = ({ user }: Props) => {
               className="profile__contact-btn"
               onClick={() => setActiveModal('password')}
             >
-              {t("Change")}
+              Change
             </button>
           </div>
         </div>
