@@ -21,7 +21,7 @@ export const MyRequests = () => {
 
   useEffect(() => {
     if (!user) return;
-    
+
     const loadRequests = async () => {
       try {
         const data = await getMyRequests(user.id);
@@ -101,11 +101,9 @@ export const MyRequests = () => {
               title={request.title}
               description={request.description}
               status={request.status}
-              onView={(id) =>
-                navigate(`/requests/${id}`, {
-                  state: { from: '/profile/requests' },
-                })
-              }
+              onDeleted={(id) => {
+                setRequests((prev) => prev.filter((item) => item.id !== id));
+              }}
             />
           ))}
         </div>

@@ -41,8 +41,10 @@
     text-align: center;
 
     &--active {
-      background: $color-black;
-      color: $color-white;
+      @include text-body-med;
+      background: $color-primary-500;
+      color: $color-gray-0;
+;
     }
   }
 

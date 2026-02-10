@@ -1,0 +1,105 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins/index' as *;
+
+.confirm-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+
+  @include flex-center;
+}
+
+.confirm-modal {
+  width: 600px;
+  padding: 24px;
+  background: $color-white;
+  border-radius: 8px;
+
+  @include flex-column(8px);
+  align-items: center;
+  text-align: center;
+
+  &__icon {
+    width: 120px;
+    height: 120px;
+  }
+
+  &__title {
+    @include text-h2;
+    margin: 0;
+  }
+
+  &__description {
+    @include text-body-regular;
+    color: $color-gray-7;
+  }
+
+  &__warning {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-top: 24px;
+    @include text-body-med;
+  }
+
+  &__cancel {
+    flex: 1;
+    @include button-base;
+    @include button-border;
+    @include text-body-med;
+  }
+
+  &__confirm {
+    flex: 1;
+    @include button-base;
+    @include button-primary;
+    @include text-body-med;
+  }
+  
+  &--danger {
+    .confirm-modal__confirm {
+      background-color: $color-error;
+      border: none;
+      color: $color-white;
+
+      transition:
+        background-color 0.2s ease,
+        transform 0.1s ease;
+
+      &:hover {
+        background-color: darken($color-error, 8%);
+      }
+
+      &:active {
+        background-color: darken($color-error, 12%);
+        transform: scale(0.96);
+      }
+    }
+
+    .confirm-modal__cancel {
+      border: 1px solid $color-black;
+      color: $color-black;
+      background: transparent;
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.1s ease;
+
+      &:hover {
+        background-color: $color-gray-1;
+      }
+
+      &:active {
+        transform: scale(0.96);
+        background-color: $color-gray-2;
+      }
+    }
+  }
+}
