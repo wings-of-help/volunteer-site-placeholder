@@ -65,8 +65,8 @@
   "requests-page-p1": "Переглядайте перевірені запити від людей та організацій, які потребують підтримки прямо зараз.",
   "requests-page-p2": "Кожна відповідь має значення.",
 
-  "offers-page-p1": "Explore offers from people and organizations ready to help.",
-  "offers-page-p2": "Every response matters.",
+  "offers-page-p1": "Переглядайте пропозиції допомоги від людей та організацій.",
+  "offers-page-p2": "Кожен відгук має значення.",
 
   "Help-category": "Категорії Допомоги",
   "choose-category": "Виберіть одну або кілька категорій",
@@ -170,6 +170,38 @@
   "Description": "Пояснення",
   "/1000-characters-(min 500)": "/ 1000 символів (мінімум 500)",
   "Cancel": "Відмінити",
-  "Publish": "Опублікувати"
+  "Publish": "Опублікувати",
 
+  "Are-you-sure-you-want-to-log-out": "Ви дійсно хочете вийти з акаунту?",
+  "Logout": "Вийти",
+
+  "Search": "Пошук...",
+  "Choose-a-city": "Оберіть місто",
+  "Nothing-found": "Нічого не знайдено",
+
+  "Okay": "Погодитись",
+
+  "Back-to": "Назад до",
+  "About": "Опис",
+  "Register-to-Help": "Долучіться для того щоб допомогти",
+  "Offer-help": "Пропонувати допомогу",
+  "Only-registered-volunteers-can-respond-to-this-request": "Лише зареєстровані волонтери можуть відповісти на цей запит.",
+  "Sign-up-to-Request-Help": "Зареєструйтесь для того щоб Запросити Допомогу",
+  "Only-registered-requesters-can-respond-to-this-offer": "Лише зареєстровані запитувачі можуть відповісти на цю пропозицію.",
+  "Request-Help": "Запросити Допомогу",
+  "Requester": "Запитувач",
+  "Volunteer": "Волонтер",
+  "To-change-password-verify-email-first": "Для зміни паролю спочатку верифікуйте електронну пошту",
+  "Weve-sent-a-verification-code-to": "Ми надіслали верифікаційник код ",
+  "Enter-verification-code": "Введіть верифікаційний код",
+  "Confirm": "Підтвердіть",
+  "Didnt-receive-code": "Не отримали код?",
+  "Resend": "Відправити ще раз",
+  "Change-password": "Змінити пароль",
+  "New-password": "Новий Пароль",
+  "Your-new-password-must-be-at-least-8-characters-long": "Ваш новий пароль має бути не менше 8 символів",
+  "Confirm-new-password": "Підтвердіть новий пароль",
+
+  "Active-Requests": "Активні Запити",
+  "Past-Requests": "Минулі Запити"
 }

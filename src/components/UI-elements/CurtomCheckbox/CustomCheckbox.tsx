@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./CustomCheckbox.scss"
-import checkIcon from '../../../assets/checkbox-check.svg';
+import checkIcon from "../../../assets/checkbox-check-gray.svg"
 
 type Props = {
   title: string;

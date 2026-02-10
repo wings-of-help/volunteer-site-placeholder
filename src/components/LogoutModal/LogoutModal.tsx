@@ -19,7 +19,7 @@ export const LogoutModal = ({ onCancel, onConfirm }: Props) => {
         />
 
         <p className="logout-modal__title">
-          {t("Are you sure you want to log out?")}
+          {t("Are-you-sure-you-want-to-log-out")}
         </p>
 
         <div className="logout-modal__actions">
