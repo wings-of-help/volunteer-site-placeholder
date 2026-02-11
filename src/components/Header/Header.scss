@@ -48,7 +48,7 @@
         position: relative;
 
         &__title {
-          @include title-styles;
+          @include text-h2;
           font-size: 18px;
         }
 
@@ -124,12 +124,12 @@
 
 .sign-in {
   @include button-border;
-  @include p-styles;
+  @include text-h3;
 }
 
 .sign-up {
 @include button-primary;
-  @include p-styles;
+  @include text-h3;
 }
 
 .has-underline {

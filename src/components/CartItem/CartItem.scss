@@ -1,4 +1,5 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
 
 .cart-item {
   @include disableLinkStyles;
@@ -22,29 +23,27 @@
       border-radius: 5%;
       background-color: #A6D2FF;
       color: #2277FF;
-      font-family: Satoshi Variable;
-      font-weight: 500;
-      font-style: Medium;
+
+      @include text-h2;
       font-size: 20px;
-      line-height: 135%;
 
       padding: 8px 12px;
       white-space: nowrap;
     }
 
     &__city {
-      @include p-styles;
+      @include text-h3;
       color: #5C6569;
     }
   }
 
   &__title {
-    @include title-styles;
+    @include text-h2;
     
   }
 
   &__p {
-    @include p-styles;
+    @include text-h3;
     flex-grow: 1;
   }
 
@@ -65,7 +64,7 @@
     background-color: #D0BFFF;
     color: #845EF7;
 
-    @include p-styles;
+    @include text-h3;
 
     padding: 8px 12px;
     height: 41px;
