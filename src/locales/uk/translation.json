@@ -174,7 +174,7 @@
   "Requester": "Запитувач",
   "Volunteer": "Волонтер",
   "To-change-password-verify-email-first": "Для зміни паролю спочатку верифікуйте електронну пошту",
-  "Weve-sent-a-verification-code-to": "Ми надіслали верифікаційник код ",
+  "Weve-sent-a-verification-code-to": "Ми надіслали верифікаційник код на ",
   "Enter-verification-code": "Введіть верифікаційний код",
   "Confirm": "Підтвердіть",
   "Didnt-receive-code": "Не отримали код?",
@@ -195,5 +195,23 @@
 
   "Our-social-media": "Наші соціальні мережі",
   "Contact Information": "Контактна інформація",
-  "My-Offers": "Мої пропозиції"
+  "My-Offers": "Мої пропозиції",
+
+  "Change-email": "Змінити електронну пошту",
+  "Change-phone-number": "Змінити номер телефону",
+  "Enter-new-email": "Введіть нову електронну пошту",
+  "Verify-email": "Підтвердити електронну пошту",
+  "Save-phone-number": "Зберегти номер телефону",
+  "Verify-password": "Підтвердити пароль",
+  "Email-updated": "Електронну пошту оновлено",
+  "Your-email-address-has-been-updated-to": "Вашу електронну адресу оновлено до:",
+  "Phone-number-updated": "Номер телефону оновлено",
+  "Your-phone-number-has-been-updated-successfully": "Ваш номер телефону успішно оновлено.",
+  "Password-updated": "Пароль оновлено",
+  "Your-password-has-been-changed-successfully": "Ваш пароль успішно змінено.",
+
+  "8-20-characters": "8-20 символів",
+  "One-uppercase-latin-letter": "Одна велика латинська літера",
+  "One-lowercase-latin-letter": "Одна мала латинська літера",
+  "One-special-character": "Один спеціальний символ"
 }

@@ -64,15 +64,15 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   const isActive = Boolean(value);
 
   const titleMap: Record<modalType, string> = {
-    email: 'Change email',
-    phone: 'Change phone number',
-    password: 'Change password',
+    email: t("Change-email"),
+    phone: t("Change-phone-number"),
+    password: t("Change-password"),
   };
 
   const labelMap: Record<modalType, string> = {
-    email: 'Enter new email',
-    phone: 'Phone number',
-    password: 'Enter your email',
+    email: t("Enter-new-email"),
+    phone: t("Phone-number"),
+    password: t("Enter-your-email"),
   };
 
   const placeholderMap: Record<modalType, string> = {
@@ -82,9 +82,9 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   };
 
   const buttonMap: Record<modalType, string> = {
-    email: 'Verify email',
-    phone: 'Save phone number',
-    password: 'Verify password',
+    email: t("Verify-email"),
+    phone: t("Save-phone-number"),
+    password: t("Verify-password"),
   };
 
   const successConfig: Record<
@@ -92,18 +92,18 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
     { title: string; description: string; withValue: boolean }
   > = {
     email: {
-      title: 'Email updated',
-      description: 'Your email address has been updated to:',
+      title: t("Email-updated"),
+      description: t("Your-email-address-has-been-updated-to"),
       withValue: true,
     },
     phone: {
-      title: 'Phone number updated',
-      description: 'Your phone number has been updated successfully.',
+      title: t("Phone-number-updated"),
+      description: t("Your-phone-number-has-been-updated-successfully"),
       withValue: true,
     },
     password: {
-      title: 'Password updated',
-      description: 'Your password has been changed successfully.',
+      title: t("Password-updated"),
+      description: t("Your-password-has-been-changed-successfully"),
       withValue: false,
     },
   };
@@ -263,7 +263,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               <label className='auth-form__label auth-form__label--with-error'>
                 <span className='auth-form__label-row'>
                   <span className='auth-form__label-text'>
-                    {t('New password')}
+                    {t('New-password')}
                   </span>
                 </span>
 
@@ -290,19 +290,19 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               <ul className='auth-form__password-hints'>
                 <PasswordHint
                   isValid={passwordChecks.length}
-                  text='8–20 characters'
+                  text={t("8-20-characters")}
                 />
                 <PasswordHint
                   isValid={passwordChecks.uppercase}
-                  text='One uppercase latin letter'
+                  text={t("One-uppercase-latin-letter")}
                 />
                 <PasswordHint
                   isValid={passwordChecks.lowercase}
-                  text='One lowercase latin letter'
+                  text={t("One-lowercase-latin-letter")}
                 />
                 <PasswordHint
                   isValid={passwordChecks.special}
-                  text='One special character'
+                  text={t("One-special-character")}
                 />
               </ul>
             </div>
@@ -311,7 +311,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
               <label className='auth-form__label auth-form__label--with-error'>
                 <span className='auth-form__label-row'>
                   <span className='auth-form__label-text'>
-                    {'Confirm-new-password'}
+                    {t('Confirm-new-password')}
                   </span>
                   {confirm && !isMatch && (
                     <span className='auth-form__error'>

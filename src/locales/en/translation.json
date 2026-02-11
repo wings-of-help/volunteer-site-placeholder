@@ -209,5 +209,23 @@
 
   "Our-social-media": "Our social media",
   "Contact Information": "Contact Information",
-  "My-Offers": "My Offers"
+  "My-Offers": "My Offers",
+
+  "Change-email": "Change-email",
+  "Change-phone-number": "Change-phone-number",
+  "Enter-new-email": "Enter-new-email",
+  "Verify-email": "Verify-email",
+  "Save-phone-number": "Save-phone-number",
+  "Verify-password": "Verify-password",
+  "Email-updated": "Email-updated",
+  "Your-email-address-has-been-updated-to": "Your email address has been updated to:",
+  "Phone-number-updated": "Phone-number-updated",
+  "Your-phone-number-has-been-updated-successfully": "Your phone number has been updated successfully.",
+  "Password-updated": "Password-updated",
+  "Your-password-has-been-changed-successfully": "Your password has been changed successfully.",
+  
+  "8-20-characters": "8-20 characters",
+  "One-uppercase-latin-letter": "One uppercase latin letter",
+  "One-lowercase-latin-letter": "One lowercase latin letter",
+  "One-special-character": "One special character"
 }
