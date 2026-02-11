@@ -23,7 +23,7 @@ export default function ActiveGroup({title, p, p2, seeAll, path}: Props) {
   console.log(path);
   
   useEffect(() => {
-    setCarts(carts.slice(0, 3))
+    setCarts(carts => carts.slice(0, 3))
   }, [])
   return (
     <div className="home-active-requests">
@@ -43,7 +43,7 @@ export default function ActiveGroup({title, p, p2, seeAll, path}: Props) {
         <div className="home-active-requests__carts">
           {carts.map((cart: HelpCart) => {
             return <CartItem
-              type={path as 'offers' | 'requests'}
+              type={path.replace("/", "") as 'offers' | 'requests'}
               key={cart.id}
               id={cart.id}
               title={cart.title}

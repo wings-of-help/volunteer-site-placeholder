@@ -25,3 +25,17 @@
   height: 24px;
   width: 24px;
 }
+
+.no-results {
+  @include centeredFlexBox;
+  width: 808px;
+  flex-direction: column;
+
+  &__title {
+    @include title-styles;
+  }
+  
+  &__p {
+    @include p-styles;
+  }
+}

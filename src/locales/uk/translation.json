@@ -70,24 +70,6 @@
 
   "Help-category": "Категорії Допомоги",
   "choose-category": "Виберіть одну або кілька категорій",
-
-  "Evacuation/Relocation" : "Евакуація/Переїзд",
-  "Medical-Support" : "Медична Допомога",
-  "Shelter/Housing" : "Притулок/Житло",
-  "Food-&-Basic-Supplies": "Їжа & Базові Потреби",
-  "Logistics/Transportation": "Логістика/Транспорт",
-  "Psychological-Support": "Психологічна допомога",
-  "Child-&-Family-Support": "Діти & Сімейна Підтримка",
-  "Legal/Administrative Assistance": "Юридична / Адміністративна допомога",
-  "Employment/Livelihoods": "Працевлаштування / Життєдіяльність",
-  "Education/Tutoring": "Освіта / Навчання",
-  "Volunteer-Coordination/Community-Support": "Координація Волонтерів / Соціальна Підтримка",
-  "Animal/Pet-Assistance": "Домашні Улюбленці / Допомога Домашнім Тваринам",
-  "Other": "Інше",
-
-  "New": "Новий",
-  "In-progress": "В Обробці",
-  "Done": "Готовий",
   
   "Load-more": "Дивитись ще",
   "Location": "Локація",
@@ -203,5 +185,15 @@
   "Confirm-new-password": "Підтвердіть новий пароль",
 
   "Active-Requests": "Активні Запити",
-  "Past-Requests": "Минулі Запити"
+  "Past-Requests": "Минулі Запити",
+
+  "Your-offer-has-been-sent": "Вашу пропозицію надіслано!",
+  "Your-request-has-been-sent": "Ваш запит надіслано!",
+  "Your-support-can-make-a-real-difference": "Ваша підтримка може мати справжнє значення.",
+  "Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon": "Дякуємо, що звернулися — волонтер може зв’язатися з вами найближчим часом.",
+  "Request-help": "Попросити допомогу",
+
+  "Our-social-media": "Наші соціальні мережі",
+  "Contact Information": "Контактна інформація",
+  "My-Offers": "Мої пропозиції"
 }

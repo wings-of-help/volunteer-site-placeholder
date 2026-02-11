@@ -93,8 +93,6 @@
   "Location": "Location",
   "Status": "Status",
   "Sort-by": "Sort by:",
-  "Newest": "Newest",
-  "Oldest": "Oldest",
 
   "Welcome-Back": "Welcome Back",
   "Sign-in-to-continue-using-Wings-of-Help": "Sign in to continue using Wings of Help.",
@@ -201,5 +199,15 @@
   "Confirm-new-password": "Confirm new password",
 
   "Active-Requests": "Active Requests",
-  "Past-Requests": "Past Requests"
+  "Past-Requests": "Past Requests",
+
+  "Your-offer-has-been-sent": "Your offer has been sent!",
+  "Your-request-has-been-sent": "Your request has been sent!",
+  "Your-support-can-make-a-real-difference": "Your support can make a real difference.",
+  "Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon": "Thank you for reaching out — the volunteer may contact you soon.",
+  "Request-help": "Request help",
+
+  "Our-social-media": "Our social media",
+  "Contact Information": "Contact Information",
+  "My-Offers": "My Offers"
 }

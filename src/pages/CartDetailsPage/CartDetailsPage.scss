@@ -24,9 +24,11 @@
   &__info {
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid #000;
 
     &__title {
       @include title-styles;
+
       margin-bottom: 27px;
     }
 
@@ -44,7 +46,6 @@
 
     &__about {
       margin-top: 24px;
-      border-bottom: 1px solid #000;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -57,6 +58,7 @@
       &__p {
         @include p-styles;
         max-width: 790px;
+        margin-bottom: 48px;
       }
 
       &__register {
@@ -67,7 +69,7 @@
         border-bottom: 1px solid #000;
 
         &__button {
-          @include blackButton;
+          @include blueButton;
         }
 
         &__signin {
@@ -97,28 +99,38 @@
       }
 
       &__details {
+        margin-top: 24px;
         display: flex;
-        align-items: center;
-        gap: 250px;
+        flex-direction: column;
+        align-self: flex-start;
 
         &__name {
-          font-weight: 600;
-          font-style: Semi Bold;
-          font-size: 18px;
-          line-height: 140%;
+          font-family: Satoshi Variable;
+          font-weight: 500;
+          font-style: Medium;
+          font-size: 20px;
+          line-height: 135%;
         }
 
         &__d {
+          font-family: Satoshi Variable;
+          font-weight: 400;
+          font-style: Regular;
+          font-size: 20px;
+          line-height: 135%;
           display: flex;
           align-items: center;
-          @include p-styles;
-          gap: 8px;
+          gap: 5px;
         }
       }
     }
   }
 }
 
+.icon {
+  height: 24px;
+  width: 24px;
+}
 
 
 .cart-details-page__nav-link {
@@ -134,8 +146,15 @@
 }
 
 .aid {
-  background-color: #5C6569;
-  color: #fff;
+  font-family: Satoshi Variable;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 20px;
+  line-height: 135%;
+  color: #2277FF;
+  background-color: #A6D2FF;
+  border-radius: 5%;
+
   padding: 8px;
 }
 
@@ -147,9 +166,8 @@
 
 .offer {
   &__button {
-    margin-top: 48px;
-    margin-bottom: 80px;
-    @include blackButton;
+    margin-bottom: 48px;
+    @include blueButton;
   }
 
   &__wrong {
@@ -163,10 +181,11 @@
 }
 
 .status {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include centeredFlexBox;
   @include p-styles;
+  background-color: #D0BFFF;
+  border-radius: 10%;
+
   gap: 8px;
   padding: 8px;
 }
@@ -180,5 +199,10 @@
 .status-box {
   display: flex;
   align-items: center;
+  gap: 16px;
+}
+
+.container {
+  display: flex;
   gap: 16px;
 }

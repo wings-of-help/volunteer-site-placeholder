@@ -1,0 +1,23 @@
+// @use '../../styles/variables' as *;
+@use "../../../styles/mixins.scss" as *;
+
+.filter {
+  border-radius: 7%;
+  @include centeredFlexBox;
+  border: 2px solid #CED4DA;
+  height: 43px;
+  padding: 8px;
+  gap: 8px;
+}
+
+.filter-criteria {
+  color: #212529;
+  font-family: Satoshi Variable;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 135%;
+}
+
+.cancel {
+  cursor: pointer;
+}
