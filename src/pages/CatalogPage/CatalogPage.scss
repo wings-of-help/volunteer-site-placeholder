@@ -21,7 +21,10 @@
     margin-bottom: 24px;
 
     &__title {
-      @include title-styles;
+      font-family: Satoshi Variable;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 40px;
     }
 
     &__paragraphs {
@@ -68,4 +71,10 @@
 .arrow {
   width: 16px;
   height: 16px;
+}
+
+.catalog-items-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }

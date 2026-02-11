@@ -4,51 +4,77 @@
   @include disableLinkStyles;
   display: flex;
   flex-direction: column;
-  
+  border-radius: 3%;
+
   width: 392px;
   min-height: 286px;
-  max-height: 100%;
   gap: 24px;
   padding: 24px;
   background-color: #F1F1F4;
-
   box-sizing: border-box;
-
 
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    &__city {
-      @include p-styles;
+    &__category {
+      border-radius: 5%;
+      background-color: #A6D2FF;
+      color: #2277FF;
+      font-family: Satoshi Variable;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 20px;
+      line-height: 135%;
+
+      padding: 8px 12px;
+      white-space: nowrap;
     }
 
-    &__category {
+    &__city {
       @include p-styles;
-      color: #FFF;
-      background-color: #5C6569;
-      padding: 8px;
+      color: #5C6569;
     }
   }
 
   &__title {
     @include title-styles;
-    font-size: 24px;
+    
   }
 
   &__p {
     @include p-styles;
+    flex-grow: 1;
+  }
+
+  &__bottom {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
   }
 
   &__status {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    width: 100%;
+    border-radius: 10%;
+
+    background-color: #D0BFFF;
+    color: #845EF7;
+
     @include p-styles;
-    padding: 8px;
-    background-color: #fff;
+
+    padding: 8px 12px;
     height: 41px;
+    white-space: nowrap;
   }
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }

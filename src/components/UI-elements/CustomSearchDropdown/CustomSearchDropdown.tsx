@@ -10,14 +10,14 @@ type Option = {
 
 type Props = {
   options: Option[];
+  selectedOption: Option | null; 
   onSelect: (option: Option) => void;
 };
 
-export default function CustomSearchDropdown({ options, onSelect }: Props) {
-  const {t} = useTranslation();
+export default function CustomSearchDropdown({ options, selectedOption, onSelect }: Props) {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [selected, setSelected] = useState<Option | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -45,7 +45,6 @@ export default function CustomSearchDropdown({ options, onSelect }: Props) {
   }, []);
 
   const handleSelect = (option: Option) => {
-    setSelected(option);
     setIsOpen(false);
     setSearch("");
     onSelect(option);
@@ -54,7 +53,7 @@ export default function CustomSearchDropdown({ options, onSelect }: Props) {
   return (
     <div className="custom-dropdown" ref={wrapperRef}>
       <div
-        className={`custom-dropdown__trigger ${isOpen ? "open" : ""}`}
+        className={`custom-dropdown__trigger ${isOpen ? "open has-blue-border" : ""}`}
         onClick={() => setIsOpen(prev => !prev)}
       >
         {isOpen ? (
@@ -69,10 +68,10 @@ export default function CustomSearchDropdown({ options, onSelect }: Props) {
         ) : (
           <span
             className={`custom-dropdown__value ${
-              selected ? "custom-dropdown__value--selected" : ""
+              selectedOption ? "custom-dropdown__value--selected" : ""
             }`}
           >
-            {selected?.label || t("Choose-a-city")}
+            {selectedOption?.label || t("Choose-a-city")}
           </span>
         )}
 

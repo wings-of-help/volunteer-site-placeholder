@@ -7,8 +7,8 @@ import './CartDetailsPage.scss';
 import arrow from '../../assets/arrow-down.svg';
 import calendar from '../../assets/CalendarBlank.png';
 import map from '../../assets/MapPin.png';
-import phone from '../../assets/Phone.png';
-import envelope from '../../assets/Envelope.png';
+import phone from '../../assets/phone.svg';
+import envelope from '../../assets/mail.svg';
 import dot from '../../assets/Ellipse 3.png';
 
 import { useAuth } from '../../context/AuthContext';
@@ -81,16 +81,24 @@ export default function CartDetailsPage({ type }: Props) {
                 <p className="point-text">{cart.location_name}</p>
               </div>
 
-              {type === 'requests' ? (
-                <div className="status">
-                  <img src={dot} alt="status" className="status__dot" />
-                  <p>{cart.status}</p>
-                </div>
-              ) : (
+              <div className="container">
                 <div className="cart-details-page__info__points-point">
                   <p className="point-text aid">{cart.category_name}</p>
                 </div>
-              )}
+
+                {isAuth && (
+                  <div className="status">
+                    <img src={dot} alt="status" className="status__dot" />
+                    <p>{cart.status}</p>
+                  </div>
+                )}
+              </div>
+
+              <div className="cart-details-page__info__about">
+                <h1 className="cart-details-page__info__about">{t("About")}</h1>
+
+                <p className="cart-details-page__info__about__p">{cart.description}</p>
+              </div>
             </div>
 
             {/* ACTIONS */}
@@ -115,7 +123,6 @@ export default function CartDetailsPage({ type }: Props) {
                 className="offer__button"
                 onClick={() => {
                   setActiveModal(true);
-                  /* should change status to in progress and disable button */
                 }}
               >
                 {t('Offer-help')}
@@ -149,23 +156,43 @@ export default function CartDetailsPage({ type }: Props) {
                 {t('Only registered requesters can respond to this offer.')}
               </p>
             )}
+
+            {isAuth && !isVolunteer && type === 'offers' && (
+              <button
+                className="offer__button"
+                onClick={() => {
+                  setActiveModal(true);
+                }}
+              >
+                {t("Request-help")}
+              </button>
+            )}
           </div>
 
           {/* PERSON INFO */}
           <div className="cart-details-page__info__person-info">
             <h1>
               {type === 'requests' ? t('Requester') : t('Volunteer')}
+              {!isAuth && `: cody`}
             </h1>
 
             {isAuth && (
               <div className="cart-details-page__info__person-info__details">
-                <div>Cody Warren</div>
-                <div>
-                  <img src={phone} alt="phone" />
+                <div 
+                  className="cart-details-page__info__person-info__details__name"
+                >
+                  Cody Warren
+                </div>
+                <div
+                  className="cart-details-page__info__person-info__details__d"
+                >
+                  <img src={phone} className="icon" alt="phone" />
                   +380 123 456 78 90
                 </div>
-                <div>
-                  <img src={envelope} alt="email" />
+                <div
+                  className="cart-details-page__info__person-info__details__d"
+                >
+                  <img src={envelope} className="icon" alt="email" />
                   cody.warren@example.com
                 </div>
               </div>
@@ -198,7 +225,20 @@ export default function CartDetailsPage({ type }: Props) {
         </div>
       </div>
 
-      {activeModal && <Modal setActive={setActiveModal} />}
+      {activeModal && (
+        <Modal 
+          setActive={setActiveModal} 
+          title={
+            type === 'requests'
+              ? t("Your-offer-has-been-sent")
+              : t("Your-request-has-been-sent")
+            }
+            p={
+              type === 'requests'
+                ? t("Your-support-can-make-a-real-difference")
+                : t("Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon")
+            }
+        />)}
     </>
   );
 }
