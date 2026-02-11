@@ -1,4 +1,5 @@
 @use '../../../styles/mixins' as *;
+@use '../../../styles/mixins/index' as *;
 
 .modal {
   position: fixed;
@@ -25,13 +26,13 @@
 }
 
 .modal__title {
-  @include p-styles;
+  @include text-h3;
   font-size: 24px;
   text-align: center;
 }
 
 .modal__desc {
-  @include p-styles;
+  @include text-h3;
   text-align: center;
 }
 
@@ -47,7 +48,7 @@
 
 .modal__button {
   @include blueButton;
-  @include p-styles;
+  @include text-h3;
   width: 100%;
 }
 

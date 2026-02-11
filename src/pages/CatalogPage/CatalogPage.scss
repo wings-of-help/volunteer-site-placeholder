@@ -1,4 +1,5 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
 
 .catalog__page {
   width: 100%;
@@ -21,9 +22,7 @@
     margin-bottom: 24px;
 
     &__title {
-      font-family: Satoshi Variable;
-      font-weight: 500;
-      font-style: Medium;
+      @include text-h1;
       font-size: 40px;
     }
 
@@ -32,7 +31,7 @@
       flex-direction: column;
       gap: 0px;
       &__p {
-        @include p-styles;
+        @include text-h3;
       }
     }
   }
@@ -45,12 +44,12 @@
 
     &__sort-by {
       color: #868E96;
-      @include p-styles
+      @include text-h3;
     }
 
     // &__sort-button {
     //   @include centeredFlexBox;
-    //   @include p-styles;
+    //   @include text-h3;
     //   width: 141px;
     //   height: 57px;
     //   gap: 8px;
