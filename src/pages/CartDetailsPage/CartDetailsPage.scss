@@ -1,4 +1,5 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
 
 .cart-details-page {
   @include centeredFlexBox;
@@ -15,7 +16,7 @@
     &-links {
       @include centeredFlexBox;
       @include disableLinkStyles;
-      @include title-styles;
+      @include text-h2;
       font-size: 16px;
       cursor: pointer;
     }
@@ -27,7 +28,8 @@
     border-bottom: 1px solid #000;
 
     &__title {
-      @include title-styles;
+      @include text-h1;
+      font-size: 40px;
 
       margin-bottom: 27px;
     }
@@ -51,12 +53,12 @@
       gap: 8px;
 
       &__title {
-        @include title-styles;
+        @include text-h2;
         font-size: 24px;
       }
 
       &__p {
-        @include p-styles;
+        @include text-h3;
         max-width: 790px;
         margin-bottom: 48px;
       }
@@ -69,14 +71,14 @@
         border-bottom: 1px solid #000;
 
         &__button {
-          @include blueButton;
+          @include text-h2;
         }
 
         &__signin {
           display: flex;
           align-items: center;
           gap: 16px;
-          @include p-styles;
+          @include text-h3;
           font-size: 16px;
 
           &__link {
@@ -93,7 +95,7 @@
       margin-bottom: 120px;
 
       &__title {
-        @include title-styles;
+        @include text-h2;
         font-size: 24px;
         margin-bottom: 24px;
       }
@@ -105,19 +107,13 @@
         align-self: flex-start;
 
         &__name {
-          font-family: Satoshi Variable;
-          font-weight: 500;
-          font-style: Medium;
+          @include text-h2;
           font-size: 20px;
-          line-height: 135%;
         }
 
         &__d {
-          font-family: Satoshi Variable;
-          font-weight: 400;
-          font-style: Regular;
+          @include text-h2;
           font-size: 20px;
-          line-height: 135%;
           display: flex;
           align-items: center;
           gap: 5px;
@@ -142,15 +138,13 @@
 }
 
 .point-text {
-  @include p-styles;
+  @include text-h3;
 }
 
 .aid {
-  font-family: Satoshi Variable;
-  font-weight: 500;
-  font-style: Medium;
+  @include text-h2;
+
   font-size: 20px;
-  line-height: 135%;
   color: #2277FF;
   background-color: #A6D2FF;
   border-radius: 5%;
@@ -182,7 +176,7 @@
 
 .status {
   @include centeredFlexBox;
-  @include p-styles;
+  @include text-h3;
   background-color: #D0BFFF;
   border-radius: 10%;
 

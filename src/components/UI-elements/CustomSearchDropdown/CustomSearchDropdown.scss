@@ -1,4 +1,5 @@
 @use '../../../styles/mixins.scss' as *;
+@use '../../../styles/mixins/index' as *;
 
 .custom-dropdown {
   position: relative;
@@ -20,7 +21,7 @@
   }
 
   &__value {
-    @include p-styles;
+    @include text-h3;
     color: #868E96;
 
     &--selected {
@@ -33,7 +34,7 @@
     border: none;
     outline: none;
     background: transparent;
-    @include p-styles;
+    @include text-h3;
     color: #000;
   }
 
@@ -61,7 +62,7 @@
     padding: 12px 14px;
     cursor: pointer;
     transition: 0.15s;
-    @include p-styles;
+    @include text-h3;
 
     &:hover {
       background: #f3f3f3;

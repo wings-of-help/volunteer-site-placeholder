@@ -1,4 +1,4 @@
-// @use '../../styles/variables' as *;
+@use '../../../styles/mixins/index' as *;
 @use "../../../styles/mixins.scss" as *;
 
 .filter {
@@ -12,10 +12,8 @@
 
 .filter-criteria {
   color: #212529;
-  font-family: Satoshi Variable;
-  font-weight: 400;
+  @include text-h2;
   font-size: 20px;
-  line-height: 135%;
 }
 
 .cancel {
