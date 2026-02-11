@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import './CartDetailsPage.scss';
@@ -16,8 +16,8 @@ import { useUserRole } from '../../context/RoleContext';
 
 import ActiveGroup from '../../components/ActiveGroup/ActiveGroup';
 import Modal from '../../components/UI-elements/Modal/Modal';
-
-import { mockHelpCarts } from '../../api/helpCarts.api';
+import type { HelpCart } from '../../api/types/HelpCart';
+import { GetHelpCarts } from '../../api/helpCarts.api';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -25,6 +25,16 @@ type Props = {
 
 export default function CartDetailsPage({ type }: Props) {
   const [activeModal, setActiveModal] = useState(false);
+   const [carts, setCarts] = useState<HelpCart[]>([]);
+      useEffect(() => {
+        GetHelpCarts()
+          .then((data) => {
+            // if (data.results.length > 8) {
+            //   setCarts(data.results.slice(0, 8));
+            // }
+            setCarts(data.results);
+          })
+      }, []);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,7 +48,7 @@ export default function CartDetailsPage({ type }: Props) {
     (location.state as { from?: string })?.from ??
     (type === 'requests' ? '/requests' : '/offers');
 
-  const cart = mockHelpCarts.find(item => item.id === Number(cartId));
+  const cart = carts.find(item => item.id === Number(cartId));
 
   if (!cart) {
     return <h2>Cart not found</h2>;
