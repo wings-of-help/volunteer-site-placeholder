@@ -48,16 +48,16 @@ export const ProfileInfo = () => {
 
   return (
     <>
-      <div className="profile__card">
-        <div className="profile__header">
-          <h1 className="profile__title">{t("Profile")}</h1>
+      <div className='profile__card'>
+        <div className='profile__header'>
+          <h1 className='profile__title'>{t('Profile')}</h1>
         </div>
 
-        <div className="profile__form">
-          <label className="profile__field">
-            <span className="profile__label">{t("First-name")}</span>
+        <div className='profile__form'>
+          <label className='profile__field'>
+            <span className='profile__label'>{t('First-name')}</span>
             <input
-              className="profile__input"
+              className='profile__input'
               value={form.first_name}
               onChange={(e) =>
                 setForm({ ...form, first_name: capitalize(e.target.value) })
@@ -65,10 +65,10 @@ export const ProfileInfo = () => {
             />
           </label>
 
-          <label className="profile__field">
-            <span className="profile__label">{t("Last-name")}</span>
+          <label className='profile__field'>
+            <span className='profile__label'>{t('Last-name')}</span>
             <input
-              className="profile__input"
+              className='profile__input'
               value={form.last_name}
               onChange={(e) =>
                 setForm({ ...form, last_name: capitalize(e.target.value) })
@@ -76,12 +76,15 @@ export const ProfileInfo = () => {
             />
           </label>
 
-          <div className="profile__role">
-            <span className="profile__role-label">{t("Role")}</span>
-            <span className="profile__role-value">{user.role}</span>
+          <div className='profile__role'>
+            <span className='profile__role-label'>{t('Role')}</span>
+            <span className='profile__role-value'>
+              {' '}
+              {t(`roles.${user.role}`)}
+            </span>
           </div>
 
-          <div className="profile__actions">
+          <div className='profile__actions'>
             <button
               className={`profile__save-btn ${
                 isDirty ? 'profile__save-btn--active' : ''
@@ -89,62 +92,66 @@ export const ProfileInfo = () => {
               disabled={!isDirty}
               onClick={handleSave}
             >
-              {t("Save-changes")}
+              {t('Save-changes')}
             </button>
           </div>
         </div>
 
-        <div className="profile__contacts">
-          <h2 className="profile__contacts-title">{t("Contact Information")}</h2>
+        <div className='profile__contacts'>
+          <h2 className='profile__contacts-title'>
+            {t('Contact Information')}
+          </h2>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">{t("Email")}</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>{t('Email')}</span>
               <input
-                className="profile__contact-input"
+                className='profile__contact-input'
                 disabled
                 value={form.email}
               />
             </div>
             <button
-              className="profile__contact-btn"
+              className='profile__contact-btn'
               onClick={() => setActiveModal('email')}
             >
-              {t("Change")}
+              {t('Change')}
             </button>
           </div>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">{t("Phone-number")}</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>
+                {t('Phone-number')}
+              </span>
               <input
-                className="profile__contact-input"
+                className='profile__contact-input'
                 disabled
                 value={formatPhoneForDisplay(form.phone_number)}
               />
             </div>
             <button
-              className="profile__contact-btn"
+              className='profile__contact-btn'
               onClick={() => setActiveModal('phone')}
             >
-              {t("Change")}
+              {t('Change')}
             </button>
           </div>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">{t("Password")}</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>{t('Password')}</span>
               <input
-                className="profile__contact-input"
+                className='profile__contact-input'
                 disabled
-                value="********"
+                value='********'
               />
             </div>
             <button
-              className="profile__contact-btn"
+              className='profile__contact-btn'
               onClick={() => setActiveModal('password')}
             >
-              {t("Change")}
+              {t('Change')}
             </button>
           </div>
         </div>

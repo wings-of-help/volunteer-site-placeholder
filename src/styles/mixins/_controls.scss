@@ -19,9 +19,3 @@
     color: $color-gray-7;
   }
 }
-
-@mixin textarea-base {
-  min-height: calc(#{$control-height} * 2);
-  resize: none;
-  overflow: hidden;
-}
