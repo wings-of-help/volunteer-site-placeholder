@@ -1,6 +1,7 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins/index' as *;
 @use '../../styles/mixins' as *;
+@use 'sass:color';
 
 .user-request-card {
   width: 100%;
@@ -128,7 +129,7 @@
     }
 
     &:active {
-      background-color: darken($color-error, 10%);
+      background-color: color.adjust($color-error, $lightness: 10%);
       transform: scale(0.96);
     }
 

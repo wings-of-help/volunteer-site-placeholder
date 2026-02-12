@@ -33,5 +33,9 @@ export const getLocations = async (): Promise<Location[]> => {
     throw new Error('Failed to load locations');
   }
 
-  return res.json();
+  const data: Location[] = await res.json();
+
+  return [...data].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
 };

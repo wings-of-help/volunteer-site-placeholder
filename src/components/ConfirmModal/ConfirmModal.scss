@@ -1,5 +1,6 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins/index' as *;
+@use 'sass:color';
 
 .confirm-modal-overlay {
   position: fixed;
@@ -73,11 +74,11 @@
         transform 0.1s ease;
 
       &:hover {
-        background-color: darken($color-error, 8%);
+        background-color: color.adjust($color-error, $lightness: 8%);
       }
 
       &:active {
-        background-color: darken($color-error, 12%);
+        background-color: color.adjust($color-error, $lightness: 12%);
         transform: scale(0.96);
       }
     }
