@@ -11,7 +11,7 @@ export const ProfilePage = () => {
   const navigate = useNavigate();
 
   if (isLoading) return <Loader />;
-  if (!user) return <Navigate to='/' replace />;
+  if (!user) return <Navigate to="/" replace />;
 
   const handleLogoutConfirm = async () => {
     await logout();

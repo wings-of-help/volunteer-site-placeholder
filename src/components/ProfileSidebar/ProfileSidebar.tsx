@@ -13,14 +13,15 @@ interface Props {
   onLogoutClick: () => void;
 }
 
-export const ProfileSidebar = ({
-  activeTab,
-  onTabChange,
-  user,
-  onLogoutClick,
-}: Props) => {
+export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
+  const { t } = useTranslation();
 
-  const {t} = useTranslation();
+  const role = user.role;
+
+  // admin поводиться як distressed
+  const isRequester = role === 'distressed' || role === 'admin';
+  const isVolunteer = role === 'volunteer';
+
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
@@ -33,45 +34,62 @@ export const ProfileSidebar = ({
       </div>
 
       <nav className='profile__menu'>
-        {/* PERSONAL INFO */}
+        {/* PERSONAL INFO — для всіх */}
         <NavLink
           to='/profile'
           end
           className={({ isActive }) =>
-            `profile__menu-item ${
-              isActive ? 'profile__menu-item--active' : ''
-            }`
+            `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
           }
         >
-          <img src={activeTab === 'info' ? infoIcon : infoIconGrey} alt='' />
-          <span>{t("Personal-Information")}</span>
-        </button>
+          {({ isActive }) => (
+            <>
+              <img src={isActive ? infoIcon : infoIconGrey} alt='' />
+              <span>{t('Personal-Information')}</span>
+            </>
+          )}
+        </NavLink>
 
-        {/* MY REQUESTS */}
-        <NavLink
-          to='/profile/requests'
-          className={({ isActive }) =>
-            `profile__menu-item ${
-              isActive ? 'profile__menu-item--active' : ''
-            }`
-          }
-        >
-          <img src={requestsIcon} alt='' />
-          <span>{t("My-Requests")}</span>
-        </button>
+        {/* REQUESTER (distressed + admin) */}
+        {isRequester && (
+          <NavLink
+            to='/profile/requests'
+            className={({ isActive }) =>
+              `profile__menu-item ${
+                isActive ? 'profile__menu-item--active' : ''
+              }`
+            }
+          >
+            <img src={requestsIcon} alt='' />
+            <span>{t('My-Requests')}</span>
+          </NavLink>
+        )}
 
-        {/* MY RESPONSES */}
+        {/* VOLUNTEER */}
+        {isVolunteer && (
+          <NavLink
+            to='/profile/offers'
+            className={({ isActive }) =>
+              `profile__menu-item ${
+                isActive ? 'profile__menu-item--active' : ''
+              }`
+            }
+          >
+            <img src={requestsIcon} alt='' />
+            <span>{t('My-Offers')}</span>
+          </NavLink>
+        )}
+
+        {/* MY RESPONSES — для всіх */}
         <NavLink
           to='/profile/responses'
           className={({ isActive }) =>
-            `profile__menu-item ${
-              isActive ? 'profile__menu-item--active' : ''
-            }`
+            `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
           }
         >
           <img src={responsesIcon} alt='' />
-          <span>{t("My-Responses")}</span>
-        </button>
+          <span>{t('My-Responses')}</span>
+        </NavLink>
 
         {/* LOGOUT */}
         <button
@@ -79,7 +97,7 @@ export const ProfileSidebar = ({
           onClick={onLogoutClick}
         >
           <img src={logoutIcon} alt='' />
-          <span>{("Log-out")}</span>
+          <span>{t('Log-out')}</span>
         </button>
       </nav>
     </aside>

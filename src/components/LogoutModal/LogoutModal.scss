@@ -3,7 +3,7 @@
 
 .modal-backdrop {
   @include overlay-center;
-  background: rgba($color-black, 0.45);
+  background: rgba($color-gray-9, 0.45);
   z-index: 1000;
 }
 
@@ -11,51 +11,51 @@
   width: 600px;
   padding: 24px;
   background: $color-white;
-  box-shadow: 0 8px 32px rgba($color-black, 0.12);
+  box-shadow: 0 8px 32px rgba($color-gray-9, 0.12);
 
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
-}
 
-.logout-modal__icon {
-  width: 80px;
-  height: 80px;
-}
+  &__icon {
+    width: 120px;
+    height: 120px;
+  }
 
-.logout-modal__title {
-  font-family: 'Inter';
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 120%;
-  color: #212529;
-  text-align: center;
-}
+  &__title {
+    font-family: 'Inter';
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 120%;
+    color: #212529;
+    text-align: center;
+  }
 
-.logout-modal__actions {
-  display: flex;
-  width: 100%;
-  gap: 32px;
-}
+  &__actions {
+    display: flex;
+    width: 100%;
+    gap: 32px;
+  }
 
-.logout-modal__btn {
-  height: 56px;
-  flex: 1;
-  font-size: 18px;
-  cursor: pointer;
-}
+  &__btn {
+    height: 56px;
+    flex: 1;
+    font-size: 18px;
+    cursor: pointer;
+  }
 
-/* Cancel */
-.logout-modal__btn--cancel {
-  background: transparent;
-  border: 1px solid $color-black;
-  color: $color-black;
-}
+  /* Cancel */
+  &__btn--cancel {
+    @include button-base;
+    @include button-border;
+    @include text-body-med;
+  }
 
-/* Logout */
-.logout-modal__btn--confirm {
-  background: $color-black;
-  border: none;
-  color: $color-white;
+  /* Logout */
+  &__btn--confirm {
+    @include button-base;
+    @include button-primary;
+    @include text-body-med;
+  }
 }

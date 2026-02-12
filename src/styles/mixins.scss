@@ -5,16 +5,16 @@
 }
 
 @mixin p-styles {
-  font-weight: 400;
-  font-style: Regular;
-  font-size: 18px;
-  line-height: 140%;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 20px;
+  line-height: 135%;
 }
 
 @mixin title-styles {
-  font-weight: 500;
-  font-style: Medium;
-  font-size: 40px;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 24px;
   line-height: 125%;
 }
 
@@ -23,8 +23,10 @@
   color: black;
 }
 
-@mixin blackButton {
-  background-color: #000;
+@mixin blueButton {
+  background-color: #2277FF;
+  border: none;
+  border-radius: 3%;
   color: #fff;
   width: 288px;
   height: 57px;

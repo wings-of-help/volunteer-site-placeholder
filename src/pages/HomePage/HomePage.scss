@@ -1,4 +1,6 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
+@use '../../styles/variables' as *;
 
 .home__page {
   width: 100%;
@@ -22,12 +24,12 @@
     max-width: 807px;
 
     &__title {
-      @include title-styles;
+      @include text-h2;
       font-size: 56px;
       text-align: center;
     }
     &__p {
-      @include p-styles;
+      @include text-h3;
       letter-spacing: 0%;
       text-align: center;
     }
@@ -35,7 +37,7 @@
 
   &__buttons {
     display: flex;
-    @include p-styles;
+    @include text-h3;
     gap: 24px;
 
     &__button {
@@ -51,13 +53,11 @@
 }
 
 .button1 {
-  background-color: #000;
-  color: #fff;
+@include button-primary;
 }
 
 .button2 {
-  border: 1px solid #000;
-  color: #000;
+@include button-border;
 }
 
 .home-instructions {
@@ -65,7 +65,7 @@
   flex-direction: column;
   max-width: 1224px;
   gap: 40px;
-  
+
   &__main {
     display: flex;
     flex-direction: column;
@@ -73,12 +73,12 @@
     gap: 8px;
 
     &__title {
-      @include title-styles;
+      @include text-h2;
       font-size: 40px;
     }
 
     &__p {
-      @include p-styles;
+      @include text-h3;
     }
   }
 
@@ -89,16 +89,16 @@
     &__block {
       display: flex;
       flex-direction: column;
-      background-color: #F1F1F4;
+      background-color: #f1f1f4;
       justify-content: space-between;
       align-items: center;
       width: 288px;
       height: 288px;
       padding: 24px;
-      box-sizing: border-box; // ask sofia if need to change 
+      box-sizing: border-box; // ask sofia if need to change
 
       &__title {
-        @include title-styles;
+        @include text-h2;
         font-size: 24px;
 
         width: 240px;
@@ -106,7 +106,7 @@
       }
 
       &__p {
-        @include p-styles;
+        @include text-h3;
         width: 240px;
       }
     }
@@ -121,7 +121,8 @@
 
   &__title {
     align-self: flex-start;
-    @include title-styles;
+    @include text-h1;
+    font-size: 40px;
   }
 
   &__blocks {
@@ -132,14 +133,14 @@
       display: flex;
       flex-direction: column;
       gap: 24px;
-      background-color: #F1F1F4;
+      background-color: #f1f1f4;
       width: 600px;
       height: 187px;
       justify-content: space-between;
       padding: 24px;
 
       &__title {
-        @include title-styles;
+        @include text-h2;
         font-size: 32px;
       }
 
@@ -148,28 +149,28 @@
         flex-direction: column;
         &__p {
           margin: 0;
-          @include p-styles;
+          @include text-h3;
         }
       }
     }
   }
 }
 
-
 .home-active-requests {
   display: flex;
   flex-direction: column;
   gap: 40px;
   max-width: 1224px;
-  
+
   &__main {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
     gap: 8px;
-    
+
     &__title {
-      @include title-styles;
+      @include text-h1;
+      font-size: 40px;
     }
 
     &__paragraphs {
@@ -177,12 +178,10 @@
       flex-direction: column;
       &__p {
         margin: 0;
-        @include p-styles;
+        @include text-h3;
       }
     }
   }
-
-  
 
   &__see-all {
     display: flex;
@@ -190,7 +189,7 @@
     gap: 8px;
 
     &__p {
-      @include p-styles;
+      @include text-h3;
     }
 
     &__button {

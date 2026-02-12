@@ -15,20 +15,15 @@
     @include flex-center;
     width: 24px;
     height: 24px;
-    border: 1px solid $color-gray-main;
+    border: 2px solid #212529;
+    border-radius: 20%;
 
     &--checked {
       border-color: $color-black;
     }
-
-    img {
-      width: 16px;
-      height: 12px;
-    }
   }
 
   &__checkbox-text {
-    @include text-body-lg;
+    @include text-body-regular;
   }
 }
- 

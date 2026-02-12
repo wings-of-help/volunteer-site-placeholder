@@ -1,40 +1,25 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { getCategories, getLocations } from '../../api/catalog.api';
 import type { Category, Location } from '../../api/types/catalog';
 import './CreateRequest.scss';
 import breakIcon from '../../assets/ep_arrow-left.svg';
-import { useTranslation } from 'react-i18next';
+import { createHelpRequest } from '../../api/helpCarts.api';
+import { useNavigate } from 'react-router-dom';
+import { CustomSearchDropdown } from '../UI-elements/CustomSearchDropdown/CustomSearchDropdown';
 
-interface Props {
-  onBack: () => void;
-}
-
-export const CreateRequest = ({ onBack }: Props) => {
-  const {t} = useTranslation();
+export const CreateRequest = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
 
-  const [cityOpen, setCityOpen] = useState(false);
-  const [categoryOpen, setCategoryOpen] = useState(false);
-
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [locationId, setLocationId] = useState<number | null>(null);
-  const categoryDropdownRef = useRef<HTMLDivElement | null>(null);
-  const cityDropdownRef = useRef<HTMLDivElement | null>(null);
-
-  const selectedCity = locationId
-    ? locations.find((c) => c.id === locationId)
-    : null;
-
-  const selectedCategory = categoryId
-    ? categories.find((c) => c.id === categoryId)
-    : null;
 
   const navigate = useNavigate();
 
+  // ================= LOAD DATA =================
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -43,16 +28,14 @@ export const CreateRequest = ({ onBack }: Props) => {
           getLocations(),
         ]);
 
+        // категорії сортуємо по id
         const sortedCategories = [...categoriesData].sort(
           (a, b) => a.id - b.id,
         );
 
-        const sortedLocations = [...locationsData].sort((a, b) =>
-          a.name.localeCompare(b.name),
-        );
 
         setCategories(sortedCategories);
-        setLocations(sortedLocations);
+        setLocations(locationsData);
       } catch (error) {
         console.error('Failed to load catalog data', error);
       }
@@ -61,7 +44,26 @@ export const CreateRequest = ({ onBack }: Props) => {
     loadData();
   }, []);
 
-  // --- validation ---
+  // ================= OPTIONS =================
+
+  const categoryOptions = categories.map((category) => ({
+    label: category.name,
+    value: category.id,
+  }));
+
+  const cityOptions = locations.map((city) => ({
+    label: city.name,
+    value: city.id,
+  }));
+
+  const selectedCategoryOption =
+    categoryOptions.find((option) => option.value === categoryId) || null;
+
+  const selectedCityOption =
+    cityOptions.find((option) => option.value === locationId) || null;
+
+  // ================= VALIDATION =================
+
   const isTitleValid = title.length > 0 && title.length <= 80;
   const isDescriptionValid =
     description.length >= 50 && description.length <= 1000;
@@ -75,20 +77,14 @@ export const CreateRequest = ({ onBack }: Props) => {
   const capitalizeFirstLetter = (value: string) =>
     value ? value[0].toUpperCase() + value.slice(1) : value;
 
-  // --- submit ---
+  // ================= SUBMIT =================
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!isFormValid) return;
 
     try {
-      console.log({
-        title,
-        description,
-        categoryId,
-        locationId,
-      });
-
       const created = await createHelpRequest({
         title,
         description,
@@ -97,125 +93,109 @@ export const CreateRequest = ({ onBack }: Props) => {
         kind: 'request',
       });
 
-      console.log('Request created:', created);
-
       navigate(`/requests/${created.id}`);
     } catch (error) {
       console.error('Failed to create request', error);
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-
-      if (
-        categoryDropdownRef.current &&
-        !categoryDropdownRef.current.contains(target)
-      ) {
-        setCategoryOpen(false);
-      }
-
-      if (
-        cityDropdownRef.current &&
-        !cityDropdownRef.current.contains(target)
-      ) {
-        setCityOpen(false);
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div className='create-request'>
-      <div className='create-request__header'>
+    <div className="create-request">
+      <div className="create-request__header">
         <button
-          className='create-request__back'
+          className="create-request__back"
           onClick={() => navigate('/profile/requests')}
         >
-          <img src={breakIcon} alt='back icon' />
-          <span>{t("Back-to-My-Requests")}</span>
+          <img src={breakIcon} alt="back icon" />
+          <span>Back to My Requests</span>
         </button>
 
-        <h1 className='create-request__title'>{t("Create-New-Request")}</h1>
+        <h1 className="create-request__title">Create New Request</h1>
       </div>
 
-      <form className='create-request__form' onSubmit={handleSubmit}>
+      <form className="create-request__form" onSubmit={handleSubmit}>
         {/* TITLE */}
-        <div className='create-request__field'>
-          <label className='create-request__label'>{t("Title")}</label>
+        <div className="create-request__field">
+          <label className="create-request__label">Title</label>
           <input
-            className='create-request__input'
-            placeholder={t('Add-title-here')}
+            className="create-request__input"
+            placeholder="Add title here..."
             value={title}
             maxLength={80}
-            onChange={(e) => setTitle(capitalizeFirstLetter(e.target.value))}
+            onChange={(e) =>
+              setTitle(capitalizeFirstLetter(e.target.value))
+            }
           />
-          <span className='create-request__hint'>
-            {t("Max-length-80-characters")}
+          <span className="create-request__hint">
+            Max length ~80 characters
           </span>
         </div>
 
         {/* CATEGORY */}
-        <div className='create-request__field'>
-          <label className='create-request__label'>{t("Category")}</label>
-          <select className='create-request__select'>
-            <option value=''>{t("Choose-a-category")}</option>
-            // Буде заповнено динамічно пізніше
-            <option value='medicine'>Medicine</option>
-            <option value='food'>Food</option>
-          </select>
+        <div className="create-request__field">
+          <label className="create-request__label">Category</label>
+
+          <CustomSearchDropdown
+            options={categoryOptions}
+            selectedOption={selectedCategoryOption}
+            onSelect={(option) =>
+              setCategoryId(Number(option.value))
+            }
+            placeholder="Choose a category"
+          />
         </div>
 
         {/* CITY */}
-        <div className='create-request__field'>
-          <label className='create-request__label'>{t("City")}</label>
-          <select className='create-request__select'>
-            <option value=''>Choose a city</option>
-            // Буде заповнено динамічно пізніше
-            <option value='Kyiv'>Kyiv</option>
-            <option value='Lviv'>Lviv</option>
-          </select>
+        <div className="create-request__field">
+          <label className="create-request__label">City</label>
+
+          <CustomSearchDropdown
+            options={cityOptions}
+            selectedOption={selectedCityOption}
+            onSelect={(option) =>
+              setLocationId(Number(option.value))
+            }
+            placeholder="Choose a city"
+          />
         </div>
 
         {/* DESCRIPTION */}
-        <div className='create-request__field'>
-          <label className='create-request__label'>{t("Description")}</label>
+        <div className="create-request__field">
+          <label className="create-request__label">Description</label>
           <textarea
-            className='create-request__textarea'
+            className="create-request__textarea"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder='Provide details about your request...'
+            placeholder="Provide details about your request..."
             onInput={(e) => {
               const el = e.currentTarget;
               el.style.height = 'auto';
               el.style.height = `${el.scrollHeight}px`;
             }}
           />
-          <span className='create-request__hint'>
-            {description.length} {t("/1000-characters-(min 500)")}
+          <span className="create-request__hint">
+            {description.length} / 1000 characters (min 50)
           </span>
         </div>
 
         {/* ACTIONS */}
-        <div className='create-request__actions'>
-          <button type='button' className='create-request__cancel'>
-            {t("Cancel")}
+        <div className="create-request__actions">
+          <button
+            type="button"
+            className="create-request__cancel"
+            onClick={() => navigate('/profile/requests')}
+          >
+            Cancel
           </button>
 
           <button
-            type='submit'
+            type="submit"
             className={`create-request__publish ${
               isFormValid ? 'create-request__publish--active' : ''
             }`}
             disabled={!isFormValid}
           >
-            {t("Publish")}
+            Publish
           </button>
         </div>
       </form>

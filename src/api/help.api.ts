@@ -3,11 +3,9 @@ import { authFetch } from './authFetch';
 import type { HelpRequest } from './types/help';
 import type { Paginated } from './types/common';
 
-export const getMyRequests = async (
-  userId: number
-): Promise<HelpRequest[]> => {
+export const getMyRequests = async (userId: number): Promise<HelpRequest[]> => {
   const res = await authFetch(
-    `${BASE_URL}/help/?kind=request&creator=${userId}&ordering=-created_at`
+    `${BASE_URL}/help/?kind=request&creator=${userId}&ordering=-created_at`,
   );
 
   if (!res.ok) {
@@ -18,10 +16,24 @@ export const getMyRequests = async (
   return data.results;
 };
 
-
-export const getMyResponses = async (userId: number): Promise<HelpRequest[]> => {
+export const getMyOffers = async (userId: number) => {
   const res = await authFetch(
-    `${BASE_URL}/help/?counterpart=${userId}&ordering=-created_at`
+    `${BASE_URL}/help/?kind=offer&creator=${userId}&ordering=-created_at`,
+  );
+
+  if (!res.ok) {
+    throw new Error('Failed to load my offers');
+  }
+
+  const data: Paginated<HelpRequest> = await res.json();
+  return data.results;
+};
+
+export const getMyResponses = async (
+  userId: number,
+): Promise<HelpRequest[]> => {
+  const res = await authFetch(
+    `${BASE_URL}/help/?counterpart=${userId}&ordering=-created_at`,
   );
 
   if (!res.ok) {
@@ -32,3 +44,16 @@ export const getMyResponses = async (userId: number): Promise<HelpRequest[]> => 
   return data.results;
 };
 
+// Make it done in_progress--->done!
+// поки не працює!
+export const completeHelpRequest = (id: number) => {
+  return authFetch(`${BASE_URL}/help/${id}/complete/`, {
+    method: 'POST',
+  });
+};
+
+export const deleteHelpRequest = (id: number) => {
+  return authFetch(`${BASE_URL}/help/${id}/`, {
+    method: 'DELETE',
+  });
+};

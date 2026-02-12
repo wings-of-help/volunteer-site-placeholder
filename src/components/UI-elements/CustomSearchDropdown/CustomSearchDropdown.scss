@@ -1,29 +1,56 @@
 @use '../../../styles/mixins.scss' as *;
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins/index' as *;
 
 .custom-dropdown {
   position: relative;
 
-  &__trigger {
-    width: 100%;
-    padding: 12px 14px;
-    background: #f1f1f4;
-    border: 1px solid #dcdcdc;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+&__trigger {
+  width: 100%;
+  height: $control-height;
+  padding: 0 16px;
 
-    &.open .custom-dropdown__arrow {
-      transform: rotate(180deg);
-    }
+  background: $color-gray-0;
+  border: 2px solid $color-gray-4;
+  border-radius: 4px;
+
+  cursor: pointer;
+  outline: none;
+  @include flex-between;
+
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+
+  &:hover:not(.open) {
+    border-color: $color-gray-6;
   }
 
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &.filled {
+    background: $color-white;
+    border-color: $color-gray-4;
+  }
+
+  &.open {
+    border-color: $color-primary-500;
+    background: $color-white;
+  }
+
+  &.open .custom-dropdown__arrow {
+    transform: rotate(180deg);
+  }
+}
+
   &__value {
-    @include p-styles;
-    color: #868E96;
+    @include text-body-regular;
+    color: $color-gray-6;
 
     &--selected {
-      color: #000;
+      color: $color-gray-9;
     }
   }
 
@@ -32,14 +59,20 @@
     border: none;
     outline: none;
     background: transparent;
-    @include p-styles;
-    color: #000;
+
+    @include text-body-regular;
+    color: $color-gray-9;
+
+    &::placeholder {
+      @include text-body-regular;
+      opacity: 1;
+    }
   }
 
   &__arrow {
     height: 24px;
     width: 24px;
-    transition: 0.2s;
+    transition: transform 0.2s ease;
     flex-shrink: 0;
   }
 
@@ -47,61 +80,67 @@
     position: absolute;
     top: calc(100% + 6px);
     width: 100%;
-    background: #fff;
-    border: 1px solid #e1e1e1;
-    overflow: hidden;
+
+    background: $color-white;
+    border: 2px solid $color-gray-4;
+    border-radius: 4px;
+
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+    max-height: 240px;
+    overflow-y: auto;
     z-index: 10;
   }
 
   &__option {
-    padding: 12px 14px;
+    padding: 16px;
     cursor: pointer;
-    transition: 0.15s;
-    @include p-styles;
+
+    @include text-body-regular;
+
+    transition: background-color 0.15s ease;
 
     &:hover {
-      background: #f3f3f3;
+      background: $color-gray-1;
     }
   }
-}
 
-/* ===== MODIFIERS ===== */
+  /* ===== MODIFIERS ===== */
 
-.custom-dropdown--lang {
-  @include centeredFlexBox;
-  gap: 8px;
-  width: 80px;
-  height: 57px;
-  background-color: #F1F1F4;
+  &--lang {
+    @include centeredFlexBox;
+    gap: 8px;
+    width: 80px;
+    height: $control-height;
+    background-color: $color-gray-1;
 
-  .custom-dropdown__trigger {
-    background: transparent;
-    border: none;
-    padding: 0;
+    .custom-dropdown__trigger {
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+
+    .custom-dropdown__value {
+      color: $color-gray-9;
+    }
   }
 
-  .custom-dropdown__value {
-    color: #000;
-  }
-}
+  &--filter {
+    @include centeredFlexBox;
+    width: 141px;
+    gap: 8px;
+    padding: 16px 26px;
+    height: $control-height;
+    background-color: $color-gray-1;
 
-.custom-dropdown--filter {
-  @include centeredFlexBox;
-  width: 141px;
-  gap: 8px;
-  padding-block: 16px;
-  padding-inline: 26px;
-  height: 57px;
-  background-color: #F1F1F4;
+    .custom-dropdown__trigger {
+      padding: 0;
+      background: transparent;
+      border: none;
+    }
 
-  .custom-dropdown__trigger {
-    padding: 0;
-    background: transparent;
-    border: none;
-  }
-
-  .custom-dropdown__value {
-    color: #000;
+    .custom-dropdown__value {
+      color: $color-gray-9;
+    }
   }
 }

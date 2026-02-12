@@ -20,6 +20,8 @@ import { ProfileInfo } from './pages/profile/sections/ProfileInfo/ProfileInfo';
 import { MyRequests } from './pages/profile/sections/MyRequests/MyRequests';
 import { MyResponses } from './pages/profile/sections/MyResponses/MyResponses';
 import { CreateRequest } from './components/CreateRequest/CreateRequest';
+import { MyOffers } from './pages/profile/sections/MyOffers/MyOffers';
+import { CreateOffer } from './components/CreateOffer/CreateOffer';
 
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
@@ -30,96 +32,113 @@ import RoleProvider from './context/RoleContext';
 import { useTranslation } from 'react-i18next';
 
 export const Root = () => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <StrictMode>
-    <RoleProvider>
-      <AuthProvider>
-        <ToastProvider>
-          <Router>
-            <Routes>
-              {/* MAIN APP */}
-              <Route path='/' element={<App />}>
-                <Route index element={<HomePage />} />
-                <Route path='profile' element={<ProfilePage />}>
-                  <Route index element={<ProfileInfo />} />
-                  <Route path='requests' element={<MyRequests />} />
-                  <Route path='requests/new' element={<CreateRequest />} />
-                  <Route path='responses' element={<MyResponses />} />
+      <RoleProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <Router>
+              <Routes>
+                {/* MAIN APP */}
+                <Route path='/' element={<App />}>
+                  <Route index element={<HomePage />} />
+                  <Route path='profile' element={<ProfilePage />}>
+                    <Route index element={<ProfileInfo />} />
+
+                    <Route path='requests' element={<MyRequests />} />
+                    <Route path='requests/new' element={<CreateRequest />} />
+
+                    <Route path='offers' element={<MyOffers />} />
+                    <Route path='offers/new' element={<CreateOffer />} />
+
+                    <Route path='responses' element={<MyResponses />} />
+                  </Route>
+
+                  <Route
+                    path='requests'
+                    element={
+                      <CatalogPage
+                        title={t('Requests')}
+                        p={t('requests-page-p1')}
+                        p2={t('requests-page-p2')}
+                        path={'requests'}
+                      />
+                    }
+                  />
+                  <Route
+                    path='/requests/:cartId'
+                    element={<CartDetails type={'requests'} />}
+                  />
+
+                  <Route
+                    path='offers'
+                    element={
+                      <CatalogPage
+                        title={t('Offers')}
+                        p={t('offers-page-p1')}
+                        p2={t('offers-page-p2')}
+                        path={'offers'}
+                      />
+                    }
+                  />
+                  <Route
+                    path='offers/:cartId'
+                    element={<CartDetails type={'offers'} />}
+                  />
+
+                  <Route path='home' element={<Navigate to='/' replace />} />
                 </Route>
 
-                <Route
-                  path='requests'
-                  element={
-                    <CatalogPage
-                      title={t("Requests")}
-                      p={t("requests-page-p1")}
-                      p2={t("requests-page-p2")}
-                      path={'requests'}
+                {/* AUTH ROUTES */}
+                <Route element={<AuthLayout />}>
+                  <Route path='/signin' element={<SignInFormPage />} />
+
+                  <Route path='/administrationsignup'>
+                    <Route index element={<Navigate to='step-1' replace />} />
+                    <Route
+                      path='step-1'
+                      element={<SignUpStep1 admin={true} />}
                     />
-                  }
-                />
-                <Route
-                  path='/requests/:cartId'
-                  element={<CartDetails type={'requests'} />}
-                />
-
-                <Route
-                  path='offers'
-                  element={
-                    <CatalogPage
-                      title={t('Offers')}
-                      p={t("offers-page-p1")}
-                      p2={t("offers-page-p2")}
-                      path={'offers'}
+                    <Route
+                      path='step-2'
+                      element={<SignUpStep2 admin={true} />}
                     />
-                  }
-                />
-                <Route
-                  path='offers/:cartId'
-                  element={<CartDetails type={'offers'} />}
-                />
+                    <Route
+                      path='step-3'
+                      element={<SignUpStep3 admin={true} />}
+                    />
+                    <Route
+                      path='step-4'
+                      element={<SignUpStep4 admin={true} />}
+                    />
+                  </Route>
 
-                <Route path='home' element={<Navigate to='/' replace />} />
-              </Route>
-
-              {/* AUTH ROUTES */}
-              <Route element={<AuthLayout />}>
-                <Route path='/signin' element={<SignInFormPage />} />
-
-                <Route path='/administrationsignup'>
-                  <Route index element={<Navigate to='step-1' replace />} />
-                  <Route path='step-1' element={<SignUpStep1 admin={true} />} />
-                  <Route path='step-2' element={<SignUpStep2 admin={true} />} />
-                  <Route path='step-3' element={<SignUpStep3 admin={true} />} />
-                  <Route path='step-4' element={<SignUpStep4 admin={true} />} />
+                  <Route path='/signup'>
+                    <Route index element={<Navigate to='step-1' replace />} />
+                    <Route
+                      path='step-1'
+                      element={<SignUpStep1 admin={false} />}
+                    />
+                    <Route
+                      path='step-2'
+                      element={<SignUpStep2 admin={false} />}
+                    />
+                    <Route
+                      path='step-3'
+                      element={<SignUpStep3 admin={false} />}
+                    />
+                    <Route
+                      path='step-4'
+                      element={<SignUpStep4 admin={false} />}
+                    />
+                  </Route>
                 </Route>
-
-                <Route path='/signup'>
-                  <Route index element={<Navigate to='step-1' replace />} />
-                  <Route
-                    path='step-1'
-                    element={<SignUpStep1 admin={false} />}
-                  />
-                  <Route
-                    path='step-2'
-                    element={<SignUpStep2 admin={false} />}
-                  />
-                  <Route
-                    path='step-3'
-                    element={<SignUpStep3 admin={false} />}
-                  />
-                  <Route
-                    path='step-4'
-                    element={<SignUpStep4 admin={false} />}
-                  />
-                </Route>
-              </Route>
-            </Routes>
-          </Router>
-        </ToastProvider>
-      </AuthProvider>
-    </RoleProvider>
-  </StrictMode>
-  )
-}
+              </Routes>
+            </Router>
+          </ToastProvider>
+        </AuthProvider>
+      </RoleProvider>
+    </StrictMode>
+  );
+};
