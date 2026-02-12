@@ -2,6 +2,7 @@
 @use '../../styles/mixins/index' as *;
 
 .create-request {
+  // ================= BACK =================
   &__back {
     @include flex-center;
     justify-content: flex-start;
@@ -13,18 +14,20 @@
     padding: 0;
     cursor: pointer;
 
-    @include text-body;
+    @include text-small-med;
 
     img {
       @include icon-24;
     }
   }
 
+  // ================= TITLE =================
   &__title {
     margin-bottom: 24px;
-    @include text-h2;
+    @include text-h4;
   }
 
+  // ================= FORM =================
   &__form {
     @include flex-column;
   }
@@ -41,71 +44,31 @@
   &__label {
     margin-bottom: 4px;
     padding-left: 16px;
-    @include text-body;
+    @include text-body-med;
   }
 
-  &__input,
-  &__select,
-  &__textarea {
-    @include control-base;
-  }
+  // ================= INPUT =================
+  &__input {
+    @include input-base;
+    @include input-hover;
+    @include input-focus;
 
-  &__input,
-  &__select {
-    height: $control-height;
+    background-image: none;
 
-    appearance: none;
-    background-image: url('../../assets/arrow-down.svg');
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    background-size: 24px 24px;
-  }
-
-  &__textarea {
-    @include textarea-base;
-    padding: 8px 16px;
-  }
-
-  &__hint {
-    margin-top: 4px;
-    @include text-caption;
-    color: $color-gray-6;
-  }
-
-  &__actions {
-    @include flex-between;
-    justify-content: flex-end;
-    gap: 16px;
-  }
-
-  &__cancel,
-  &__publish {
-    min-width: 184px;
-    @include button-base;
-    @include text-body;
-  }
-
-  &__cancel {
-    @include button-secondary;
-  }
-
-  &__publish {
-    @include button-disabled;
-
-    &--active {
-      @include button-primary;
+    &::placeholder {
+      @include text-body-regular;
+      color: $color-gray-6;
+      opacity: 1;
     }
   }
 
-  &__dropdown {
-    position: relative;
-    width: 100%;
-  }
-
+  // ================= SELECT (dropdowns) =================
   &__select {
-    @include control-base;
+    @include input-base;
+    @include input-hover;
+    @include input-focus;
+
     width: 100%;
-    height: $control-height;
     padding-right: 48px;
 
     background-image: url('../../assets/arrow-down.svg');
@@ -117,10 +80,71 @@
     cursor: pointer;
   }
 
+  // ================= TEXTAREA =================
+  &__textarea {
+    @include input-base;
+    @include input-hover;
+    @include input-focus;
+
+    height: auto;
+    min-height: 120px;
+    padding: 12px 16px;
+    resize: vertical;
+
+    &::placeholder {
+      @include text-body-regular;
+      color: $color-gray-6;
+      opacity: 1;
+    }
+  }
+
+  // ================= HINT =================
+  &__hint {
+    margin-top: 4px;
+    padding-left: 16px;
+    @include text-caption;
+    color: $color-gray-6;
+  }
+
+  // ================= ACTIONS =================
+  &__actions {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__cancel,
+  &__publish {
+    // min-width: 184px;
+    @include button-base;
+    @include text-body-med;
+    width: 100%;
+  }
+
+  &__cancel {
+    @include button-border;
+  }
+
+  &__publish {
+    @include button-primary;
+
+    &:disabled {
+      background-color: $color-disabled;
+      border-color: $color-disabled;
+      cursor: not-allowed;
+    }
+  }
+
+  // ================= DROPDOWN LIST =================
+  &__dropdown {
+    position: relative;
+    width: 100%;
+  }
+
   &__dropdown-list {
     position: absolute;
     left: 0;
     right: 0;
+    top: calc(100% + 4px);
 
     max-height: 200px;
     overflow-y: auto;
@@ -132,7 +156,7 @@
   }
 
   &__dropdown-item {
-   padding: 12px 16px;
+    padding: 12px 16px;
 
     font-family: $font-main;
     font-size: 16px;
