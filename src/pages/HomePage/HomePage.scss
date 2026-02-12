@@ -121,7 +121,8 @@
 
   &__title {
     align-self: flex-start;
-    @include text-h2;
+    @include text-h1;
+    font-size: 40px;
   }
 
   &__blocks {
@@ -168,7 +169,8 @@
     gap: 8px;
 
     &__title {
-      @include text-h2;
+      @include text-h1;
+      font-size: 40px;
     }
 
     &__paragraphs {
