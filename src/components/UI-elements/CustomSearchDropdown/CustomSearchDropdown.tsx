@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import './CustomSearchDropdown.scss';
-import arrow from '../../../assets/arrow-down-gray.svg';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useRef, useState } from "react";
+import "./CustomSearchDropdown.scss";
+import arrow from "../../../assets/arrow-down-gray.svg"
+import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 type Option = {
   label: string;

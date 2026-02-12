@@ -9,6 +9,7 @@ import { completeHelpRequest } from '../../api/help.api';
 import garbageIcon from '../../assets/garbage.svg';
 import trashIcon from '../../assets/Trash.svg';
 import { deleteHelpRequest } from '../../api/help.api';
+import { Link, useLocation } from 'react-router-dom';
 
 type Props = {
   id: number;
@@ -43,6 +44,9 @@ export const UserRequestCard = ({
 }: Props) => {
   const [isDoneModalOpen, setIsDoneModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const location = useLocation();
+  const type = location.pathname.split('/')[2]
+  
 
   const handleDelete = async () => {
   try {
@@ -57,18 +61,23 @@ export const UserRequestCard = ({
   return (
     <>
       <div className='user-request-card'>
-        <div className='user-request-card__header'>
-          <span className='user-request-card__city'>{city}</span>
-          <span className='user-request-card__category'>{category}</span>
-        </div>
+        <Link 
+          to={`/${type}/${id}`}
+          className='link-wrapper'
+        >
+          <div className='user-request-card__header'>
+            <span className='user-request-card__city'>{city}</span>
+            <span className='user-request-card__category'>{category}</span>
+          </div>
 
-        <h3 className='user-request-card__title'>{title}</h3>
-        <p className='user-request-card__description'>{description}</p>
+          <h3 className='user-request-card__title'>{title}</h3>
+          <p className='user-request-card__description'>{description}</p>
 
-        <div className='user-request-card__status'>
-          <img src={statusIconMap[status]} alt={status} />
-          <span>{statusLabelMap[status]}</span>
-        </div>
+          <div className='user-request-card__status'>
+            <img src={statusIconMap[status]} alt={status} />
+            <span>{statusLabelMap[status]}</span>
+          </div>
+        </Link>
 
         <div className='user-request-card__actions'>
           <button className='user-request-card__edit'>Edit Request</button>

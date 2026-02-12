@@ -1,9 +1,9 @@
 import CartItem from "../CartItem/CartItem";
 import "./CatalogItems.scss"
 import arrowDown from '../../assets/arrow-down.svg';
-import { mockHelpCarts } from "../../api/helpCarts.api";
+import { GetHelpCarts } from "../../api/helpCarts.api";
 import type { HelpCart } from "../../api/types/HelpCart";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { ActiveFilter } from "../../pages/CatalogPage/CatalogPage";
 
@@ -13,7 +13,17 @@ type Props = {
 }
 export default function CatalogItems({ type, activeFilters }: Props) {
   const { t } = useTranslation();
-  const [carts] = useState<HelpCart[]>(mockHelpCarts);
+
+  const [carts, setCarts] = useState<HelpCart[]>([]);
+    useEffect(() => {
+      GetHelpCarts()
+        .then((data) => {
+          // if (data.results.length > 8) {
+          //   setCarts(data.results.slice(0, 8));
+          // }
+          setCarts(data.results);
+        })
+    }, []);
 
   const filteredCarts = carts.filter(cart => {
     const categoryFilters = activeFilters.filter(f => f.type === 'category');
@@ -36,6 +46,8 @@ export default function CatalogItems({ type, activeFilters }: Props) {
 
     return true;
   });
+
+  
 
   return (
     <div className="catalog__container">

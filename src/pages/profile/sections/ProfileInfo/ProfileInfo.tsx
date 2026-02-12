@@ -78,7 +78,7 @@ export const ProfileInfo = () => {
 
           <div className="profile__role">
             <span className="profile__role-label">{t("Role")}</span>
-            <span className="profile__role-value">Requester</span>
+            <span className="profile__role-value">{user.role}</span>
           </div>
 
           <div className="profile__actions">

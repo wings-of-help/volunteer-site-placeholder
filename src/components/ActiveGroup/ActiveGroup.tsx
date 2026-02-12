@@ -5,7 +5,7 @@ import type { HelpCart } from "../../api/types/HelpCart";
 import "./ActiveGroup.scss"
 import { Link } from "react-router-dom";
 import vector from "../../assets/Vector.svg"
-import { mockHelpCarts } from "../../api/helpCarts.api";
+import { GetHelpCarts } from "../../api/helpCarts.api";
 import CartItem from "../CartItem/CartItem";
 // import { GetHelpCarts } from "../../api/helpCarts.api";
 
@@ -18,13 +18,17 @@ type Props = {
 }
 
 export default function ActiveGroup({title, p, p2, seeAll, path}: Props) {
-  const [carts, setCarts] = useState<HelpCart[]>(mockHelpCarts);
-
-  console.log(path);
+  const [carts, setCarts] = useState<HelpCart[]>([]);
+    useEffect(() => {
+      GetHelpCarts()
+        .then((data) => {
+          // if (data.results.length > 8) {
+          //   setCarts(data.results.slice(0, 8));
+          // }
+          setCarts(data.results.slice(0, 3));
+        })
+    }, []);
   
-  useEffect(() => {
-    setCarts(carts => carts.slice(0, 3))
-  }, [])
   return (
     <div className="home-active-requests">
 
