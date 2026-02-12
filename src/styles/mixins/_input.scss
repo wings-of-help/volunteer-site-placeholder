@@ -33,7 +33,8 @@
 }
 
 @mixin input-focus {
-  &:focus {
+  &:focus,
+  &:focus-within {
     border-color: $color-primary-500;
     background-color: $color-white;
   }

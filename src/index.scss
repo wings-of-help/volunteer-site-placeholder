@@ -41,7 +41,7 @@ html {
   position: relative;
   overflow-y: scroll;
   color: $color-gray-9;
-}  
+}
 
 *,
 *::before,
@@ -50,7 +50,7 @@ html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-}  
+}
 
 body {
   margin: 0;
@@ -61,7 +61,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-}  
+}
 
 .home-layout--bg {
   height: 850px;
@@ -69,12 +69,14 @@ body {
   background-image:
     linear-gradient(
       to bottom,
-      rgba(248, 249, 250, 0) 60%,
+       rgba(248, 249, 250, 0) 70%,
+      rgba(248, 249, 250, 0.4) 80%,
+      rgba(248, 249, 250, 0.8) 90%,
       rgba(248, 249, 250, 1) 100%
-    ),  
+    ),
     url('./assets/bg-img.png');
 
-  background-size: cover;  
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-}  
+}
