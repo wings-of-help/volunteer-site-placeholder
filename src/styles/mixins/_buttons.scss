@@ -1,10 +1,12 @@
 @use '../variables' as *;
 @use './flex' as *;
+@use './typography' as *; 
 
 @mixin button-base {
   height: $control-height;
   padding: 0 16px;
   @include flex-center;
+  @include text-body-med;
   letter-spacing: 0;
   border-radius: 4px;
   cursor: pointer;

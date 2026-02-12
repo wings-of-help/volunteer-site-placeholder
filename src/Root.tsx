@@ -30,6 +30,9 @@ import CatalogPage from './pages/CatalogPage/CatalogPage';
 import CartDetails from './pages/CartDetailsPage/CartDetailsPage';
 import RoleProvider from './context/RoleContext';
 import { useTranslation } from 'react-i18next';
+import { ForgotPasswordPage } from './components/ForgotPasswordPage/ForgotPasswordPage';
+import { VerifyCodePage } from './components/VerifyCodePage/VerifyCodePage';
+import { NewPasswordPage } from './pages/NewPasswordPage/NewPasswordPage';
 
 export const Root = () => {
   const { t } = useTranslation();
@@ -54,7 +57,6 @@ export const Root = () => {
 
                     <Route path='responses' element={<MyResponses />} />
                   </Route>
-
                   <Route
                     path='requests'
                     element={
@@ -93,6 +95,12 @@ export const Root = () => {
                 {/* AUTH ROUTES */}
                 <Route element={<AuthLayout />}>
                   <Route path='/signin' element={<SignInFormPage />} />
+                  <Route
+                    path='/forgot-password'
+                    element={<ForgotPasswordPage />}
+                  />
+                  <Route path='/verify-code' element={<VerifyCodePage />} />
+                  <Route path='/new-password' element={<NewPasswordPage />} />
 
                   <Route path='/administrationsignup'>
                     <Route index element={<Navigate to='step-1' replace />} />

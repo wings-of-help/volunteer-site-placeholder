@@ -28,15 +28,16 @@
   }
 
   &__title {
-    font-family: 'Afacad';
-    font-size: 24px;
-    font-weight: 500;
-    line-height: 1;
+    @include africad;
+    @include text-color-states;
   }
 
   &__form {
     @include flex-center;
     margin-top: 88px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 200px; 
   }
 
   &__container {
@@ -324,6 +325,7 @@
     @include text-small-med;
     text-decoration: none;
     color: $color-gray-9;
+    @include text-color-states;
   }
 
   &__global-error {
