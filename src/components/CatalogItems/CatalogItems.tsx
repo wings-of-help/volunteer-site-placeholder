@@ -1,7 +1,7 @@
 import CartItem from "../CartItem/CartItem";
 import "./CatalogItems.scss"
 import arrowDown from '../../assets/arrow-down.svg';
-import { GetHelpCarts, mockHelpCarts } from "../../api/helpCarts.api";
+import { GetHelpCarts } from "../../api/helpCarts.api";
 import type { HelpCart } from "../../api/types/HelpCart";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

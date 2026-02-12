@@ -1,5 +1,6 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins/index' as *;
+@use '../../styles/mixins' as *;
 
 .user-request-card {
   width: 100%;
@@ -140,4 +141,8 @@
       }
     }
   }
+}
+
+.link-wrapper {
+  @include disableLinkStyles;
 }

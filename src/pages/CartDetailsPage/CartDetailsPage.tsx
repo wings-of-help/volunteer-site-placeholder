@@ -12,7 +12,6 @@ import envelope from '../../assets/mail.svg';
 import dot from '../../assets/Ellipse 3.png';
 
 import { useAuth } from '../../context/AuthContext';
-import { useUserRole } from '../../context/RoleContext';
 
 import ActiveGroup from '../../components/ActiveGroup/ActiveGroup';
 import Modal from '../../components/UI-elements/Modal/Modal';
@@ -41,8 +40,7 @@ export default function CartDetailsPage({ type }: Props) {
   const { cartId } = useParams();
   const { t } = useTranslation();
 
-  const { isAuth } = useAuth();
-  const { isVolunteer } = useUserRole();
+  const { isAuth, user } = useAuth();
 
   const backPath =
     (location.state as { from?: string })?.from ??
@@ -128,7 +126,7 @@ export default function CartDetailsPage({ type }: Props) {
               </div>
             )}
 
-            {isAuth && isVolunteer && type === 'requests' && (
+            {isAuth && user?.role === "volunteer" && type === 'requests' && (
               <button
                 className="offer__button"
                 onClick={() => {
@@ -139,7 +137,7 @@ export default function CartDetailsPage({ type }: Props) {
               </button>
             )}
 
-            {isAuth && !isVolunteer && type === 'requests' && (
+            {isAuth && user?.role === "distressed" && type === 'requests' && (
               <p className="offer__wrong">
                 {t('Only-registered-volunteers-can-respond-to-this-request')}
               </p>
@@ -161,13 +159,13 @@ export default function CartDetailsPage({ type }: Props) {
               </div>
             )}
 
-            {isAuth && isVolunteer && type === 'offers' && (
+            {isAuth && user?.role === "volunteer" && type === 'offers' && (
               <p className="offer__wrong">
                 {t('Only registered requesters can respond to this offer.')}
               </p>
             )}
 
-            {isAuth && !isVolunteer && type === 'offers' && (
+            {isAuth && user?.role === "distressed" && type === 'offers' && (
               <button
                 className="offer__button"
                 onClick={() => {
