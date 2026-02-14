@@ -24,16 +24,15 @@ type Props = {
 
 export default function CartDetailsPage({ type }: Props) {
   const [activeModal, setActiveModal] = useState(false);
-   const [carts, setCarts] = useState<HelpCart[]>([]);
-      useEffect(() => {
-        GetHelpCarts()
-          .then((data) => {
-            // if (data.results.length > 8) {
-            //   setCarts(data.results.slice(0, 8));
-            // }
-            setCarts(data.results);
-          })
-      }, []);
+  const [carts, setCarts] = useState<HelpCart[]>([]);
+  useEffect(() => {
+    GetHelpCarts().then((data) => {
+      // if (data.results.length > 8) {
+      //   setCarts(data.results.slice(0, 8));
+      // }
+      setCarts(data.results);
+    });
+  }, []);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,11 +41,23 @@ export default function CartDetailsPage({ type }: Props) {
 
   const { isAuth, user } = useAuth();
 
-  const backPath =
-    (location.state as { from?: string })?.from ??
-    (type === 'requests' ? '/requests' : '/offers');
+  const fromState = (location.state as { from?: string })?.from;
 
-  const cart = carts.find(item => item.id === Number(cartId));
+  const backPath = (() => {
+    if (fromState) return fromState;
+
+    if (location.pathname.includes('/profile/requests'))
+      return '/profile/requests';
+
+    if (location.pathname.includes('/profile/offers')) return '/profile/offers';
+
+    if (location.pathname.includes('/profile/responses'))
+      return '/profile/responses';
+
+    return type === 'requests' ? '/requests' : '/offers';
+  })();
+
+  const cart = carts.find((item) => item.id === Number(cartId));
 
   if (!cart) {
     return <h2>Cart not found</h2>;
@@ -54,81 +65,82 @@ export default function CartDetailsPage({ type }: Props) {
 
   return (
     <>
-      <div className="cart-details-page">
-        <div className="cart-details-page__container">
-
+      <div className='cart-details-page'>
+        <div className='cart-details-page__container'>
           {/* NAV */}
-          <nav className="cart-details-page__nav">
+          <nav className='cart-details-page__nav'>
             <div
-              className="cart-details-page__nav-links"
+              className='cart-details-page__nav-links'
               onClick={() => navigate(backPath)}
             >
               <img
-                className="cart-details-page__nav-link"
+                className='cart-details-page__nav-link'
                 src={arrow}
-                alt="back"
+                alt='back'
               />
-              <p className="cart-details-page__nav-text">
+              <p className='cart-details-page__nav-text'>
                 {t('Back-to')} {type}
               </p>
             </div>
           </nav>
 
           {/* INFO */}
-          <div className="cart-details-page__info">
-            <h1 className="cart-details-page__info__title">{cart.title}</h1>
+          <div className='cart-details-page__info'>
+            <h1 className='cart-details-page__info__title'>{cart.title}</h1>
 
-            <div className="cart-details-page__info__points">
-              <div className="cart-details-page__info__points-point">
-                <img src={calendar} alt="calendar" />
-                <p className="point-text">{cart.date}</p>
+            <div className='cart-details-page__info__points'>
+              <div className='cart-details-page__info__points-point'>
+                <img src={calendar} alt='calendar' />
+                <p className='point-text'>{cart.date}</p>
               </div>
 
-              <div className="cart-details-page__info__points-point">
-                <img src={map} alt="map" />
-                <p className="point-text">{cart.location_name}</p>
+              <div className='cart-details-page__info__points-point'>
+                <img src={map} alt='map' />
+                <p className='point-text'>{cart.location_name}</p>
               </div>
 
-              <div className="container">
-                <div className="cart-details-page__info__points-point">
-                  <p className="point-text aid">{cart.category_name}</p>
+              <div className='container'>
+                <div className='cart-details-page__info__points-point'>
+                  <p className='point-text aid'>{cart.category_name}</p>
                 </div>
 
                 {isAuth && (
-                  <div className="status">
-                    <img src={dot} alt="status" className="status__dot" />
+                  <div className='status'>
+                    <img src={dot} alt='status' className='status__dot' />
                     <p>{cart.status}</p>
                   </div>
                 )}
               </div>
 
-              <div className="cart-details-page__info__about">
-                <h1 className="cart-details-page__info__about">{t("About")}</h1>
+              <div className='cart-details-page__info__about'>
+                <h1 className='cart-details-page__info__about'>{t('About')}</h1>
 
-                <p className="cart-details-page__info__about__p">{cart.description}</p>
+                <p className='cart-details-page__info__about__p'>
+                  {cart.description}
+                </p>
               </div>
             </div>
 
             {/* ACTIONS */}
             {!isAuth && type === 'requests' && (
-              <div className="cart-details-page__info__about__register">
+              <div className='cart-details-page__info__about__register'>
                 <button
-                  className="cart-details-page__info__about__register__button"
+                  className='cart-details-page__info__about__register__button'
                   onClick={() => navigate('/signup')}
                 >
                   {t('Register-to-Help')}
                 </button>
 
-                <div className="cart-details-page__info__about__register__signin">
+                <div className='cart-details-page__info__about__register__signin'>
                   <p>{t('Already-have-an-account')}</p>
-                  <Link to="/signin">{t('Sign-In')}</Link>
+                  <Link to='/signin'>{t('Sign-In')}</Link>
                 </div>
               </div>
             )}
 
-            {isAuth && user?.role === "volunteer" && type === 'requests' && (
+            {isAuth && user?.role === 'volunteer' && type === 'requests' && (
               <button
-                className="offer__button"
+                className='offer__button'
                 onClick={() => {
                   setActiveModal(true);
                 }}
@@ -137,70 +149,64 @@ export default function CartDetailsPage({ type }: Props) {
               </button>
             )}
 
-            {isAuth && user?.role === "distressed" && type === 'requests' && (
-              <p className="offer__wrong">
+            {isAuth && user?.role === 'distressed' && type === 'requests' && (
+              <p className='offer__wrong'>
                 {t('Only-registered-volunteers-can-respond-to-this-request')}
               </p>
             )}
 
             {!isAuth && type === 'offers' && (
-              <div className="cart-details-page__info__about__register">
+              <div className='cart-details-page__info__about__register'>
                 <button
-                  className="cart-details-page__info__about__register__button"
+                  className='cart-details-page__info__about__register__button'
                   onClick={() => navigate('/signup')}
                 >
                   {t('Sign-up-to-Request-Help')}
                 </button>
 
-                <div className="cart-details-page__info__about__register__signin">
+                <div className='cart-details-page__info__about__register__signin'>
                   <p>{t('Already-have-an-account')}</p>
-                  <Link to="/signin">{t('Sign-In')}</Link>
+                  <Link to='/signin'>{t('Sign-In')}</Link>
                 </div>
               </div>
             )}
 
-            {isAuth && user?.role === "volunteer" && type === 'offers' && (
-              <p className="offer__wrong">
+            {isAuth && user?.role === 'volunteer' && type === 'offers' && (
+              <p className='offer__wrong'>
                 {t('Only registered requesters can respond to this offer.')}
               </p>
             )}
 
-            {isAuth && user?.role === "distressed" && type === 'offers' && (
+            {isAuth && user?.role === 'distressed' && type === 'offers' && (
               <button
-                className="offer__button"
+                className='offer__button'
                 onClick={() => {
                   setActiveModal(true);
                 }}
               >
-                {t("Request-help")}
+                {t('Request-help')}
               </button>
             )}
           </div>
 
           {/* PERSON INFO */}
-          <div className="cart-details-page__info__person-info">
+          <div className='cart-details-page__info__person-info'>
             <h1>
               {type === 'requests' ? t('Requester') : t('Volunteer')}
               {!isAuth && `: cody`}
             </h1>
 
             {isAuth && (
-              <div className="cart-details-page__info__person-info__details">
-                <div 
-                  className="cart-details-page__info__person-info__details__name"
-                >
+              <div className='cart-details-page__info__person-info__details'>
+                <div className='cart-details-page__info__person-info__details__name'>
                   Cody Warren
                 </div>
-                <div
-                  className="cart-details-page__info__person-info__details__d"
-                >
-                  <img src={phone} className="icon" alt="phone" />
+                <div className='cart-details-page__info__person-info__details__d'>
+                  <img src={phone} className='icon' alt='phone' />
                   +380 123 456 78 90
                 </div>
-                <div
-                  className="cart-details-page__info__person-info__details__d"
-                >
-                  <img src={envelope} className="icon" alt="email" />
+                <div className='cart-details-page__info__person-info__details__d'>
+                  <img src={envelope} className='icon' alt='email' />
                   cody.warren@example.com
                 </div>
               </div>
@@ -224,9 +230,7 @@ export default function CartDetailsPage({ type }: Props) {
                 : t('active-offers-2nd-p')
             }
             seeAll={
-              type === 'requests'
-                ? t('see-all-requests')
-                : t('see-all-offers')
+              type === 'requests' ? t('see-all-requests') : t('see-all-offers')
             }
             path={type}
           />
@@ -234,19 +238,22 @@ export default function CartDetailsPage({ type }: Props) {
       </div>
 
       {activeModal && (
-        <Modal 
-          setActive={setActiveModal} 
+        <Modal
+          setActive={setActiveModal}
           title={
             type === 'requests'
-              ? t("Your-offer-has-been-sent")
-              : t("Your-request-has-been-sent")
-            }
-            p={
-              type === 'requests'
-                ? t("Your-support-can-make-a-real-difference")
-                : t("Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon")
-            }
-        />)}
+              ? t('Your-offer-has-been-sent')
+              : t('Your-request-has-been-sent')
+          }
+          p={
+            type === 'requests'
+              ? t('Your-support-can-make-a-real-difference')
+              : t(
+                  'Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon',
+                )
+          }
+        />
+      )}
     </>
   );
 }

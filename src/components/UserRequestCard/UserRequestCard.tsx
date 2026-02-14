@@ -4,11 +4,10 @@ import waitingIcon from '../../assets/Ellipse 3.png';
 import progressIcon from '../../assets/ClockCountdown.svg';
 import doneIcon from '../../assets/CheckCircle.svg';
 import { useState } from 'react';
-import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
-import { completeHelpRequest } from '../../api/help.api';
+import { ConfirmModal } from '../../components/ConfirmModal/ConfirmModal';
+import { completeHelpRequest, deleteHelpRequest } from '../../api/help.api';
 import garbageIcon from '../../assets/garbage.svg';
 import trashIcon from '../../assets/Trash.svg';
-import { deleteHelpRequest } from '../../api/help.api';
 import { Link, useLocation } from 'react-router-dom';
 
 type Props = {
@@ -20,6 +19,8 @@ type Props = {
   status: HelpStatus;
   onDeleted: (id: number) => void;
 };
+
+/* ===== STATUS MAPS ===== */
 
 export const statusIconMap: Record<HelpStatus, string> = {
   new: waitingIcon,
@@ -33,6 +34,8 @@ export const statusLabelMap: Record<HelpStatus, string> = {
   done: 'Done',
 };
 
+/* ===== COMPONENT ===== */
+
 export const UserRequestCard = ({
   id,
   city,
@@ -44,25 +47,40 @@ export const UserRequestCard = ({
 }: Props) => {
   const [isDoneModalOpen, setIsDoneModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const location = useLocation();
-  const type = location.pathname.split('/')[2]
-  
+  const path = location.pathname;
+  const basePath = path.includes('offers') ? 'offers' : 'requests';
+
+  /* ===== DELETE ===== */
 
   const handleDelete = async () => {
-  try {
-    await deleteHelpRequest(id);
-    onDeleted(id);
-    setIsDeleteModalOpen(false);
-  } catch (error) {
-    console.error('Failed to delete request', error);
-  }
-};
+    try {
+      await deleteHelpRequest(id);
+      onDeleted(id);
+      setIsDeleteModalOpen(false);
+    } catch (error) {
+      console.error('Failed to delete request', error);
+    }
+  };
+
+  /* ===== MARK DONE ===== */
+
+  const handleMarkDone = async () => {
+    try {
+      await completeHelpRequest(id);
+      setIsDoneModalOpen(false);
+    } catch (error) {
+      console.error('Failed to mark request as done', error);
+    }
+  };
 
   return (
     <>
       <div className='user-request-card'>
-        <Link 
-          to={`/${type}/${id}`}
+        <Link
+          to={`/${basePath}/${id}`}
+          state={{ from: location.pathname }}
           className='link-wrapper'
         >
           <div className='user-request-card__header'>
@@ -78,9 +96,9 @@ export const UserRequestCard = ({
             <span>{statusLabelMap[status]}</span>
           </div>
         </Link>
-
         <div className='user-request-card__actions'>
           <button className='user-request-card__edit'>Edit Request</button>
+
           <button
             className='user-request-card__view'
             onClick={() => setIsDoneModalOpen(true)}
@@ -91,12 +109,18 @@ export const UserRequestCard = ({
           <button
             className='user-request-card__delete'
             type='button'
-            onClick={() => setIsDeleteModalOpen(true)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsDeleteModalOpen(true);
+            }}
           >
             <img src={garbageIcon} alt='Delete request' />
           </button>
         </div>
       </div>
+
+      {/* ===== DONE MODAL ===== */}
 
       {isDoneModalOpen && (
         <ConfirmModal
@@ -109,16 +133,11 @@ export const UserRequestCard = ({
           }
           confirmText='Yes, mark as done'
           onCancel={() => setIsDoneModalOpen(false)}
-          onConfirm={async () => {
-            try {
-              await completeHelpRequest(id);
-              setIsDoneModalOpen(false);
-            } catch (error) {
-              console.error('Failed to mark request as done', error);
-            }
-          }}
+          onConfirm={handleMarkDone}
         />
       )}
+
+      {/* ===== DELETE MODAL ===== */}
 
       {isDeleteModalOpen && (
         <ConfirmModal

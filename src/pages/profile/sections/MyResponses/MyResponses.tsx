@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { getMyResponses } from '../../../../api/help.api';
 import type { HelpRequest } from '../../../../api/types/help';
@@ -12,7 +11,6 @@ type Tab = 'active' | 'past';
 
 export const MyResponses = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   const [tab, setTab] = useState<Tab>('active');
   const [responses, setResponses] = useState<HelpRequest[]>([]);
@@ -36,10 +34,14 @@ export const MyResponses = () => {
     loadResponses();
   }, [user]);
 
+  const handleDeleted = (deletedId: number) => {
+    setResponses(prev => prev.filter(r => r.id !== deletedId));
+  };
+
   const filteredResponses = responses.filter((item) =>
     tab === 'active' ? item.status !== 'done' : item.status === 'done',
   );
-  
+
   if (loading) {
     return <div className='help-list'>Loading...</div>;
   }
@@ -48,7 +50,6 @@ export const MyResponses = () => {
     return <div className='help-list'>{error}</div>;
   }
 
-  /* EMPTY STATE — без табов */
   if (responses.length === 0) {
     return (
       <div className='help-list help-list--empty'>
@@ -57,7 +58,6 @@ export const MyResponses = () => {
     );
   }
 
-  /* якщо є responses */
   return (
     <div className='help-list'>
       <div className='help-list__tabs'>
@@ -90,11 +90,7 @@ export const MyResponses = () => {
             title={response.title}
             description={response.description}
             status={response.status}
-            onView={(id) =>
-              navigate(`/requests/${id}`, {
-                state: { from: '/profile/responses' },
-              })
-            }
+            onDeleted={handleDeleted}
           />
         ))}
       </div>
