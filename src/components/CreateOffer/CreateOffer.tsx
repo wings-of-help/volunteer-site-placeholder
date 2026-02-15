@@ -91,103 +91,99 @@ export const CreateOffer = () => {
         kind: 'offer',
       });
 
-      navigate(`/offers/${created.id}`);
+      navigate(`/offers/${created.id}`, {
+        state: { from: '/profile/offers' },
+      });
     } catch (error) {
       console.error('Failed to create offer', error);
     }
   };
 
   return (
-    <div className="create-request">
-      <div className="create-request__header">
+    <div className='create-request'>
+      <div className='create-request__header'>
         <button
-          className="create-request__back"
+          className='create-request__back'
           onClick={() => navigate('/profile/offers')}
         >
-          <img src={breakIcon} alt="back icon" />
+          <img src={breakIcon} alt='back icon' />
           <span>Back to My Offers</span>
         </button>
 
-        <h1 className="create-request__title">Create New Offer</h1>
+        <h1 className='create-request__title'>Create New Offer</h1>
       </div>
 
-      <form className="create-request__form" onSubmit={handleSubmit}>
+      <form className='create-request__form' onSubmit={handleSubmit}>
         {/* TITLE */}
-        <div className="create-request__field">
-          <label className="create-request__label">Title</label>
+        <div className='create-request__field'>
+          <label className='create-request__label'>Title</label>
           <input
-            className="create-request__input"
-            placeholder="Add title here..."
+            className='create-request__input'
+            placeholder='Add title here...'
             value={title}
             maxLength={80}
-            onChange={(e) =>
-              setTitle(capitalizeFirstLetter(e.target.value))
-            }
+            onChange={(e) => setTitle(capitalizeFirstLetter(e.target.value))}
           />
-          <span className="create-request__hint">
+          <span className='create-request__hint'>
             Max length ~80 characters
           </span>
         </div>
 
         {/* CATEGORY */}
-        <div className="create-request__field">
-          <label className="create-request__label">Category</label>
+        <div className='create-request__field'>
+          <label className='create-request__label'>Category</label>
 
           <CustomSearchDropdown
             options={categoryOptions}
             selectedOption={selectedCategoryOption}
-            onSelect={(option) =>
-              setCategoryId(Number(option.value))
-            }
-            placeholder="Choose a category"
+            onSelect={(option) => setCategoryId(Number(option.value))}
+            placeholder='Choose a category'
           />
         </div>
 
         {/* CITY */}
-        <div className="create-request__field">
-          <label className="create-request__label">City</label>
+        <div className='create-request__field'>
+          <label className='create-request__label'>City</label>
 
           <CustomSearchDropdown
             options={cityOptions}
             selectedOption={selectedCityOption}
-            onSelect={(option) =>
-              setLocationId(Number(option.value))
-            }
-            placeholder="Choose a city"
+            onSelect={(option) => setLocationId(Number(option.value))}
+            placeholder='Choose a city'
           />
         </div>
 
         {/* DESCRIPTION */}
-        <div className="create-request__field">
-          <label className="create-request__label">Description</label>
+        <div className='create-request__field'>
+          <label className='create-request__label'>Description</label>
           <textarea
-            className="create-request__textarea"
+            className='create-request__textarea'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Provide details about your offer..."
+            placeholder='Provide details about your offer...'
             onInput={(e) => {
               const el = e.currentTarget;
               el.style.height = 'auto';
               el.style.height = `${el.scrollHeight}px`;
             }}
           />
-          <span className="create-request__hint">
+          <span className='create-request__hint'>
             {description.length} / 1000 characters (min 50)
           </span>
         </div>
 
         {/* ACTIONS */}
-        <div className="create-request__actions">
+        <div className='create-request__actions'>
           <button
-            type="button"
-            className="create-request__cancel"
+            type='button'
+            className='create-request__cancel'
             onClick={() => navigate('/profile/offers')}
           >
             Cancel
           </button>
 
           <button
-            type="submit"
+            type='submit'
             className={`create-request__publish ${
               isFormValid ? 'create-request__publish--active' : ''
             }`}
