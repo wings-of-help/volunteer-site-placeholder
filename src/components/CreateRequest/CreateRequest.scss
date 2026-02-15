@@ -102,7 +102,7 @@
   &__hint {
     margin-top: 4px;
     padding-left: 16px;
-    @include text-caption;
+    @include text-small-reg;
     color: $color-gray-6;
   }
 
@@ -111,6 +111,7 @@
     display: flex;
     gap: 16px;
   }
+  
 
   &__cancel,
   &__publish {
