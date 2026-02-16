@@ -8,7 +8,7 @@ import { ConfirmModal } from '../../components/ConfirmModal/ConfirmModal';
 import { completeHelpRequest, deleteHelpRequest } from '../../api/help.api';
 import garbageIcon from '../../assets/garbage.svg';
 import trashIcon from '../../assets/Trash.svg';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 type Props = {
   id: number;
@@ -48,6 +48,8 @@ export const UserRequestCard = ({
   const ignoreNextClick = useRef(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
+
   const path = location.pathname;
   const basePath = path.includes('offers') ? 'offers' : 'requests';
 
@@ -119,7 +121,7 @@ export const UserRequestCard = ({
                 e.preventDefault();
                 e.stopPropagation();
                 ignoreNextClick.current = true;
-                // TODO: edit logic later
+                navigate(`/profile/${basePath}/${id}/edit`);
               }}
             >
               Edit Request
