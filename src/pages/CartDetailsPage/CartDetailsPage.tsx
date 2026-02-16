@@ -17,6 +17,7 @@ import ActiveGroup from '../../components/ActiveGroup/ActiveGroup';
 import Modal from '../../components/UI-elements/Modal/Modal';
 import type { HelpCart } from '../../api/types/HelpCart';
 import { GetHelpCarts } from '../../api/helpCarts.api';
+import { respondToHelp } from '../../api/help.api';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -62,6 +63,23 @@ export default function CartDetailsPage({ type }: Props) {
   if (!cart) {
     return <h2>Cart not found</h2>;
   }
+
+  const handleRespond = async () => {
+    if (!cart) return;
+
+    try {
+      console.log('TRY RESPOND', cart.id);
+
+      const res = await respondToHelp(cart.id);
+
+      console.log('SUCCESS', res);
+
+      setActiveModal(true);
+    } catch (e) {
+      console.error('RESPOND ERROR:', e);
+      alert('Respond failed — дивись console');
+    }
+  };
 
   return (
     <>
@@ -139,12 +157,7 @@ export default function CartDetailsPage({ type }: Props) {
             )}
 
             {isAuth && user?.role === 'volunteer' && type === 'requests' && (
-              <button
-                className='offer__button'
-                onClick={() => {
-                  setActiveModal(true);
-                }}
-              >
+              <button className='offer__button' onClick={handleRespond}>
                 {t('Offer-help')}
               </button>
             )}
@@ -178,12 +191,7 @@ export default function CartDetailsPage({ type }: Props) {
             )}
 
             {isAuth && user?.role === 'distressed' && type === 'offers' && (
-              <button
-                className='offer__button'
-                onClick={() => {
-                  setActiveModal(true);
-                }}
-              >
+              <button className='offer__button' onClick={handleRespond}>
                 {t('Request-help')}
               </button>
             )}

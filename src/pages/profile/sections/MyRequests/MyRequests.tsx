@@ -101,6 +101,7 @@ export const MyRequests = () => {
               title={request.title}
               description={request.description}
               status={request.status}
+              mode="owner-request"
               onDeleted={(id) => {
                 setRequests((prev) => prev.filter((item) => item.id !== id));
               }}

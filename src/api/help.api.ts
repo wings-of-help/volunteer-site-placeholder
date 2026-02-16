@@ -92,3 +92,15 @@ export const getHelpById = async (id: number): Promise<HelpRequest> => {
 
   return res.json();
 };
+
+export const respondToHelp = async (id: number) => {
+  const res = await authFetch(`${BASE_URL}/help/${id}/respond/`, {
+    method: 'POST',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to respond to help');
+  }
+
+  return res.json();
+};
