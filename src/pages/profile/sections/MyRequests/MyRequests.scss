@@ -23,6 +23,7 @@
 
   &__tabs {
     display: flex;
+    height: 75px;
     gap: 8px;
     padding: 8px;
     background: $color-gray-1;
@@ -30,7 +31,7 @@
 
   &__tab {
     flex: 1;
-    height: 41px;
+    height: 59px;
     padding: 8px 16px;
 
     background: transparent;

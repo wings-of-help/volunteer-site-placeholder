@@ -22,6 +22,7 @@ import { MyResponses } from './pages/profile/sections/MyResponses/MyResponses';
 import { CreateRequest } from './components/CreateRequest/CreateRequest';
 import { MyOffers } from './pages/profile/sections/MyOffers/MyOffers';
 import { CreateOffer } from './components/CreateOffer/CreateOffer';
+import { EditHelpPage } from './pages/profile/EditHelpPage/EditHelpPage';
 
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
@@ -49,14 +50,25 @@ export const Root = () => {
                   <Route path='profile' element={<ProfilePage />}>
                     <Route index element={<ProfileInfo />} />
 
+                    {/* REQUESTS */}
                     <Route path='requests' element={<MyRequests />} />
                     <Route path='requests/new' element={<CreateRequest />} />
+                    <Route
+                      path='requests/:id/edit'
+                      element={<EditHelpPage kind='request' />}
+                    />
 
+                    {/* OFFERS */}
                     <Route path='offers' element={<MyOffers />} />
                     <Route path='offers/new' element={<CreateOffer />} />
+                    <Route
+                      path='offers/:id/edit'
+                      element={<EditHelpPage kind='offer' />}
+                    />
 
                     <Route path='responses' element={<MyResponses />} />
                   </Route>
+
                   <Route
                     path='requests'
                     element={

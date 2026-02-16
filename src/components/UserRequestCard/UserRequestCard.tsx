@@ -8,7 +8,9 @@ import { ConfirmModal } from '../../components/ConfirmModal/ConfirmModal';
 import { completeHelpRequest, deleteHelpRequest } from '../../api/help.api';
 import garbageIcon from '../../assets/garbage.svg';
 import trashIcon from '../../assets/Trash.svg';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+type CardMode = 'owner-request' | 'owner-offer' | 'volunteer' | 'catalog';
 
 type Props = {
   id: number;
@@ -17,7 +19,9 @@ type Props = {
   title: string;
   description: string;
   status: HelpStatus;
-  onDeleted: (id: number) => void;
+
+  mode?: CardMode;
+  onDeleted?: (id: number) => void;
 };
 
 /* ===== STATUS MAPS ===== */
@@ -41,22 +45,24 @@ export const UserRequestCard = ({
   title,
   description,
   status,
+  mode = 'catalog',
   onDeleted,
 }: Props) => {
   const [isDoneModalOpen, setIsDoneModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const ignoreNextClick = useRef(false);
 
-  const location = useLocation();
-  const path = location.pathname;
-  const basePath = path.includes('offers') ? 'offers' : 'requests';
+  const navigate = useNavigate();
+
+  /* ===== DEFINE BASE PATH ===== */
+  const basePath = mode === 'owner-offer' ? 'offers' : 'requests';
 
   /* ===== DELETE ===== */
 
   const handleDelete = async () => {
     try {
       await deleteHelpRequest(id);
-      onDeleted(id);
+      onDeleted?.(id);
       setIsDeleteModalOpen(false);
     } catch (error) {
       console.error('Failed to delete request', error);
@@ -74,13 +80,14 @@ export const UserRequestCard = ({
     }
   };
 
+  const isOwner = mode === 'owner-request' || mode === 'owner-offer';
+
   return (
     <>
       <div className='user-request-card'>
         {/* CARD LINK */}
         <Link
           to={`/${basePath}/${id}`}
-          state={{ from: location.pathname }}
           className='user-request-card__card'
           onClick={(e) => {
             if (ignoreNextClick.current) {
@@ -96,8 +103,10 @@ export const UserRequestCard = ({
 
             <p className='user-request-card__description'>{description}</p>
           </div>
+
           <div className='user-request-card__footer'>
             <span className='user-request-card__city'>{city}</span>
+
             <div
               className={`user-request-card__status user-request-card__status--${status}`}
             >
@@ -108,53 +117,58 @@ export const UserRequestCard = ({
               {status !== 'new' && (
                 <img src={statusIconMap[status]} alt={status} />
               )}
+
               <span>{statusLabelMap[status]}</span>
             </div>
-          </div>{' '}
-          <div className='user-request-card__actions'>
-            <button
-              className='user-request-card__edit'
-              type='button'
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                ignoreNextClick.current = true;
-                // TODO: edit logic later
-              }}
-            >
-              Edit Request
-            </button>
-
-            <button
-              className='user-request-card__view'
-              type='button'
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                ignoreNextClick.current = true;
-                setIsDoneModalOpen(true);
-              }}
-            >
-              Mark as Done
-            </button>
-
-            <button
-              className='user-request-card__delete'
-              type='button'
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                ignoreNextClick.current = true;
-                setIsDeleteModalOpen(true);
-              }}
-            >
-              <img src={garbageIcon} alt='Delete request' />
-            </button>
           </div>
+
+          {/* ===== ACTIONS ONLY FOR OWNER ===== */}
+          {isOwner && (
+            <div className='user-request-card__actions'>
+              <button
+                className='user-request-card__edit'
+                type='button'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  ignoreNextClick.current = true;
+                  navigate(`/profile/${basePath}/${id}/edit`);
+                }}
+              >
+                Edit Request
+              </button>
+
+              <button
+                className='user-request-card__view'
+                type='button'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  ignoreNextClick.current = true;
+                  setIsDoneModalOpen(true);
+                }}
+              >
+                Mark as Done
+              </button>
+
+              <button
+                className='user-request-card__delete'
+                type='button'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  ignoreNextClick.current = true;
+                  setIsDeleteModalOpen(true);
+                }}
+              >
+                <img src={garbageIcon} alt='Delete request' />
+              </button>
+            </div>
+          )}
         </Link>
 
         {/* DONE MODAL */}
-        {isDoneModalOpen && (
+        {isOwner && isDoneModalOpen && (
           <ConfirmModal
             title='Are you sure you want to mark this request as done?'
             description={
@@ -170,8 +184,9 @@ export const UserRequestCard = ({
             onConfirm={handleMarkDone}
           />
         )}
+
         {/* DELETE MODAL */}
-        {isDeleteModalOpen && (
+        {isOwner && isDeleteModalOpen && (
           <ConfirmModal
             title='Are you sure you want to delete this post?'
             confirmText='Delete'

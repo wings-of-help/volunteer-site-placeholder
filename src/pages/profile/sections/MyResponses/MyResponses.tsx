@@ -35,12 +35,13 @@ export const MyResponses = () => {
   }, [user]);
 
   const handleDeleted = (deletedId: number) => {
-    setResponses(prev => prev.filter(r => r.id !== deletedId));
+    setResponses((prev) => prev.filter((r) => r.id !== deletedId));
   };
 
-  const filteredResponses = responses.filter((item) =>
-    tab === 'active' ? item.status !== 'done' : item.status === 'done',
-  );
+  const activeResponses = responses.filter((r) => r.status !== 'done');
+  const pastResponses = responses.filter((r) => r.status === 'done');
+
+  const filteredResponses = tab === 'active' ? activeResponses : pastResponses;
 
   if (loading) {
     return <div className='help-list'>Loading...</div>;
@@ -53,7 +54,9 @@ export const MyResponses = () => {
   if (responses.length === 0) {
     return (
       <div className='help-list help-list--empty'>
-        <p className='help-list__empty'>You haven’t requested help yet</p>
+        <p className='help-list__empty'>
+          You haven’t responded to any requests yet
+        </p>
       </div>
     );
   }
@@ -90,6 +93,7 @@ export const MyResponses = () => {
             title={response.title}
             description={response.description}
             status={response.status}
+            mode="volunteer"
             onDeleted={handleDeleted}
           />
         ))}
