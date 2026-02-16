@@ -48,8 +48,7 @@
         position: relative;
 
         &__title {
-          @include text-h2;
-          font-size: 18px;
+          @include text-body-med;
         }
 
         &::after {
