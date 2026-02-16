@@ -102,6 +102,7 @@ export const MyResponses = () => {
             title={response.title}
             description={response.description}
             status={response.status}
+            kind={response.kind} 
             mode="volunteer"
             onDeleted={handleDeleted}
             onCompleted={handleCompleted}

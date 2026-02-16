@@ -20,6 +20,8 @@ type Props = {
   description: string;
   status: HelpStatus;
 
+  kind: 'request' | 'offer';
+
   mode?: CardMode;
   onDeleted?: (id: number) => void;
   onCompleted?: (id: number) => void;
@@ -47,6 +49,7 @@ export const UserRequestCard = ({
   description,
   status,
   mode = 'catalog',
+  kind,
   onDeleted,
   onCompleted,
 }: Props) => {
@@ -61,7 +64,7 @@ export const UserRequestCard = ({
   const canMarkDone = localStatus === 'in_progress';
 
   /* ===== DEFINE BASE PATH ===== */
-  const basePath = mode === 'owner-offer' ? 'offers' : 'requests';
+  const basePath = kind === 'offer' ? 'offers' : 'requests';
 
   /* ===== DELETE ===== */
 

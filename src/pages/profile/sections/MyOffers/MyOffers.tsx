@@ -115,6 +115,7 @@ export const MyOffers = () => {
                 description={offer.description}
                 status={offer.status}
                 mode="owner-offer"
+                kind="offer"
                 onDeleted={handleDeleted}
                 onCompleted={handleCompleted}
               />
