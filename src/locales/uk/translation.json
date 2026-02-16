@@ -224,6 +224,7 @@
   "roles": {
     "admin": "Адміністратор",
     "volunteer": "Волонтер",
-    "requester": "Запитувач"
+    "requester": "Запитувач",
+    "distressed": "Постраждалий"
   }
 }

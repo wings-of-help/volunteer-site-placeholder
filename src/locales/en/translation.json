@@ -241,6 +241,7 @@
   "roles": {
     "admin": "Admin",
     "volunteer": "Volunteer",
-    "requester": "Requester"
+    "requester": "Requester",
+    "distressed": "Distressed"
   }
 }
