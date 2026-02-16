@@ -53,6 +53,15 @@ export const MyOffers = () => {
 
   const isEmpty = offers.length === 0;
 
+  const handleCompleted = (completedId: number) => {
+  setOffers(prev =>
+    prev.map(o =>
+      o.id === completedId ? { ...o, status: 'done' } : o
+    )
+  );
+};
+
+
   return (
     <div className='help-list'>
       {/* HEADER */}
@@ -106,7 +115,9 @@ export const MyOffers = () => {
                 description={offer.description}
                 status={offer.status}
                 mode="owner-offer"
+                kind="offer"
                 onDeleted={handleDeleted}
+                onCompleted={handleCompleted}
               />
             ))}
           </div>

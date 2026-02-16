@@ -20,8 +20,11 @@ type Props = {
   description: string;
   status: HelpStatus;
 
+  kind: 'request' | 'offer';
+
   mode?: CardMode;
   onDeleted?: (id: number) => void;
+  onCompleted?: (id: number) => void;
 };
 
 /* ===== STATUS MAPS ===== */
@@ -46,16 +49,22 @@ export const UserRequestCard = ({
   description,
   status,
   mode = 'catalog',
+  kind,
   onDeleted,
+  onCompleted,
 }: Props) => {
   const [isDoneModalOpen, setIsDoneModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [localStatus, setLocalStatus] = useState(status);
+
   const ignoreNextClick = useRef(false);
 
   const navigate = useNavigate();
 
+  const canMarkDone = localStatus === 'in_progress';
+
   /* ===== DEFINE BASE PATH ===== */
-  const basePath = mode === 'owner-offer' ? 'offers' : 'requests';
+  const basePath = kind === 'offer' ? 'offers' : 'requests';
 
   /* ===== DELETE ===== */
 
@@ -73,10 +82,15 @@ export const UserRequestCard = ({
 
   const handleMarkDone = async () => {
     try {
-      await completeHelpRequest(id);
+      setLocalStatus('done');
       setIsDoneModalOpen(false);
+
+      await completeHelpRequest(id);
+
+      onCompleted?.(id);
     } catch (error) {
       console.error('Failed to mark request as done', error);
+      setLocalStatus(status);
     }
   };
 
@@ -108,17 +122,17 @@ export const UserRequestCard = ({
             <span className='user-request-card__city'>{city}</span>
 
             <div
-              className={`user-request-card__status user-request-card__status--${status}`}
+              className={`user-request-card__status user-request-card__status--${localStatus}`}
             >
-              {status === 'new' && (
+              {localStatus === 'new' && (
                 <span className='user-request-card__status-dot' />
               )}
 
-              {status !== 'new' && (
-                <img src={statusIconMap[status]} alt={status} />
+              {localStatus !== 'new' && (
+                <img src={statusIconMap[localStatus]} alt={localStatus} />
               )}
 
-              <span>{statusLabelMap[status]}</span>
+              <span>{statusLabelMap[localStatus]}</span>
             </div>
           </div>
 
@@ -141,7 +155,10 @@ export const UserRequestCard = ({
               <button
                 className='user-request-card__view'
                 type='button'
+                disabled={!canMarkDone}
                 onClick={(e) => {
+                  if (!canMarkDone) return;
+
                   e.preventDefault();
                   e.stopPropagation();
                   ignoreNextClick.current = true;
