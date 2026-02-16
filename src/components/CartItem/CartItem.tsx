@@ -28,7 +28,11 @@ export default function CartItem({title, location, description, category, status
 
 
         <p className="cart-item__p">
-          {description}
+          {description.length > 156 ? (
+            `${description.slice(0, 156)}...`
+          ) : (
+            description
+          )}
         </p>
         
         <div className="cart-item__bottom">
