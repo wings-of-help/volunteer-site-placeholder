@@ -64,22 +64,24 @@ export default function CartDetailsPage({ type }: Props) {
     return <h2>Cart not found</h2>;
   }
 
-  const handleRespond = async () => {
-    if (!cart) return;
+const handleRespond = async () => {
+  if (!cart) return;
 
-    try {
-      console.log('TRY RESPOND', cart.id);
+  try {
+    console.log('TRY RESPOND', cart.id);
 
-      const res = await respondToHelp(cart.id);
+    const res = await respondToHelp(cart.id);
 
-      console.log('SUCCESS', res);
+    console.log('SUCCESS', res);
 
-      setActiveModal(true);
-    } catch (e) {
-      console.error('RESPOND ERROR:', e);
-      alert('Respond failed — дивись console');
-    }
-  };
+    setActiveModal(true);
+
+  } catch (e) {
+    console.error('RESPOND ERROR:', e);
+    alert('Respond failed — дивись console');
+  }
+};
+
 
   return (
     <>

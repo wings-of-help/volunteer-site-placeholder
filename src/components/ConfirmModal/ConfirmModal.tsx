@@ -23,6 +23,7 @@ export const ConfirmModal = ({
   variant = 'default',
   icon,
 }: Props) => {
+
   return (
     <div className='confirm-modal-overlay' onClick={onCancel}>
       <div

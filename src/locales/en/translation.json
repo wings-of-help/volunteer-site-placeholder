@@ -153,8 +153,6 @@
   "Personal-Information": "Personal Information",
   "My-Requests": "My Requests",
   "My-Responses": "My Responses",
-  "Log-out": "Log-out",
-
   "Profile": "Profile",
   "Role": "Role:",
   "Save-changes": "Save changes",
@@ -175,7 +173,7 @@
   "Publish": "Publish",
 
   "Are-you-sure-you-want-to-log-out": "Are you sure you want to log out?",
-  "Logout": "Logout",
+  "Log-out": "Log out",
 
   "Search": "Search...",
   "Choose-a-city": "Choose a city",

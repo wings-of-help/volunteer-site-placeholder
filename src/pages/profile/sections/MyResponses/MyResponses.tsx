@@ -61,6 +61,15 @@ export const MyResponses = () => {
     );
   }
 
+  const handleCompleted = (completedId: number) => {
+  setResponses(prev =>
+    prev.map(r =>
+      r.id === completedId ? { ...r, status: 'done' } : r
+    )
+  );
+};
+
+
   return (
     <div className='help-list'>
       <div className='help-list__tabs'>
@@ -95,6 +104,7 @@ export const MyResponses = () => {
             status={response.status}
             mode="volunteer"
             onDeleted={handleDeleted}
+            onCompleted={handleCompleted}
           />
         ))}
       </div>
