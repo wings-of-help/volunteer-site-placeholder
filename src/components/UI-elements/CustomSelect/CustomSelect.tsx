@@ -13,7 +13,7 @@ type Props = {
   placeholder?: string;
   onChange?: (value: string) => void;
   variant?: "default" | "lang" | "filter";
-  setSortType: (value: string) => void;
+  setSortType?: (value: string) => void;
 };
 
 export default function CustomSelect({
@@ -21,7 +21,7 @@ export default function CustomSelect({
   placeholder,
   onChange,
   variant = "default",
-  setSortType,
+  setSortType = () => {},
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | null>(null);
