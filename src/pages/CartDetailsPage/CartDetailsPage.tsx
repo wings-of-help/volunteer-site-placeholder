@@ -18,7 +18,7 @@ import Modal from '../../components/UI-elements/Modal/Modal';
 import type { HelpCart } from '../../api/types/HelpCart';
 import { GetHelpCarts } from '../../api/helpCarts.api';
 import type { UserData } from '../../api/types/user';
-import { GetUsers } from '../../api/getUserById.api';
+import { GetUserById } from '../../api/getUserById.api';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -26,54 +26,49 @@ type Props = {
 
 export default function CartDetailsPage({ type }: Props) {
   const [activeModal, setActiveModal] = useState(false);
-   const [carts, setCarts] = useState<HelpCart[]>([]);
-   const [users, setUsers] = useState<UserData[]>([]);
+  const [carts, setCarts] = useState<HelpCart[]>([]);
+  const [creator, setCreator] = useState<UserData>();
+  
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { cartId } = useParams();
+  const { t } = useTranslation();
+  
+  const { isAuth, user } = useAuth();
 
-      useEffect(() => {
-        GetHelpCarts()
-          .then((data) => {
-            // if (data.results.length > 8) {
-            //   setCarts(data.results.slice(0, 8));
-            // }
-            setCarts(data.results);
-          })
+  useEffect(() => {
+    GetHelpCarts()
+      .then((data) => setCarts(data.results))
+      .catch(console.error);
+  }, []);
 
-        GetUsers()
-          .then((data) => {
-            // if (data.results.length > 8) {
-            //   setCarts(data.results.slice(0, 8));
-            // }
-            setUsers(data.results);
-          })
-      }, []);
+  useEffect(() => {
+    if (!carts.length || !cartId) return;
 
+    const cart = carts.find(item => item.id === Number(cartId));
+    if (!cart?.creator) return;
+
+    GetUserById(Number(cart.creator))
+      .then(user => setCreator(user))
+      .catch(console.error);
+  }, [carts, cartId]);
       
-      const navigate = useNavigate();
-      const location = useLocation();
-      const { cartId } = useParams();
-      const { t } = useTranslation();
+  const cart = carts.find(item => item.id === Number(cartId));
       
-      const { isAuth, user } = useAuth();
-      
-      const backPath =
-      (location.state as { from?: string })?.from ??
-      (type === 'requests' ? '/requests' : '/offers');
-      
-      const cart = carts.find(item => item.id === Number(cartId));
-
-      
-      if (!cart) {
-        return <h2>Cart not found</h2>;
-      }
-
-    const currentUser = users.find(userFromList => +cart?.creator === +userFromList.id)
-
+  const backPath =
+    (location.state as { from?: string })?.from ??
+    (type === 'requests' ? '/requests' : '/offers');
+        
   function formatDate(date: string) {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
     });
+  }
+
+  if (!cart) {
+    return <h2>Cart not found</h2>;
   }
 
   return (
@@ -213,19 +208,19 @@ export default function CartDetailsPage({ type }: Props) {
                 <div 
                   className="cart-details-page__info__person-info__details__name"
                 >
-                  {`${currentUser?.first_name} ${currentUser?.last_name}`}
+                  {`${creator?.first_name} ${creator?.last_name}`}
                 </div>
                 <div
                   className="cart-details-page__info__person-info__details__d"
                 >
                   <img src={phone} className="icon" alt="phone" />
-                  {currentUser?.phone_number}
+                  {creator?.phone_number}
                 </div>
                 <div
                   className="cart-details-page__info__person-info__details__d"
                 >
                   <img src={envelope} className="icon" alt="email" />
-                  {currentUser?.email}
+                  {creator?.email}
                 </div>
               </div>
             )}
