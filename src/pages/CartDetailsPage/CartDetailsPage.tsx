@@ -21,6 +21,7 @@ import type { HelpCartFull } from '../../api/types/HelpCart';
 // import type { HelpCart } from '../../api/types/HelpCart';
 // import { GetHelpCarts } from '../../api/helpCarts.api';
 import { respondToHelp } from '../../api/help.api';
+import StatusBlock from '../../components/UI-elements/StatusBlock/StatusBlock';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -127,10 +128,7 @@ const handleRespond = async () => {
                 </div>
 
                 {isAuth && (
-                  <div className="status">
-                    <img src={dot} alt="status" className="status__dot" />
-                    <p>{cart.status.includes("_") ? cart.status.replace(/_/g, " ") : cart.status}</p>
-                  </div>
+                  <StatusBlock status={cart.status}/>
                 )}
               </div>
 

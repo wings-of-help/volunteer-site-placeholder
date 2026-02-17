@@ -9,6 +9,7 @@ import { completeHelpRequest, deleteHelpRequest } from '../../api/help.api';
 import garbageIcon from '../../assets/garbage.svg';
 import trashIcon from '../../assets/Trash.svg';
 import { Link, useNavigate } from 'react-router-dom';
+import StatusBlock from '../UI-elements/StatusBlock/StatusBlock';
 
 type CardMode = 'owner-request' | 'owner-offer' | 'volunteer' | 'catalog';
 
@@ -121,19 +122,7 @@ export const UserRequestCard = ({
           <div className='user-request-card__footer'>
             <span className='user-request-card__city'>{city}</span>
 
-            <div
-              className={`user-request-card__status user-request-card__status--${localStatus}`}
-            >
-              {localStatus === 'new' && (
-                <span className='user-request-card__status-dot' />
-              )}
-
-              {localStatus !== 'new' && (
-                <img src={statusIconMap[localStatus]} alt={localStatus} />
-              )}
-
-              <span>{statusLabelMap[localStatus]}</span>
-            </div>
+            <StatusBlock status={localStatus}/>
           </div>
 
           {/* ===== ACTIONS ONLY FOR OWNER ===== */}
