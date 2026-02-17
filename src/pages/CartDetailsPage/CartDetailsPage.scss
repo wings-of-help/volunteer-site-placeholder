@@ -200,3 +200,10 @@
   display: flex;
   gap: 16px;
 }
+
+.disabled {
+  color: #F8F9FA;
+  background-color: #B3D0FF;
+  pointer-events: none;
+  cursor: not-allowed; 
+}

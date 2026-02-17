@@ -227,5 +227,8 @@
   "8-20-characters": "8-20 characters",
   "One-uppercase-latin-letter": "One uppercase latin letter",
   "One-lowercase-latin-letter": "One lowercase latin letter",
-  "One-special-character": "One special character"
+  "One-special-character": "One special character",
+
+  "Offer-sent": "Offer sent",
+  "Request-sent": "Request sent"
 }

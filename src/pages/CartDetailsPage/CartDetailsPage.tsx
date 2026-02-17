@@ -15,10 +15,9 @@ import { useAuth } from '../../context/AuthContext';
 
 import ActiveGroup from '../../components/ActiveGroup/ActiveGroup';
 import Modal from '../../components/UI-elements/Modal/Modal';
-import type { HelpCart } from '../../api/types/HelpCart';
-import { GetHelpCarts } from '../../api/helpCarts.api';
-import type { UserData } from '../../api/types/user';
-import { GetUserById } from '../../api/getUserById.api';
+import { GetHelpCartById } from '../../api/helpCarts.api';
+import classNames from 'classnames';
+import type { HelpCartFull } from '../../api/types/HelpCart';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -26,34 +25,23 @@ type Props = {
 
 export default function CartDetailsPage({ type }: Props) {
   const [activeModal, setActiveModal] = useState(false);
-  const [carts, setCarts] = useState<HelpCart[]>([]);
-  const [creator, setCreator] = useState<UserData>();
+  const { cartId } = useParams();
+  const [wasClicked, setWasClicked] = useState(() => {
+    return localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
+  });
+  const [cart, setCart] = useState<HelpCartFull>();
   
   const navigate = useNavigate();
   const location = useLocation();
-  const { cartId } = useParams();
   const { t } = useTranslation();
   
   const { isAuth, user } = useAuth();
 
   useEffect(() => {
-    GetHelpCarts()
-      .then((data) => setCarts(data.results))
+    GetHelpCartById(Number(cartId))
+      .then((data) => setCart(data))
       .catch(console.error);
   }, []);
-
-  useEffect(() => {
-    if (!carts.length || !cartId) return;
-
-    const cart = carts.find(item => item.id === Number(cartId));
-    if (!cart?.creator) return;
-
-    GetUserById(Number(cart.creator))
-      .then(user => setCreator(user))
-      .catch(console.error);
-  }, [carts, cartId]);
-      
-  const cart = carts.find(item => item.id === Number(cartId));
       
   const backPath =
     (location.state as { from?: string })?.from ??
@@ -147,12 +135,15 @@ export default function CartDetailsPage({ type }: Props) {
 
             {isAuth && user?.role === "volunteer" && type === 'requests' && (
               <button
-                className="offer__button"
+                className={classNames("offer__button", {
+                  "disabled" : wasClicked
+                })}
+                disabled={wasClicked}
                 onClick={() => {
                   setActiveModal(true);
                 }}
               >
-                {t('Offer-help')}
+                {!wasClicked ? (t("Offer-help")) : (t("Offer-sent"))}
               </button>
             )}
 
@@ -186,12 +177,15 @@ export default function CartDetailsPage({ type }: Props) {
 
             {isAuth && user?.role === "distressed" && type === 'offers' && (
               <button
-                className="offer__button"
+                className={classNames("offer__button", {
+                  "disabled" : wasClicked
+                })}
+                disabled={wasClicked}
                 onClick={() => {
                   setActiveModal(true);
                 }}
               >
-                {t("Request-help")}
+                {!wasClicked ? (t("Request-help")) : (t("Request-sent"))}
               </button>
             )}
           </div>
@@ -208,19 +202,19 @@ export default function CartDetailsPage({ type }: Props) {
                 <div 
                   className="cart-details-page__info__person-info__details__name"
                 >
-                  {`${creator?.first_name} ${creator?.last_name}`}
+                  {`${cart.creator_info.first_name} ${cart.creator_info.last_name}`}
                 </div>
                 <div
                   className="cart-details-page__info__person-info__details__d"
                 >
                   <img src={phone} className="icon" alt="phone" />
-                  {creator?.phone_number}
+                  {cart.creator_info.phone_number}
                 </div>
                 <div
                   className="cart-details-page__info__person-info__details__d"
                 >
                   <img src={envelope} className="icon" alt="email" />
-                  {creator?.email}
+                  {cart.creator_info.email}
                 </div>
               </div>
             )}
@@ -255,6 +249,8 @@ export default function CartDetailsPage({ type }: Props) {
       {activeModal && (
         <Modal 
           setActive={setActiveModal} 
+          setWasClicked={setWasClicked} 
+          cartId={cartId}
           title={
             type === 'requests'
               ? t("Your-offer-has-been-sent")

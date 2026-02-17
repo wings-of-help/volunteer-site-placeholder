@@ -1,7 +1,7 @@
 import { BASE_URL } from "./config";
 import type { UserData } from "./types/user";
 
-export async function GetUserById(id: number | undefined): Promise<UserData> {
+export async function GetUserById(id: string | undefined): Promise<UserData> {
   const res = await fetch(`${BASE_URL}/user/${id}`);
 
   if (!res.ok) {
