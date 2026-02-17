@@ -34,6 +34,7 @@ import { useTranslation } from 'react-i18next';
 import { ForgotPasswordPage } from './components/ForgotPasswordPage/ForgotPasswordPage';
 import { VerifyCodePage } from './components/VerifyCodePage/VerifyCodePage';
 import { NewPasswordPage } from './pages/NewPasswordPage/NewPasswordPage';
+import { ScrollToTop } from './utils/ScrollToTop';
 
 export const Root = () => {
   const { t } = useTranslation();
@@ -43,6 +44,7 @@ export const Root = () => {
         <AuthProvider>
           <ToastProvider>
             <Router>
+              <ScrollToTop />
               <Routes>
                 {/* MAIN APP */}
                 <Route path='/' element={<App />}>

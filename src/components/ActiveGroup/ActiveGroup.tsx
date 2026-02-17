@@ -1,5 +1,5 @@
 // import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { HelpCart } from "../../api/types/HelpCart";
 // import CartItem from "../CartItem/CartItem";
 import "./ActiveGroup.scss"
@@ -11,23 +11,27 @@ import CartItem from "../CartItem/CartItem";
 
 type Props = {
   title: string;
-  p: string;
-  p2: string;
+  p?: string;
+  p2?: string;
   seeAll: string;
   path: string;
 }
 
-export default function ActiveGroup({title, p, p2, seeAll, path}: Props) {
+export default function ActiveGroup({title, p = "", p2 = "", seeAll, path}: Props) {
   const [carts, setCarts] = useState<HelpCart[]>([]);
+
     useEffect(() => {
-      GetHelpCarts()
-        .then((data) => {
-          // if (data.results.length > 8) {
-          //   setCarts(data.results.slice(0, 8));
-          // }
-          setCarts(data.results.slice(0, 3));
-        })
+      GetHelpCarts().then((data) => {
+        setCarts(data.results);
+      });
     }, []);
+
+    const cartType: "offer" | "request" =
+      path === "offers" ? "offer" : "request";
+
+    const filteredCarts = useMemo(() => {
+      return carts.filter((cart) => cart.kind === cartType).slice(0, 3);
+    }, [carts, cartType]);
   
   return (
     <div className="home-active-requests">
@@ -45,9 +49,10 @@ export default function ActiveGroup({title, p, p2, seeAll, path}: Props) {
         </div>
 
         <div className="home-active-requests__carts">
-          {carts.map((cart: HelpCart) => {
+          {filteredCarts.map((cart: HelpCart) => {
             return <CartItem
               type={path.replace("/", "") as 'offers' | 'requests'}
+              kind={cart.kind}
               key={cart.id}
               id={cart.id}
               title={cart.title}

@@ -20,6 +20,7 @@
       @include centeredFlexBox;
       margin-bottom: 16px;
       gap: 4px;
+      @include disableLinkStyles;
 
       &__title {
         font-weight: 500;
