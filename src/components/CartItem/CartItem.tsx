@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./CartItem.scss"
-import dot from "../../assets/Ellipse 3.png"
+import type { HelpStatus } from "../../api/types/help";
+import StatusBlock from "../UI-elements/StatusBlock/StatusBlock";
 
 type Props = {
   type: 'offers' | 'requests';
@@ -10,7 +11,7 @@ type Props = {
   location: string;
   description: string;
   category: string;
-  status: "new" | "in_progress" | "done";
+  status: HelpStatus;
   kind: "offer" | "request";
 }
 
@@ -47,12 +48,7 @@ export default function CartItem({title, location, description, category, status
           <p className="cart-item__header__city">{location}</p>
 
           {isAuth && (
-            <div className="cart-item__status">
-              <img src={dot} alt="dot" />
-              <p>
-                {status.includes("_") ? status.replace(/_/g, " ") : status}
-              </p>
-            </div>
+            <StatusBlock status={status}/>
           )}
         </div>
     </Link>

@@ -1,0 +1,50 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins/index' as *;
+@use '../../../styles/mixins' as *;
+@use 'sass:color';
+
+.user-request-card {
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px;
+    border-radius: 4px;
+
+    @include text-body-med;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    &-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    &--new {
+      background: $color-purple-200;
+      color: $color-purple-500;
+    }
+
+    &--in_progress {
+      background: $color-orange-200;
+      color: $color-orange-500;
+    }
+
+    &--done {
+      background: $color-green-200;
+      color: $color-green-500;
+    }
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+  }
+}

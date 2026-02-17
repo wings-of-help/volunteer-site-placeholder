@@ -18,9 +18,10 @@ import Modal from '../../components/UI-elements/Modal/Modal';
 import { GetHelpCartById } from '../../api/helpCarts.api';
 import classNames from 'classnames';
 import type { HelpCartFull } from '../../api/types/HelpCart';
-import type { HelpCart } from '../../api/types/HelpCart';
-import { GetHelpCarts } from '../../api/helpCarts.api';
+// import type { HelpCart } from '../../api/types/HelpCart';
+// import { GetHelpCarts } from '../../api/helpCarts.api';
 import { respondToHelp } from '../../api/help.api';
+import StatusBlock from '../../components/UI-elements/StatusBlock/StatusBlock';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -62,6 +63,9 @@ export default function CartDetailsPage({ type }: Props) {
     return <h2>Cart not found</h2>;
   }
 
+  console.log(cart.status, cart.id);
+  
+
 const handleRespond = async () => {
   if (!cart) return;
 
@@ -73,6 +77,7 @@ const handleRespond = async () => {
     console.log('SUCCESS', res);
 
     setActiveModal(true);
+    cart.status = "in_progress"
 
   } catch (e) {
     console.error('RESPOND ERROR:', e);
@@ -123,10 +128,7 @@ const handleRespond = async () => {
                 </div>
 
                 {isAuth && (
-                  <div className="status">
-                    <img src={dot} alt="status" className="status__dot" />
-                    <p>{cart.status.includes("_") ? cart.status.replace(/_/g, " ") : cart.status}</p>
-                  </div>
+                  <StatusBlock status={cart.status}/>
                 )}
               </div>
 
@@ -163,7 +165,7 @@ const handleRespond = async () => {
                 })}
                 disabled={wasClicked}
                 onClick={() => {
-                  setActiveModal(true);
+                  handleRespond();
                 }}
               >
                 {!wasClicked ? (t("Offer-help")) : (t("Offer-sent"))}
@@ -205,7 +207,7 @@ const handleRespond = async () => {
                 })}
                 disabled={wasClicked}
                 onClick={() => {
-                  setActiveModal(true);
+                  handleRespond();
                 }}
               >
                 {!wasClicked ? (t("Request-help")) : (t("Request-sent"))}
