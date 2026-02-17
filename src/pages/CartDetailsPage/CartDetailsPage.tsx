@@ -62,6 +62,9 @@ export default function CartDetailsPage({ type }: Props) {
     return <h2>Cart not found</h2>;
   }
 
+  console.log(cart.status, cart.id);
+  
+
 const handleRespond = async () => {
   if (!cart) return;
 
@@ -73,6 +76,7 @@ const handleRespond = async () => {
     console.log('SUCCESS', res);
 
     setActiveModal(true);
+    cart.status = "in_progress"
 
   } catch (e) {
     console.error('RESPOND ERROR:', e);
