@@ -49,6 +49,12 @@ export const MyRequests = () => {
   }
 
   const isEmpty = requests.length === 0;
+  
+  const handleStatusChanged = (id: number) => {
+    setRequests((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, status: 'done' } : r)),
+    );
+  };
 
   return (
     <div className='help-list'>
@@ -101,9 +107,12 @@ export const MyRequests = () => {
               title={request.title}
               description={request.description}
               status={request.status}
+              mode='owner-request'
+              kind="request"
               onDeleted={(id) => {
                 setRequests((prev) => prev.filter((item) => item.id !== id));
               }}
+              onCompleted={handleStatusChanged}
             />
           ))}
         </div>

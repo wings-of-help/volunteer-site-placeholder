@@ -87,7 +87,7 @@
     @include input-focus;
 
     height: auto;
-    min-height: 120px;
+    min-height: 243px;
     padding: 12px 16px;
     resize: vertical;
 
@@ -96,13 +96,18 @@
       color: $color-gray-6;
       opacity: 1;
     }
+
+    & --edit {
+      height: 243px;
+      resize: none;
+    }
   }
 
   // ================= HINT =================
   &__hint {
     margin-top: 4px;
     padding-left: 16px;
-    @include text-caption;
+    @include text-small-reg;
     color: $color-gray-6;
   }
 

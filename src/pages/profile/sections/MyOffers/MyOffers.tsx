@@ -12,13 +12,14 @@ type Tab = 'active' | 'past';
 
 export const MyOffers = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [tab, setTab] = useState<Tab>('active');
   const [offers, setOffers] = useState<HelpRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const navigate = useNavigate();
-
+  /* ===== LOAD DATA ===== */
   useEffect(() => {
     if (!user) return;
 
@@ -36,17 +37,34 @@ export const MyOffers = () => {
     loadOffers();
   }, [user]);
 
-  const filteredOffers = offers.filter((offer) =>
-    tab === 'active' ? offer.status !== 'done' : offer.status === 'done',
+  /* ===== DELETE HANDLER ===== */
+  const handleDeleted = (deletedId: number) => {
+    setOffers(prev => prev.filter(o => o.id !== deletedId));
+  };
+
+  /* ===== FILTER ===== */
+  const filteredOffers = offers.filter(offer =>
+    tab === 'active' ? offer.status !== 'done' : offer.status === 'done'
   );
 
+  /* ===== STATES ===== */
   if (loading) return <div className='help-list'>Loading...</div>;
   if (error) return <div className='help-list'>{error}</div>;
 
   const isEmpty = offers.length === 0;
 
+  const handleCompleted = (completedId: number) => {
+  setOffers(prev =>
+    prev.map(o =>
+      o.id === completedId ? { ...o, status: 'done' } : o
+    )
+  );
+};
+
+
   return (
     <div className='help-list'>
+      {/* HEADER */}
       <div className='help-list__header'>
         <button
           className='help-list__create-btn'
@@ -57,49 +75,53 @@ export const MyOffers = () => {
         </button>
       </div>
 
-      {!isEmpty && (
-        <div className='help-list__tabs'>
-          <button
-            className={`help-list__tab ${
-              tab === 'active' ? 'help-list__tab--active' : ''
-            }`}
-            onClick={() => setTab('active')}
-          >
-            Active Offers
-          </button>
-
-          <button
-            className={`help-list__tab ${
-              tab === 'past' ? 'help-list__tab--active' : ''
-            }`}
-            onClick={() => setTab('past')}
-          >
-            Past Offers
-          </button>
-        </div>
-      )}
-
+      {/* EMPTY */}
       {isEmpty ? (
         <div className='help-list help-list--empty'>
           <p className='help-list__empty'>You haven’t created any offers yet</p>
         </div>
       ) : (
-        <div className='help-list__list'>
-          {filteredOffers.map((offer) => (
-            <UserRequestCard
-              key={offer.id}
-              id={offer.id}
-              city={offer.location_name}
-              category={offer.category_name}
-              title={offer.title}
-              description={offer.description}
-              status={offer.status}
-              onDeleted={(id) => {
-                setOffers((prev) => prev.filter((item) => item.id !== id));
-              }}
-            />
-          ))}
-        </div>
+        <>
+          {/* TABS */}
+          <div className='help-list__tabs'>
+            <button
+              className={`help-list__tab ${
+                tab === 'active' ? 'help-list__tab--active' : ''
+              }`}
+              onClick={() => setTab('active')}
+            >
+              Active Offers
+            </button>
+
+            <button
+              className={`help-list__tab ${
+                tab === 'past' ? 'help-list__tab--active' : ''
+              }`}
+              onClick={() => setTab('past')}
+            >
+              Past Offers
+            </button>
+          </div>
+
+          {/* LIST */}
+          <div className='help-list__list'>
+            {filteredOffers.map((offer) => (
+              <UserRequestCard
+                key={offer.id}
+                id={offer.id}
+                city={offer.location_name}
+                category={offer.category_name}
+                title={offer.title}
+                description={offer.description}
+                status={offer.status}
+                mode="owner-offer"
+                kind="offer"
+                onDeleted={handleDeleted}
+                onCompleted={handleCompleted}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

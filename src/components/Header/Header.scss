@@ -48,8 +48,7 @@
         position: relative;
 
         &__title {
-          @include text-h2;
-          font-size: 18px;
+          @include text-body-med;
         }
 
         &::after {
@@ -101,6 +100,7 @@
       gap: 4px;
       text-decoration: none;
       color: inherit;
+      @include text-color-states;
     }
   }
 
@@ -128,7 +128,7 @@
 }
 
 .sign-up {
-@include button-primary;
+  @include button-primary;
   @include text-h3;
 }
 

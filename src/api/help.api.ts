@@ -57,3 +57,50 @@ export const deleteHelpRequest = (id: number) => {
     method: 'DELETE',
   });
 };
+
+export const updateHelpRequest = async (
+  id: number,
+  data: {
+    title?: string;
+    description?: string;
+    category?: number;
+    location?: number;
+  }
+) => {
+  const res = await authFetch(`${BASE_URL}/help/${id}/`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to update help request');
+  }
+
+  return res.json();
+};
+
+// зміна картки після її редагування 
+export const getHelpById = async (id: number): Promise<HelpRequest> => {
+  const res = await authFetch(`${BASE_URL}/help/${id}/`);
+
+  if (!res.ok) {
+    throw new Error('Failed to load help request');
+  }
+
+  return res.json();
+};
+
+export const respondToHelp = async (id: number) => {
+  const res = await authFetch(`${BASE_URL}/help/${id}/respond/`, {
+    method: 'POST',
+  });
+
+  if (!res.ok) {
+    throw new Error('Failed to respond to help');
+  }
+
+  return res.json();
+};

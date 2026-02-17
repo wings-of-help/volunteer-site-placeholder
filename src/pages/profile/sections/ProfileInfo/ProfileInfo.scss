@@ -2,10 +2,6 @@
 @use '../../../../styles/mixins/index' as *;
 
 .profile {
-  &__card {
-    background: $color-white;
-  }
-
   &__header {
     @include flex-column;
   }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { getMyResponses } from '../../../../api/help.api';
 import type { HelpRequest } from '../../../../api/types/help';
@@ -12,7 +11,6 @@ type Tab = 'active' | 'past';
 
 export const MyResponses = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   const [tab, setTab] = useState<Tab>('active');
   const [responses, setResponses] = useState<HelpRequest[]>([]);
@@ -36,10 +34,15 @@ export const MyResponses = () => {
     loadResponses();
   }, [user]);
 
-  const filteredResponses = responses.filter((item) =>
-    tab === 'active' ? item.status !== 'done' : item.status === 'done',
-  );
-  
+  const handleDeleted = (deletedId: number) => {
+    setResponses((prev) => prev.filter((r) => r.id !== deletedId));
+  };
+
+  const activeResponses = responses.filter((r) => r.status !== 'done');
+  const pastResponses = responses.filter((r) => r.status === 'done');
+
+  const filteredResponses = tab === 'active' ? activeResponses : pastResponses;
+
   if (loading) {
     return <div className='help-list'>Loading...</div>;
   }
@@ -48,16 +51,25 @@ export const MyResponses = () => {
     return <div className='help-list'>{error}</div>;
   }
 
-  /* EMPTY STATE — без табов */
   if (responses.length === 0) {
     return (
       <div className='help-list help-list--empty'>
-        <p className='help-list__empty'>You haven’t requested help yet</p>
+        <p className='help-list__empty'>
+          You haven’t responded to any requests yet
+        </p>
       </div>
     );
   }
 
-  /* якщо є responses */
+  const handleCompleted = (completedId: number) => {
+  setResponses(prev =>
+    prev.map(r =>
+      r.id === completedId ? { ...r, status: 'done' } : r
+    )
+  );
+};
+
+
   return (
     <div className='help-list'>
       <div className='help-list__tabs'>
@@ -90,11 +102,10 @@ export const MyResponses = () => {
             title={response.title}
             description={response.description}
             status={response.status}
-            onView={(id) =>
-              navigate(`/requests/${id}`, {
-                state: { from: '/profile/responses' },
-              })
-            }
+            kind={response.kind} 
+            mode="volunteer"
+            onDeleted={handleDeleted}
+            onCompleted={handleCompleted}
           />
         ))}
       </div>

@@ -12,7 +12,7 @@
 
   "main-title": "Знайти або надати гуманітарну допомогу - швидко та безпечно",
   "main-p": "Платформа для координації волонтерської допомоги, яка обʼєднує потребуючих людей з перевіреними волонтерами в одній прозорій системі",
-  
+
   "nav-button-1": "Дивитись кому потрібна допомога",
   "nav-button-2": "Дивитись доступну допомогу",
 
@@ -37,7 +37,7 @@
   "description-1st-block-1st-p": "Знайдіть надійну допомогу",
   "description-1st-block-2nd-p": "Статус запиту відстеження",
   "description-1st-block-3rd-p": "Уникайте неперевірених пропозицій",
-  
+
   "description-2nd-block-title": "Волонтери та Організації",
   "description-2nd-block-1st-p": "Знаходьте реальні запити",
   "description-2nd-block-2nd-p": "Координаційна допомога",
@@ -70,7 +70,7 @@
 
   "Help-category": "Категорії Допомоги",
   "choose-category": "Виберіть одну або кілька категорій",
-  
+
   "Load-more": "Дивитись ще",
   "Location": "Локація",
   "Status": "Статус",
@@ -115,7 +115,6 @@
   "Provide-help-(Volunteer)": "Надавати допомогу (Волонтер)",
   "Request help": "Отримувати допомогу",
 
-  
   "Minimum-8-characters": "Мінімум 8 символів",
   "Must-contain-at-least-one-uppercase-Latin-letter": "Має містити щонайменше одну велику латинську літеру",
   "Must-contain-at-least-one-lowercase-Latin-letter": "Має містити щонайменше одну малу латинську літеру",
@@ -129,7 +128,6 @@
   "Confirm-your-password": "Підтвердьте свій пароль",
   "I-agree-to-the-Terms-of-Use-and-Privacy-Policy": "Я погоджуюся з Умовами використання та Політикою конфіденційності",
 
-  
   "Personal-Information": "Персональна Інформація",
   "My-Requests": "Мої Запити",
   "My-Responses": "Мої Відповіді",
@@ -213,5 +211,20 @@
   "8-20-characters": "8-20 символів",
   "One-uppercase-latin-letter": "Одна велика латинська літера",
   "One-lowercase-latin-letter": "Одна мала латинська літера",
-  "One-special-character": "Один спеціальний символ"
+  "One-special-character": "Один спеціальний символ",
+
+  "Forgot-your-password": "Забули пароль?",
+  "Enter-your-email-address-and-we-well-send-you-a-verification-code": "Введіть вашу електронну пошту, і ми надішлемо вам код підтвердження.",
+  "Send-code": "Надіслати код",
+  "Check-your-email": "Перевірте вашу пошту",
+  "Enter-the-6-digit-code-sent-to": "Введіть 6-значний код, надісланий на",
+  "Create-new-password": "Створіть новий пароль",
+  "Enter-a-new-password-to-finish-resetting-your-account": "Введіть новий пароль, щоб завершити відновлення облікового запису.",
+  "Didnt-receive-the-code": "Не отримали код?",
+  "roles": {
+    "admin": "Адміністратор",
+    "volunteer": "Волонтер",
+    "requester": "Запитувач",
+    "distressed": "Постраждалий"
+  }
 }

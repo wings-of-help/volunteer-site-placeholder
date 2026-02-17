@@ -18,6 +18,9 @@ import Modal from '../../components/UI-elements/Modal/Modal';
 import { GetHelpCartById } from '../../api/helpCarts.api';
 import classNames from 'classnames';
 import type { HelpCartFull } from '../../api/types/HelpCart';
+import type { HelpCart } from '../../api/types/HelpCart';
+import { GetHelpCarts } from '../../api/helpCarts.api';
+import { respondToHelp } from '../../api/help.api';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -59,31 +62,49 @@ export default function CartDetailsPage({ type }: Props) {
     return <h2>Cart not found</h2>;
   }
 
+const handleRespond = async () => {
+  if (!cart) return;
+
+  try {
+    console.log('TRY RESPOND', cart.id);
+
+    const res = await respondToHelp(cart.id);
+
+    console.log('SUCCESS', res);
+
+    setActiveModal(true);
+
+  } catch (e) {
+    console.error('RESPOND ERROR:', e);
+    alert('Respond failed — дивись console');
+  }
+};
+
+
   return (
     <>
-      <div className="cart-details-page">
-        <div className="cart-details-page__container">
-
+      <div className='cart-details-page'>
+        <div className='cart-details-page__container'>
           {/* NAV */}
-          <nav className="cart-details-page__nav">
+          <nav className='cart-details-page__nav'>
             <div
-              className="cart-details-page__nav-links"
+              className='cart-details-page__nav-links'
               onClick={() => navigate(backPath)}
             >
               <img
-                className="cart-details-page__nav-link"
+                className='cart-details-page__nav-link'
                 src={arrow}
-                alt="back"
+                alt='back'
               />
-              <p className="cart-details-page__nav-text">
+              <p className='cart-details-page__nav-text'>
                 {t('Back-to')} {type}
               </p>
             </div>
           </nav>
 
           {/* INFO */}
-          <div className="cart-details-page__info">
-            <h1 className="cart-details-page__info__title">{cart.title}</h1>
+          <div className='cart-details-page__info'>
+            <h1 className='cart-details-page__info__title'>{cart.title}</h1>
 
             <div className="cart-details-page__info__points">
               <div className="cart-details-page__info__points-point">
@@ -91,14 +112,14 @@ export default function CartDetailsPage({ type }: Props) {
                 <p className="point-text">{formatDate(cart.created_at)}</p>
               </div>
 
-              <div className="cart-details-page__info__points-point">
-                <img src={map} alt="map" />
-                <p className="point-text">{cart.location_name}</p>
+              <div className='cart-details-page__info__points-point'>
+                <img src={map} alt='map' />
+                <p className='point-text'>{cart.location_name}</p>
               </div>
 
-              <div className="container">
-                <div className="cart-details-page__info__points-point">
-                  <p className="point-text aid">{cart.category_name}</p>
+              <div className='container'>
+                <div className='cart-details-page__info__points-point'>
+                  <p className='point-text aid'>{cart.category_name}</p>
                 </div>
 
                 {isAuth && (
@@ -109,26 +130,28 @@ export default function CartDetailsPage({ type }: Props) {
                 )}
               </div>
 
-              <div className="cart-details-page__info__about">
-                <h1 className="cart-details-page__info__about">{t("About")}</h1>
+              <div className='cart-details-page__info__about'>
+                <h1 className='cart-details-page__info__about'>{t('About')}</h1>
 
-                <p className="cart-details-page__info__about__p">{cart.description}</p>
+                <p className='cart-details-page__info__about__p'>
+                  {cart.description}
+                </p>
               </div>
             </div>
 
             {/* ACTIONS */}
             {!isAuth && type === 'requests' && (
-              <div className="cart-details-page__info__about__register">
+              <div className='cart-details-page__info__about__register'>
                 <button
-                  className="cart-details-page__info__about__register__button"
+                  className='cart-details-page__info__about__register__button'
                   onClick={() => navigate('/signup')}
                 >
                   {t('Register-to-Help')}
                 </button>
 
-                <div className="cart-details-page__info__about__register__signin">
+                <div className='cart-details-page__info__about__register__signin'>
                   <p>{t('Already-have-an-account')}</p>
-                  <Link to="/signin">{t('Sign-In')}</Link>
+                  <Link to='/signin'>{t('Sign-In')}</Link>
                 </div>
               </div>
             )}
@@ -147,30 +170,30 @@ export default function CartDetailsPage({ type }: Props) {
               </button>
             )}
 
-            {isAuth && user?.role === "distressed" && type === 'requests' && (
-              <p className="offer__wrong">
+            {isAuth && user?.role === 'distressed' && type === 'requests' && (
+              <p className='offer__wrong'>
                 {t('Only-registered-volunteers-can-respond-to-this-request')}
               </p>
             )}
 
             {!isAuth && type === 'offers' && (
-              <div className="cart-details-page__info__about__register">
+              <div className='cart-details-page__info__about__register'>
                 <button
-                  className="cart-details-page__info__about__register__button"
+                  className='cart-details-page__info__about__register__button'
                   onClick={() => navigate('/signup')}
                 >
                   {t('Sign-up-to-Request-Help')}
                 </button>
 
-                <div className="cart-details-page__info__about__register__signin">
+                <div className='cart-details-page__info__about__register__signin'>
                   <p>{t('Already-have-an-account')}</p>
-                  <Link to="/signin">{t('Sign-In')}</Link>
+                  <Link to='/signin'>{t('Sign-In')}</Link>
                 </div>
               </div>
             )}
 
-            {isAuth && user?.role === "volunteer" && type === 'offers' && (
-              <p className="offer__wrong">
+            {isAuth && user?.role === 'volunteer' && type === 'offers' && (
+              <p className='offer__wrong'>
                 {t('Only registered requesters can respond to this offer.')}
               </p>
             )}
@@ -191,7 +214,7 @@ export default function CartDetailsPage({ type }: Props) {
           </div>
 
           {/* PERSON INFO */}
-          <div className="cart-details-page__info__person-info">
+          <div className='cart-details-page__info__person-info'>
             <h1>
               {type === 'requests' ? t('Requester') : t('Volunteer')}
               {!isAuth && `: cody`}
@@ -237,9 +260,7 @@ export default function CartDetailsPage({ type }: Props) {
                 : t('active-offers-2nd-p')
             }
             seeAll={
-              type === 'requests'
-                ? t('see-all-requests')
-                : t('see-all-offers')
+              type === 'requests' ? t('see-all-requests') : t('see-all-offers')
             }
             path={type}
           />
@@ -253,15 +274,18 @@ export default function CartDetailsPage({ type }: Props) {
           cartId={cartId}
           title={
             type === 'requests'
-              ? t("Your-offer-has-been-sent")
-              : t("Your-request-has-been-sent")
-            }
-            p={
-              type === 'requests'
-                ? t("Your-support-can-make-a-real-difference")
-                : t("Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon")
-            }
-        />)}
+              ? t('Your-offer-has-been-sent')
+              : t('Your-request-has-been-sent')
+          }
+          p={
+            type === 'requests'
+              ? t('Your-support-can-make-a-real-difference')
+              : t(
+                  'Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon',
+                )
+          }
+        />
+      )}
     </>
   );
 }
