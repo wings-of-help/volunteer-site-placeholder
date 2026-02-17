@@ -18,8 +18,8 @@ import Modal from '../../components/UI-elements/Modal/Modal';
 import { GetHelpCartById } from '../../api/helpCarts.api';
 import classNames from 'classnames';
 import type { HelpCartFull } from '../../api/types/HelpCart';
-import type { HelpCart } from '../../api/types/HelpCart';
-import { GetHelpCarts } from '../../api/helpCarts.api';
+// import type { HelpCart } from '../../api/types/HelpCart';
+// import { GetHelpCarts } from '../../api/helpCarts.api';
 import { respondToHelp } from '../../api/help.api';
 
 type Props = {
@@ -163,7 +163,7 @@ const handleRespond = async () => {
                 })}
                 disabled={wasClicked}
                 onClick={() => {
-                  setActiveModal(true);
+                  handleRespond();
                 }}
               >
                 {!wasClicked ? (t("Offer-help")) : (t("Offer-sent"))}
@@ -205,7 +205,7 @@ const handleRespond = async () => {
                 })}
                 disabled={wasClicked}
                 onClick={() => {
-                  setActiveModal(true);
+                  handleRespond();
                 }}
               >
                 {!wasClicked ? (t("Request-help")) : (t("Request-sent"))}
