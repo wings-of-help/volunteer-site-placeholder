@@ -87,27 +87,46 @@
     gap: 24px;
 
     &__block {
+      border-radius: 5px;
       display: flex;
       flex-direction: column;
-      background-color: #f1f1f4;
+      background-color: #E4F1FF;
       justify-content: space-between;
       align-items: center;
-      width: 288px;
-      height: 288px;
+      width: 292px;
+      height: 299px;
       padding: 24px;
       box-sizing: border-box; // ask sofia if need to change
 
       &__title {
-        @include text-h2;
+        font-weight: 700;
+        font-style: Bold;
+        align-self: flex-start;
         font-size: 24px;
+        line-height: 125%;
+        letter-spacing: 0%;
 
         width: 240px;
-        height: 30px;
+        height: 60px;
+        margin-top: 8px;
       }
 
       &__p {
         @include text-h3;
+        height: 160px;
+        width: 160px;
+      }
+
+      &__num {
+        border-bottom: 1px solid #A6D2FF;
         width: 240px;
+
+        font-weight: 500;
+        font-style: Medium;
+        font-size: 20px;
+        line-height: 135%;
+
+        color: #2277FF;
       }
     }
   }
@@ -130,14 +149,21 @@
     gap: 24px;
 
     &__block {
+      border-radius: 5px;
       display: flex;
-      flex-direction: column;
       gap: 24px;
-      background-color: #f1f1f4;
+      background-color: #FFE3F6;
       width: 600px;
-      height: 187px;
+      height: 250px;
       justify-content: space-between;
       padding: 24px;
+
+      &__wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+      }
 
       &__title {
         @include text-h2;
@@ -147,6 +173,14 @@
       &__paragraphs {
         display: flex;
         flex-direction: column;
+        gap: 8px;
+
+        &__wrapper {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+
         &__p {
           margin: 0;
           @include text-h3;

@@ -15,6 +15,7 @@ type Props = {
 }
 
 export type FilterType = 'category' | 'location' | 'status';
+// export type SortType = 'newest' | 'oldest';
 
 export interface ActiveFilter {
   id: string;
@@ -25,6 +26,7 @@ export interface ActiveFilter {
 export default function CatalogPage ({title, p, p2, path}: Props) {
   const {t} = useTranslation();
   const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([])
+  const [sortType, setSortType] = useState<string>('newest');
 
   const toggleFilter = (filter: ActiveFilter) => {
     setActiveFilters(prev => {
@@ -70,7 +72,9 @@ export default function CatalogPage ({title, p, p2, path}: Props) {
             { label: "Oldest", value: "oldest" }
           ]}
           placeholder={"Newest"}
-          variant="filter"/>
+          variant="filter"
+          setSortType={setSortType}
+          />
         </div>
 
         <div className="catalog__main">
@@ -88,11 +92,10 @@ export default function CatalogPage ({title, p, p2, path}: Props) {
                   setActiveFilters(prev => prev.filter(f => f.id !== id))
                 }
                 onClear={() => setActiveFilters([])}
-                // onToggleFilter={toggleFilter}
               />
             )}
           
-            <CatalogItems type={path} activeFilters={activeFilters}/>
+            <CatalogItems type={path} activeFilters={activeFilters} sortType={sortType}/>
           </div>
         </div>
       </div>

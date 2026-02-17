@@ -15,6 +15,9 @@ import { useAuth } from '../../context/AuthContext';
 
 import ActiveGroup from '../../components/ActiveGroup/ActiveGroup';
 import Modal from '../../components/UI-elements/Modal/Modal';
+import { GetHelpCartById } from '../../api/helpCarts.api';
+import classNames from 'classnames';
+import type { HelpCartFull } from '../../api/types/HelpCart';
 import type { HelpCart } from '../../api/types/HelpCart';
 import { GetHelpCarts } from '../../api/helpCarts.api';
 import { respondToHelp } from '../../api/help.api';
@@ -25,40 +28,35 @@ type Props = {
 
 export default function CartDetailsPage({ type }: Props) {
   const [activeModal, setActiveModal] = useState(false);
-  const [carts, setCarts] = useState<HelpCart[]>([]);
-  useEffect(() => {
-    GetHelpCarts().then((data) => {
-      // if (data.results.length > 8) {
-      //   setCarts(data.results.slice(0, 8));
-      // }
-      setCarts(data.results);
-    });
-  }, []);
-
+  const { cartId } = useParams();
+  const [wasClicked, setWasClicked] = useState(() => {
+    return localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
+  });
+  const [cart, setCart] = useState<HelpCartFull>();
+  
   const navigate = useNavigate();
   const location = useLocation();
-  const { cartId } = useParams();
   const { t } = useTranslation();
-
+  
   const { isAuth, user } = useAuth();
 
-  const fromState = (location.state as { from?: string })?.from;
-
-  const backPath = (() => {
-    if (fromState) return fromState;
-
-    if (location.pathname.includes('/profile/requests'))
-      return '/profile/requests';
-
-    if (location.pathname.includes('/profile/offers')) return '/profile/offers';
-
-    if (location.pathname.includes('/profile/responses'))
-      return '/profile/responses';
-
-    return type === 'requests' ? '/requests' : '/offers';
-  })();
-
-  const cart = carts.find((item) => item.id === Number(cartId));
+  useEffect(() => {
+    GetHelpCartById(Number(cartId))
+      .then((data) => setCart(data))
+      .catch(console.error);
+  }, []);
+      
+  const backPath =
+    (location.state as { from?: string })?.from ??
+    (type === 'requests' ? '/requests' : '/offers');
+        
+  function formatDate(date: string) {
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
 
   if (!cart) {
     return <h2>Cart not found</h2>;
@@ -108,10 +106,10 @@ const handleRespond = async () => {
           <div className='cart-details-page__info'>
             <h1 className='cart-details-page__info__title'>{cart.title}</h1>
 
-            <div className='cart-details-page__info__points'>
-              <div className='cart-details-page__info__points-point'>
-                <img src={calendar} alt='calendar' />
-                <p className='point-text'>{cart.date}</p>
+            <div className="cart-details-page__info__points">
+              <div className="cart-details-page__info__points-point">
+                <img src={calendar} alt="calendar" />
+                <p className="point-text">{formatDate(cart.created_at)}</p>
               </div>
 
               <div className='cart-details-page__info__points-point'>
@@ -125,9 +123,9 @@ const handleRespond = async () => {
                 </div>
 
                 {isAuth && (
-                  <div className='status'>
-                    <img src={dot} alt='status' className='status__dot' />
-                    <p>{cart.status}</p>
+                  <div className="status">
+                    <img src={dot} alt="status" className="status__dot" />
+                    <p>{cart.status.includes("_") ? cart.status.replace(/_/g, " ") : cart.status}</p>
                   </div>
                 )}
               </div>
@@ -158,9 +156,17 @@ const handleRespond = async () => {
               </div>
             )}
 
-            {isAuth && user?.role === 'volunteer' && type === 'requests' && (
-              <button className='offer__button' onClick={handleRespond}>
-                {t('Offer-help')}
+            {isAuth && user?.role === "volunteer" && type === 'requests' && (
+              <button
+                className={classNames("offer__button", {
+                  "disabled" : wasClicked
+                })}
+                disabled={wasClicked}
+                onClick={() => {
+                  setActiveModal(true);
+                }}
+              >
+                {!wasClicked ? (t("Offer-help")) : (t("Offer-sent"))}
               </button>
             )}
 
@@ -192,9 +198,17 @@ const handleRespond = async () => {
               </p>
             )}
 
-            {isAuth && user?.role === 'distressed' && type === 'offers' && (
-              <button className='offer__button' onClick={handleRespond}>
-                {t('Request-help')}
+            {isAuth && user?.role === "distressed" && type === 'offers' && (
+              <button
+                className={classNames("offer__button", {
+                  "disabled" : wasClicked
+                })}
+                disabled={wasClicked}
+                onClick={() => {
+                  setActiveModal(true);
+                }}
+              >
+                {!wasClicked ? (t("Request-help")) : (t("Request-sent"))}
               </button>
             )}
           </div>
@@ -207,17 +221,23 @@ const handleRespond = async () => {
             </h1>
 
             {isAuth && (
-              <div className='cart-details-page__info__person-info__details'>
-                <div className='cart-details-page__info__person-info__details__name'>
-                  Cody Warren
+              <div className="cart-details-page__info__person-info__details">
+                <div 
+                  className="cart-details-page__info__person-info__details__name"
+                >
+                  {`${cart.creator_info.first_name} ${cart.creator_info.last_name}`}
                 </div>
-                <div className='cart-details-page__info__person-info__details__d'>
-                  <img src={phone} className='icon' alt='phone' />
-                  +380 123 456 78 90
+                <div
+                  className="cart-details-page__info__person-info__details__d"
+                >
+                  <img src={phone} className="icon" alt="phone" />
+                  {cart.creator_info.phone_number}
                 </div>
-                <div className='cart-details-page__info__person-info__details__d'>
-                  <img src={envelope} className='icon' alt='email' />
-                  cody.warren@example.com
+                <div
+                  className="cart-details-page__info__person-info__details__d"
+                >
+                  <img src={envelope} className="icon" alt="email" />
+                  {cart.creator_info.email}
                 </div>
               </div>
             )}
@@ -248,8 +268,10 @@ const handleRespond = async () => {
       </div>
 
       {activeModal && (
-        <Modal
-          setActive={setActiveModal}
+        <Modal 
+          setActive={setActiveModal} 
+          setWasClicked={setWasClicked} 
+          cartId={cartId}
           title={
             type === 'requests'
               ? t('Your-offer-has-been-sent')

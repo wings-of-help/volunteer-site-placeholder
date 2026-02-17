@@ -2,9 +2,20 @@ import type { HelpResponse } from './types/HelpResponce';
 import { BASE_URL } from './config';
 import { authFetch } from './authFetch';
 import type { CreateHelpRequestDto } from './types/CreateHelpRequest';
+import type { HelpCartFull } from './types/HelpCart';
 
 export async function GetHelpCarts(): Promise<HelpResponse> {
   const res = await fetch(`${BASE_URL}/help/`);
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch help carts');
+  }
+
+  return res.json();
+}
+
+export async function GetHelpCartById(id: number | undefined): Promise<HelpCartFull> {
+  const res = await fetch(`${BASE_URL}/help/${id}`);
 
   if (!res.ok) {
     throw new Error('Failed to fetch help carts');

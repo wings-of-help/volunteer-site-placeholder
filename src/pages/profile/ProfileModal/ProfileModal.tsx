@@ -84,7 +84,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   const buttonMap: Record<modalType, string> = {
     email: t("Verify-email"),
     phone: t("Save-phone-number"),
-    password: t("Verify-password"),
+    password: t("Verify-email"),
   };
 
   const successConfig: Record<
