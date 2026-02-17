@@ -29,6 +29,15 @@
       }
     }
 
+    &__brand {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: inherit;
+      @include text-color-states;
+    }
+
     &__discribe {
       @include text-h3;
       margin-bottom: 40px;

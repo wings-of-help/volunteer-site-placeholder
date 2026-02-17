@@ -12,7 +12,7 @@ export default function Footer() {
     <footer className="footer">
       <nav className="footer__nav">
 
-        <Link to='/' className='footer__nav__wings-sector'>
+        <Link to='/' className='footer__nav__wings-sector footer__nav__brand'>
           <img className="footer__nav__logo" src={logo} alt="footer-logo" />
           <p className="footer__nav__wings-sector__title">Wings of help</p>
         </Link>
