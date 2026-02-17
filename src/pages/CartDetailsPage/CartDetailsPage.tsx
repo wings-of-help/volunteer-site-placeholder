@@ -45,7 +45,7 @@ export default function CartDetailsPage({ type }: Props) {
     GetHelpCartById(Number(cartId))
       .then((data) => setCart(data))
       .catch(console.error);
-  }, []);
+  }, [cartId]);
       
   const backPath =
     (location.state as { from?: string })?.from ??
@@ -248,18 +248,8 @@ const handleRespond = async () => {
           <ActiveGroup
             title={
               type === 'requests'
-                ? t('active-requests-title')
-                : t('active-offers-title')
-            }
-            p={
-              type === 'requests'
-                ? t('active-requests-1st-p')
-                : t('active-offers-1st-p')
-            }
-            p2={
-              type === 'requests'
-                ? t('active-requests-2nd-p')
-                : t('active-offers-2nd-p')
+                ? t('Explore-Other-Requests')
+                : t("Explore-Other-Offers")
             }
             seeAll={
               type === 'requests' ? t('see-all-requests') : t('see-all-offers')

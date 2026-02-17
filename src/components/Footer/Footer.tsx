@@ -11,10 +11,11 @@ export default function Footer() {
   return (
     <footer className="footer">
       <nav className="footer__nav">
-        <div className='footer__nav__wings-sector'>
-        <img className="footer__nav__logo" src={logo} alt="footer-logo" />
-        <p className="footer__nav__wings-sector__title">Wings of help</p>
-      </div>
+
+        <Link to='/' className='footer__nav__wings-sector'>
+          <img className="footer__nav__logo" src={logo} alt="footer-logo" />
+          <p className="footer__nav__wings-sector__title">Wings of help</p>
+        </Link>
 
       <p className="footer__nav__discribe">{t("describe")}</p>
 

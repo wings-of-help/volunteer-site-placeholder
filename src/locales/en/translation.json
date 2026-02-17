@@ -245,5 +245,8 @@
     "volunteer": "Volunteer",
     "requester": "Requester",
     "distressed": "Distressed"
-  }
+  },
+
+  "Explore-Other-Offers": "Explore Other Offers",
+  "Explore-Other-Requests": "Explore Other Requests"
 }
