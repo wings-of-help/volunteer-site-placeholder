@@ -4,7 +4,7 @@ import CustomCheckbox from '../UI-elements/CurtomCheckbox/CustomCheckbox';
 import { useAuth } from '../../context/AuthContext';
 import { CustomSearchDropdown } from '../UI-elements/CustomSearchDropdown/CustomSearchDropdown';
 import { useEffect, useState } from 'react';
-import { getLocations } from '../../api/catalog.api';
+import { getCategories, getLocations, type Category } from '../../api/catalog.api';
 import type { Location } from '../../api/types/catalog';
 
 import { useTranslation } from 'react-i18next';
@@ -29,24 +29,9 @@ export default function CatalogCategories({
   const { isAuth } = useAuth();
   const { t } = useTranslation();
   const [locations, setLocations] = useState<Location[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const categories = [
-    t('Evacuation/Relocation'),
-    t('Medical-Support'),
-    t('Shelter/Housing'),
-    t('Food-&-Basic-Supplies'),
-    t('Logistics/Transportation'),
-    t('Psychological-Support'),
-    t('Child-&-Family-Support'),
-    t('Legal/Administrative Assistance'),
-    t('Employment/Livelihoods'),
-    t('Education/Tutoring'),
-    t('Volunteer-Coordination/Community-Support'),
-    t('Animal/Pet-Assistance'),
-    t('Other'),
-  ];
-
-  const statuses = ['new', 'in progress', 'done'];
+  const statuses = ['new', 'in_progress', 'done'];
 
   const cityOptions: Option[] = locations.map((city) => ({
     label: city.name,
@@ -55,13 +40,14 @@ export default function CatalogCategories({
 
   const selectedCityOption: Option | null = (() => {
   const filter = activeFilters.find((f) => f.type === 'location');
-  if (!filter) return null;
 
-  return {
-    label: filter.value,
-    value: filter.id,
-  };
-})();
+    if (!filter) return null;
+
+    return {
+      label: filter.value,
+      value: filter.id,
+    };
+  })();
 
 
   useEffect(() => {
@@ -74,7 +60,17 @@ export default function CatalogCategories({
       }
     };
 
+    const loadCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error('Failed to load categories', error);
+      }
+    };
+
     loadLocations();
+    loadCategories();
   }, []);
 
   return (
@@ -89,8 +85,8 @@ export default function CatalogCategories({
       <div className='catalog__categories__box'>
         {categories.map((category) => (
           <CustomCheckbox
-            key={category}
-            title={category}
+            key={category.id}
+            title={category.name}
             activeFilters={activeFilters}
             onToggleFilter={onToggleFilter}
             checktype='category'

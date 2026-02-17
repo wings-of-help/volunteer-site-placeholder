@@ -17,6 +17,8 @@ import ActiveGroup from '../../components/ActiveGroup/ActiveGroup';
 import Modal from '../../components/UI-elements/Modal/Modal';
 import type { HelpCart } from '../../api/types/HelpCart';
 import { GetHelpCarts } from '../../api/helpCarts.api';
+import type { UserData } from '../../api/types/user';
+import { GetUsers } from '../../api/getUsers.api';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -25,6 +27,8 @@ type Props = {
 export default function CartDetailsPage({ type }: Props) {
   const [activeModal, setActiveModal] = useState(false);
    const [carts, setCarts] = useState<HelpCart[]>([]);
+   const [users, setUsers] = useState<UserData[]>([]);
+
       useEffect(() => {
         GetHelpCarts()
           .then((data) => {
@@ -33,23 +37,43 @@ export default function CartDetailsPage({ type }: Props) {
             // }
             setCarts(data.results);
           })
+
+        GetUsers()
+          .then((data) => {
+            // if (data.results.length > 8) {
+            //   setCarts(data.results.slice(0, 8));
+            // }
+            setUsers(data.results);
+          })
       }, []);
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { cartId } = useParams();
-  const { t } = useTranslation();
+      
+      const navigate = useNavigate();
+      const location = useLocation();
+      const { cartId } = useParams();
+      const { t } = useTranslation();
+      
+      const { isAuth, user } = useAuth();
+      
+      const backPath =
+      (location.state as { from?: string })?.from ??
+      (type === 'requests' ? '/requests' : '/offers');
+      
+      const cart = carts.find(item => item.id === Number(cartId));
 
-  const { isAuth, user } = useAuth();
+      
+      if (!cart) {
+        return <h2>Cart not found</h2>;
+      }
 
-  const backPath =
-    (location.state as { from?: string })?.from ??
-    (type === 'requests' ? '/requests' : '/offers');
+    const currentUser = users.find(userFromList => +cart?.creator === +userFromList.id)
 
-  const cart = carts.find(item => item.id === Number(cartId));
-
-  if (!cart) {
-    return <h2>Cart not found</h2>;
+  function formatDate(date: string) {
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   }
 
   return (
@@ -81,7 +105,7 @@ export default function CartDetailsPage({ type }: Props) {
             <div className="cart-details-page__info__points">
               <div className="cart-details-page__info__points-point">
                 <img src={calendar} alt="calendar" />
-                <p className="point-text">{cart.date}</p>
+                <p className="point-text">{formatDate(cart.created_at)}</p>
               </div>
 
               <div className="cart-details-page__info__points-point">
@@ -97,7 +121,7 @@ export default function CartDetailsPage({ type }: Props) {
                 {isAuth && (
                   <div className="status">
                     <img src={dot} alt="status" className="status__dot" />
-                    <p>{cart.status}</p>
+                    <p>{cart.status.includes("_") ? cart.status.replace(/_/g, " ") : cart.status}</p>
                   </div>
                 )}
               </div>
@@ -189,19 +213,19 @@ export default function CartDetailsPage({ type }: Props) {
                 <div 
                   className="cart-details-page__info__person-info__details__name"
                 >
-                  Cody Warren
+                  {`${currentUser?.first_name} ${currentUser?.last_name}`}
                 </div>
                 <div
                   className="cart-details-page__info__person-info__details__d"
                 >
                   <img src={phone} className="icon" alt="phone" />
-                  +380 123 456 78 90
+                  {currentUser?.phone_number}
                 </div>
                 <div
                   className="cart-details-page__info__person-info__details__d"
                 >
                   <img src={envelope} className="icon" alt="email" />
-                  cody.warren@example.com
+                  {currentUser?.email}
                 </div>
               </div>
             )}

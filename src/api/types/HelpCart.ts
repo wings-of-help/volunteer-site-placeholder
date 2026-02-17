@@ -1,19 +1,19 @@
 export type HelpCart = {
   id: number;
   title: string;
+  location: number;
   location_name: string;
-  location: number,
   description: string;
-  kind: "request" | "offer",
-  category_name: string,
-  status: 'new' | 'in progress' | 'done';
-  date: string,
+  kind: "request" | "offer";
+  category: number;
+  category_name: string;
+  status: 'new' | 'in_progress' | 'done';
+  creator: number;
+  // "counterpart": 0;
+  created_at: string;
+  updated_at: string;
+  completed_at: string;
 };
-// "creator": 0,
-// "counterpart": 0,
-// "created_at": "2026-02-12T00:14:25.746Z",
-// "updated_at": "2026-02-12T00:14:25.746Z",
-// "completed_at": "2026-02-12T00:14:25.746Z"
 
 
 

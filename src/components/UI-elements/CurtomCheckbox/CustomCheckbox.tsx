@@ -37,7 +37,7 @@ export default function CustomCheckbox({ title, activeFilters, onToggleFilter, c
         {isChecked && <img src={checkIcon} alt="checked" />}
       </span>
 
-      <span className="custom__checkbox-text">{title}</span>
+      <span className="custom__checkbox-text">{title.includes("_") ? title.replace(/_/g, " ") : title}</span>
     </label>
   )
 }

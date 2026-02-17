@@ -1,9 +1,9 @@
 import { BASE_URL } from './config';
 import { authFetch } from './authFetch';
-import type { HelpRequest } from './types/help';
+import type { HelpCart } from './types/HelpCart';
 import type { Paginated } from './types/common';
 
-export const getMyRequests = async (userId: number): Promise<HelpRequest[]> => {
+export const getMyRequests = async (userId: number): Promise<HelpCart[]> => {
   const res = await authFetch(
     `${BASE_URL}/help/?kind=request&creator=${userId}&ordering=-created_at`,
   );
@@ -12,7 +12,7 @@ export const getMyRequests = async (userId: number): Promise<HelpRequest[]> => {
     throw new Error('Failed to load my requests');
   }
 
-  const data: Paginated<HelpRequest> = await res.json();
+  const data: Paginated<HelpCart> = await res.json();
   return data.results;
 };
 
@@ -25,13 +25,13 @@ export const getMyOffers = async (userId: number) => {
     throw new Error('Failed to load my offers');
   }
 
-  const data: Paginated<HelpRequest> = await res.json();
+  const data: Paginated<HelpCart> = await res.json();
   return data.results;
 };
 
 export const getMyResponses = async (
   userId: number,
-): Promise<HelpRequest[]> => {
+): Promise<HelpCart[]> => {
   const res = await authFetch(
     `${BASE_URL}/help/?counterpart=${userId}&ordering=-created_at`,
   );
@@ -40,7 +40,7 @@ export const getMyResponses = async (
     throw new Error('Failed to load my responses');
   }
 
-  const data: Paginated<HelpRequest> = await res.json();
+  const data: Paginated<HelpCart> = await res.json();
   return data.results;
 };
 
