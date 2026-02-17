@@ -18,7 +18,7 @@ import Modal from '../../components/UI-elements/Modal/Modal';
 import type { HelpCart } from '../../api/types/HelpCart';
 import { GetHelpCarts } from '../../api/helpCarts.api';
 import type { UserData } from '../../api/types/user';
-import { GetUsers } from '../../api/getUsers.api';
+import { GetUsers } from '../../api/getUserById.api';
 
 type Props = {
   type: 'requests' | 'offers';

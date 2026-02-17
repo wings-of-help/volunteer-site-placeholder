@@ -1,7 +1,7 @@
 import { BASE_URL } from "./config";
-import type { UserResponce } from "./types/userResponce";
+import type { UserData } from "./types/user";
 
-export async function GetUsers(): Promise<UserResponce> {
+export async function GetUserById(): Promise<UserData> {
   const res = await fetch(`${BASE_URL}/user/`);
 
   if (!res.ok) {
