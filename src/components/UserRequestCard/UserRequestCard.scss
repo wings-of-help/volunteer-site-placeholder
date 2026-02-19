@@ -4,6 +4,9 @@
 @use 'sass:color';
 
 .user-request-card {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  
   width: 100%;
   max-width: 704px;
   display: flex;

@@ -80,6 +80,7 @@ export const Root = () => {
                         p={t('requests-page-p1')}
                         p2={t('requests-page-p2')}
                         path={'requests'}
+                        kind={'request'}
                       />
                     }
                   />
@@ -96,6 +97,7 @@ export const Root = () => {
                         p={t('offers-page-p1')}
                         p2={t('offers-page-p2')}
                         path={'offers'}
+                        kind={'offer'}
                       />
                     }
                   />

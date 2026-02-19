@@ -12,6 +12,7 @@ type Props = {
   p: string;
   p2: string;
   path: 'offers' | 'requests';
+  kind: 'offer' | 'request';
 }
 
 export type FilterType = 'category' | 'location' | 'status';
@@ -23,7 +24,7 @@ export interface ActiveFilter {
   value: string;
 }
 
-export default function CatalogPage ({title, p, p2, path}: Props) {
+export default function CatalogPage ({title, p, p2, path, kind}: Props) {
   const {t} = useTranslation();
   const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([])
   const [sortType, setSortType] = useState<string>('newest');
@@ -95,7 +96,7 @@ export default function CatalogPage ({title, p, p2, path}: Props) {
               />
             )}
           
-            <CatalogItems type={path} activeFilters={activeFilters} sortType={sortType}/>
+            <CatalogItems type={path} activeFilters={activeFilters} sortType={sortType} kind={kind}/>
           </div>
         </div>
       </div>
