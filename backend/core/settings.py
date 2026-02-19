@@ -168,7 +168,7 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 10,
+    "PAGE_SIZE": 8,
 }
 
 SPECTACULAR_SETTINGS = {
@@ -193,17 +193,16 @@ SIMPLE_JWT = {
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
+EMAIL_HOST = "in-v3.mailjet.com"
+EMAIL_PORT = 25
 
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = os.environ.get("MAILJET_API_KEY")
+EMAIL_HOST_PASSWORD = os.environ.get("MAILJET_SECRET_API_KEY")
 
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
+DEFAULT_FROM_EMAIL = "bliznukanton5@gmail.com"
 ADMIN_SECRET_CODE = os.environ.get("ADMIN_SECRET_CODE")
 
 if not DEBUG:
