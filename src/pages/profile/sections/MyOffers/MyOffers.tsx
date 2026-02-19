@@ -8,10 +8,12 @@ import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequ
 import '../MyRequests/MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
 import type { HelpCart } from '../../../../api/types/HelpCart';
+import { useTranslation } from 'react-i18next';
 
 type Tab = 'active' | 'past';
 
 export const MyOffers = () => {
+  const {t} = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -72,14 +74,14 @@ export const MyOffers = () => {
           onClick={() => navigate('/profile/offers/new')}
         >
           <img src={plusIcon} alt='' />
-          <span>Create New Offer</span>
+          <span>{t("Create New Offer")}</span>
         </button>
       </div>
 
       {/* EMPTY */}
       {isEmpty ? (
         <div className='help-list help-list--empty'>
-          <p className='help-list__empty'>You haven’t created any offers yet</p>
+          <p className='help-list__empty'>{t("You-haven’t-created-any-offers-yet")}</p>
         </div>
       ) : (
         <>
@@ -91,7 +93,7 @@ export const MyOffers = () => {
               }`}
               onClick={() => setTab('active')}
             >
-              Active Offers
+              {t("Active-Offers")}
             </button>
 
             <button
@@ -100,7 +102,7 @@ export const MyOffers = () => {
               }`}
               onClick={() => setTab('past')}
             >
-              Past Offers
+              {t("Past-Offers")}
             </button>
           </div>
 

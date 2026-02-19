@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 
 import { getMyResponses } from '../../../../api/help.api';
-import type { HelpRequest } from '../../../../api/types/help';
+// import type { HelpRequest } from '../../../../api/types/help';
 import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequestCard';
 import { useAuth } from '../../../../context/AuthContext';
 
 import '../MyRequests/MyRequests.scss';
+import type { HelpCart } from '../../../../api/types/HelpCart';
+import { useTranslation } from 'react-i18next';
 
 type Tab = 'active' | 'past';
 
 export const MyResponses = () => {
   const { user } = useAuth();
+  const {t} = useTranslation();
 
   const [tab, setTab] = useState<Tab>('active');
-  const [responses, setResponses] = useState<HelpRequest[]>([]);
+  const [responses, setResponses] = useState<HelpCart[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -79,7 +82,7 @@ export const MyResponses = () => {
           }`}
           onClick={() => setTab('active')}
         >
-          Active Responses
+          {t("Active-Responses")}
         </button>
 
         <button
@@ -88,7 +91,7 @@ export const MyResponses = () => {
           }`}
           onClick={() => setTab('past')}
         >
-          Past Responses
+          {t("Past-Responses")}
         </button>
       </div>
 

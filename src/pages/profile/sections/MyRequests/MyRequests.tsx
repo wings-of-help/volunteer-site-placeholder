@@ -8,11 +8,13 @@ import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequ
 import './MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
 import type { HelpCart } from '../../../../api/types/HelpCart';
+import { useTranslation } from 'react-i18next';
 
 type Tab = 'active' | 'past';
 
 export const MyRequests = () => {
   const { user } = useAuth();
+  const {t} = useTranslation();
   const [tab, setTab] = useState<Tab>('active');
   const [requests, setRequests] = useState<HelpCart[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,7 +67,7 @@ export const MyRequests = () => {
           onClick={() => navigate('/profile/requests/new')}
         >
           <img src={plusIcon} alt='' />
-          <span>Create New Request</span>
+          <span>{t("Create-New-Request")}</span>
         </button>
       </div>
 
@@ -77,7 +79,7 @@ export const MyRequests = () => {
             }`}
             onClick={() => setTab('active')}
           >
-            Active Requests
+            {t("Active-Requests")}
           </button>
 
           <button
@@ -86,7 +88,7 @@ export const MyRequests = () => {
             }`}
             onClick={() => setTab('past')}
           >
-            Past Requests
+            {t("Past-Requests")}
           </button>
         </div>
       )}
@@ -94,7 +96,7 @@ export const MyRequests = () => {
       {isEmpty ? (
         <div className='help-list help-list--empty'>
           <p className='help-list__empty'>
-            You haven’t created any requests yet
+            {t("You-haven’t-created-any-requests-yet")}
           </p>
         </div>
       ) : (
