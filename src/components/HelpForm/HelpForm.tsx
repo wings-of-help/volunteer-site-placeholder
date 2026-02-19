@@ -105,7 +105,7 @@ export const HelpForm = ({ mode, kind, initialData }: Props) => {
       });
 
       navigate(`/${kind}s/${created.id}`, {
-        state: { from: `/profile/${kind}s` },
+        state: { from: `/profile/${kind}s` + location.search },
       });
     } else {
       await updateHelpRequest(initialData!.id, {
@@ -115,7 +115,9 @@ export const HelpForm = ({ mode, kind, initialData }: Props) => {
         location: locationId!,
       });
 
-      navigate(`/profile/${kind}s`);
+      navigate(`/profile/${kind}s`, {
+        state: { from: `/profile/${kind}s` },
+      });
     }
   };
 
@@ -124,7 +126,9 @@ export const HelpForm = ({ mode, kind, initialData }: Props) => {
       <div className='create-request__header'>
         <button
           className='create-request__back'
-          onClick={() => navigate(`/profile/${kind}s`)}
+          onClick={() => navigate(`/profile/${kind}s`, {
+            state: { from: `/profile/${kind}s` },
+          })}
         >
           <img src={breakIcon} alt='back icon' />
           <span>Back to My {kind === 'request' ? 'Requests' : 'Offers'}</span>
@@ -196,7 +200,9 @@ export const HelpForm = ({ mode, kind, initialData }: Props) => {
           <button
             type='button'
             className='create-request__cancel'
-            onClick={() => navigate(`/profile/${kind}s`)}
+            onClick={() => navigate(`/profile/${kind}s`, {
+              state: { from: `/profile/${kind}s` },
+            })}
           >
             Cancel
           </button>

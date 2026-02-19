@@ -6,6 +6,7 @@ import type { HelpCart } from "../../api/types/HelpCart";
 import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { ActiveFilter } from "../../pages/CatalogPage/CatalogPage";
+import Loader from "../UI-elements/Loader/Loader";
 
 type Props = {
   type: "offers" | "requests";
@@ -20,11 +21,25 @@ export default function CatalogItems({
 }: Props) {
   const { t } = useTranslation();
   const [carts, setCarts] = useState<HelpCart[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true)
+
     GetHelpCarts().then((data) => {
+      console.log("FULL RESPONSE:", data);
       setCarts(data.results);
-    });
+    })
+    .catch((err) => {
+      console.log(err);
+      setIsError(true)
+    })
+    .finally(() => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 600);
+    })
   }, []);
 
   const cartType: "offer" | "request" =
@@ -76,7 +91,9 @@ export default function CatalogItems({
   return (
     <div className="catalog__container">
       <div className="catalog__items">
-        {filteredCarts.map((cart) => (
+      {isLoading && <Loader />}
+
+        {!isLoading && filteredCarts.map((cart) => (
           <CartItem
             key={cart.id}
             type={type}
@@ -91,7 +108,7 @@ export default function CatalogItems({
         ))}
       </div>
 
-      {filteredCarts.length === 0 && (
+      {!isLoading && filteredCarts.length === 0 && (
         <div className="no-results">
           <h3 className="no-results__title">No results</h3>
           <p className="no-results__p">
@@ -100,7 +117,13 @@ export default function CatalogItems({
         </div>
       )}
 
-      {filteredCarts.length > 7 && (
+      {isError && (
+        <div className="no-results">
+          <h3 className="no-results__title">Something went wrong</h3>
+        </div>
+      )}
+
+      {filteredCarts.length >= 8 && (
         <div className="catalog__load-more-button">
           {t("Load-more")}
           <img className="arrow" src={arrowDown} alt="dropdown" />

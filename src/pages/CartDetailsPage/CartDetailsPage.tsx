@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import './CartDetailsPage.scss';
@@ -9,7 +9,7 @@ import calendar from '../../assets/CalendarBlank.png';
 import map from '../../assets/MapPin.png';
 import phone from '../../assets/phone.svg';
 import envelope from '../../assets/mail.svg';
-import dot from '../../assets/Ellipse 3.png';
+// import dot from '../../assets/Ellipse 3.png';
 
 import { useAuth } from '../../context/AuthContext';
 
@@ -22,6 +22,7 @@ import type { HelpCartFull } from '../../api/types/HelpCart';
 // import { GetHelpCarts } from '../../api/helpCarts.api';
 import { respondToHelp } from '../../api/help.api';
 import StatusBlock from '../../components/UI-elements/StatusBlock/StatusBlock';
+import Loader from '../../components/UI-elements/Loader/Loader';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -34,23 +35,52 @@ export default function CartDetailsPage({ type }: Props) {
     return localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
   });
   const [cart, setCart] = useState<HelpCartFull>();
+  const [isLoading, setIsLoading] = useState(true);
   
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
   
   const { isAuth, user } = useAuth();
+  
+  const originRef = useRef<string | null>(null);
 
   useEffect(() => {
+    const fromState = (location.state as { from?: string })?.from;
+
+    if (!originRef.current && fromState) {
+      originRef.current = fromState;
+    }
+  }, [location.state]);
+
+  const origin = originRef.current ?? `/${type}`;
+  const backPath =
+  (location.state as { from?: string })?.from ?? '/';
+
+  const normalizeOrigin = origin.split("/").join(" ")
+  const normalizeBackPath = backPath.split("/").join(" ")
+
+  useEffect(() => {
+    setIsLoading(true)
     GetHelpCartById(Number(cartId))
       .then((data) => setCart(data))
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 600)
+      })
+
+      const clicked = localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
+      setWasClicked(clicked);
   }, [cartId]);
-      
-  const backPath =
-    (location.state as { from?: string })?.from ??
-    (type === 'requests' ? '/requests' : '/offers');
-        
+
+  const isDisabled = !cart || wasClicked || cart.status !== 'new';
+
+  function navigateTo(path?: string) {
+    navigate(path && path !== "/" ? path : origin);
+  }
+  
   function formatDate(date: string) {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',
@@ -58,43 +88,46 @@ export default function CartDetailsPage({ type }: Props) {
       year: 'numeric',
     });
   }
-
-  if (!cart) {
-    return <h2>Cart not found</h2>;
-  }
-
-  console.log(cart.status, cart.id);
   
+  const handleRespond = async () => {
+    if (!cart) return;
 
-const handleRespond = async () => {
-  if (!cart) return;
+    try {
+      console.log('TRY RESPOND', cart.id);
 
-  try {
-    console.log('TRY RESPOND', cart.id);
+      const res = await respondToHelp(cart.id);
 
-    const res = await respondToHelp(cart.id);
+      console.log('SUCCESS', res);
 
-    console.log('SUCCESS', res);
+      setActiveModal(true);
+      setCart(prev => prev ? { ...prev, status: "in_progress" } : prev);
 
-    setActiveModal(true);
-    cart.status = "in_progress"
+    } catch (e) {
+      console.error('RESPOND ERROR:', e);
+      alert('Respond failed — дивись console');
+    }
+  };
 
-  } catch (e) {
-    console.error('RESPOND ERROR:', e);
-    alert('Respond failed — дивись console');
+   if (!cart) {
+    return (
+      <>
+        {!isLoading && (<h2>Cart not found</h2>)}
+      </>
+    )
   }
-};
-
 
   return (
     <>
       <div className='cart-details-page'>
+        {isLoading ? (
+          <Loader />
+        ): (
         <div className='cart-details-page__container'>
           {/* NAV */}
           <nav className='cart-details-page__nav'>
             <div
               className='cart-details-page__nav-links'
-              onClick={() => navigate(backPath)}
+              onClick={() => navigateTo(backPath)}
             >
               <img
                 className='cart-details-page__nav-link'
@@ -102,7 +135,7 @@ const handleRespond = async () => {
                 alt='back'
               />
               <p className='cart-details-page__nav-text'>
-                {t('Back-to')} {type}
+                {t('Back-to')} {backPath !== "/" ? normalizeBackPath : normalizeOrigin}
               </p>
             </div>
           </nav>
@@ -161,14 +194,14 @@ const handleRespond = async () => {
             {isAuth && user?.role === "volunteer" && type === 'requests' && (
               <button
                 className={classNames("offer__button", {
-                  "disabled" : wasClicked
+                  "disabled" : isDisabled
                 })}
-                disabled={wasClicked}
+                disabled={isDisabled}
                 onClick={() => {
                   handleRespond();
                 }}
               >
-                {!wasClicked ? (t("Offer-help")) : (t("Offer-sent"))}
+                {!isDisabled ? (t("Offer-help")) : (t("Offer-sent"))}
               </button>
             )}
 
@@ -203,14 +236,14 @@ const handleRespond = async () => {
             {isAuth && user?.role === "distressed" && type === 'offers' && (
               <button
                 className={classNames("offer__button", {
-                  "disabled" : wasClicked
+                  "disabled" : isDisabled
                 })}
-                disabled={wasClicked}
+                disabled={isDisabled}
                 onClick={() => {
                   handleRespond();
                 }}
               >
-                {!wasClicked ? (t("Request-help")) : (t("Request-sent"))}
+                {!isDisabled ? (t("Request-help")) : (t("Request-sent"))}
               </button>
             )}
           </div>
@@ -257,6 +290,7 @@ const handleRespond = async () => {
             path={type}
           />
         </div>
+        )}
       </div>
 
       {activeModal && (

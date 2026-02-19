@@ -8,7 +8,7 @@ import { ConfirmModal } from '../../components/ConfirmModal/ConfirmModal';
 import { completeHelpRequest, deleteHelpRequest } from '../../api/help.api';
 import garbageIcon from '../../assets/garbage.svg';
 import trashIcon from '../../assets/Trash.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StatusBlock from '../UI-elements/StatusBlock/StatusBlock';
 
 type CardMode = 'owner-request' | 'owner-offer' | 'volunteer' | 'catalog';
@@ -61,6 +61,7 @@ export const UserRequestCard = ({
   const ignoreNextClick = useRef(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const canMarkDone = localStatus === 'in_progress';
 
@@ -97,12 +98,20 @@ export const UserRequestCard = ({
 
   const isOwner = mode === 'owner-request' || mode === 'owner-offer';
 
+  const rootFrom =
+  (location.state as { from?: string })?.from ??
+  location.pathname + location.search;
+
+  console.log("root", rootFrom);
+  
+
   return (
     <>
       <div className='user-request-card'>
         {/* CARD LINK */}
         <Link
           to={`/${basePath}/${id}`}
+          state={{ from: rootFrom }}
           className='user-request-card__card'
           onClick={(e) => {
             if (ignoreNextClick.current) {

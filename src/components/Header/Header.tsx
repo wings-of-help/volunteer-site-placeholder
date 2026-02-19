@@ -35,6 +35,10 @@ export default function Header() {
           <NavLink to={"/offers"} className={ActivateLink}>
             <p className='header__nav__pages__page__title'>{t('Offers')}</p>
           </NavLink>
+
+          <NavLink to={"/about"} className={ActivateLink}>
+            <p className='header__nav__pages__page__title'>{t('About')}</p>
+          </NavLink>
           
         </div>
 

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./CartItem.scss"
 import type { HelpStatus } from "../../api/types/help";
@@ -17,9 +17,12 @@ type Props = {
 
 export default function CartItem({title, location, description, category, status, id, type}: Props) {
   const { isAuth } = useAuth(); 
+
+  const currentLocation = useLocation();
   return (
     <Link 
       to={`/${type}/${id}`}
+      state={{ from: currentLocation.pathname + currentLocation.search }}
       className="cart-item"
     >
         <h1 className="cart-item__title">

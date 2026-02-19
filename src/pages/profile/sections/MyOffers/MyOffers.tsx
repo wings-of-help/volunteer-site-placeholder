@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../context/AuthContext';
 import { getMyOffers } from '../../../../api/help.api';
-import type { HelpRequest } from '../../../../api/types/help';
+// import type { HelpRequest } from '../../../../api/types/help';
 
 import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequestCard';
 import '../MyRequests/MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
+import type { HelpCart } from '../../../../api/types/HelpCart';
 
 type Tab = 'active' | 'past';
 
@@ -15,7 +16,7 @@ export const MyOffers = () => {
   const navigate = useNavigate();
 
   const [tab, setTab] = useState<Tab>('active');
-  const [offers, setOffers] = useState<HelpRequest[]>([]);
+  const [offers, setOffers] = useState<HelpCart[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

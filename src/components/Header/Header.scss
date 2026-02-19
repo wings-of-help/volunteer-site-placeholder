@@ -18,7 +18,7 @@
     padding-top: 24px;
 
     &__wings-sector {
-      width: 288px;
+      width: 230px;
       @include flex-center;
       justify-content: flex-start;
       gap: 4px;
@@ -36,11 +36,14 @@
       display: flex;
       justify-self: center;
       align-self: center;
+      gap: 24px;
 
       &__page {
         @include centeredFlexBox;
-        width: 184px;
+        width: 114px;
         height: 41px;
+        padding: 8px;
+        gap: 8px;
 
         text-decoration: none;
         color: $color-gray-9;
@@ -136,6 +139,6 @@
   color: #000;
 
   &::after {
-    width: 50%;
+    width: 65%;
   }
 }
