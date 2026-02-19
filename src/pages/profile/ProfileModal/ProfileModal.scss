@@ -175,7 +175,7 @@
   }
 
   &--success {
-    @include flex-column(24px);
+    @include flex-column;
     align-items: center;
     text-align: center;
     padding: 24px;
@@ -184,19 +184,21 @@
   &__success-icon {
     width: 120px;
     height: 120px;
-    margin-bottom: 8px;
+    margin-bottom: 24px;
   }
 
   &__success-title {
     @include text-h4;
     font-weight: 700;
     color: $color-gray-9;
+    margin-bottom: 8px;
   }
 
    &__success-text {
     @include text-body-regular;
     color: $color-gray-7;
     text-align: center;
+    margin-bottom: 24px;
 
     strong {
       display: block;

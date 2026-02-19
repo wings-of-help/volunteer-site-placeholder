@@ -4,7 +4,6 @@ import SignUpForm from '../signup/SignUpForm';
 import { isOnlyLetters, hasMinTwoLetters } from '../../../utils/validators';
 import { useSignUp } from '../../../context/SignUpContext';
 import { useTranslation } from 'react-i18next';
-import errorIcon from '../../../assets/red-eye.svg';
 
 type Props = {
   admin: boolean;
@@ -12,13 +11,8 @@ type Props = {
 
 const SignUpStep1 = ({ admin }: Props) => {
   const { t } = useTranslation();
-  const {
-    data,
-    setFirstName,
-    setLastName,
-    backendErrors,
-    clearBackendError,
-  } = useSignUp();
+  const { data, setFirstName, setLastName, backendErrors, clearBackendError } =
+    useSignUp();
 
   const { first_name: firstName, last_name: lastName } = data;
 
@@ -58,19 +52,23 @@ const SignUpStep1 = ({ admin }: Props) => {
   };
 
   const renderField = (
+    field: 'first_name' | 'last_name',
     label: string,
     value: string,
     setValue: (val: string) => void,
     error: string | null,
-    backendError?: string
+    backendError?: string,
   ) => {
     const finalError = error || backendError;
+    const id = field;
 
     return (
-      <label className='auth-form__label'>
+      <label htmlFor={id} className='auth-form__label'>
         <span className='auth-form__label-text'>{label}</span>
 
         <input
+          id={id}
+          name={id}
           className={`auth-form__input ${
             finalError ? 'auth-form__input--error' : ''
           }`}
@@ -90,7 +88,6 @@ const SignUpStep1 = ({ admin }: Props) => {
 
         {finalError && (
           <div className='auth-form__helper auth-form__helper--error'>
-            <img src={errorIcon} alt='' />
             <span>{finalError}</span>
           </div>
         )}
@@ -104,24 +101,26 @@ const SignUpStep1 = ({ admin }: Props) => {
       isValid={isFilled}
       onContinue={() =>
         handleContinue(
-          admin ? '/administrationsignup/step-2' : '/signup/step-2'
+          admin ? '/administrationsignup/step-2' : '/signup/step-2',
         )
       }
     >
       {renderField(
+        'first_name',
         t('First-name'),
         firstName,
         setFirstName,
         firstNameError,
-        backendErrors.first_name?.[0]
+        backendErrors.first_name?.[0],
       )}
 
       {renderField(
+        'last_name',
         t('Last-name'),
         lastName,
         setLastName,
         lastNameError,
-        backendErrors.last_name?.[0]
+        backendErrors.last_name?.[0],
       )}
     </SignUpForm>
   );
