@@ -4,6 +4,7 @@ import { ProfileLayout } from './ProfileLayout/ProfileLayout';
 import { Loader } from '../../components/Loader/Loader';
 import { LogoutModal } from '../../components/LogoutModal/LogoutModal';
 import { useState } from 'react';
+import Footer from '../../components/Footer/Footer';
 
 export const ProfilePage = () => {
   const { user, isLoading, logout } = useAuth();
@@ -23,6 +24,7 @@ export const ProfilePage = () => {
       <ProfileLayout user={user} onLogout={() => setIsLogoutModalOpen(true)}>
         <Outlet />
       </ProfileLayout>
+      <Footer />
 
       {isLogoutModalOpen && (
         <LogoutModal
