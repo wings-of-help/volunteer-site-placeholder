@@ -71,7 +71,7 @@
     flex-direction: column;
     align-self: flex-start;
     gap: 8px;
-
+    
     &__title {
       @include text-h2;
       font-size: 40px;
@@ -98,6 +98,11 @@
       padding: 24px;
       box-sizing: border-box; // ask sofia if need to change
 
+      &__image {
+        width: 160px;
+        height: 160px;
+      }
+
       &__title {
         font-weight: 700;
         font-style: Bold;
@@ -109,12 +114,13 @@
         width: 240px;
         height: 60px;
         margin-top: 8px;
+
+        transform: translateY(0px); 
       }
 
       &__p {
         @include text-h3;
-        height: 160px;
-        width: 160px;
+        display: none;
       }
 
       &__num {
@@ -127,7 +133,38 @@
         line-height: 135%;
 
         color: #2277FF;
+
+        transform: translateY(0); 
       }
+
+      &:hover {
+        cursor: pointer;
+        background-color: #2277FF;
+        color: #F8F9FA;
+
+        .home-instructions__blocks__block__container {
+          justify-self: flex-start;
+        }
+
+        .home-instructions__blocks__block__image {
+          display: none;
+        }
+
+        .home-instructions__blocks__block__num {
+          color: #F8F9FA;
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__title {
+          color: #F8F9FA;
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__p {
+          display: block;
+        }
+      }
+      
     }
   }
 }

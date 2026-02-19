@@ -77,6 +77,15 @@ export default function CartDetailsPage({ type }: Props) {
 
   const isDisabled = !cart || wasClicked || cart.status !== 'new';
 
+  const buttonText =
+    cart?.status === 'done'
+      ? t('Help-completed')
+      : cart?.status === 'in_progress'
+        ? wasClicked
+          ? t('Offer-sent')
+          : t('Help-in-progress')
+        : t('Offer-help');
+
   function navigateTo(path?: string) {
     navigate(path && path !== "/" ? path : origin);
   }
@@ -201,7 +210,7 @@ export default function CartDetailsPage({ type }: Props) {
                   handleRespond();
                 }}
               >
-                {!isDisabled ? (t("Offer-help")) : (t("Offer-sent"))}
+                {buttonText}
               </button>
             )}
 
@@ -252,7 +261,7 @@ export default function CartDetailsPage({ type }: Props) {
           <div className='cart-details-page__info__person-info'>
             <h1>
               {type === 'requests' ? t('Requester') : t('Volunteer')}
-              {!isAuth && `: cody`}
+              {!isAuth && `: ${cart.creator_info.first_name} ${cart.creator_info.last_name}`}
             </h1>
 
             {isAuth && (

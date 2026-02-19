@@ -48,28 +48,41 @@ export default function HomePage() {
         <div className="home-instructions__blocks">
 
           <div className="home-instructions__blocks__block">
-            <img className="home-instructions__blocks__block__p" src={photo1} />
-            <div className="home-instructions__blocks__block__num">01</div>
-            <div className="home-instructions__blocks__block__title">{t("instructions-1st-block-title")}</div>
+            <img className="home-instructions__blocks__block__image" src={photo1} />
+              <div className="home-instructions__blocks__block__container">
+                <div className="home-instructions__blocks__block__num">01</div>
+                <div className="home-instructions__blocks__block__title">{t("instructions-1st-block-title")}</div>
+              </div>
+            <p className="home-instructions__blocks__block__p">{t("instructions-1st-block-p")}</p>
           </div>
 
           <div className="home-instructions__blocks__block">
-            <img className="home-instructions__blocks__block__p" src={photo2} />
-            <div className="home-instructions__blocks__block__num">02</div>
-            <div className="home-instructions__blocks__block__title">{t("instructions-2nd-block-title")}</div>
+            <img className="home-instructions__blocks__block__image" src={photo2} />
+              <div className="home-instructions__blocks__block__container">
+                <div className="home-instructions__blocks__block__num">02</div>
+                <div className="home-instructions__blocks__block__title">{t("instructions-2nd-block-title")}</div>
+              </div>
+            <p className="home-instructions__blocks__block__p">{t("instructions-2nd-block-p")}</p>
           </div>
 
           <div className="home-instructions__blocks__block">
-            <img className="home-instructions__blocks__block__p" src={photo3} />
-            <div className="home-instructions__blocks__block__num">03</div>
-            <div className="home-instructions__blocks__block__title">{t("instructions-3rd-block-title")}</div>
+            <img className="home-instructions__blocks__block__image" src={photo3} />
+              <div className="home-instructions__blocks__block__container">
+                <div className="home-instructions__blocks__block__num">03</div>
+                <div className="home-instructions__blocks__block__title">{t("instructions-3rd-block-title")}</div>
+              </div>
+            <p className="home-instructions__blocks__block__p">{t("instructions-3rd-block-p")}</p>
           </div>
 
           <div className="home-instructions__blocks__block">
-            <img className="home-instructions__blocks__block__p" src={photo4} />
-            <div className="home-instructions__blocks__block__num">04</div>
-            <div className="home-instructions__blocks__block__title">{t("instructions-4th-block-title")}</div>
+            <img className="home-instructions__blocks__block__image" src={photo4} />
+              <div className="home-instructions__blocks__block__container">
+                <div className="home-instructions__blocks__block__num">04</div>
+                <div className="home-instructions__blocks__block__title">{t("instructions-4th-block-title")}</div>
+              </div>
+            <p className="home-instructions__blocks__block__p">{t("instructions-4th-block-p")}</p>
           </div>
+
         </div>
       </div>
 

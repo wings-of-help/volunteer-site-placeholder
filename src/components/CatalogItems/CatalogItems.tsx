@@ -10,6 +10,7 @@ import Loader from "../UI-elements/Loader/Loader";
 
 type Props = {
   type: "offers" | "requests";
+  kind: "offer" | "request";
   activeFilters: ActiveFilter[];
   sortType: string;
 };
@@ -18,6 +19,7 @@ export default function CatalogItems({
   type,
   activeFilters,
   sortType,
+  kind
 }: Props) {
   const { t } = useTranslation();
   const [carts, setCarts] = useState<HelpCart[]>([]);
@@ -29,7 +31,9 @@ export default function CatalogItems({
 
     GetHelpCarts().then((data) => {
       console.log("FULL RESPONSE:", data);
-      setCarts(data.results);
+      const filteredData = data.results.filter((item) => item.kind === kind)
+
+      setCarts(filteredData);
     })
     .catch((err) => {
       console.log(err);
@@ -40,7 +44,7 @@ export default function CatalogItems({
         setIsLoading(false);
       }, 600);
     })
-  }, []);
+  }, [kind]);
 
   const cartType: "offer" | "request" =
     type === "offers" ? "offer" : "request";
