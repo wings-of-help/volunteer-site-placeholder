@@ -68,16 +68,19 @@ export const ProfileInfo = () => {
       await getMyProfile();
     } catch (error) {
       console.error('Failed to update profile', error);
+      throw error;
     }
   };
 
   const handleModalSuccess = async (value: string) => {
-  if (!activeModal) return;
+    if (!activeModal || !user) return;
 
-  if (activeModal === 'email' || activeModal === 'phone') {
-    await handleContactChange(activeModal, value);
-  }
-};
+    if (activeModal === 'email' || activeModal === 'phone') {
+      await handleContactChange(activeModal, value);
+    }
+
+    await getMyProfile();
+  };
 
   return (
     <>

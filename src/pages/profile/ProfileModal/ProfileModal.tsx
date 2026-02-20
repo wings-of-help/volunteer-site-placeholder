@@ -24,6 +24,8 @@ import { formatPhoneForDisplay } from '../../../utils/phone';
 
 type modalType = 'email' | 'phone' | 'password';
 
+type ErrorType = null | 'invalid_format' | 'already_exists' | 'server';
+
 interface Props {
   type: modalType;
   onClose: () => void;
@@ -34,7 +36,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   const { t } = useTranslation();
 
   const [value, setValue] = useState('');
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<ErrorType>(null);
   const [step, setStep] = useState<'edit' | 'new-password' | 'success'>('edit');
 
   const [password, setPassword] = useState('');
@@ -64,7 +66,7 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
 
   const labelMap: Record<modalType, string> = {
     email: t('Enter-new-email'),
-    phone: t('Phone-number'),
+    phone: t('Enter-new-phone-number'),
     password: t('Enter-your-email'),
   };
 
@@ -102,22 +104,31 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   };
 
   const handleSubmit = async () => {
+    // frontend validation
     if ((type === 'email' || type === 'password') && !isEmailValid(value)) {
-      setError(true);
+      setError('invalid_format');
       return;
     }
 
     if (type === 'phone' && !isPhoneValid(value)) {
-      setError(true);
+      setError('invalid_format');
       return;
     }
 
     try {
-      const preparedValue = type === 'phone' ? `+380${value}` : value;
+      const preparedValue = value;
       await onSuccess(preparedValue);
+
       setStep('success');
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      const status = e?.status;
+
+      if (status === 400 || status === 409) {
+        setError('already_exists');
+        return;
+      }
+
+      setError('server');
     }
   };
 
@@ -160,14 +171,28 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                       onChange={(e) => {
                         const digits = getDigits(e.target.value).slice(0, 9);
                         setValue(digits);
-                        setError(false);
+                        setError(null);
                       }}
                     />
                   </div>
 
-                  {error && (
+                  {error === 'invalid_format' && (
                     <div className='auth-form__helper auth-form__helper--error'>
-                      <span>{t('Invalid-phone-number')}</span>
+                      <span>
+                        {type === 'phone'
+                          ? t('Invalid-phone-number')
+                          : t('Invalid-email')}
+                      </span>
+                    </div>
+                  )}
+
+                  {error === 'already_exists' && (
+                    <div className='auth-form__helper auth-form__helper--error'>
+                      <span>
+                        {type === 'phone'
+                          ? t('Phone-already-exists')
+                          : t('Email-already-exists')}
+                      </span>
                     </div>
                   )}
                 </div>
@@ -182,15 +207,27 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                     value={value}
                     onChange={(e) => {
                       setValue(e.target.value);
-                      setError(false);
+                      setError(null);
                     }}
                     type={type === 'password' ? 'email' : type}
                     placeholder={placeholderMap[type]}
                   />
 
-                  {error && (
+                  {error === 'invalid_format' && (
                     <div className='auth-form__helper auth-form__helper--error'>
                       <span>{t('Invalid-email')}</span>
+                    </div>
+                  )}
+
+                  {error === 'already_exists' && (
+                    <div className='auth-form__helper auth-form__helper--error'>
+                      <span>{t('Email-already-exists')}</span>
+                    </div>
+                  )}
+
+                  {error === 'server' && (
+                    <div className='auth-form__helper auth-form__helper--error'>
+                      <span>{t('Something-went-wrong')}</span>
                     </div>
                   )}
                 </div>
@@ -316,7 +353,9 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
           title={successConfig[type].title}
           description={successConfig[type].description}
           value={successConfig[type].withValue ? displayValue : undefined}
-          onClose={onClose}
+          onClose={() => {
+            onClose();
+          }}
         />
       )}
     </>
