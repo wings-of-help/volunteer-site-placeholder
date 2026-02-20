@@ -12,24 +12,30 @@
   padding: 24px;
   background: $color-white;
   box-shadow: 0 8px 32px rgba($color-gray-9, 0.12);
-
+  
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
 
   &__icon {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 24px;
   }
 
   &__title {
-    font-family: 'Inter';
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 120%;
-    color: #212529;
+    @include text-h4;
+    color: $color-gray-9;
+
     text-align: center;
+    margin-bottom: 8px;
+  }
+
+  &__description {
+    @include text-body-regular;
+    color: $color-gray-7;
+    text-align: center;
+    margin-bottom: 24px;
   }
 
   &__actions {
