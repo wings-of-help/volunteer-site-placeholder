@@ -296,8 +296,9 @@ def request_password_reset(request):
         send_mail(
             subject="Password reset code",
             message=f"Your password reset code is: {code}",
-            from_email=None,
+            from_email="bliznukanton5@gmail.com",
             recipient_list=[user.email],
+            fail_silently=False
         )
 
     return Response({"detail": "If the email exists, a code was sent."})
