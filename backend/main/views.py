@@ -6,6 +6,7 @@ from drf_spectacular.utils import (
     extend_schema,
     extend_schema_view,
 )
+from drf_spectacular.types import OpenApiTypes
 from rest_framework import status
 from rest_framework.decorators import action, api_view
 from rest_framework.filters import OrderingFilter
@@ -87,8 +88,13 @@ class HelpCategoryViewSet(ModelViewSet):
             ),
             OpenApiParameter(
                 name="category",
-                type=int,
-                description="Filter by category ID",
+                type=str,
+                description="Filter by multiple category IDs (comma-separated). Example: 1,2,3",
+            ),
+            OpenApiParameter(
+                name="location",
+                type=str,
+                description="Filter by multiple location IDs (comma-separated). Example: 5,6",
             ),
             OpenApiParameter(
                 name="creator",
@@ -102,15 +108,18 @@ class HelpCategoryViewSet(ModelViewSet):
             ),
             OpenApiParameter(
                 name="status",
-                type=str,
-                enum=[c[0] for c in Help.Status.choices],
-                description="Filter by help status",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description=(
+                        "Filter by multiple statuses (comma-separated). "
+                        "Example: NEW,IN_PROGRESS"
+                ),
             ),
             OpenApiParameter(
                 name="kind",
                 type=str,
                 enum=[c[0] for c in Help.Kind.choices],
-                description="Filter by help kind",
+                description="Filter by help kind (single value)",
             ),
             OpenApiParameter(
                 name="completed",

@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.contrib.auth.password_validation import validate_password
-from django.core.mail import send_mail
+from user.utils import send_email
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -293,11 +293,10 @@ def request_password_reset(request):
             expires_at=timezone.now() + timedelta(minutes=10)
         )
 
-        send_mail(
+        send_email(
             subject="Password reset code",
-            message=f"Your password reset code is: {code}",
-            from_email=None,
-            recipient_list=[user.email],
+            html_content=f"Your password reset code is: {code}",
+            to_email=user.email,
         )
 
     return Response({"detail": "If the email exists, a code was sent."})
