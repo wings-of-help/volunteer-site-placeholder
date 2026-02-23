@@ -5,15 +5,10 @@
 }
 
 @mixin p-styles {
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 140%;
-}
-
-@mixin title-styles {
   font-weight: 500;
-  font-size: 40px;
-  line-height: 125%;
+  font-style: Medium;
+  font-size: 20px;
+  line-height: 135%;
 }
 
 @mixin disableLinkStyles {
@@ -21,8 +16,10 @@
   color: black;
 }
 
-@mixin blackButton {
-  background-color: #000;
+@mixin blueButton {
+  background-color: #2277FF;
+  border: none;
+  border-radius: 3%;
   color: #fff;
   width: 288px;
   height: 57px;

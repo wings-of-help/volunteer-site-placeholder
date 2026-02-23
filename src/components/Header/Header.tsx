@@ -11,7 +11,6 @@ import classNames from 'classnames';
 export default function Header() {
   const { t } = useTranslation();
   const { isAuth } = useAuth();
-  // console.log('HEADER: render, isAuth =', isAuth);
 
   const ActivateLink = ({ isActive }: { isActive: boolean }) =>
     classNames('header__nav__pages__page', {
@@ -27,31 +26,45 @@ export default function Header() {
         </Link>
 
         <div className='header__nav__pages'>
+          <div className='header__nav__pages__item'>
+            <NavLink to='/requests' className={ActivateLink}>
+              <span className='header__nav__pages__page__title'>
+                {t('Requests')}
+              </span>
+            </NavLink>
+          </div>
 
-          <NavLink to={"/requests"} className={ActivateLink}>
-            <p className='header__nav__pages__page__title'>{t('Requests')}</p>
-          </NavLink>
+          <div className='header__nav__pages__item'>
+            <NavLink to='/offers' className={ActivateLink}>
+              <span className='header__nav__pages__page__title'>
+                {t('Offers')}
+              </span>
+            </NavLink>
+          </div>
 
-          <NavLink to={"/offers"} className={ActivateLink}>
-            <p className='header__nav__pages__page__title'>{t('Offers')}</p>
-          </NavLink>
-          
+          <div className='header__nav__pages__item'>
+            <NavLink to='/about' className={ActivateLink}>
+              <span className='header__nav__pages__page__title'>
+                {t('About')}
+              </span>
+            </NavLink>
+          </div>
         </div>
 
         <div className='header__nav__buttons'>
           <LangChanger />
-          
+
           {!isAuth ? (
             <>
               <Link to='/signin'>
                 <button className='header__nav__buttons__button sign-in'>
-                  {t('Sign in')}
+                  {t('Sign-in')}
                 </button>
               </Link>
 
               <Link to='/signup/step-1'>
                 <button className='header__nav__buttons__button sign-up'>
-                  {t('Sign up')}
+                  {t('Sign-up')}
                 </button>
               </Link>
             </>

@@ -23,6 +23,7 @@
 
   &__tabs {
     display: flex;
+    height: 75px;
     gap: 8px;
     padding: 8px;
     background: $color-gray-1;
@@ -30,7 +31,7 @@
 
   &__tab {
     flex: 1;
-    height: 41px;
+    height: 59px;
     padding: 8px 16px;
 
     background: transparent;
@@ -41,8 +42,10 @@
     text-align: center;
 
     &--active {
-      background: $color-black;
-      color: $color-white;
+      @include text-body-med;
+      background: $color-primary-500;
+      color: $color-gray-0;
+;
     }
   }
 

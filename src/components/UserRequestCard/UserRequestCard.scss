@@ -1,96 +1,165 @@
 @use '../../styles/variables' as *;
 @use '../../styles/mixins/index' as *;
+@use '../../styles/mixins' as *;
+@use 'sass:color';
 
 .user-request-card {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  
   width: 100%;
   max-width: 704px;
-  max-height: 402px;
-  padding: 24px;
-  background: $color-gray-1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 
-  @include flex-column;
+  /* ================= CARD LINK ================= */
 
-  &__header {
-    height: 38px;
-    margin-bottom: 16px;
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 
-    @include flex-between;
-    align-items: stretch;
+    padding: 24px;
+    border-radius: 4px;
+    background: $color-gray-1;
+
+    text-decoration: none;
+    color: inherit;
+
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background: $color-gray-0;
+    }
   }
 
-  &__city {
-    @include flex-center;
-    @include text-body-regular;
-  }
+  /* ================= CONTENT ================= */
 
-  &__category {
-    min-width: 162px;
-    padding: 4px 8px;
-    border-radius: 2px;
-
-    background: $color-gray-7;
-    color: $color-white;
-
-    @include flex-center;
-    @include text-body-regular;
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   &__title {
-    margin-bottom: 24px;
-    @include text-h2;
+    @include text-h4;
+    color: $color-gray-9;
+  }
+
+  &__tag {
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 4px;
+
+    background: $color-primary-200;
+    color: $color-primary-500;
+
+    @include text-body-med;
   }
 
   &__description {
-    margin-bottom: 24px;
     @include text-body-regular;
+    color: $color-gray-7;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+
     line-clamp: 4;
+    -webkit-line-clamp: 4;
+
     overflow: hidden;
   }
 
+  /* ================= FOOTER ================= */
+
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__city {
+    @include text-body-med;
+    color: $color-gray-9;
+  }
+
+  /* ================= STATUS ================= */
+
   &__status {
-    align-self: flex-start;
-    width: fit-content;
-    padding: 8px;
-    background: $color-white;
+    display: inline-flex;
+    align-items: center;
     gap: 8px;
 
-    @include flex-center;
-    @include text-body;
+    padding: 8px;
+    border-radius: 4px;
+
+    @include text-body-med;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    &-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    &--new {
+      background: $color-purple-200;
+      color: $color-purple-500;
+    }
+
+    &--in_progress {
+      background: $color-orange-200;
+      color: $color-orange-500;
+    }
+
+    &--done {
+      background: $color-green-200;
+      color: $color-green-500;
+    }
   }
 
-  &__status-icon {
-    @include icon-24;
-  }
-
-  &__status-text {
-    @include text-body-regular;
-  }
+  /* ================= ACTIONS ================= */
 
   &__actions {
-    margin-top: 24px;
     display: flex;
     gap: 8px;
   }
 
   &__edit {
     flex: 1;
-    padding: 16px;
 
     @include button-base;
-    @include button-secondary;
-    @include text-body-regular;
+    @include button-border;
+    @include text-body-med;
   }
 
   &__view {
     flex: 1;
-    padding: 16px;
 
     @include button-base;
     @include button-primary;
-    @include text-body-regular;
+    @include text-body-med;
+  }
+
+  &__delete {
+    width: 56px;
+    height: 56px;
+
+    @include flex-center;
+    @include button-danger;
+
+    border-radius: 4px;
+
+    img {
+      width: 24px;
+      height: 24px;
+      pointer-events: none;
+    }
   }
 }

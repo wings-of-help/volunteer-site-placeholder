@@ -2,10 +2,6 @@
 @use '../../../../styles/mixins/index' as *;
 
 .profile {
-  &__card {
-    background: $color-white;
-  }
-
   &__header {
     @include flex-column;
   }
@@ -104,7 +100,7 @@
   }
 
   &__contact-btn {
-    width: 104px;
+    width: 115px;
     @include button-base;
     border: none;
     @include button-primary;

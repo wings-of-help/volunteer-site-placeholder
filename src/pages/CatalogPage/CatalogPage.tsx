@@ -4,19 +4,54 @@ import CatalogCategories from "../../components/CatalogCategories/CatalogCategor
 import CatalogItems from "../../components/CatalogItems/CatalogItems";
 import CustomSelect from "../../components/UI-elements/CustomSelect/CustomSelect";
 import { useTranslation } from "react-i18next";
+import Filters from "../../components/Filters/Filters";
+import { useState } from "react";
 
 type Props = {
   title: string;
   p: string;
   p2: string;
   path: 'offers' | 'requests';
+  kind: 'offer' | 'request';
 }
 
-export default function CatalogPage ({title, p, p2, path}: Props) {
-  const {t} = useTranslation();
+export type FilterType = 'category' | 'location' | 'status';
+// export type SortType = 'newest' | 'oldest';
 
-  const newestLabel = t("Newest");
-  const oldestLabel = t("Oldest");
+export interface ActiveFilter {
+  id: string;
+  type: FilterType;
+  value: string;
+}
+
+export default function CatalogPage ({title, p, p2, path, kind}: Props) {
+  const {t} = useTranslation();
+  const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([])
+  const [sortType, setSortType] = useState<string>('newest');
+
+  const toggleFilter = (filter: ActiveFilter) => {
+    setActiveFilters(prev => {
+      const exists = prev.some(
+        f => f.type === filter.type && f.value === filter.value
+      );
+
+      if (exists) {
+        return prev.filter(
+          f => !(f.type === filter.type && f.value === filter.value)
+        );
+      }
+
+      return [...prev, filter];
+    });
+  };
+
+  const setSingleFilter = (filter: ActiveFilter) => {
+    setActiveFilters(prev => {
+      const filtered = prev.filter(f => f.type !== filter.type);
+      return [...filtered, filter];
+    });
+  };
+
   return (
     <div className="catalog__page">
       <div className="catalog">
@@ -34,16 +69,35 @@ export default function CatalogPage ({title, p, p2, path}: Props) {
           <p className="catalog__sort__sort-by">{t("Sort-by")}</p>
 
           <CustomSelect options={[
-            { label: newestLabel, value: "newest" },
-            { label: oldestLabel, value: "oldest" }
+            { label: "Newest", value: "newest" },
+            { label: "Oldest", value: "oldest" }
           ]}
-          placeholder={t("Newest")}
-          variant="filter"/>
+          placeholder={"Newest"}
+          variant="filter"
+          setSortType={setSortType}
+          />
         </div>
 
         <div className="catalog__main">
-          <CatalogCategories/>
-          <CatalogItems type={path}/>
+          <CatalogCategories
+            activeFilters={activeFilters}
+            onToggleFilter={toggleFilter}
+            setSingleFilter={setSingleFilter}
+          />
+
+          <div className="catalog-items-box">
+            {activeFilters.length > 0 && (
+              <Filters
+                filters={activeFilters}
+                onRemove={(id: string) =>
+                  setActiveFilters(prev => prev.filter(f => f.id !== id))
+                }
+                onClear={() => setActiveFilters([])}
+              />
+            )}
+          
+            <CatalogItems type={path} activeFilters={activeFilters} sortType={sortType} kind={kind}/>
+          </div>
         </div>
       </div>
     </div>

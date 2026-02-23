@@ -1,30 +1,38 @@
 // import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { HelpCart } from "../../api/types/HelpCart";
 // import CartItem from "../CartItem/CartItem";
 import "./ActiveGroup.scss"
 import { Link } from "react-router-dom";
 import vector from "../../assets/Vector.svg"
-import { mockHelpCarts } from "../../api/helpCarts.api";
+import { GetHelpCarts } from "../../api/helpCarts.api";
 import CartItem from "../CartItem/CartItem";
 // import { GetHelpCarts } from "../../api/helpCarts.api";
 
 type Props = {
   title: string;
-  p: string;
-  p2: string;
+  p?: string;
+  p2?: string;
   seeAll: string;
   path: string;
 }
 
-export default function ActiveGroup({title, p, p2, seeAll, path}: Props) {
-  const [carts, setCarts] = useState<HelpCart[]>(mockHelpCarts);
+export default function ActiveGroup({title, p = "", p2 = "", seeAll, path}: Props) {
+  const [carts, setCarts] = useState<HelpCart[]>([]);
 
-  console.log(path);
+    useEffect(() => {
+      GetHelpCarts().then((data) => {
+        setCarts(data.results);
+      });
+    }, []);
+
+    const cartType: "offer" | "request" =
+      path === "offers" ? "offer" : "request";
+
+    const filteredCarts = useMemo(() => {
+      return carts.filter((cart) => cart.kind === cartType).slice(0, 3);
+    }, [carts, cartType]);
   
-  useEffect(() => {
-    setCarts(carts.slice(0, 3))
-  }, [])
   return (
     <div className="home-active-requests">
 
@@ -41,9 +49,10 @@ export default function ActiveGroup({title, p, p2, seeAll, path}: Props) {
         </div>
 
         <div className="home-active-requests__carts">
-          {carts.map((cart: HelpCart) => {
+          {filteredCarts.map((cart: HelpCart) => {
             return <CartItem
-              type={path as 'offers' | 'requests'}
+              type={path.replace("/", "") as 'offers' | 'requests'}
+              kind={cart.kind}
               key={cart.id}
               id={cart.id}
               title={cart.title}

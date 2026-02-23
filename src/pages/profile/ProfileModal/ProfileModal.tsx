@@ -19,24 +19,25 @@ import uaFlag from '../../../assets/flag-ukraine.svg';
 import eyeOpen from '../../../assets/eye-open.svg';
 import eyeClosed from '../../../assets/eye-closed.svg';
 import { useTranslation } from 'react-i18next';
-import { CodeStep } from '../../../components/CodeStepModal/CodeStep';
 import { ProfileSuccessModal } from '../../../components/ProfileSuccessModal/ProfileSuccessModal';
+import { formatPhoneForDisplay } from '../../../utils/phone';
 
 type modalType = 'email' | 'phone' | 'password';
+
+type ErrorType = null | 'invalid_format' | 'already_exists' | 'server';
 
 interface Props {
   type: modalType;
   onClose: () => void;
-  onSuccess: (value: string) => void;
+  onSuccess: (value: string) => Promise<void>;
 }
 
 export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   const { t } = useTranslation();
+
   const [value, setValue] = useState('');
-  const [error, setError] = useState(false);
-  const [step, setStep] = useState<
-    'edit' | 'code' | 'new-password' | 'success'
-  >('edit');
+  const [error, setError] = useState<ErrorType>(null);
+  const [step, setStep] = useState<'edit' | 'new-password' | 'success'>('edit');
 
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -50,7 +51,6 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   };
 
   const isMatch = password === confirm;
-
   const isPasswordValid =
     passwordChecks.length &&
     passwordChecks.uppercase &&
@@ -58,21 +58,16 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
     passwordChecks.special &&
     isMatch;
 
-  const CODE_LENGTH = 6;
-  const [code, setCode] = useState<string[]>(Array(CODE_LENGTH).fill(''));
-
-  const isActive = Boolean(value);
-
   const titleMap: Record<modalType, string> = {
-    email: 'Change email',
-    phone: 'Change phone number',
-    password: 'Change password',
+    email: t('Change-email'),
+    phone: t('Change-phone-number'),
+    password: t('Change-password'),
   };
 
   const labelMap: Record<modalType, string> = {
-    email: 'Enter new email',
-    phone: 'Phone number',
-    password: 'Enter your email',
+    email: t('Enter-new-email'),
+    phone: t('Enter-new-phone-number'),
+    password: t('Enter-your-email'),
   };
 
   const placeholderMap: Record<modalType, string> = {
@@ -82,9 +77,9 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
   };
 
   const buttonMap: Record<modalType, string> = {
-    email: 'Verify email',
-    phone: 'Save phone number',
-    password: 'Verify password',
+    email: t('Save-email'),
+    phone: t('Save-phone-number'),
+    password: t('Save-password'),
   };
 
   const successConfig: Record<
@@ -92,54 +87,53 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
     { title: string; description: string; withValue: boolean }
   > = {
     email: {
-      title: 'Email updated',
-      description: 'Your email address has been updated to:',
+      title: t('Email-updated'),
+      description: t('Your-email-address-has-been-updated-to'),
       withValue: true,
     },
     phone: {
-      title: 'Phone number updated',
-      description: 'Your phone number has been updated successfully.',
+      title: t('Phone-number-updated'),
+      description: t('Your-phone-number-has-been-updated-successfully'),
       withValue: true,
     },
     password: {
-      title: 'Password updated',
-      description: 'Your password has been changed successfully.',
+      title: t('Password-updated'),
+      description: t('Your-password-has-been-changed-successfully'),
       withValue: false,
     },
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // frontend validation
     if ((type === 'email' || type === 'password') && !isEmailValid(value)) {
-      setError(true);
+      setError('invalid_format');
       return;
     }
 
     if (type === 'phone' && !isPhoneValid(value)) {
-      setError(true);
+      setError('invalid_format');
       return;
     }
 
-    if (type === 'phone') {
-      onSuccess(`+380 ${value}`);
-      onClose();
-      return;
-    }
+    try {
+      const preparedValue = value;
+      await onSuccess(preparedValue);
 
-    setStep('code');
-  };
+      setStep('success');
+    } catch (e: any) {
+      const status = e?.status;
 
-  const handleCodeChange = (index: number, value: string) => {
-    if (!/^\d?$/.test(value)) return;
+      if (status === 400 || status === 409) {
+        setError('already_exists');
+        return;
+      }
 
-    const newCode = [...code];
-    newCode[index] = value;
-    setCode(newCode);
-
-    if (value && index < CODE_LENGTH - 1) {
-      const next = document.getElementById(`code-${index + 1}`);
-      next?.focus();
+      setError('server');
     }
   };
+
+  const displayValue =
+    type === 'phone' ? formatPhoneForDisplay(`+380${value}`) : value;
 
   return (
     <>
@@ -148,74 +142,100 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
           <div className='profile-modal' onClick={(e) => e.stopPropagation()}>
             <div className='profile-modal__header'>
               <h2 className='profile-modal__title'>{titleMap[type]}</h2>
-
               <button className='profile-modal__close' onClick={onClose}>
                 <img src={crossIcon} alt='Close' />
               </button>
             </div>
-            {type === 'password' && step === 'edit' && (
-              <p className='profile-modal__subtitle-hint'>
-                {t('To-change-password-verify-email-first')}
-              </p>
-            )}
 
             <div className='profile-modal__body'>
-              <div className='profile-modal__label-row'>
-                <label className='profile-modal__label'>{labelMap[type]}</label>
-                {error && (
-                  <span className='profile-modal__error'>
-                    {type === 'phone'
-                      ? 'Invalid phone number'
-                      : 'Invalid email'}
-                  </span>
-                )}
-              </div>
-
+              {/* PHONE */}
               {type === 'phone' ? (
-                <div
-                  className={`auth-form__phone ${
-                    error ? 'auth-form__phone--error' : ''
-                  }`}
-                >
-                  <div className='auth-form__country'>
-                    <img src={uaFlag} alt='UA' />
-                    <span>+380</span>
+                <div className='profile-modal__field'>
+                  <label className='profile-modal__label'>
+                    {labelMap[type]}
+                  </label>
+
+                  <div
+                    className={`auth-form__phone ${error ? 'auth-form__phone--error' : ''}`}
+                  >
+                    <div className='auth-form__country'>
+                      <img src={uaFlag} alt='UA' />
+                      <span>+380</span>
+                    </div>
+
+                    <input
+                      className={`auth-form__phone-input ${error ? 'auth-form__input--error' : ''}`}
+                      type='tel'
+                      placeholder='12-345-67-89'
+                      value={formatUAWithoutCode(value)}
+                      onChange={(e) => {
+                        const digits = getDigits(e.target.value).slice(0, 9);
+                        setValue(digits);
+                        setError(null);
+                      }}
+                    />
                   </div>
 
-                  <input
-                    className={`auth-form__phone-input ${
-                      error ? 'auth-form__input--error' : ''
-                    }`}
-                    type='tel'
-                    placeholder='12-345-67-89'
-                    value={formatUAWithoutCode(value)}
-                    onChange={(e) => {
-                      const digits = getDigits(e.target.value).slice(0, 9);
-                      setValue(digits);
-                      setError(false);
-                    }}
-                  />
+                  {error === 'invalid_format' && (
+                    <div className='auth-form__helper auth-form__helper--error'>
+                      <span>
+                        {type === 'phone'
+                          ? t('Invalid-phone-number')
+                          : t('Invalid-email')}
+                      </span>
+                    </div>
+                  )}
+
+                  {error === 'already_exists' && (
+                    <div className='auth-form__helper auth-form__helper--error'>
+                      <span>
+                        {type === 'phone'
+                          ? t('Phone-already-exists')
+                          : t('Email-already-exists')}
+                      </span>
+                    </div>
+                  )}
                 </div>
               ) : (
-                <input
-                  className={`profile-modal__input ${error ? 'profile-modal__input--error' : ''}`}
-                  value={value}
-                  onChange={(e) => {
-                    setValue(e.target.value);
-                    setError(false);
-                  }}
-                  type={type === 'password' ? 'email' : type}
-                  placeholder={
-                    type === 'password'
-                      ? 'email@example.com'
-                      : placeholderMap[type]
-                  }
-                />
+                <div className='profile-modal__field'>
+                  <label className='profile-modal__label'>
+                    {labelMap[type]}
+                  </label>
+
+                  <input
+                    className={`profile-modal__input ${error ? 'profile-modal__input--error' : ''}`}
+                    value={value}
+                    onChange={(e) => {
+                      setValue(e.target.value);
+                      setError(null);
+                    }}
+                    type={type === 'password' ? 'email' : type}
+                    placeholder={placeholderMap[type]}
+                  />
+
+                  {error === 'invalid_format' && (
+                    <div className='auth-form__helper auth-form__helper--error'>
+                      <span>{t('Invalid-email')}</span>
+                    </div>
+                  )}
+
+                  {error === 'already_exists' && (
+                    <div className='auth-form__helper auth-form__helper--error'>
+                      <span>{t('Email-already-exists')}</span>
+                    </div>
+                  )}
+
+                  {error === 'server' && (
+                    <div className='auth-form__helper auth-form__helper--error'>
+                      <span>{t('Something-went-wrong')}</span>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
 
             <button
-              className={`profile-modal__submit ${isActive ? 'profile-modal__submit--active' : ''}`}
+              className={`profile-modal__submit ${value ? 'profile-modal__submit--active' : ''}`}
               onClick={handleSubmit}
             >
               {buttonMap[type]}
@@ -224,56 +244,31 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
         </div>
       )}
 
-      {step === 'code' && type !== 'phone' && (
-        <CodeStep
-          title={titleMap[type]}
-          value={value}
-          code={code}
-          onCodeChange={handleCodeChange}
-          onBack={() => setStep('edit')}
-          onClose={onClose}
-          onConfirm={() => {
-            if (type === 'password') {
-              setStep('new-password');
-            } else {
-              onSuccess(value);
-              setStep('success');
-            }
-          }}
-        />
-      )}
-
       {step === 'new-password' && type === 'password' && (
         <div className='profile-modal-overlay' onClick={onClose}>
           <div className='profile-modal' onClick={(e) => e.stopPropagation()}>
             <div className='profile-modal__header'>
               <h2 className='profile-modal__title'>{t('Change-password')}</h2>
-
               <button className='profile-modal__close' onClick={onClose}>
                 <img src={crossIcon} alt='Close' />
               </button>
             </div>
+
             <button
               className='profile-modal__back'
-              onClick={() => setStep('code')}
+              onClick={() => setStep('edit')}
             >
               <img src={arrowLeftIcon} alt='Back' />
             </button>
-            <div className='profile-modal__password-group'>
-              <label className='auth-form__label auth-form__label--with-error'>
-                <span className='auth-form__label-row'>
-                  <span className='auth-form__label-text'>
-                    {t('New password')}
-                  </span>
-                </span>
 
+            <div className='profile-modal__password-group'>
+              <label className='auth-form__label'>
+                <span className='auth-form__label-text'>
+                  {t('New-password')}
+                </span>
                 <div className='auth-form__password'>
                   <input
-                    className={`auth-form__input ${
-                      !passwordChecks.length && password
-                        ? 'auth-form__input--error'
-                        : ''
-                    }`}
+                    className={`auth-form__input ${!passwordChecks.length && password ? 'auth-form__input--error' : ''}`}
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     placeholder='Create a password'
@@ -287,38 +282,37 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                   />
                 </div>
               </label>
+
               <ul className='auth-form__password-hints'>
                 <PasswordHint
                   isValid={passwordChecks.length}
-                  text='8–20 characters'
+                  text={t('8-20-characters')}
                 />
                 <PasswordHint
                   isValid={passwordChecks.uppercase}
-                  text='One uppercase latin letter'
+                  text={t('One-uppercase-latin-letter')}
                 />
                 <PasswordHint
                   isValid={passwordChecks.lowercase}
-                  text='One lowercase latin letter'
+                  text={t('One-lowercase-latin-letter')}
                 />
                 <PasswordHint
                   isValid={passwordChecks.special}
-                  text='One special character'
+                  text={t('One-special-character')}
                 />
               </ul>
             </div>
 
             <div className='profile-modal__password-group'>
-              <label className='auth-form__label auth-form__label--with-error'>
-                <span className='auth-form__label-row'>
-                  <span className='auth-form__label-text'>
-                    {'Confirm-new-password'}
-                  </span>
-                  {confirm && !isMatch && (
-                    <span className='auth-form__error'>
-                      {t('Passwords-do-not-match')}
-                    </span>
-                  )}
+              <label className='auth-form__label'>
+                <span className='auth-form__label-text'>
+                  {t('Confirm-new-password')}
                 </span>
+                {confirm && !isMatch && (
+                  <div className='auth-form__helper auth-form__helper--error'>
+                    <span>{t('Passwords-do-not-match')}</span>
+                  </div>
+                )}
 
                 <div className='auth-form__password'>
                   <input
@@ -337,12 +331,13 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
                 </div>
               </label>
             </div>
+
             <div className='profile-modal__actions'>
               <button
                 className={`auth-form__button ${isPasswordValid ? 'auth-form__button--active' : ''}`}
                 disabled={!isPasswordValid}
-                onClick={() => {
-                  onSuccess(password);
+                onClick={async () => {
+                  await onSuccess(password);
                   setStep('success');
                 }}
               >
@@ -357,8 +352,10 @@ export const ProfileModal = ({ type, onClose, onSuccess }: Props) => {
         <ProfileSuccessModal
           title={successConfig[type].title}
           description={successConfig[type].description}
-          value={successConfig[type].withValue ? value : undefined}
-          onClose={onClose}
+          value={successConfig[type].withValue ? displayValue : undefined}
+          onClose={() => {
+            onClose();
+          }}
         />
       )}
     </>

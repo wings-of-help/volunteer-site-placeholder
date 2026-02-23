@@ -1,5 +1,5 @@
 import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import './CartDetailsPage.scss';
@@ -7,17 +7,22 @@ import './CartDetailsPage.scss';
 import arrow from '../../assets/arrow-down.svg';
 import calendar from '../../assets/CalendarBlank.png';
 import map from '../../assets/MapPin.png';
-import phone from '../../assets/Phone.png';
-import envelope from '../../assets/Envelope.png';
-import dot from '../../assets/Ellipse 3.png';
+import phone from '../../assets/phone.svg';
+import envelope from '../../assets/mail.svg';
+// import dot from '../../assets/Ellipse 3.png';
 
 import { useAuth } from '../../context/AuthContext';
-import { useUserRole } from '../../context/RoleContext';
 
 import ActiveGroup from '../../components/ActiveGroup/ActiveGroup';
 import Modal from '../../components/UI-elements/Modal/Modal';
-
-import { mockHelpCarts } from '../../api/helpCarts.api';
+import { GetHelpCartById } from '../../api/helpCarts.api';
+import classNames from 'classnames';
+import type { HelpCartFull } from '../../api/types/HelpCart';
+// import type { HelpCart } from '../../api/types/HelpCart';
+// import { GetHelpCarts } from '../../api/helpCarts.api';
+import { respondToHelp } from '../../api/help.api';
+import StatusBlock from '../../components/UI-elements/StatusBlock/StatusBlock';
+import Loader from '../../components/UI-elements/Loader/Loader';
 
 type Props = {
   type: 'requests' | 'offers';
@@ -25,148 +30,258 @@ type Props = {
 
 export default function CartDetailsPage({ type }: Props) {
   const [activeModal, setActiveModal] = useState(false);
-
+  const { cartId } = useParams();
+  const [wasClicked, setWasClicked] = useState(() => {
+    return localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
+  });
+  const [cart, setCart] = useState<HelpCartFull>();
+  const [isLoading, setIsLoading] = useState(true);
+  
   const navigate = useNavigate();
   const location = useLocation();
-  const { cartId } = useParams();
   const { t } = useTranslation();
+  
+  const { isAuth, user } = useAuth();
+  
+  const originRef = useRef<string | null>(null);
 
-  const { isAuth } = useAuth();
-  const { isVolunteer } = useUserRole();
+  useEffect(() => {
+    const fromState = (location.state as { from?: string })?.from;
 
+    if (!originRef.current && fromState) {
+      originRef.current = fromState;
+    }
+  }, [location.state]);
+
+  const origin = originRef.current ?? `/${type}`;
   const backPath =
-    (location.state as { from?: string })?.from ??
-    (type === 'requests' ? '/requests' : '/offers');
+  (location.state as { from?: string })?.from ?? '/';
 
-  const cart = mockHelpCarts.find(item => item.id === Number(cartId));
+  const normalizeOrigin = origin.split("/").join(" ")
+  const normalizeBackPath = backPath.split("/").join(" ")
 
-  if (!cart) {
-    return <h2>Cart not found</h2>;
+  useEffect(() => {
+    setIsLoading(true)
+    GetHelpCartById(Number(cartId))
+      .then((data) => setCart(data))
+      .catch(console.error)
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 600)
+      })
+
+      const clicked = localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
+      setWasClicked(clicked);
+  }, [cartId]);
+
+  const isDisabled = !cart || wasClicked || cart.status !== 'new';
+
+  const buttonText =
+    cart?.status === 'done'
+      ? t('Help-completed')
+      : cart?.status === 'in_progress'
+        ? wasClicked
+          ? t('Offer-sent')
+          : t('Help-in-progress')
+        : t('Offer-help');
+
+  function navigateTo(path?: string) {
+    navigate(path && path !== "/" ? path : origin);
+  }
+  
+  function formatDate(date: string) {
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+  
+  const handleRespond = async () => {
+    if (!cart) return;
+
+    try {
+      console.log('TRY RESPOND', cart.id);
+
+      const res = await respondToHelp(cart.id);
+
+      console.log('SUCCESS', res);
+
+      setActiveModal(true);
+      setCart(prev => prev ? { ...prev, status: "in_progress" } : prev);
+
+    } catch (e) {
+      console.error('RESPOND ERROR:', e);
+      alert('Respond failed — дивись console');
+    }
+  };
+
+   if (!cart) {
+    return (
+      <>
+        {!isLoading && (<h2>Cart not found</h2>)}
+      </>
+    )
   }
 
   return (
     <>
-      <div className="cart-details-page">
-        <div className="cart-details-page__container">
-
+      <div className='cart-details-page'>
+        {isLoading ? (
+          <Loader />
+        ): (
+        <div className='cart-details-page__container'>
           {/* NAV */}
-          <nav className="cart-details-page__nav">
+          <nav className='cart-details-page__nav'>
             <div
-              className="cart-details-page__nav-links"
-              onClick={() => navigate(backPath)}
+              className='cart-details-page__nav-links'
+              onClick={() => navigateTo(backPath)}
             >
               <img
-                className="cart-details-page__nav-link"
+                className='cart-details-page__nav-link'
                 src={arrow}
-                alt="back"
+                alt='back'
               />
-              <p className="cart-details-page__nav-text">
-                {t('Back-to')} {type}
+              <p className='cart-details-page__nav-text'>
+                {t('Back-to')} {backPath !== "/" ? normalizeBackPath : normalizeOrigin}
               </p>
             </div>
           </nav>
 
           {/* INFO */}
-          <div className="cart-details-page__info">
-            <h1 className="cart-details-page__info__title">{cart.title}</h1>
+          <div className='cart-details-page__info'>
+            <h1 className='cart-details-page__info__title'>{cart.title}</h1>
 
             <div className="cart-details-page__info__points">
               <div className="cart-details-page__info__points-point">
                 <img src={calendar} alt="calendar" />
-                <p className="point-text">{cart.date}</p>
+                <p className="point-text">{formatDate(cart.created_at)}</p>
               </div>
 
-              <div className="cart-details-page__info__points-point">
-                <img src={map} alt="map" />
-                <p className="point-text">{cart.location_name}</p>
+              <div className='cart-details-page__info__points-point'>
+                <img src={map} alt='map' />
+                <p className='point-text'>{cart.location_name}</p>
               </div>
 
-              {type === 'requests' ? (
-                <div className="status">
-                  <img src={dot} alt="status" className="status__dot" />
-                  <p>{cart.status}</p>
+              <div className='container'>
+                <div className='cart-details-page__info__points-point'>
+                  <p className='point-text aid'>{cart.category_name}</p>
                 </div>
-              ) : (
-                <div className="cart-details-page__info__points-point">
-                  <p className="point-text aid">{cart.category_name}</p>
-                </div>
-              )}
+
+                {isAuth && (
+                  <StatusBlock status={cart.status}/>
+                )}
+              </div>
+
+              <div className='cart-details-page__info__about'>
+                <h1 className='cart-details-page__info__about'>{t('About')}</h1>
+
+                <p className='cart-details-page__info__about__p'>
+                  {cart.description}
+                </p>
+              </div>
             </div>
 
             {/* ACTIONS */}
             {!isAuth && type === 'requests' && (
-              <div className="cart-details-page__info__about__register">
+              <div className='cart-details-page__info__about__register'>
                 <button
-                  className="cart-details-page__info__about__register__button"
+                  className='cart-details-page__info__about__register__button'
                   onClick={() => navigate('/signup')}
                 >
                   {t('Register-to-Help')}
                 </button>
 
-                <div className="cart-details-page__info__about__register__signin">
+                <div className='cart-details-page__info__about__register__signin'>
                   <p>{t('Already-have-an-account')}</p>
-                  <Link to="/signin">{t('Sign-In')}</Link>
+                  <Link to='/signin'>{t('Sign-In')}</Link>
                 </div>
               </div>
             )}
 
-            {isAuth && isVolunteer && type === 'requests' && (
+            {isAuth && user?.role === "volunteer" && type === 'requests' && (
               <button
-                className="offer__button"
+                className={classNames("offer__button", {
+                  "disabled" : isDisabled
+                })}
+                disabled={isDisabled}
                 onClick={() => {
-                  setActiveModal(true);
-                  /* should change status to in progress and disable button */
+                  handleRespond();
                 }}
               >
-                {t('Offer-help')}
+                {buttonText}
               </button>
             )}
 
-            {isAuth && !isVolunteer && type === 'requests' && (
-              <p className="offer__wrong">
+            {isAuth && user?.role === 'distressed' && type === 'requests' && (
+              <p className='offer__wrong'>
                 {t('Only-registered-volunteers-can-respond-to-this-request')}
               </p>
             )}
 
             {!isAuth && type === 'offers' && (
-              <div className="cart-details-page__info__about__register">
+              <div className='cart-details-page__info__about__register'>
                 <button
-                  className="cart-details-page__info__about__register__button"
+                  className='cart-details-page__info__about__register__button'
                   onClick={() => navigate('/signup')}
                 >
                   {t('Sign-up-to-Request-Help')}
                 </button>
 
-                <div className="cart-details-page__info__about__register__signin">
+                <div className='cart-details-page__info__about__register__signin'>
                   <p>{t('Already-have-an-account')}</p>
-                  <Link to="/signin">{t('Sign-In')}</Link>
+                  <Link to='/signin'>{t('Sign-In')}</Link>
                 </div>
               </div>
             )}
 
-            {isAuth && isVolunteer && type === 'offers' && (
-              <p className="offer__wrong">
+            {isAuth && user?.role === 'volunteer' && type === 'offers' && (
+              <p className='offer__wrong'>
                 {t('Only registered requesters can respond to this offer.')}
               </p>
+            )}
+
+            {isAuth && user?.role === "distressed" && type === 'offers' && (
+              <button
+                className={classNames("offer__button", {
+                  "disabled" : isDisabled
+                })}
+                disabled={isDisabled}
+                onClick={() => {
+                  handleRespond();
+                }}
+              >
+                {!isDisabled ? (t("Request-help")) : (t("Request-sent"))}
+              </button>
             )}
           </div>
 
           {/* PERSON INFO */}
-          <div className="cart-details-page__info__person-info">
+          <div className='cart-details-page__info__person-info'>
             <h1>
               {type === 'requests' ? t('Requester') : t('Volunteer')}
+              {!isAuth && `: ${cart.creator_info.first_name} ${cart.creator_info.last_name}`}
             </h1>
 
             {isAuth && (
               <div className="cart-details-page__info__person-info__details">
-                <div>Cody Warren</div>
-                <div>
-                  <img src={phone} alt="phone" />
-                  +380 123 456 78 90
+                <div 
+                  className="cart-details-page__info__person-info__details__name"
+                >
+                  {`${cart.creator_info.first_name} ${cart.creator_info.last_name}`}
                 </div>
-                <div>
-                  <img src={envelope} alt="email" />
-                  cody.warren@example.com
+                <div
+                  className="cart-details-page__info__person-info__details__d"
+                >
+                  <img src={phone} className="icon" alt="phone" />
+                  {cart.creator_info.phone_number}
+                </div>
+                <div
+                  className="cart-details-page__info__person-info__details__d"
+                >
+                  <img src={envelope} className="icon" alt="email" />
+                  {cart.creator_info.email}
                 </div>
               </div>
             )}
@@ -175,30 +290,37 @@ export default function CartDetailsPage({ type }: Props) {
           <ActiveGroup
             title={
               type === 'requests'
-                ? t('active-requests-title')
-                : t('active-offers-title')
-            }
-            p={
-              type === 'requests'
-                ? t('active-requests-1st-p')
-                : t('active-offers-1st-p')
-            }
-            p2={
-              type === 'requests'
-                ? t('active-requests-2nd-p')
-                : t('active-offers-2nd-p')
+                ? t('Explore-Other-Requests')
+                : t("Explore-Other-Offers")
             }
             seeAll={
-              type === 'requests'
-                ? t('see-all-requests')
-                : t('see-all-offers')
+              type === 'requests' ? t('see-all-requests') : t('see-all-offers')
             }
             path={type}
           />
         </div>
+        )}
       </div>
 
-      {activeModal && <Modal setActive={setActiveModal} />}
+      {activeModal && (
+        <Modal 
+          setActive={setActiveModal} 
+          setWasClicked={setWasClicked} 
+          cartId={cartId}
+          title={
+            type === 'requests'
+              ? t('Your-offer-has-been-sent')
+              : t('Your-request-has-been-sent')
+          }
+          p={
+            type === 'requests'
+              ? t('Your-support-can-make-a-real-difference')
+              : t(
+                  'Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon',
+                )
+          }
+        />
+      )}
     </>
   );
 }

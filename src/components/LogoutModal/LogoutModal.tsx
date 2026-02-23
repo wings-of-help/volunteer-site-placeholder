@@ -8,33 +8,30 @@ interface Props {
 }
 
 export const LogoutModal = ({ onCancel, onConfirm }: Props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
-    <div className="modal-backdrop">
-      <div className="logout-modal">
-        <img
-          src={DoorOpenIcon}
-          alt="Logout"
-          className="logout-modal__icon"
-        />
+    <div className='modal-backdrop'>
+      <div className='logout-modal'>
+        <img src={DoorOpenIcon} alt='Logout' className='logout-modal__icon' />
 
-        <p className="logout-modal__title">
-          {t("Are you sure you want to log out?")}
+        <p className='logout-modal__title'>{t('Log-out')}</p>
+        <p className='logout-modal__description'>
+          {t('Are-you-sure-you-want-to-log-out')}
         </p>
 
-        <div className="logout-modal__actions">
+        <div className='logout-modal__actions'>
           <button
-            className="logout-modal__btn logout-modal__btn--cancel"
+            className='logout-modal__btn logout-modal__btn--cancel'
             onClick={onCancel}
           >
-            {t("Cancel")}
+            {t('Cancel')}
           </button>
 
           <button
-            className="logout-modal__btn logout-modal__btn--confirm"
+            className='logout-modal__btn logout-modal__btn--confirm'
             onClick={onConfirm}
           >
-            {t("Logout")}
+            {t('Logout')}
           </button>
         </div>
       </div>

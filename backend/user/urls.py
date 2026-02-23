@@ -7,6 +7,7 @@ from user.views import (
     CheckPhoneNumberAvailabilityView,
     LogoutView,
     MyProfileView,
+    ChangeProfilePictureView,
     UserViewSet,
     confirm_password_reset,
     request_password_reset,
@@ -30,5 +31,6 @@ urlpatterns = [
     ),
     path("user/logout/", LogoutView.as_view(), name="logout"),
     path("user/my-profile/", MyProfileView.as_view(), name="my-profile"),
+    path("user/change-profile-picture/", ChangeProfilePictureView.as_view(), name="change_profile_picture"),
     path("", include(router.urls)),
 ]

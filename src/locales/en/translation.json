@@ -4,8 +4,8 @@
   "wings-title": "Wings of help",
   "Requests": "Requests",
   "Offers": "Offers",
-  "Sign-in": "Sign-in",
-  "Sign-up": "Sign-up",
+  "Sign-in": "Sign in",
+  "Sign-up": "Sign up",
   "describe": "Coordinating requests and humanitarian help",
   "explores__requests": "Explore Requests",
   "explores__offers": "Explore Offers",
@@ -71,9 +71,9 @@
   "Help-category": "Help Category",
   "choose-category": "Choose one or more categories",
 
-  "Evacuation/Relocation" : "Evacuation / Relocation",
-  "Medical-Support" : "Medical Support",
-  "Shelter/Housing" : "Shelter / Housing",
+  "Evacuation/Relocation": "Evacuation / Relocation",
+  "Medical-Support": "Medical Support",
+  "Shelter/Housing": "Shelter / Housing",
   "Food-&-Basic-Supplies": "Food & Basic Supplies",
   "Logistics/Transportation": "Logistics / Transportation",
   "Psychological-Support": "Psychological Support",
@@ -88,29 +88,40 @@
   "New": "New",
   "In-progress": "In-progress",
   "Done": "Done",
-  
+
   "Load-more": "Load more",
   "Location": "Location",
   "Status": "Status",
   "Sort-by": "Sort by:",
-  "Newest": "Newest",
-  "Oldest": "Oldest",
 
   "Welcome-Back": "Welcome Back",
   "Sign-in-to-continue-using-Wings-of-Help": "Sign in to continue using Wings of Help.",
   "Email": "Email",
-  "Invalid-email": "Invalid email",
+  "Save-email": "Save email",
+  "Save-password": "Save password",
+    "Invalid-email": "Invalid email",
   "Enter-your-email": "Enter your email",
+  "Enter-new-phone-number": "Enter new phone number",
+  "Invalid-phone-number": "Invalid phone number",
+  "Email-already-exists": "Email already exists",
+  "Something-went-wrong": "Something went wrong",
+  "Phone-already-exists": "Phone number already exists",
   "Password": "Password",
   "Enter-your-password": "Enter your password",
   "Forgot-password": "Forgot password?",
+  "Forgot-your-password": "Forgot your password?",
+  "Enter-your-email-address-and-we-well-send-you-a-verification-code": "Enter your email address and we'll send you a verification code.",
+  "Send-code": "Send code",
+  "Check-your-email": "Check your email",
+  "Enter-the-6-digit-code-sent-to": "Enter the 6-digit code sent to",
+
   "No-active-account-found-with-the-given-credentials": "No active account found with the given credentials",
   "Don't-have-an-account": "Don't have an account?",
 
   "Create-an-Account": "Create an Account",
   "Join-Wings-of-Help-to-request-or-provide-help": "Join Wings of Help to request or provide help.",
   "Step": "Step",
-  "of-4": "of 4", 
+  "of-4": "of 4",
   "Already-have-an-account": "Already have an account?",
 
   "First-name": "First name",
@@ -149,8 +160,6 @@
   "Personal-Information": "Personal Information",
   "My-Requests": "My Requests",
   "My-Responses": "My Responses",
-  "Log-out": "Log-out",
-
   "Profile": "Profile",
   "Role": "Role:",
   "Save-changes": "Save changes",
@@ -171,7 +180,7 @@
   "Publish": "Publish",
 
   "Are-you-sure-you-want-to-log-out": "Are you sure you want to log out?",
-  "Logout": "Logout",
+  "Log-out": "Log out",
 
   "Search": "Search...",
   "Choose-a-city": "Choose a city",
@@ -201,5 +210,55 @@
   "Confirm-new-password": "Confirm new password",
 
   "Active-Requests": "Active Requests",
-  "Past-Requests": "Past Requests"
+  "Past-Requests": "Past Requests",
+
+  "Your-offer-has-been-sent": "Your offer has been sent!",
+  "Your-request-has-been-sent": "Your request has been sent!",
+  "Your-support-can-make-a-real-difference": "Your support can make a real difference.",
+  "Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon": "Thank you for reaching out — the volunteer may contact you soon.",
+  "Request-help": "Request help",
+
+  "Our-social-media": "Our social media",
+  "Contact Information": "Contact Information",
+  "My-Offers": "My Offers",
+
+  "Change-email": "Change email",
+  "Change-phone-number": "Change phone number",
+  "Enter-new-email": "Enter new email",
+  "Verify-email": "Verify email",
+  "Save-phone-number": "Save phone number",
+  "Verify-password": "Verify рщpassword",
+  "Email-updated": "Email updated",
+  "Your-email-address-has-been-updated-to": "Your email address has been updated to:",
+  "Phone-number-updated": "Phone number updated",
+  "Your-phone-number-has-been-updated-successfully": "Your phone number has been updated successfully.",
+  "Password-updated": "Password updated",
+  "Your-password-has-been-changed-successfully": "Your password has been changed successfully.",
+
+  "8-20-characters": "8-20 characters",
+  "One-uppercase-latin-letter": "One uppercase latin letter",
+  "One-lowercase-latin-letter": "One lowercase latin letter",
+  "One-special-character": "One special character",
+
+  "Offer-sent": "Offer sent",
+  "Request-sent": "Request sent",
+
+  "Verification-code": "Verification code",
+  "Create-new-password": "Create new password",
+  "Enter-a-new-password-to-finish-resetting-your-account": "Enter a new password to finish resetting your account.",
+  "Didnt-receive-the-code": "Didn't receive the code?",
+  "roles": {
+    "admin": "Admin",
+    "volunteer": "Volunteer",
+    "requester": "Requester",
+    "distressed": "Distressed"
+  },
+
+  "Explore-Other-Offers": "Explore Other Offers",
+  "Explore-Other-Requests": "Explore Other Requests",
+
+  "Meet-Our-Team": "Meet Our Team",
+  "Team-description": "We are a team brought together by a shared desire to make a positive difference. In times of war and uncertainty, we believe in coming together, supporting one another, and strengthening our communities. This platform is our small step toward making it easier for everyone to connect, help, and create meaningful change.",
+  "Help-in-progress": "Help in progress",
+  "Help-completed": "Help completed"
 }

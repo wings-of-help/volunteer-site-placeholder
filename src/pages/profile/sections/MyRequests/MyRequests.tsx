@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../context/AuthContext';
 import { getMyRequests } from '../../../../api/help.api';
-import type { HelpRequest } from '../../../../api/types/help';
+// import type { HelpRequest } from '../../../../api/types/help';
 
 import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequestCard';
 import './MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
+import type { HelpCart } from '../../../../api/types/HelpCart';
 
 type Tab = 'active' | 'past';
 
 export const MyRequests = () => {
   const { user } = useAuth();
   const [tab, setTab] = useState<Tab>('active');
-  const [requests, setRequests] = useState<HelpRequest[]>([]);
+  const [requests, setRequests] = useState<HelpCart[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +22,7 @@ export const MyRequests = () => {
 
   useEffect(() => {
     if (!user) return;
-    
+
     const loadRequests = async () => {
       try {
         const data = await getMyRequests(user.id);
@@ -49,6 +50,12 @@ export const MyRequests = () => {
   }
 
   const isEmpty = requests.length === 0;
+  
+  const handleStatusChanged = (id: number) => {
+    setRequests((prev) =>
+      prev.map((r) => (r.id === id ? { ...r, status: 'done' } : r)),
+    );
+  };
 
   return (
     <div className='help-list'>
@@ -101,11 +108,12 @@ export const MyRequests = () => {
               title={request.title}
               description={request.description}
               status={request.status}
-              onView={(id) =>
-                navigate(`/requests/${id}`, {
-                  state: { from: '/profile/requests' },
-                })
-              }
+              mode='owner-request'
+              kind="request"
+              onDeleted={(id) => {
+                setRequests((prev) => prev.filter((item) => item.id !== id));
+              }}
+              onCompleted={handleStatusChanged}
             />
           ))}
         </div>

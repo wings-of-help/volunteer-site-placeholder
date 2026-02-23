@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSignUp } from '../../../context/SignUpContext';
 import SignUpForm from './SignUpForm';
 import uaFlag from '../../../assets/flag-ukraine.svg';
+
 import {
   isEmailValid,
   isPhoneValid,
@@ -29,42 +30,53 @@ const SignUpStep2 = ({ admin = false }: Props) => {
     clearBackendError,
     setBackendErrors,
   } = useSignUp();
+
   const { t } = useTranslation();
   const { setUserRole } = useUserRole();
+  const navigate = useNavigate();
+
   const { email, phone_number: phone } = data;
 
-  const [emailError, setEmailError] = useState(false);
-  const [phoneError, setPhoneError] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
 
-  const navigate = useNavigate();
   const isFilled = Boolean(email && phone);
 
-  const handleContinue = async () => {
-    const emailOk = isEmailValid(email);
-    const phoneOk = isPhoneValid(phone);
+  const emailHasError = emailError || backendErrors.email;
+  const phoneHasError = phoneError || backendErrors.phone_number;
 
-    setEmailError(!emailOk);
-    setPhoneError(!phoneOk);
+  const handleContinue = async () => {
+    let emailErr: string | null = null;
+    let phoneErr: string | null = null;
+
+    if (!isEmailValid(email)) {
+      emailErr = t('Invalid-email');
+    }
+
+    if (!isPhoneValid(phone)) {
+      phoneErr = t('Enter-full-phone-number');
+    }
+
+    setEmailError(emailErr);
+    setPhoneError(phoneErr);
     setUserRole('distressed');
 
-    if (!emailOk || !phoneOk) return;
+    if (emailErr || phoneErr) return;
 
+    const newBackendErrors: any = {};
     let hasBackendError = false;
-    const newBackendErrors: Partial<typeof backendErrors> = {};
 
     try {
       await checkEmailAvailability(email);
-    } catch (error: any) {
-      newBackendErrors.email = error?.email || [
-        t('This-email-is-already-in-use'),
-      ];
+    } catch {
+      newBackendErrors.email = [t('This-email-is-already-in-use')];
       hasBackendError = true;
     }
 
     try {
       await checkPhoneAvailability(phone);
-    } catch (error: any) {
-      newBackendErrors.phone_number = error?.phone_number || [
+    } catch {
+      newBackendErrors.phone_number = [
         t('This phone number is already in use'),
       ];
       hasBackendError = true;
@@ -80,78 +92,71 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 
   return (
     <SignUpForm step={2} isValid={isFilled} onContinue={handleContinue}>
-      {/* Email */}
-      <label className='auth-form__label auth-form__label--with-error'>
-        <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>{t('Email')}</span>
 
-          {(emailError || backendErrors.email) && (
-            <span className='auth-form__error'>
-              {backendErrors.email?.[0] || t('Invalid-email')}
-            </span>
-          )}
-        </span>
+      {/* EMAIL */}
+      <label className="auth-form__label">
+        <span className="auth-form__label-text">{t('Email')}</span>
 
         <input
-          className={`auth-form__input ${
-            emailError || backendErrors.email ? 'auth-form__input--error' : ''
-          }`}
-          type='email'
+          type="email"
           value={email}
           placeholder={t('Enter-your-email')}
+          className={`auth-form__input ${
+            emailHasError ? 'auth-form__input--error' : ''
+          }`}
           onChange={(e) => {
             setEmail(e.target.value);
-            setEmailError(false);
+            setEmailError(null);
             clearBackendError('email');
           }}
         />
+
+        {emailHasError && (
+          <div className="auth-form__helper auth-form__helper--error">            
+            <span>{emailError || backendErrors.email?.[0]}</span>
+          </div>
+        )}
       </label>
 
-      {/* Phone */}
-      <label className='auth-form__label auth-form__label--with-error'>
-        <span className='auth-form__label-row'>
-          <span className='auth-form__label-text'>{t('Phone-number')}</span>
-
-          {(phoneError || backendErrors.phone_number) && (
-            <span className='auth-form__error'>
-              {backendErrors.phone_number?.[0] || t('Enter-full-phone-number')}
-            </span>
-          )}
-        </span>
+      {/* PHONE */}
+      <label className="auth-form__label">
+        <span className="auth-form__label-text">{t('Phone-number')}</span>
 
         <div
           className={`auth-form__phone ${
-            phoneError || backendErrors.phone_number
-              ? 'auth-form__phone--error'
-              : ''
+            phoneHasError ? 'auth-form__phone--error' : ''
           }`}
         >
-          <div className='auth-form__country'>
-            <img src={uaFlag} alt='UA' />
+          <div className="auth-form__country">
+            <img src={uaFlag} alt="UA" />
             <span>+380</span>
           </div>
 
           <input
-            className={`auth-form__phone-input ${
-              phoneError || backendErrors.phone_number
-                ? 'auth-form__input--error'
-                : ''
-            }`}
-            type='tel'
-            placeholder='12-345-67-89'
+            type="tel"
+            placeholder="00-000-00-00"
             value={formatUAWithoutCode(phone)}
+            className="auth-form__phone-input"
             onChange={(e) => {
               const digits = getDigits(e.target.value).slice(0, 9);
               setPhone(digits);
-              setPhoneError(false);
+              setPhoneError(null);
               clearBackendError('phone_number');
             }}
           />
         </div>
 
-        <span className='auth-form__hint'>
-          {t('Used-only-for-volunteering-coordination')}
-        </span>
+        {phoneHasError ? (
+          <div className="auth-form__helper auth-form__helper--error">
+            <span>
+              {phoneError || backendErrors.phone_number?.[0]}
+            </span>
+          </div>
+        ) : (
+          <div className="auth-form__helper">
+            {t('Used-only-for-volunteering-coordination')}
+          </div>
+        )}
       </label>
     </SignUpForm>
   );

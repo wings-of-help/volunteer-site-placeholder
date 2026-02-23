@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ProfileModal } from '../../ProfileModal/ProfileModal';
 import { useAuth } from '../../../../context/AuthContext';
 import { updateMyProfileRequest } from '../../../../api/user.api';
 import { formatPhoneForDisplay } from '../../../../utils/phone';
 import './ProfileInfo.scss';
+import { useTranslation } from 'react-i18next';
 
 export const ProfileInfo = () => {
   const { user, getMyProfile } = useAuth();
+  const { t } = useTranslation();
 
   if (!user) {
     return null;
@@ -28,6 +30,13 @@ export const ProfileInfo = () => {
     return value.charAt(0).toUpperCase() + value.slice(1);
   };
 
+  useEffect(() => {
+    if (!user) return;
+
+    setForm(user);
+    setOriginalUser(user);
+  }, [user]);
+
   const handleSave = async () => {
     try {
       const payload = {
@@ -44,18 +53,47 @@ export const ProfileInfo = () => {
     }
   };
 
+  const handleContactChange = async (
+    type: 'email' | 'phone',
+    newValue: string,
+  ) => {
+    if (!user) return;
+    try {
+      const payload = {
+        ...(type === 'email' ? { email: newValue } : {}),
+        ...(type === 'phone' ? { phone_number: newValue } : {}),
+      };
+
+      await updateMyProfileRequest(user.id, payload);
+      await getMyProfile();
+    } catch (error) {
+      console.error('Failed to update profile', error);
+      throw error;
+    }
+  };
+
+  const handleModalSuccess = async (value: string) => {
+    if (!activeModal || !user) return;
+
+    if (activeModal === 'email' || activeModal === 'phone') {
+      await handleContactChange(activeModal, value);
+    }
+
+    await getMyProfile();
+  };
+
   return (
     <>
-      <div className="profile__card">
-        <div className="profile__header">
-          <h1 className="profile__title">Profile</h1>
+      <div className='profile__card'>
+        <div className='profile__header'>
+          <h1 className='profile__title'>{t('Profile')}</h1>
         </div>
 
-        <div className="profile__form">
-          <label className="profile__field">
-            <span className="profile__label">First name</span>
+        <div className='profile__form'>
+          <label className='profile__field'>
+            <span className='profile__label'>{t('First-name')}</span>
             <input
-              className="profile__input"
+              className='profile__input'
               value={form.first_name}
               onChange={(e) =>
                 setForm({ ...form, first_name: capitalize(e.target.value) })
@@ -63,10 +101,10 @@ export const ProfileInfo = () => {
             />
           </label>
 
-          <label className="profile__field">
-            <span className="profile__label">Last name</span>
+          <label className='profile__field'>
+            <span className='profile__label'>{t('Last-name')}</span>
             <input
-              className="profile__input"
+              className='profile__input'
               value={form.last_name}
               onChange={(e) =>
                 setForm({ ...form, last_name: capitalize(e.target.value) })
@@ -74,12 +112,15 @@ export const ProfileInfo = () => {
             />
           </label>
 
-          <div className="profile__role">
-            <span className="profile__role-label">Role:</span>
-            <span className="profile__role-value">Requester</span>
+          <div className='profile__role'>
+            <span className='profile__role-label'>{t('Role')}</span>
+            <span className='profile__role-value'>
+              {' '}
+              {t(`roles.${user.role}`)}
+            </span>
           </div>
 
-          <div className="profile__actions">
+          <div className='profile__actions'>
             <button
               className={`profile__save-btn ${
                 isDirty ? 'profile__save-btn--active' : ''
@@ -87,62 +128,66 @@ export const ProfileInfo = () => {
               disabled={!isDirty}
               onClick={handleSave}
             >
-              Save changes
+              {t('Save-changes')}
             </button>
           </div>
         </div>
 
-        <div className="profile__contacts">
-          <h2 className="profile__contacts-title">Contact Information</h2>
+        <div className='profile__contacts'>
+          <h2 className='profile__contacts-title'>
+            {t('Contact Information')}
+          </h2>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">Email</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>{t('Email')}</span>
               <input
-                className="profile__contact-input"
+                className='profile__contact-input'
                 disabled
                 value={form.email}
               />
             </div>
             <button
-              className="profile__contact-btn"
+              className='profile__contact-btn'
               onClick={() => setActiveModal('email')}
             >
-              Change
+              {t('Change')}
             </button>
           </div>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">Phone number</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>
+                {t('Phone-number')}
+              </span>
               <input
-                className="profile__contact-input"
+                className='profile__contact-input'
                 disabled
                 value={formatPhoneForDisplay(form.phone_number)}
               />
             </div>
             <button
-              className="profile__contact-btn"
+              className='profile__contact-btn'
               onClick={() => setActiveModal('phone')}
             >
-              Change
+              {t('Change')}
             </button>
           </div>
 
-          <div className="profile__contact-row">
-            <div className="profile__contact-field">
-              <span className="profile__contact-label">Password</span>
+          <div className='profile__contact-row'>
+            <div className='profile__contact-field'>
+              <span className='profile__contact-label'>{t('Password')}</span>
               <input
-                className="profile__contact-input"
+                className='profile__contact-input'
                 disabled
-                value="********"
+                value='********'
               />
             </div>
             <button
-              className="profile__contact-btn"
+              className='profile__contact-btn'
               onClick={() => setActiveModal('password')}
             >
-              Change
+              {t('Change')}
             </button>
           </div>
         </div>
@@ -152,15 +197,7 @@ export const ProfileInfo = () => {
         <ProfileModal
           type={activeModal}
           onClose={() => setActiveModal(null)}
-          onSuccess={(newValue) => {
-            if (activeModal === 'email') {
-              setForm((prev) => ({ ...prev, email: newValue }));
-            }
-
-            if (activeModal === 'phone') {
-              setForm((prev) => ({ ...prev, phone_number: newValue }));
-            }
-          }}
+          onSuccess={handleModalSuccess}
         />
       )}
     </>

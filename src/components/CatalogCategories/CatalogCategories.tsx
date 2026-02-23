@@ -1,70 +1,130 @@
-import "./CatalogCategories.scss"
+import './CatalogCategories.scss';
 // import arrowDown from '../../assets/arrow-down.svg';
-import CustomCheckbox from "../UI-elements/CurtomCheckbox/CustomCheckbox";
+import CustomCheckbox from '../UI-elements/CurtomCheckbox/CustomCheckbox';
 import { useAuth } from '../../context/AuthContext';
-import CustomSearchDropdown from "../UI-elements/CustomSearchDropdown/CustomSearchDropdown";
-// import { useState } from "react";
-import citiesFromServer from "../../api/Locations.json"
-import { useTranslation } from "react-i18next";
+import { CustomSearchDropdown } from '../UI-elements/CustomSearchDropdown/CustomSearchDropdown';
+import { useEffect, useState } from 'react';
+import { getCategories, getLocations, type Category } from '../../api/catalog.api';
+import type { Location } from '../../api/types/catalog';
 
-export default function CatalogCategories() {
+import { useTranslation } from 'react-i18next';
+import type { ActiveFilter } from '../../pages/CatalogPage/CatalogPage';
+
+type Option = {
+  label: string;
+  value: string;
+};
+
+type Props = {
+  activeFilters: ActiveFilter[];
+  onToggleFilter: (filter: ActiveFilter) => void;
+  setSingleFilter: (filter: ActiveFilter) => void;
+};
+
+export default function CatalogCategories({
+  onToggleFilter,
+  setSingleFilter,
+  activeFilters,
+}: Props) {
   const { isAuth } = useAuth();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
-  const cityOptions = citiesFromServer.map(city => ({
-    label: city,
-    value: city.toLowerCase().replace(/\s+/g, "-"),
+  const statuses = ['new', 'in_progress', 'done'];
+
+  const cityOptions: Option[] = locations.map((city) => ({
+    label: city.name,
+    value: String(city.id),
   }));
-  return (
-    <div className="catalog__categories">
 
-      <div className="catalog__categories__header">
-        <h1 className="catalog__categories__header__title">{t("Help-category")}</h1>
-        <p className="catalog__categories__header__p">{t("choose-category")}</p>
-      </div>
+  const selectedCityOption: Option | null = (() => {
+  const filter = activeFilters.find((f) => f.type === 'location');
 
-      <div className="catalog__categories__box">
-        <CustomCheckbox title={t("Evacuation/Relocation")}/>
-        <CustomCheckbox title={t("Medical-Support")}/>
-        <CustomCheckbox title={t("Shelter/Housing")}/>
-        <CustomCheckbox title={t("Food-&-Basic-Supplies")}/>
-        <CustomCheckbox title={t("Logistics/Transportation")}/>
-        <CustomCheckbox title={t("Psychological-Support")}/>
-        <CustomCheckbox title={t("Child-&-Family-Support")}/>
-        <CustomCheckbox title={t("Legal/Administrative Assistance")}/>
-        <CustomCheckbox title={t("Employment/Livelihoods")}/>
-        <CustomCheckbox title={t("Education/Tutoring")}/>
-        <CustomCheckbox title={t("Volunteer-Coordination/Community-Support")}/>
-        <CustomCheckbox title={t("Animal/Pet-Assistance")}/>
-        <CustomCheckbox title={t("Other")}/>
-      </div>
+    if (!filter) return null;
 
-      <div className="catalog__categories__location">
-        <h1 className="catalog__categories__location__title">{t("Location")}</h1>
-        {/* <CustomSelect
-          options={[
-            { label: "Kyiv", value: "kyiv" },
-            { label: "Lviv", value: "lviv" },
-            { label: "Odesa", value: "odesa" },
-          ]}
-          placeholder="Choose a city"
-          onChange={(value) => console.log(value)}
-          /> */}
+    return {
+      label: filter.value,
+      value: filter.id,
+    };
+  })();
 
-          <CustomSearchDropdown 
-            options={cityOptions}
-            onSelect={(value) => console.log(value)}
-          />
-      </div>
 
-      {isAuth && 
-        <div className="catalog__categories__status">
-          <h1 className="catalog__categories__status__title">{t("Status")}</h1>
-          <CustomCheckbox title={t("New")}/>
-          <CustomCheckbox title={t("In-progress")}/>
-          <CustomCheckbox title={t("Done")}/>
-        </div>
+  useEffect(() => {
+    const loadLocations = async () => {
+      try {
+        const data = await getLocations();
+        setLocations(data);
+      } catch (error) {
+        console.error('Failed to load locations', error);
       }
+    };
+
+    const loadCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error('Failed to load categories', error);
+      }
+    };
+
+    loadLocations();
+    loadCategories();
+  }, []);
+
+  return (
+    <div className='catalog__categories'>
+      <div className='catalog__categories__header'>
+        <h1 className='catalog__categories__header__title'>
+          {t('Help-category')}
+        </h1>
+        <p className='catalog__categories__header__p'>{t('choose-category')}</p>
+      </div>
+
+      <div className='catalog__categories__box'>
+        {categories.map((category) => (
+          <CustomCheckbox
+            key={category.id}
+            title={category.name}
+            activeFilters={activeFilters}
+            onToggleFilter={onToggleFilter}
+            checktype='category'
+          />
+        ))}
+      </div>
+
+      <div className='catalog__categories__location'>
+        <h1 className='catalog__categories__location__title'>
+          {t('Location')}
+        </h1>
+        <CustomSearchDropdown
+          options={cityOptions}
+          selectedOption={selectedCityOption}
+          onSelect={(option) =>
+            setSingleFilter({
+              id: String(option.value),
+              type: 'location',
+              value: option.label,
+            })
+          }
+        />
+      </div>
+
+      {isAuth && (
+        <div className='catalog__categories__status'>
+          <h1 className='catalog__categories__status__title'>{t('Status')}</h1>
+          {statuses.map((status) => (
+            <CustomCheckbox
+              key={status}
+              title={status}
+              activeFilters={activeFilters}
+              onToggleFilter={onToggleFilter}
+              checktype='status'
+            />
+          ))}
+        </div>
+      )}
     </div>
-  )
+  );
 }

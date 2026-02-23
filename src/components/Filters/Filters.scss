@@ -1,0 +1,19 @@
+@use '../../styles/mixins/index' as *;
+@use "../../styles/mixins.scss" as *;
+
+.filters-container {
+  display: flex;
+  gap: 24px;
+  max-width: 808px;
+  flex-wrap: wrap;
+}
+
+.clear {
+  @include text-h2;
+  font-size: 16px;
+
+  line-height: 140%;
+  color: #212529;
+  @include centeredFlexBox;
+  cursor: pointer;
+}

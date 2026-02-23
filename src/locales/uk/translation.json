@@ -12,14 +12,14 @@
 
   "main-title": "Знайти або надати гуманітарну допомогу - швидко та безпечно",
   "main-p": "Платформа для координації волонтерської допомоги, яка обʼєднує потребуючих людей з перевіреними волонтерами в одній прозорій системі",
-  
+
   "nav-button-1": "Дивитись кому потрібна допомога",
   "nav-button-2": "Дивитись доступну допомогу",
 
   "instructions__title": "Як це працює",
   "instructions__p": "Координація гуманітарної допомоги крок за кроком",
 
-  "instructions-1st-block-title": "Створіть запит або запропонуйте допомогу",
+  "instructions-1st-block-title": "Створіть запит або пропозицію",
   "instructions-1st-block-p": "Подайте запит на гуманітарну допомогу або запропонуйте волонтерську підтримку за лічені хвилини",
 
   "instructions-2nd-block-title": "Огляд та Порівняння",
@@ -37,7 +37,7 @@
   "description-1st-block-1st-p": "Знайдіть надійну допомогу",
   "description-1st-block-2nd-p": "Статус запиту відстеження",
   "description-1st-block-3rd-p": "Уникайте неперевірених пропозицій",
-  
+
   "description-2nd-block-title": "Волонтери та Організації",
   "description-2nd-block-1st-p": "Знаходьте реальні запити",
   "description-2nd-block-2nd-p": "Координаційна допомога",
@@ -65,30 +65,12 @@
   "requests-page-p1": "Переглядайте перевірені запити від людей та організацій, які потребують підтримки прямо зараз.",
   "requests-page-p2": "Кожна відповідь має значення.",
 
-  "offers-page-p1": "Explore offers from people and organizations ready to help.",
-  "offers-page-p2": "Every response matters.",
+  "offers-page-p1": "Переглядайте пропозиції допомоги від людей та організацій.",
+  "offers-page-p2": "Кожен відгук має значення.",
 
   "Help-category": "Категорії Допомоги",
   "choose-category": "Виберіть одну або кілька категорій",
 
-  "Evacuation/Relocation" : "Евакуація/Переїзд",
-  "Medical-Support" : "Медична Допомога",
-  "Shelter/Housing" : "Притулок/Житло",
-  "Food-&-Basic-Supplies": "Їжа & Базові Потреби",
-  "Logistics/Transportation": "Логістика/Транспорт",
-  "Psychological-Support": "Психологічна допомога",
-  "Child-&-Family-Support": "Діти & Сімейна Підтримка",
-  "Legal/Administrative Assistance": "Юридична / Адміністративна допомога",
-  "Employment/Livelihoods": "Працевлаштування / Життєдіяльність",
-  "Education/Tutoring": "Освіта / Навчання",
-  "Volunteer-Coordination/Community-Support": "Координація Волонтерів / Соціальна Підтримка",
-  "Animal/Pet-Assistance": "Домашні Улюбленці / Допомога Домашнім Тваринам",
-  "Other": "Інше",
-
-  "New": "Новий",
-  "In-progress": "В Обробці",
-  "Done": "Готовий",
-  
   "Load-more": "Дивитись ще",
   "Location": "Локація",
   "Status": "Статус",
@@ -99,6 +81,8 @@
   "Welcome-Back": "З Поверненням",
   "Sign-in-to-continue-using-Wings-of-Help": "Увійдіть, щоб продовжувати використовувати Wings of Help.",
   "Email": "Електронна пошта",
+  "Save-email": "Зберегти електронну пошту",
+  "Save-password": "Зберегти пароль",
   "Invalid-email": "Неправильна адреса електронної пошти",
   "Enter-your-email": "Введіть вашу електронну пошту",
   "Password": "Пароль",
@@ -133,7 +117,6 @@
   "Provide-help-(Volunteer)": "Надавати допомогу (Волонтер)",
   "Request help": "Отримувати допомогу",
 
-  
   "Minimum-8-characters": "Мінімум 8 символів",
   "Must-contain-at-least-one-uppercase-Latin-letter": "Має містити щонайменше одну велику латинську літеру",
   "Must-contain-at-least-one-lowercase-Latin-letter": "Має містити щонайменше одну малу латинську літеру",
@@ -147,7 +130,6 @@
   "Confirm-your-password": "Підтвердьте свій пароль",
   "I-agree-to-the-Terms-of-Use-and-Privacy-Policy": "Я погоджуюся з Умовами використання та Політикою конфіденційності",
 
-  
   "Personal-Information": "Персональна Інформація",
   "My-Requests": "Мої Запити",
   "My-Responses": "Мої Відповіді",
@@ -170,6 +152,94 @@
   "Description": "Пояснення",
   "/1000-characters-(min 500)": "/ 1000 символів (мінімум 500)",
   "Cancel": "Відмінити",
-  "Publish": "Опублікувати"
+  "Publish": "Опублікувати",
 
+  "Are-you-sure-you-want-to-log-out": "Ви дійсно хочете вийти з акаунту?",
+  "Logout": "Вийти",
+
+  "Search": "Пошук...",
+  "Choose-a-city": "Оберіть місто",
+  "Nothing-found": "Нічого не знайдено",
+
+  "Okay": "Погодитись",
+
+  "Back-to": "Назад до",
+  "About": "Про нас",
+  "Register-to-Help": "Долучіться для того щоб допомогти",
+  "Offer-help": "Пропонувати допомогу",
+  "Only-registered-volunteers-can-respond-to-this-request": "Лише зареєстровані волонтери можуть відповісти на цей запит.",
+  "Sign-up-to-Request-Help": "Зареєструйтесь для того щоб Запросити Допомогу",
+  "Only-registered-requesters-can-respond-to-this-offer": "Лише зареєстровані запитувачі можуть відповісти на цю пропозицію.",
+  "Request-Help": "Запросити Допомогу",
+  "Requester": "Запитувач",
+  "Volunteer": "Волонтер",
+  "To-change-password-verify-email-first": "Для зміни паролю спочатку верифікуйте електронну пошту",
+  "Weve-sent-a-verification-code-to": "Ми надіслали верифікаційник код на ",
+  "Enter-verification-code": "Введіть верифікаційний код",
+  "Confirm": "Підтвердіть",
+  "Didnt-receive-code": "Не отримали код?",
+  "Resend": "Відправити ще раз",
+  "Change-password": "Змінити пароль",
+  "New-password": "Новий Пароль",
+  "Your-new-password-must-be-at-least-8-characters-long": "Ваш новий пароль має бути не менше 8 символів",
+  "Confirm-new-password": "Підтвердіть новий пароль",
+
+  "Active-Requests": "Активні Запити",
+  "Past-Requests": "Минулі Запити",
+
+  "Your-offer-has-been-sent": "Вашу пропозицію надіслано!",
+  "Your-request-has-been-sent": "Ваш запит надіслано!",
+  "Your-support-can-make-a-real-difference": "Ваша підтримка може мати справжнє значення.",
+  "Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon": "Дякуємо, що звернулися — волонтер може зв’язатися з вами найближчим часом.",
+  "Request-help": "Попросити допомогу",
+
+  "Our-social-media": "Наші соціальні мережі",
+  "Contact Information": "Контактна інформація",
+  "My-Offers": "Мої пропозиції",
+
+  "Change-email": "Змінити електронну пошту",
+  "Change-phone-number": "Змінити номер телефону",
+  "Enter-new-email": "Введіть нову електронну пошту",
+  "Verify-email": "Підтвердити електронну пошту",
+  "Save-phone-number": "Зберегти номер телефону",
+  "Enter-new-phone-number": "Введіть новый номер телефона",
+  "Invalid-phone-number": "Неправильный номер телефона",
+  "Verify-password": "Підтвердити пароль",
+  "Email-updated": "Електронну пошту оновлено",
+  "Email-already-exists": "Электронна пошта вже існує",
+  "Something-went-wrong": "Щось пішло не так",
+  "Phone-already-exists": "Номер телефону вже існує",
+  "Your-email-address-has-been-updated-to": "Вашу електронну адресу оновлено до:",
+  "Phone-number-updated": "Номер телефону оновлено",
+  "Your-phone-number-has-been-updated-successfully": "Ваш номер телефону успішно оновлено.",
+  "Password-updated": "Пароль оновлено",
+  "Your-password-has-been-changed-successfully": "Ваш пароль успішно змінено.",
+
+  "8-20-characters": "8-20 символів",
+  "One-uppercase-latin-letter": "Одна велика латинська літера",
+  "One-lowercase-latin-letter": "Одна мала латинська літера",
+  "One-special-character": "Один спеціальний символ",
+
+  "Forgot-your-password": "Забули пароль?",
+  "Enter-your-email-address-and-we-well-send-you-a-verification-code": "Введіть вашу електронну пошту, і ми надішлемо вам код підтвердження.",
+  "Send-code": "Надіслати код",
+  "Check-your-email": "Перевірте вашу пошту",
+  "Enter-the-6-digit-code-sent-to": "Введіть 6-значний код, надісланий на",
+  "Create-new-password": "Створіть новий пароль",
+  "Enter-a-new-password-to-finish-resetting-your-account": "Введіть новий пароль, щоб завершити відновлення облікового запису.",
+  "Didnt-receive-the-code": "Не отримали код?",
+  "roles": {
+    "admin": "Адміністратор",
+    "volunteer": "Волонтер",
+    "requester": "Запитувач",
+    "distressed": "Запитувач"
+  },
+
+  "Explore-Other-Offers": "Explore Other Offers",
+  "Explore-Other-Requests": "Explore Other Requests",
+
+  "Meet-Our-Team": "Зустрічайте нашу команду",
+  "Team-description": "Ми - команда, об’єднана спільним бажанням зробити позитивні зміни. У часи війни та невизначеності ми віримо в об’єднання, підтримку одна одної та зміцнення наших спільнот. Ця платформа є нашим маленьким кроком до того, щоб кожному було легше підключатися, допомагати та створювати суттєві зміни.",
+  "Help-in-progress": "Допомога в процесі",
+  "Help-completed": "Допомога завершена"
 }

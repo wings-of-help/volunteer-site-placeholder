@@ -1,3 +1,5 @@
+@use '../variables' as *;
+
 @mixin text-h1 {
   font-size: 56px;
   line-height: 1.25;
@@ -61,4 +63,33 @@
 @mixin africad {
   font-family: 'Afacad';
   font-size: 24px;
+  font-weight: 500;
+}
+
+@mixin text-color-states {
+  color: $color-gray-9;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-hover;
+  }
+
+  &:active,
+  &.has-underline {
+    color: $color-pressed;
+  }
+}
+
+@mixin link-primary {
+  color: $color-primary-500;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $color-hover;
+  }
+
+  &:active {
+    color: $color-pressed;
+  }
 }

@@ -22,6 +22,7 @@ import { MyResponses } from './pages/profile/sections/MyResponses/MyResponses';
 import { CreateRequest } from './components/CreateRequest/CreateRequest';
 import { MyOffers } from './pages/profile/sections/MyOffers/MyOffers';
 import { CreateOffer } from './components/CreateOffer/CreateOffer';
+import { EditHelpPage } from './pages/profile/EditHelpPage/EditHelpPage';
 
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
@@ -30,6 +31,11 @@ import CatalogPage from './pages/CatalogPage/CatalogPage';
 import CartDetails from './pages/CartDetailsPage/CartDetailsPage';
 import RoleProvider from './context/RoleContext';
 import { useTranslation } from 'react-i18next';
+import { ForgotPasswordPage } from './components/ForgotPasswordPage/ForgotPasswordPage';
+import { VerifyCodePage } from './components/VerifyCodePage/VerifyCodePage';
+import { NewPasswordPage } from './pages/NewPasswordPage/NewPasswordPage';
+import { ScrollToTop } from './utils/ScrollToTop';
+import AboutTeam from './pages/AboutTeam/AboutTeam';
 
 export const Root = () => {
   const { t } = useTranslation();
@@ -39,6 +45,7 @@ export const Root = () => {
         <AuthProvider>
           <ToastProvider>
             <Router>
+              <ScrollToTop />
               <Routes>
                 {/* MAIN APP */}
                 <Route path='/' element={<App />}>
@@ -46,11 +53,21 @@ export const Root = () => {
                   <Route path='profile' element={<ProfilePage />}>
                     <Route index element={<ProfileInfo />} />
 
+                    {/* REQUESTS */}
                     <Route path='requests' element={<MyRequests />} />
                     <Route path='requests/new' element={<CreateRequest />} />
+                    <Route
+                      path='requests/:id/edit'
+                      element={<EditHelpPage kind='request' />}
+                    />
 
+                    {/* OFFERS */}
                     <Route path='offers' element={<MyOffers />} />
                     <Route path='offers/new' element={<CreateOffer />} />
+                    <Route
+                      path='offers/:id/edit'
+                      element={<EditHelpPage kind='offer' />}
+                    />
 
                     <Route path='responses' element={<MyResponses />} />
                   </Route>
@@ -63,6 +80,7 @@ export const Root = () => {
                         p={t('requests-page-p1')}
                         p2={t('requests-page-p2')}
                         path={'requests'}
+                        kind={'request'}
                       />
                     }
                   />
@@ -79,6 +97,7 @@ export const Root = () => {
                         p={t('offers-page-p1')}
                         p2={t('offers-page-p2')}
                         path={'offers'}
+                        kind={'offer'}
                       />
                     }
                   />
@@ -87,12 +106,23 @@ export const Root = () => {
                     element={<CartDetails type={'offers'} />}
                   />
 
+                  <Route
+                    path='about'
+                    element={<AboutTeam />}
+                  />
+
                   <Route path='home' element={<Navigate to='/' replace />} />
                 </Route>
 
                 {/* AUTH ROUTES */}
                 <Route element={<AuthLayout />}>
                   <Route path='/signin' element={<SignInFormPage />} />
+                  <Route
+                    path='/forgot-password'
+                    element={<ForgotPasswordPage />}
+                  />
+                  <Route path='/verify-code' element={<VerifyCodePage />} />
+                  <Route path='/new-password' element={<NewPasswordPage />} />
 
                   <Route path='/administrationsignup'>
                     <Route index element={<Navigate to='step-1' replace />} />
