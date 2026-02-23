@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSignUp } from '../../../context/SignUpContext';
 import SignUpForm from './SignUpForm';
 import uaFlag from '../../../assets/flag-ukraine.svg';
-import errorIcon from '../../../assets/red-eye.svg';
+
 import {
   isEmailValid,
   isPhoneValid,
@@ -112,8 +112,7 @@ const SignUpStep2 = ({ admin = false }: Props) => {
         />
 
         {emailHasError && (
-          <div className="auth-form__helper auth-form__helper--error">
-            <img src={errorIcon} alt="error" />
+          <div className="auth-form__helper auth-form__helper--error">            
             <span>{emailError || backendErrors.email?.[0]}</span>
           </div>
         )}
@@ -149,7 +148,6 @@ const SignUpStep2 = ({ admin = false }: Props) => {
 
         {phoneHasError ? (
           <div className="auth-form__helper auth-form__helper--error">
-            <img src={errorIcon} alt="error" />
             <span>
               {phoneError || backendErrors.phone_number?.[0]}
             </span>

@@ -19,7 +19,9 @@ export const getMyProfileRequest = async (): Promise<User> => {
 
 export const updateMyProfileRequest = async (
   userId: number,
-  data: Pick<User, 'first_name' | 'last_name'>,
+  data: Partial<
+    Pick<User, 'first_name' | 'last_name' | 'email' | 'phone_number'>
+  >,
 ): Promise<User> => {
   const response = await authFetch(`${BASE_URL}/user/${userId}/`, {
     method: 'PATCH',
