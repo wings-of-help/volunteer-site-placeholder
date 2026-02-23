@@ -296,7 +296,7 @@ export default function CartDetailsPage({ type }: Props) {
             seeAll={
               type === 'requests' ? t('see-all-requests') : t('see-all-offers')
             }
-            path={type}
+            path={`/${type}`}
           />
         </div>
         )}

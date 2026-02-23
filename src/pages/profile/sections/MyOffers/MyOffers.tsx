@@ -9,6 +9,7 @@ import '../MyRequests/MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
 import type { HelpCart } from '../../../../api/types/HelpCart';
 import { useTranslation } from 'react-i18next';
+import { TextLoader } from '../../../../components/TextLoader/TextLoader';
 
 type Tab = 'active' | 'past';
 
@@ -33,7 +34,9 @@ export const MyOffers = () => {
       } catch {
         setError('Failed to load offers');
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000)
       }
     };
 
@@ -51,7 +54,7 @@ export const MyOffers = () => {
   );
 
   /* ===== STATES ===== */
-  if (loading) return <div className='help-list'>Loading...</div>;
+  if (loading) return <TextLoader />;
   if (error) return <div className='help-list'>{error}</div>;
 
   const isEmpty = offers.length === 0;

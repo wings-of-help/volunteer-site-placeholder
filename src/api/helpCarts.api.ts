@@ -4,11 +4,23 @@ import { authFetch } from './authFetch';
 import type { CreateHelpRequestDto } from './types/CreateHelpRequest';
 import type { HelpCartFull } from './types/HelpCart';
 
-export async function GetHelpCarts(): Promise<HelpResponse> {
-  const res = await fetch(`${BASE_URL}/help/`);
+export async function GetHelpCarts(
+  params?: { 
+    kind?: "offer" | "request", 
+   }
+): Promise<HelpResponse> {
+  const query = new URLSearchParams();
+
+  if (params?.kind) {
+    query.append("kind", params.kind);
+  }
+
+  const url = `${BASE_URL}/help/${query.toString() ? `?${query}` : ""}`;
+
+  const res = await fetch(url);
 
   if (!res.ok) {
-    throw new Error('Failed to fetch help carts');
+    throw new Error("Failed to fetch help carts");
   }
 
   return res.json();

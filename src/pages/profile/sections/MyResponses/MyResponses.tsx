@@ -8,6 +8,7 @@ import { useAuth } from '../../../../context/AuthContext';
 import '../MyRequests/MyRequests.scss';
 import type { HelpCart } from '../../../../api/types/HelpCart';
 import { useTranslation } from 'react-i18next';
+import { TextLoader } from '../../../../components/TextLoader/TextLoader';
 
 type Tab = 'active' | 'past';
 
@@ -30,7 +31,9 @@ export const MyResponses = () => {
       } catch {
         setError('Failed to load responses');
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000)
       }
     };
 
@@ -47,7 +50,7 @@ export const MyResponses = () => {
   const filteredResponses = tab === 'active' ? activeResponses : pastResponses;
 
   if (loading) {
-    return <div className='help-list'>Loading...</div>;
+    return <TextLoader/>
   }
 
   if (error) {

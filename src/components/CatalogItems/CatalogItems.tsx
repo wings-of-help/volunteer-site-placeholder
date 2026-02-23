@@ -25,25 +25,24 @@ export default function CatalogItems({
   const [carts, setCarts] = useState<HelpCart[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-
+    
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
+    setIsError(false);
 
-    GetHelpCarts().then((data) => {
-      console.log("FULL RESPONSE:", data);
-      const filteredData = data.results.filter((item) => item.kind === kind)
-
-      setCarts(filteredData);
-    })
-    .catch((err) => {
-      console.log(err);
-      setIsError(true)
-    })
-    .finally(() => {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 600);
-    })
+    GetHelpCarts({ kind })
+      .then((data) => {
+        setCarts(data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(true);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 600);
+      });
   }, [kind]);
 
   const cartType: "offer" | "request" =
@@ -127,7 +126,7 @@ export default function CatalogItems({
         </div>
       )}
 
-      {filteredCarts.length >= 8 && (
+      {!isLoading && filteredCarts.length >= 8 && (
         <div className="catalog__load-more-button">
           {t("Load-more")}
           <img className="arrow" src={arrowDown} alt="dropdown" />
