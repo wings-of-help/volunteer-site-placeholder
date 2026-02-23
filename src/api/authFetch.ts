@@ -11,10 +11,7 @@
 
 import { refreshTokenRequest } from './auth.api';
 
-export const authFetch = async (
-  input: RequestInfo,
-  init?: RequestInit,
-) => {
+export const authFetch = async (input: RequestInfo, init?: RequestInit) => {
   const access = localStorage.getItem('access');
 
   let response = await fetch(input, {
@@ -22,6 +19,7 @@ export const authFetch = async (
     headers: {
       ...init?.headers,
       Authorization: `Bearer ${access}`,
+      'Content-Type': 'application/json',
     },
   });
 
@@ -35,9 +33,26 @@ export const authFetch = async (
       headers: {
         ...init?.headers,
         Authorization: `Bearer ${newAccess}`,
+        'Content-Type': 'application/json',
       },
     });
   }
+
+  if (!response.ok) {
+    let data: any = null;
+
+    try {
+      data = await response.json();
+    } catch {}
+
+    const error: any = new Error('Request failed');
+    error.status = response.status;
+    error.data = data;
+
+    throw error;
+  }
+
+  return response;
 
   return response;
 };

@@ -116,7 +116,7 @@ const SignInFormPage = () => {
 
         <div className='auth-form__signin'>
           <span>{t("Don't-have-an-account")}</span>
-          <Link to='/signup/step-1' className='auth-form__signin-link'>
+          <Link to='/signup/step-1' className='auth-form__text-button'>
             {t("Sign-up")}
           </Link>
         </div>

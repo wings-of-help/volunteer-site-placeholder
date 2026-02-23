@@ -130,11 +130,6 @@
     @include text-small-reg;
     color: $color-gray-6;
 
-    img {
-      width: 16px;
-      height: 16px;
-    }
-
     &--error {
       color: $color-error;
     }
@@ -162,15 +157,18 @@
 
   &__signin {
     margin-top: 16px;
-    @include flex-center;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
     gap: 16px;
+     align-items: baseline; 
+
     @include text-body;
+    color: $color-gray-9;
   }
 
-  &__signin-link {
-    @include text-body;
-    text-decoration: underline;
-    color: $color-primary-500;
+  &__text-button {
+    @include text-button;
   }
 
   /* =========================

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ProfileModal } from '../../ProfileModal/ProfileModal';
 import { useAuth } from '../../../../context/AuthContext';
 import { updateMyProfileRequest } from '../../../../api/user.api';
@@ -30,6 +30,13 @@ export const ProfileInfo = () => {
     return value.charAt(0).toUpperCase() + value.slice(1);
   };
 
+  useEffect(() => {
+    if (!user) return;
+
+    setForm(user);
+    setOriginalUser(user);
+  }, [user]);
+
   const handleSave = async () => {
     try {
       const payload = {
@@ -44,6 +51,35 @@ export const ProfileInfo = () => {
     } catch (error) {
       console.error('Failed to update profile', error);
     }
+  };
+
+  const handleContactChange = async (
+    type: 'email' | 'phone',
+    newValue: string,
+  ) => {
+    if (!user) return;
+    try {
+      const payload = {
+        ...(type === 'email' ? { email: newValue } : {}),
+        ...(type === 'phone' ? { phone_number: newValue } : {}),
+      };
+
+      await updateMyProfileRequest(user.id, payload);
+      await getMyProfile();
+    } catch (error) {
+      console.error('Failed to update profile', error);
+      throw error;
+    }
+  };
+
+  const handleModalSuccess = async (value: string) => {
+    if (!activeModal || !user) return;
+
+    if (activeModal === 'email' || activeModal === 'phone') {
+      await handleContactChange(activeModal, value);
+    }
+
+    await getMyProfile();
   };
 
   return (
@@ -161,15 +197,7 @@ export const ProfileInfo = () => {
         <ProfileModal
           type={activeModal}
           onClose={() => setActiveModal(null)}
-          onSuccess={(newValue) => {
-            if (activeModal === 'email') {
-              setForm((prev) => ({ ...prev, email: newValue }));
-            }
-
-            if (activeModal === 'phone') {
-              setForm((prev) => ({ ...prev, phone_number: newValue }));
-            }
-          }}
+          onSuccess={handleModalSuccess}
         />
       )}
     </>

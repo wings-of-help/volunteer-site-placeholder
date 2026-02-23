@@ -51,7 +51,7 @@ const SignUpForm = ({ step, isValid, onContinue, children, path = "signup", glob
 
         <div className='auth-form__signin'>
           <span>{t("Already-have-an-account")}</span>
-          <Link to='/signin' className='auth-form__signin-link'>
+          <Link to='/signin' className='auth-form__text-button'>
             {t("Sign-in")}
           </Link>
         </div>
