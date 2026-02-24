@@ -38,17 +38,13 @@ export default function CatalogCategories({
     value: String(city.id),
   }));
 
-  const selectedCityOption: Option | null = (() => {
-  const filter = activeFilters.find((f) => f.type === 'location');
-
-    if (!filter) return null;
-
-    return {
-      label: filter.value,
-      value: filter.id,
-    };
-  })();
-
+  const selectedCityOption =
+    cityOptions.find(
+      (option) =>
+        activeFilters.find(
+          (f) => f.type === "location"
+        )?.id === String(option.value)
+    ) || null;
 
   useEffect(() => {
     const loadLocations = async () => {
@@ -86,10 +82,11 @@ export default function CatalogCategories({
         {categories.map((category) => (
           <CustomCheckbox
             key={category.id}
+            id={String(category.id)}
             title={category.name}
             activeFilters={activeFilters}
             onToggleFilter={onToggleFilter}
-            checktype='category'
+            checktype="category"
           />
         ))}
       </div>
@@ -116,6 +113,7 @@ export default function CatalogCategories({
           <h1 className='catalog__categories__status__title'>{t('Status')}</h1>
           {statuses.map((status) => (
             <CustomCheckbox
+              id={status}
               key={status}
               title={status}
               activeFilters={activeFilters}

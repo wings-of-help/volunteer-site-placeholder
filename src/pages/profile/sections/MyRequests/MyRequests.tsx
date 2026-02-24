@@ -8,11 +8,14 @@ import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequ
 import './MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
 import type { HelpCart } from '../../../../api/types/HelpCart';
+import { useTranslation } from 'react-i18next';
+import { TextLoader } from '../../../../components/TextLoader/TextLoader';
 
 type Tab = 'active' | 'past';
 
 export const MyRequests = () => {
   const { user } = useAuth();
+  const {t} = useTranslation();
   const [tab, setTab] = useState<Tab>('active');
   const [requests, setRequests] = useState<HelpCart[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +33,9 @@ export const MyRequests = () => {
       } catch (e) {
         setError('Failed to load requests');
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000)
       }
     };
 
@@ -42,7 +47,7 @@ export const MyRequests = () => {
   );
 
   if (loading) {
-    return <div className='help-list'>Loading...</div>;
+    return <TextLoader/>;
   }
 
   if (error) {
@@ -65,7 +70,7 @@ export const MyRequests = () => {
           onClick={() => navigate('/profile/requests/new')}
         >
           <img src={plusIcon} alt='' />
-          <span>Create New Request</span>
+          <span>{t("Create-New-Request")}</span>
         </button>
       </div>
 
@@ -77,7 +82,7 @@ export const MyRequests = () => {
             }`}
             onClick={() => setTab('active')}
           >
-            Active Requests
+            {t("Active-Requests")}
           </button>
 
           <button
@@ -86,7 +91,7 @@ export const MyRequests = () => {
             }`}
             onClick={() => setTab('past')}
           >
-            Past Requests
+            {t("Past-Requests")}
           </button>
         </div>
       )}
@@ -94,7 +99,7 @@ export const MyRequests = () => {
       {isEmpty ? (
         <div className='help-list help-list--empty'>
           <p className='help-list__empty'>
-            You haven’t created any requests yet
+            {t("You-haven’t-created-any-requests-yet")}
           </p>
         </div>
       ) : (
