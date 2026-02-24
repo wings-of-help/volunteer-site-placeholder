@@ -4,6 +4,7 @@ import eyeOpen from '../../assets/eye-open.svg';
 import eyeClosed from '../../assets/eye-closed.svg';
 import arrowLeftIcon from '../../assets/ep_arrow-left.svg';
 import crossBlack from '../../assets/cross-black.svg';
+import { ProfileSuccessModal } from '../ProfileSuccessModal/ProfileSuccessModal';
 
 import {
   hasUppercaseLetter,
@@ -24,6 +25,7 @@ export const ProfilePasswordModal = ({ onClose, onConfirm }: Props) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [step, setStep] = useState<'form' | 'success'>('form');
 
   const passwordChecks = {
     length: password.length >= 8 && password.length <= 20,
@@ -40,6 +42,16 @@ export const ProfilePasswordModal = ({ onClose, onConfirm }: Props) => {
     passwordChecks.lowercase &&
     passwordChecks.special &&
     isMatch;
+  
+  if (step === 'success') {
+    return (
+      <ProfileSuccessModal
+        title={t('Password-updated')}
+        description={t('Your-password-has-been-changed-successfully')}
+        onClose={onClose}
+      />
+    );
+  }
 
   return (
     <div className='profile-modal-overlay' onClick={onClose}>
@@ -140,6 +152,7 @@ export const ProfilePasswordModal = ({ onClose, onConfirm }: Props) => {
           disabled={!isValid}
           onClick={() => {
             onConfirm(password);
+            setStep('success');
           }}
         >
           {t('Confirm')}

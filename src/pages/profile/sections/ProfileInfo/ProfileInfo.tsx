@@ -210,10 +210,7 @@ export const ProfileInfo = () => {
       {activeModal === 'password' && (
         <ProfilePasswordModal
           onClose={() => setActiveModal(null)}
-          onConfirm={async (newPassword) => {
-            await handleModalSuccess(newPassword);
-            setActiveModal(null);
-          }}
+          onConfirm={handleModalSuccess}
         />
       )}
     </>
