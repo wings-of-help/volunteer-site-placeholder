@@ -4,15 +4,33 @@ import { authFetch } from './authFetch';
 import type { CreateHelpRequestDto } from './types/CreateHelpRequest';
 import type { HelpCartFull } from './types/HelpCart';
 
-export async function GetHelpCarts(
-  params?: { 
-    kind?: "offer" | "request", 
-   }
-): Promise<HelpResponse> {
+export async function GetHelpCarts(params?: {
+  kind?: "offer" | "request";
+  category?: number[];
+  location?: number;
+  status?: string[];
+  ordering?: string;
+}): Promise<HelpResponse> {
   const query = new URLSearchParams();
 
   if (params?.kind) {
     query.append("kind", params.kind);
+  }
+
+  if (params?.location) {
+    query.append("location", String(params.location));
+  }
+
+  if (params?.ordering) {
+    query.append("ordering", params.ordering);
+  }
+
+  if (params?.category?.length) {
+    query.append("category", params.category.join(","));
+  }
+
+  if (params?.status?.length) {
+    query.append("status", params.status.join(","));
   }
 
   const url = `${BASE_URL}/help/${query.toString() ? `?${query}` : ""}`;

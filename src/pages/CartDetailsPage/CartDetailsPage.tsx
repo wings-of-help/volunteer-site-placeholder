@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useParams, useLocation, useOutletContext } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -28,7 +28,13 @@ type Props = {
   type: 'requests' | 'offers';
 };
 
+type OutletContextType = {
+  setIsPageLoading?: (loading: boolean) => void;
+};
+
 export default function CartDetailsPage({ type }: Props) {
+  const { setIsPageLoading } = useOutletContext<OutletContextType>() || {}
+  
   const [activeModal, setActiveModal] = useState(false);
   const { cartId } = useParams();
   const [wasClicked, setWasClicked] = useState(() => {
@@ -61,14 +67,17 @@ export default function CartDetailsPage({ type }: Props) {
   const normalizeBackPath = backPath.split("/").join(" ")
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
+    setIsPageLoading?.(true);
+
     GetHelpCartById(Number(cartId))
       .then((data) => setCart(data))
       .catch(console.error)
       .finally(() => {
         setTimeout(() => {
-          setIsLoading(false)
-        }, 600)
+          setIsLoading(false);
+          setIsPageLoading?.(false);
+        }, 1000)
       })
 
       const clicked = localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
@@ -129,8 +138,10 @@ export default function CartDetailsPage({ type }: Props) {
     <>
       <div className='cart-details-page'>
         {isLoading ? (
-          <Loader />
-        ): (
+          <div className='loader'>
+            <Loader />
+          </div>
+        ) : (
         <div className='cart-details-page__container'>
           {/* NAV */}
           <nav className='cart-details-page__nav'>

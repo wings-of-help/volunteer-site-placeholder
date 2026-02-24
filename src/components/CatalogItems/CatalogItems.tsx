@@ -3,7 +3,7 @@ import "./CatalogItems.scss";
 import arrowDown from "../../assets/arrow-down.svg";
 import { GetHelpCarts } from "../../api/helpCarts.api";
 import type { HelpCart } from "../../api/types/HelpCart";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { ActiveFilter } from "../../pages/CatalogPage/CatalogPage";
 import Loader from "../UI-elements/Loader/Loader";
@@ -30,7 +30,28 @@ export default function CatalogItems({
     setIsLoading(true);
     setIsError(false);
 
-    GetHelpCarts({ kind })
+    const locationFilter = activeFilters.find(
+      (f) => f.type === "location"
+    )?.id;
+
+    const categoryFilters = activeFilters
+      .filter(f => f.type === "category")
+      .map(f => Number(f.id));
+
+    const statusFilters = activeFilters
+      .filter(f => f.type === "status")
+      .map(f => f.id);
+
+    const ordering =
+      sortType === "newest" ? "-created_at" : "created_at";
+
+    GetHelpCarts({
+      kind,
+      location: Number(locationFilter),
+      status: statusFilters,
+      category: categoryFilters,
+      ordering,
+    })
       .then((data) => {
         setCarts(data.results);
       })
@@ -41,62 +62,62 @@ export default function CatalogItems({
       .finally(() => {
         setTimeout(() => {
           setIsLoading(false);
-        }, 600);
+        }, 1000)
       });
-  }, [kind]);
+  }, [kind, activeFilters, sortType]);
 
-  const cartType: "offer" | "request" =
-    type === "offers" ? "offer" : "request";
+  // const cartType: "offer" | "request" =
+  //   type === "offers" ? "offer" : "request";
 
-  const filteredCarts = useMemo(() => {
-    const locationFilter = activeFilters.find(
-      (f) => f.type === "location"
-    )?.value;
+  // const filteredCarts = useMemo(() => {
+  //   const locationFilter = activeFilters.find(
+  //     (f) => f.type === "location"
+  //   )?.value;
 
-    const statusFilter = activeFilters.find(
-      (f) => f.type === "status"
-    )?.value;
+  //   const statusFilter = activeFilters.find(
+  //     (f) => f.type === "status"
+  //   )?.value;
 
-    const categoryFilters = activeFilters
-      .filter((f) => f.type === "category")
-      .map((f) => f.value);
+  //   const categoryFilters = activeFilters
+  //     .filter((f) => f.type === "category")
+  //     .map((f) => f.value);
 
-    return carts
-      .filter((cart) => cart.kind === cartType)
-      .filter((cart) => {
-        if (
-          categoryFilters.length &&
-          !categoryFilters.includes(cart.category_name)
-        ) {
-          return false;
-        }
+  //   return carts
+  //     .filter((cart) => cart.kind === cartType)
+  //     .filter((cart) => {
+  //       if (
+  //         categoryFilters.length &&
+  //         !categoryFilters.includes(cart.category_name)
+  //       ) {
+  //         return false;
+  //       }
 
-        if (locationFilter && locationFilter !== cart.location_name) {
-          return false;
-        }
+  //       if (locationFilter && locationFilter !== cart.location_name) {
+  //         return false;
+  //       }
 
-        if (statusFilter && statusFilter !== cart.status) {
-          return false;
-        }
+  //       if (statusFilter && statusFilter !== cart.status) {
+  //         return false;
+  //       }
 
-        return true;
-      })
-      .sort((a, b) => {
-        const dateA = new Date(a.created_at).getTime();
-        const dateB = new Date(b.created_at).getTime();
+  //       return true;
+  //     })
+  //     .sort((a, b) => {
+  //       const dateA = new Date(a.created_at).getTime();
+  //       const dateB = new Date(b.created_at).getTime();
 
-        return sortType === "newest"
-          ? dateB - dateA // новіші зверху
-          : dateA - dateB; // старіші зверху
-      });
-  }, [carts, cartType, activeFilters, sortType]);
+  //       return sortType === "newest"
+  //         ? dateB - dateA // новіші зверху
+  //         : dateA - dateB; // старіші зверху
+  //     });
+  // }, [carts, cartType, activeFilters, sortType]);
 
   return (
     <div className="catalog__container">
       <div className="catalog__items">
       {isLoading && <Loader />}
 
-        {!isLoading && filteredCarts.map((cart) => (
+        {!isLoading && carts.map((cart) => (
           <CartItem
             key={cart.id}
             type={type}
@@ -111,7 +132,7 @@ export default function CatalogItems({
         ))}
       </div>
 
-      {!isLoading && filteredCarts.length === 0 && (
+      {!isLoading && carts.length === 0 && (
         <div className="no-results">
           <h3 className="no-results__title">No results</h3>
           <p className="no-results__p">
@@ -126,7 +147,7 @@ export default function CatalogItems({
         </div>
       )}
 
-      {!isLoading && filteredCarts.length >= 8 && (
+      {!isLoading && carts.length >= 8 && (
         <div className="catalog__load-more-button">
           {t("Load-more")}
           <img className="arrow" src={arrowDown} alt="dropdown" />
