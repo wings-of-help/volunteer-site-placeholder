@@ -30,3 +30,8 @@ class TeammateSerializer(serializers.ModelSerializer):
             "photo",
             "social_links"
         )
+
+    def get_photo(self, obj):
+        if obj.profile_picture:
+            return obj.profile_picture.url
+        return None
