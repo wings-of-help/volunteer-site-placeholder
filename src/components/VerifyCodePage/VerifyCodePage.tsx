@@ -54,7 +54,6 @@ export const VerifyCodePage = () => {
               id={`code-${index}`}
               className='code__input'
               value={digit}
-              placeholder='0'
               onChange={(e) => handleChange(index, e.target.value)}
               maxLength={1}
             />
