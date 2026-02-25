@@ -46,11 +46,11 @@ export default function AboutTeam() {
                 lastName={teammate.last_name}
                 role={teammate.role}
                 web={teammate.personal_website}
-                // socials={teammate.social_links}
+                socials={teammate.social_links}
                 photo={teammate.photo}
               />
             ))}
-            {teammates.map(teammate => (
+            {/* {teammates.map(teammate => (
               <AboutCart
                 key={teammate.id} 
                 firstName={teammate.first_name}
@@ -60,7 +60,7 @@ export default function AboutTeam() {
                 // socials={teammate.social_links}
                 photo={teammate.photo}
               />
-            ))}
+            ))} */}
           </>
           )}
         </div>

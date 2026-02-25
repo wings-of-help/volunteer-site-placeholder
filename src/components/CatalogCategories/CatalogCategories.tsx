@@ -59,7 +59,8 @@ export default function CatalogCategories({
     const loadCategories = async () => {
       try {
         const data = await getCategories();
-        setCategories(data);
+        const sortedCategories = [...data].sort((a, b) => a.id - b.id);
+        setCategories(sortedCategories);
       } catch (error) {
         console.error('Failed to load categories', error);
       }
