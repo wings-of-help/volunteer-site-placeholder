@@ -5,25 +5,33 @@ import mailIcon from '../../assets/mailIcon.svg';
 import gitHubIcon from '../../assets/GitHubIcon.svg';
 import linkedInIcon from '../../assets/LinkedInIcon.svg';
 import webIcon from '../../assets/webIcon.svg';
-// import facebookIcon from '../../assets/Facebook-icon.svg';
-// import instagramIcon from '../../assets/Instagram-icon.svg';
+import facebookIcon from '../../assets/Facebook-icon.svg';
+import instagramIcon from '../../assets/Instagram-icon.svg';
 
-// type Social = {
-//   id: number;
-//   name: string;
-//   link: string;
-// }
+type Social = {
+  id: number;
+  name: string;
+  link: string;
+}
 
 type Props = {
   firstName: string;
   lastName: string;
   role: string;
   web: string;
-  // socials: Social[]
+  socials: Social[]
   photo: string;
 }
 
-export default function AboutCart({firstName, lastName, role, web, photo}: Props) {
+export default function AboutCart({firstName, lastName, role, web, photo, socials}: Props) {
+  const socialIcons: Record<string, string> = {
+    telegram: telegramIcon,
+    email: mailIcon,
+    github: gitHubIcon,
+    linkedin: linkedInIcon,
+    instagram: instagramIcon,
+    facebook: facebookIcon,
+  };
   return (
     <div className="about-cart">
       <img className="about-cart__image" src={photo} alt="teammate-photo" />
@@ -35,10 +43,33 @@ export default function AboutCart({firstName, lastName, role, web, photo}: Props
       </div>
 
       <div className="about-cart__socials">
-        <Link to={""} className="about-cart__socials__link">
-          <img src={telegramIcon} alt="telegramIcon" />
-        </Link>
-        <Link to={""} className="about-cart__socials__link">
+        <div className="about-cart__socials">
+          {socials.map(social => (
+            <Link
+              key={social.id}
+              to={social.link}
+              className="about-cart__socials__link"
+              target="_blank"
+            >
+              <img
+                src={socialIcons[social.name.toLowerCase()]}
+                alt={social.name}
+              />
+            </Link>
+          ))}
+
+          {web && (
+            <Link
+              to={web}
+              className="about-cart__socials__link"
+              target="_blank"
+            >
+              <img src={webIcon} alt="website" />
+            </Link>
+          )}
+        </div>
+        
+        {/* <Link to={""} className="about-cart__socials__link">
           <img src={mailIcon} alt="mailIcon" />
         </Link>
         <Link to={""} className="about-cart__socials__link">
@@ -46,10 +77,10 @@ export default function AboutCart({firstName, lastName, role, web, photo}: Props
         </Link>
         <Link to={""} className="about-cart__socials__link">
           <img src={gitHubIcon} alt="linkedInIcon" />
-        </Link>
-        <Link to={web} className="about-cart__socials__link">
+        </Link> */}
+        {/* <Link to={web} className="about-cart__socials__link">
           <img src={webIcon} alt="webIcon" />
-        </Link>
+        </Link> */}
         {/* <Link to={web} className="about-cart__socials__link">
           <img src={instagramIcon} alt="instagramIcon" />
         </Link> */}
