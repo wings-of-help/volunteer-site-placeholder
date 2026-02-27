@@ -1,13 +1,10 @@
-// import { useTranslation } from "react-i18next";
 import { useEffect, useMemo, useState } from "react";
 import type { HelpCart } from "../../api/types/HelpCart";
-// import CartItem from "../CartItem/CartItem";
 import "./ActiveGroup.scss"
 import { Link } from "react-router-dom";
 import vector from "../../assets/Vector.svg"
 import { GetHelpCarts } from "../../api/helpCarts.api";
 import CartItem from "../CartItem/CartItem";
-// import { GetHelpCarts } from "../../api/helpCarts.api";
 
 type Props = {
   title: string;
