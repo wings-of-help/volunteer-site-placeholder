@@ -156,6 +156,7 @@ export default function HomePage() {
           p2={t("active-requests-2nd-p")}
           seeAll={t("see-all-requests")}
           path="/requests"
+          kind="request"
         />
 
         <ActiveGroup
@@ -164,6 +165,7 @@ export default function HomePage() {
           p2={t("active-offers-2nd-p")}
           seeAll={t("see-all-offers")}
           path="/offers"
+          kind="offer"
         /> 
     </div>
   )

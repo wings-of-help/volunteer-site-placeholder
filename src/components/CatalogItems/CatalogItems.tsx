@@ -66,52 +66,6 @@ export default function CatalogItems({
       });
   }, [kind, activeFilters, sortType]);
 
-  // const cartType: "offer" | "request" =
-  //   type === "offers" ? "offer" : "request";
-
-  // const filteredCarts = useMemo(() => {
-  //   const locationFilter = activeFilters.find(
-  //     (f) => f.type === "location"
-  //   )?.value;
-
-  //   const statusFilter = activeFilters.find(
-  //     (f) => f.type === "status"
-  //   )?.value;
-
-  //   const categoryFilters = activeFilters
-  //     .filter((f) => f.type === "category")
-  //     .map((f) => f.value);
-
-  //   return carts
-  //     .filter((cart) => cart.kind === cartType)
-  //     .filter((cart) => {
-  //       if (
-  //         categoryFilters.length &&
-  //         !categoryFilters.includes(cart.category_name)
-  //       ) {
-  //         return false;
-  //       }
-
-  //       if (locationFilter && locationFilter !== cart.location_name) {
-  //         return false;
-  //       }
-
-  //       if (statusFilter && statusFilter !== cart.status) {
-  //         return false;
-  //       }
-
-  //       return true;
-  //     })
-  //     .sort((a, b) => {
-  //       const dateA = new Date(a.created_at).getTime();
-  //       const dateB = new Date(b.created_at).getTime();
-
-  //       return sortType === "newest"
-  //         ? dateB - dateA // новіші зверху
-  //         : dateA - dateB; // старіші зверху
-  //     });
-  // }, [carts, cartType, activeFilters, sortType]);
-
   return (
     <div className="catalog__container">
       <div className="catalog__items">
@@ -134,16 +88,16 @@ export default function CatalogItems({
 
       {!isLoading && carts.length === 0 && (
         <div className="no-results">
-          <h3 className="no-results__title">No results</h3>
+          <h3 className="no-results__title">{t("No-results")}</h3>
           <p className="no-results__p">
-            Try changing a city or category.
+            {t("Try-changing-a-city-or-category")}
           </p>
         </div>
       )}
 
       {isError && (
         <div className="no-results">
-          <h3 className="no-results__title">Something went wrong</h3>
+          <h3 className="no-results__title">{t("Something-went-wrong")}</h3>
         </div>
       )}
 

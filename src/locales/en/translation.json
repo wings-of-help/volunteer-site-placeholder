@@ -278,5 +278,8 @@
   "cannot-be-undone": "cannot be undone.",
   "Yes-mark-as-done": "Yes, mark as done",
   "Are-you-sure-you-want-to-delete-this-post": "Are you sure you want to delete this post?",
-  "Delete": "Delete"
+  "Delete": "Delete",
+
+  "No-results": "No results",
+  "Try-changing-a-city-or-category": "Try changing a city or category."
 }
