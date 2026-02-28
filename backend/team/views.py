@@ -1,13 +1,12 @@
+from drf_spectacular.utils import (
+    extend_schema,
+    extend_schema_view,
+)
 from rest_framework.viewsets import ModelViewSet
 
 from main.permissions import IsAdminOrReadOnly
 from team.models import Teammate
 from team.serializers import TeammateSerializer
-
-from drf_spectacular.utils import (
-    extend_schema,
-    extend_schema_view,
-)
 
 
 @extend_schema_view(

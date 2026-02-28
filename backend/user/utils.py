@@ -1,6 +1,7 @@
 import os
-import requests
 import secrets
+
+import requests
 
 
 def generate_reset_code():
