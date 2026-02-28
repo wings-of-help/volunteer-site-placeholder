@@ -1,5 +1,5 @@
 import django_filters
-from django_filters import BaseInFilter, NumberFilter, CharFilter
+from django_filters import BaseInFilter, CharFilter, NumberFilter
 
 from .models import Help
 
