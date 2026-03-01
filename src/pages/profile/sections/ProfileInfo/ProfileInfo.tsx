@@ -4,6 +4,7 @@ import { useAuth } from '../../../../context/AuthContext';
 import { updateMyProfileRequest } from '../../../../api/user.api';
 import { formatPhoneForDisplay } from '../../../../utils/phone';
 import { ProfilePasswordModal } from '../../../../components/ProfilePasswordModal/ProfilePasswordModal';
+import { changePasswordRequest } from '../../../../api/user.api';
 import './ProfileInfo.scss';
 import { useTranslation } from 'react-i18next';
 
@@ -81,8 +82,10 @@ export const ProfileInfo = () => {
     }
 
     if (activeModal === 'password') {
-      console.log('CHANGE PASSWORD:', value);
-      // потім changePasswordRequest(...)
+      await changePasswordRequest({
+        old_password: value.oldPassword,
+        new_password: value.newPassword,
+      });
     }
 
     await getMyProfile();

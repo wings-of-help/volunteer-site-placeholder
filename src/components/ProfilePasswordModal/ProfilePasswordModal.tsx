@@ -16,7 +16,10 @@ import { PasswordHint } from '../PasswordHint/PasswordHint';
 
 interface Props {
   onClose: () => void;
-  onConfirm: (newPassword: string) => void;
+  onConfirm: (data: {
+    oldPassword: string;
+    newPassword: string;
+  }) => Promise<void>;
 }
 
 export const ProfilePasswordModal = ({ onClose, onConfirm }: Props) => {
@@ -26,6 +29,8 @@ export const ProfilePasswordModal = ({ onClose, onConfirm }: Props) => {
   const [confirm, setConfirm] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [step, setStep] = useState<'form' | 'success'>('form');
+  const [oldPassword, setOldPassword] = useState('');
+  const [error, setError] = useState('');
 
   const passwordChecks = {
     length: password.length >= 8 && password.length <= 20,
@@ -37,12 +42,13 @@ export const ProfilePasswordModal = ({ onClose, onConfirm }: Props) => {
   const isMatch = password === confirm;
 
   const isValid =
+    !!oldPassword &&
     passwordChecks.length &&
     passwordChecks.uppercase &&
     passwordChecks.lowercase &&
     passwordChecks.special &&
     isMatch;
-  
+
   if (step === 'success') {
     return (
       <ProfileSuccessModal
@@ -67,6 +73,32 @@ export const ProfilePasswordModal = ({ onClose, onConfirm }: Props) => {
         <button className='profile-modal__back' onClick={onClose}>
           <img src={arrowLeftIcon} alt='Back' />
         </button>
+
+        {/* CURRENT PASSWORD */}
+        <div className='profile-modal__password-group'>
+          <label className='auth-form__label'>
+            <span className='auth-form__label-text'>
+              {t('Current-password')}
+            </span>
+
+            <div className='auth-form__password'>
+              <input
+                className='auth-form__input'
+                type={showPassword ? 'text' : 'password'}
+                value={oldPassword}
+                placeholder={t('Enter-current-password')}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
+
+              <img
+                src={showPassword ? eyeOpen : eyeClosed}
+                className='auth-form__eye'
+                onClick={() => setShowPassword((v) => !v)}
+                alt='toggle'
+              />
+            </div>
+          </label>
+        </div>
 
         {/* NEW PASSWORD */}
         <div className='profile-modal__password-group'>
@@ -145,14 +177,30 @@ export const ProfilePasswordModal = ({ onClose, onConfirm }: Props) => {
           </label>
         </div>
 
+        {error && (
+          <div className='auth-form__helper auth-form__helper--error'>
+            {error}
+          </div>
+        )}
+
         <button
           className={`profile-modal__submit ${
             isValid ? 'profile-modal__submit--active' : ''
           }`}
           disabled={!isValid}
-          onClick={() => {
-            onConfirm(password);
-            setStep('success');
+          onClick={async () => {
+            try {
+              setError('');
+
+              await onConfirm({
+                oldPassword,
+                newPassword: password,
+              });
+
+              setStep('success');
+            } catch (err) {
+              setError(t('Current-password-is-incorrect'));
+            }
           }}
         >
           {t('Confirm')}
