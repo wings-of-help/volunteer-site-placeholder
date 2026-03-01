@@ -107,7 +107,7 @@
 
   &__fields {
     @include flex-column(16px);
-    
+
     @include mobile {
       flex: 1;
     }
@@ -247,13 +247,14 @@
     gap: 8px;
     padding: 0 16px;
 
+    width: 110px;
+    flex-shrink: 0;
+
     height: 100%;
     background: $color-gray-1;
     border-right: 2px solid $color-gray-4;
 
-    font-size: 20px;
-    line-height: 1.35;
-    font-weight: 400;
+    @include text-body-regular;
     color: $color-gray-9;
 
     img {

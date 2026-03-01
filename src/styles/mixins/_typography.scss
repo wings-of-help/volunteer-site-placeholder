@@ -9,7 +9,7 @@
   @include mobile {
     font-size: 40px;
     line-height: 1.3;
-  } 
+  }
 }
 
 @mixin text-h2 {
@@ -28,6 +28,9 @@
   font-size: 24px;
   line-height: 1.25;
   font-weight: 700;
+  @include mobile {
+    font-size: 18px;
+  }
 }
 
 @mixin text-body {

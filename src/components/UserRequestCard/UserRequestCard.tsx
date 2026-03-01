@@ -8,6 +8,7 @@ import { ConfirmModal } from '../../components/ConfirmModal/ConfirmModal';
 import { completeHelpRequest, deleteHelpRequest } from '../../api/help.api';
 import garbageIcon from '../../assets/garbage.svg';
 import trashIcon from '../../assets/Trash.svg';
+import moreIcon from '../../assets/more-vertical.svg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StatusBlock from '../UI-elements/StatusBlock/StatusBlock';
 
@@ -57,6 +58,7 @@ export const UserRequestCard = ({
   const [isDoneModalOpen, setIsDoneModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [localStatus, setLocalStatus] = useState(status);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const ignoreNextClick = useRef(false);
 
@@ -99,11 +101,10 @@ export const UserRequestCard = ({
   const isOwner = mode === 'owner-request' || mode === 'owner-offer';
 
   const rootFrom =
-  (location.state as { from?: string })?.from ??
-  location.pathname + location.search;
+    (location.state as { from?: string })?.from ??
+    location.pathname + location.search;
 
-  console.log("root", rootFrom);
-  
+  console.log('root', rootFrom);
 
   return (
     <>
@@ -121,6 +122,45 @@ export const UserRequestCard = ({
           }}
         >
           <div className='user-request-card__content'>
+            {isOwner && (
+              <button
+                className='user-request-card__menu'
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setMenuOpen((prev) => !prev);
+                }}
+              >
+                <img src={moreIcon} alt='Menu' />
+              </button>
+            )}
+            {menuOpen && (
+              <div className='user-request-card__dropdown'>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    navigate(`/profile/${basePath}/${id}/edit`);
+                  }}
+                >
+                  Edit Request
+                </button>
+                
+                <div className='user-request-card__dropdown-divider' />
+
+                <button
+                  className='user-request-card__dropdown-delete'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsDeleteModalOpen(true);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
+
             <h3 className='user-request-card__title'>{title}</h3>
 
             <div className='user-request-card__tag'>{category}</div>
@@ -131,7 +171,7 @@ export const UserRequestCard = ({
           <div className='user-request-card__footer'>
             <span className='user-request-card__city'>{city}</span>
 
-            <StatusBlock status={localStatus}/>
+            <StatusBlock status={localStatus} />
           </div>
 
           {/* ===== ACTIONS ONLY FOR OWNER ===== */}

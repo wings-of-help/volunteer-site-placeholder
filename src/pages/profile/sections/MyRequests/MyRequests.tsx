@@ -27,7 +27,7 @@ export const MyRequests = () => {
       try {
         const data = await getMyRequests(user.id);
         setRequests(data);
-      } catch (e) {
+      } catch {
         setError('Failed to load requests');
       } finally {
         setLoading(false);
@@ -35,8 +35,8 @@ export const MyRequests = () => {
     };
 
     loadRequests();
-  }, []);
-
+  }, [user]);
+  
   const filteredRequests = requests.filter((request) =>
     tab === 'active' ? request.status !== 'done' : request.status === 'done',
   );
@@ -50,7 +50,7 @@ export const MyRequests = () => {
   }
 
   const isEmpty = requests.length === 0;
-  
+
   const handleStatusChanged = (id: number) => {
     setRequests((prev) =>
       prev.map((r) => (r.id === id ? { ...r, status: 'done' } : r)),
@@ -109,7 +109,7 @@ export const MyRequests = () => {
               description={request.description}
               status={request.status}
               mode='owner-request'
-              kind="request"
+              kind='request'
               onDeleted={(id) => {
                 setRequests((prev) => prev.filter((item) => item.id !== id));
               }}

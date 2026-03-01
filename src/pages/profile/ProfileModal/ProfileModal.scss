@@ -14,10 +14,20 @@
   padding: 24px;
   box-shadow: 0 8px 32px rgba($color-black, 0.12);
 
+  @include mobile {
+    width: 100%;
+    max-width: 361px;
+    padding: 16px;
+  }
+
   &__header {
     @include flex-between;
     height: 46px;
     margin-bottom: 24px;
+
+    @include mobile {
+      margin-bottom: 16px;
+    }
   }
 
   &__title {
@@ -187,12 +197,21 @@
     align-items: center;
     text-align: center;
     padding: 24px;
+
+    @include mobile {
+      padding: 16px;
+    }
   }
 
   &__success-icon {
     width: 120px;
     height: 120px;
     margin-bottom: 24px;
+
+    @include mobile {
+      width: 67px;
+      height: 67px;
+    }
   }
 
   &__success-title {
