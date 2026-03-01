@@ -9,7 +9,21 @@
   margin: 0 auto 1px;
   padding-top: 24px;
   @include flex-center;
-  
+
+  &__burger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    width: 40px;
+    height: 40px;
+
+    @include mobile {
+      @include centeredFlexBox;
+    }
+  }
+
   &__nav {
     padding: 0 108px;
     width: 100%;
@@ -60,7 +74,6 @@
         &:active {
           color: $color-pressed;
         }
-
 
         &:hover .header__nav__pages__page__title::after {
           transform: scaleX(1);
@@ -126,6 +139,24 @@
     }
   }
 
+  @include mobile {
+    &__burger {
+      display: block;
+    }
+
+    &__nav {
+      padding: 0 16px;
+
+      &__pages {
+        display: none;
+      }
+
+      &__buttons {
+        display: none;
+      }
+    }
+  }
+
   &__profile-btn {
     width: 100%;
     height: 57px;
@@ -159,5 +190,135 @@
 
   .header__nav__pages__page__title::after {
     transform: scaleX(1);
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background: $color-gray-0;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 24px 16px;
+
+  a {
+    width: 100%;
+    display: block;
+    text-decoration: none;
+  }
+}
+
+.mobile-menu__close {
+  align-self: flex-end;
+
+  width: 40px;
+  height: 40px;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-menu__nav {
+  height: 400px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+
+  gap: 32px;
+
+  a {
+    text-decoration: none;
+    color: $color-gray-9;
+    text-align: center;
+
+    @include text-body-med;
+  }
+}
+
+.mobile-menu__buttons {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  margin-bottom: 40px;
+
+  a {
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  a:first-child {
+    @include button-border;
+    @include text-body-med;
+    padding: 16px;
+  }
+
+  a:last-child {
+    @include button-primary;
+    @include text-body-med;
+    padding: 16px;
+  }
+}
+
+.mobile-menu__profile {
+  width: 100%;
+
+  @include button-primary;
+  @include text-body-med;
+
+  border: none;
+  padding: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-bottom: 8px;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.mobile-menu__lang {
+  width: 100%;
+
+  .custom-select--lang {
+    width: 100%;
+    height: 56px;
+    padding: 16px;
+  }
+
+  .custom-select__trigger {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .custom-select__option {
+    padding-right: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
