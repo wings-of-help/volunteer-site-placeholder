@@ -226,6 +226,8 @@
   "Check-your-email": "Перевірте вашу пошту",
   "Enter-the-6-digit-code-sent-to": "Введіть 6-значний код, надісланий на",
   "Create-new-password": "Створіть новий пароль",
+   "Current-password": "Поточний пароль",
+   "Current-password-is-incorrect": "Поточний пароль невірний",
   "Enter-a-new-password-to-finish-resetting-your-account": "Введіть новий пароль, щоб завершити відновлення облікового запису.",
   "Didnt-receive-the-code": "Не отримали код?",
   "roles": {
