@@ -189,7 +189,7 @@
   "Okay": "Okay",
 
   "Back-to": "Back to",
-  "About": "About",
+  "About": "About us",
   "Register-to-Help": "Register to Help",
   "Offer-help": "Offer help",
   "Only-registered-volunteers-can-respond-to-this-request": "Only registered volunteers can respond to this request.",
@@ -280,5 +280,8 @@
   "cannot-be-undone": "cannot be undone.",
   "Yes-mark-as-done": "Yes, mark as done",
   "Are-you-sure-you-want-to-delete-this-post": "Are you sure you want to delete this post?",
-  "Delete": "Delete"
+  "Delete": "Delete",
+
+  "No-results": "No results",
+  "Try-changing-a-city-or-category": "Try changing a city or category."
 }

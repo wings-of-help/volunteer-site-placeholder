@@ -264,5 +264,8 @@
   "cannot-be-undone": "не можна скасувати.",
   "Yes-mark-as-done": "Так, позначити як виконане",
   "Are-you-sure-you-want-to-delete-this-post": "Ви впевнені, що хочете видалити цей пост?",
-  "Delete": "Видалити"
+  "Delete": "Видалити",
+
+  "No-results": "Немає результатів",
+  "Try-changing-a-city-or-category": "Спробуйте змінити місто чи категорію."
 }

@@ -22,8 +22,6 @@ export default function AboutTeam() {
     }, 1000))
   }, [])
 
-  console.log(teammates);
-  
   return (
     <div className="about__content">
       <div className="about__content__main">

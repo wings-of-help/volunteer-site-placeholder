@@ -104,8 +104,6 @@ export const UserRequestCard = ({
   (location.state as { from?: string })?.from ??
   location.pathname + location.search;
 
-  console.log("root", rootFrom);
-  
   return (
     <>
       <div className='user-request-card'>

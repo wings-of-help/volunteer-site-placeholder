@@ -7,6 +7,7 @@ import linkedInIcon from '../../assets/LinkedInIcon.svg';
 import webIcon from '../../assets/webIcon.svg';
 import facebookIcon from '../../assets/Facebook-icon.svg';
 import instagramIcon from '../../assets/Instagram-icon.svg';
+import BehanceIcon from '../../assets/Behance.svg';
 
 type Social = {
   id: number;
@@ -31,6 +32,7 @@ export default function AboutCart({firstName, lastName, role, web, photo, social
     linkedin: linkedInIcon,
     instagram: instagramIcon,
     facebook: facebookIcon,
+    behance: BehanceIcon,
   };
   return (
     <div className="about-cart">

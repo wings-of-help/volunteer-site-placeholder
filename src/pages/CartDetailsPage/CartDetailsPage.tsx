@@ -308,6 +308,7 @@ export default function CartDetailsPage({ type }: Props) {
               type === 'requests' ? t('see-all-requests') : t('see-all-offers')
             }
             path={`/${type}`}
+            kind={cart.kind}
           />
         </div>
         )}

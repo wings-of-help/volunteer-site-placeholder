@@ -1,13 +1,10 @@
-// import { useTranslation } from "react-i18next";
 import { useEffect, useMemo, useState } from "react";
 import type { HelpCart } from "../../api/types/HelpCart";
-// import CartItem from "../CartItem/CartItem";
 import "./ActiveGroup.scss"
 import { Link } from "react-router-dom";
 import vector from "../../assets/Vector.svg"
 import { GetHelpCarts } from "../../api/helpCarts.api";
 import CartItem from "../CartItem/CartItem";
-// import { GetHelpCarts } from "../../api/helpCarts.api";
 
 type Props = {
   title: string;
@@ -15,23 +12,27 @@ type Props = {
   p2?: string;
   seeAll: string;
   path: string;
+  kind: "offer" | "request";
 }
 
-export default function ActiveGroup({title, p = "", p2 = "", seeAll, path}: Props) {
+export default function ActiveGroup({title, p = "", p2 = "", seeAll, path, kind}: Props) {
   const [carts, setCarts] = useState<HelpCart[]>([]);
 
-    useEffect(() => {
-      GetHelpCarts().then((data) => {
-        setCarts(data.results);
+  useEffect(() => {
+      GetHelpCarts({kind}).then((data) => {
+        setCarts(data.results.slice(0, 3));
       });
-    }, []);
+    }, [kind, path]);
 
     const cartType: "offer" | "request" =
       path === "offers" ? "offer" : "request";
 
     const filteredCarts = useMemo(() => {
-      return carts.filter((cart) => cart.kind === cartType).slice(0, 3);
+      return carts.filter((cart) => cart.kind === cartType);
     }, [carts, cartType]);
+
+    console.log(carts, filteredCarts);
+    
   
   return (
     <div className="home-active-requests">
@@ -49,7 +50,7 @@ export default function ActiveGroup({title, p = "", p2 = "", seeAll, path}: Prop
         </div>
 
         <div className="home-active-requests__carts">
-          {filteredCarts.map((cart: HelpCart) => {
+          {carts.map((cart: HelpCart) => {
             return <CartItem
               type={path.replace("/", "") as 'offers' | 'requests'}
               kind={cart.kind}
