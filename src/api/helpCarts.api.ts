@@ -10,7 +10,9 @@ export async function GetHelpCarts(params?: {
   location?: number;
   status?: string[];
   ordering?: string;
+  page?: number; 
 }): Promise<HelpResponse> {
+
   const query = new URLSearchParams();
 
   if (params?.kind) {
@@ -31,6 +33,10 @@ export async function GetHelpCarts(params?: {
 
   if (params?.status?.length) {
     query.append("status", params.status.join(","));
+  }
+
+  if (params?.page) {
+    query.append("page", String(params.page));
   }
 
   const url = `${BASE_URL}/help/${query.toString() ? `?${query}` : ""}`;

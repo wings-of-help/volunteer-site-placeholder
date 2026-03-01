@@ -22,14 +22,14 @@ export default function CatalogItems({
   kind
 }: Props) {
   const { t } = useTranslation();
-  const [carts, setCarts] = useState<HelpCart[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-    
-  useEffect(() => {
-    setIsLoading(true);
-    setIsError(false);
 
+  const [carts, setCarts] = useState<HelpCart[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [page, setPage] = useState(1);
+  const [nextUrl, setNextUrl] = useState<string | null>(null);
+
+  const buildParams = () => {
     const locationFilter = activeFilters.find(
       (f) => f.type === "location"
     )?.id;
@@ -45,33 +45,51 @@ export default function CatalogItems({
     const ordering =
       sortType === "newest" ? "-created_at" : "created_at";
 
-    GetHelpCarts({
+    return {
       kind,
       location: Number(locationFilter),
       status: statusFilters,
       category: categoryFilters,
       ordering,
-    })
-      .then((data) => {
+      page,
+    };
+  };
+
+  const fetchCarts = async (isLoadMore = false) => {
+    try {
+      setIsLoading(true);
+      setIsError(false);
+
+      const data = await GetHelpCarts(buildParams());
+
+      if (isLoadMore) {
+        setCarts(prev => [...prev, ...data.results]);
+      } else {
         setCarts(data.results);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsError(true);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1000)
-      });
+      }
+
+      setNextUrl(data.next);
+    } catch (err) {
+      console.log(err);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setPage(1);
+    setCarts([]);
   }, [kind, activeFilters, sortType]);
+
+  useEffect(() => {
+    fetchCarts(page > 1);
+  }, [page]);
 
   return (
     <div className="catalog__container">
       <div className="catalog__items">
-      {isLoading && <Loader />}
-
-        {!isLoading && carts.map((cart) => (
+        {carts.map((cart) => (
           <CartItem
             key={cart.id}
             type={type}
@@ -84,9 +102,11 @@ export default function CatalogItems({
             kind={cart.kind}
           />
         ))}
+
+        {isLoading && <Loader />}
       </div>
 
-      {!isLoading && carts.length === 0 && (
+      {!isLoading && carts.length === 0 && !isError && (
         <div className="no-results">
           <h3 className="no-results__title">{t("No-results")}</h3>
           <p className="no-results__p">
@@ -101,8 +121,11 @@ export default function CatalogItems({
         </div>
       )}
 
-      {!isLoading && carts.length >= 8 && (
-        <div className="catalog__load-more-button">
+      {nextUrl && !isLoading && (
+        <div
+          className="catalog__load-more-button"
+          onClick={() => setPage(prev => prev + 1)}
+        >
           {t("Load-more")}
           <img className="arrow" src={arrowDown} alt="dropdown" />
         </div>
