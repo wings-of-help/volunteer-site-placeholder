@@ -1,7 +1,46 @@
+@use "../../styles/mixins/index" as *;
+@use "../../styles/mixins.scss" as *;
+@use "../../styles/variables" as *;
+
 .about__content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include centeredFlexBox;
   flex-direction: column;
-  height: 1000px;
+  margin-top: 80px;
+  gap: 64px;
+  max-width: 1224px;
+  margin-inline: auto;
+  margin-bottom: 132px;
+  
+  &__main {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 16px;
+    max-width: 807px;
+    position: relative;
+    
+    &__title {
+      @include text-h1;
+      font-size: 40px;
+    }
+
+    &__p {
+      @include text-h3;
+      font-weight: 400;
+    }
+  }
+
+  &__carts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    row-gap: 80px;
+    column-gap: 24px;
+    min-height: 475px;
+  }
+}
+
+.loader-about {
+  @include centeredFlexBox;
+  width: 1224px;
 }

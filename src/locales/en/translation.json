@@ -189,7 +189,7 @@
   "Okay": "Okay",
 
   "Back-to": "Back to",
-  "About": "About",
+  "About": "About us",
   "Register-to-Help": "Register to Help",
   "Offer-help": "Offer help",
   "Only-registered-volunteers-can-respond-to-this-request": "Only registered volunteers can respond to this request.",
@@ -260,5 +260,28 @@
   "Explore-Other-Requests": "Explore Other Requests",
 
   "Meet-Our-Team": "Meet Our Team",
-  "Team-description": "We are a team brought together by a shared desire to make a positive difference. In times of war and uncertainty, we believe in coming together, supporting one another, and strengthening our communities. This platform is our small step toward making it easier for everyone to connect, help, and create meaningful change."
+  "Team-description": "We are a team brought together by a shared desire to make a positive difference. In times of war and uncertainty, we believe in coming together, supporting one another, and strengthening our communities. This platform is our small step toward making it easier for everyone to connect, help, and create meaningful change.",
+  "Help-in-progress": "Help in progress",
+  "Help-completed": "Help completed",
+
+  "You-haven’t-created-any-offers-yet": "You haven’t created any offers yet",
+  "Active-Offers": "Active Offers",
+  "Past-Offers": "Past Offers",
+  "Create New Offer": "Create New Offer",
+
+  "You-haven’t-created-any-requests-yet": "You haven’t created any requests yet",
+
+  "Active-Responses": "Active Responses",
+  "Past-Responses": "Past Responses",
+  "Edit-Request": "Edit Request",
+  "Mark-as-Done": "Mark as Done",
+  "Are-you-sure-you-want-to-mark-this-request-as-done": "Are you sure you want to mark this request as done?",
+  "This-action": "This action",
+  "cannot-be-undone": "cannot be undone.",
+  "Yes-mark-as-done": "Yes, mark as done",
+  "Are-you-sure-you-want-to-delete-this-post": "Are you sure you want to delete this post?",
+  "Delete": "Delete",
+
+  "No-results": "No results",
+  "Try-changing-a-city-or-category": "Try changing a city or category."
 }

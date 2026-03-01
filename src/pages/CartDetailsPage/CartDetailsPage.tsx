@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useParams, useLocation, useOutletContext } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -28,7 +28,13 @@ type Props = {
   type: 'requests' | 'offers';
 };
 
+type OutletContextType = {
+  setIsPageLoading?: (loading: boolean) => void;
+};
+
 export default function CartDetailsPage({ type }: Props) {
+  const { setIsPageLoading } = useOutletContext<OutletContextType>() || {}
+  
   const [activeModal, setActiveModal] = useState(false);
   const { cartId } = useParams();
   const [wasClicked, setWasClicked] = useState(() => {
@@ -61,14 +67,17 @@ export default function CartDetailsPage({ type }: Props) {
   const normalizeBackPath = backPath.split("/").join(" ")
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
+    setIsPageLoading?.(true);
+
     GetHelpCartById(Number(cartId))
       .then((data) => setCart(data))
       .catch(console.error)
       .finally(() => {
         setTimeout(() => {
-          setIsLoading(false)
-        }, 600)
+          setIsLoading(false);
+          setIsPageLoading?.(false);
+        }, 1000)
       })
 
       const clicked = localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
@@ -76,6 +85,15 @@ export default function CartDetailsPage({ type }: Props) {
   }, [cartId]);
 
   const isDisabled = !cart || wasClicked || cart.status !== 'new';
+
+  const buttonText =
+    cart?.status === 'done'
+      ? t('Help-completed')
+      : cart?.status === 'in_progress'
+        ? wasClicked
+          ? t('Offer-sent')
+          : t('Help-in-progress')
+        : t('Offer-help');
 
   function navigateTo(path?: string) {
     navigate(path && path !== "/" ? path : origin);
@@ -120,8 +138,10 @@ export default function CartDetailsPage({ type }: Props) {
     <>
       <div className='cart-details-page'>
         {isLoading ? (
-          <Loader />
-        ): (
+          <div className='loader'>
+            <Loader />
+          </div>
+        ) : (
         <div className='cart-details-page__container'>
           {/* NAV */}
           <nav className='cart-details-page__nav'>
@@ -201,7 +221,7 @@ export default function CartDetailsPage({ type }: Props) {
                   handleRespond();
                 }}
               >
-                {!isDisabled ? (t("Offer-help")) : (t("Offer-sent"))}
+                {buttonText}
               </button>
             )}
 
@@ -252,7 +272,7 @@ export default function CartDetailsPage({ type }: Props) {
           <div className='cart-details-page__info__person-info'>
             <h1>
               {type === 'requests' ? t('Requester') : t('Volunteer')}
-              {!isAuth && `: cody`}
+              {!isAuth && `: ${cart.creator_info.first_name} ${cart.creator_info.last_name}`}
             </h1>
 
             {isAuth && (
@@ -287,7 +307,8 @@ export default function CartDetailsPage({ type }: Props) {
             seeAll={
               type === 'requests' ? t('see-all-requests') : t('see-all-offers')
             }
-            path={type}
+            path={`/${type}`}
+            kind={cart.kind}
           />
         </div>
         )}

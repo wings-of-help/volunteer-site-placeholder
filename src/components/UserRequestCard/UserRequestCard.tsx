@@ -11,6 +11,7 @@ import trashIcon from '../../assets/Trash.svg';
 import moreIcon from '../../assets/more-vertical.svg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StatusBlock from '../UI-elements/StatusBlock/StatusBlock';
+import { useTranslation } from 'react-i18next';
 
 type CardMode = 'owner-request' | 'owner-offer' | 'volunteer' | 'catalog';
 
@@ -55,6 +56,7 @@ export const UserRequestCard = ({
   onDeleted,
   onCompleted,
 }: Props) => {
+  const {t} = useTranslation();
   const [isDoneModalOpen, setIsDoneModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [localStatus, setLocalStatus] = useState(status);
@@ -187,7 +189,7 @@ export const UserRequestCard = ({
                   navigate(`/profile/${basePath}/${id}/edit`);
                 }}
               >
-                Edit Request
+                {t("Edit-Request")}
               </button>
 
               <button
@@ -203,7 +205,7 @@ export const UserRequestCard = ({
                   setIsDoneModalOpen(true);
                 }}
               >
-                Mark as Done
+                {t("Mark-as-Done")}
               </button>
 
               <button
@@ -225,16 +227,16 @@ export const UserRequestCard = ({
         {/* DONE MODAL */}
         {isOwner && isDoneModalOpen && (
           <ConfirmModal
-            title='Are you sure you want to mark this request as done?'
+            title={t("Are-you-sure-you-want-to-mark-this-request-as-done")}
             description={
               <>
-                This action{' '}
+                {t("This-action")}{' '}
                 <span className='confirm-modal__warning'>
-                  cannot be undone.
+                  {t("cannot-be-undone")}
                 </span>
               </>
             }
-            confirmText='Yes, mark as done'
+            confirmText={t("Yes-mark-as-done")}
             onCancel={() => setIsDoneModalOpen(false)}
             onConfirm={handleMarkDone}
           />
@@ -243,9 +245,9 @@ export const UserRequestCard = ({
         {/* DELETE MODAL */}
         {isOwner && isDeleteModalOpen && (
           <ConfirmModal
-            title='Are you sure you want to delete this post?'
-            confirmText='Delete'
-            cancelText='Cancel'
+            title={t("Are-you-sure-you-want-to-delete-this-post")}
+            confirmText={t("Delete")}
+            cancelText={t("Cancel")}
             variant='danger'
             icon={trashIcon}
             onCancel={() => {

@@ -2,6 +2,9 @@
 @use '../../styles/mixins/index' as *;
 
 .cart-details-page {
+  word-break: break-word;
+  overflow-wrap: break-word;
+
   @include centeredFlexBox;
   flex-direction: column;
   margin-top: 72px;
@@ -72,6 +75,7 @@
 
         &__button {
           @include text-h2;
+          @include blueButton;
         }
 
         &__signin {
@@ -80,8 +84,9 @@
           gap: 16px;
           @include text-h3;
           font-size: 16px;
-
+          
           &__link {
+            @include disableLinkStyles;
             color: #000;
           }
         }
@@ -206,4 +211,9 @@
   background-color: #B3D0FF;
   pointer-events: none;
   cursor: not-allowed; 
+}
+
+.loader {
+  position: absolute;
+  top: 0;
 }

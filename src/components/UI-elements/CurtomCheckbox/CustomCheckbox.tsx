@@ -1,18 +1,20 @@
 import "./CustomCheckbox.scss"
 import checkIcon from "../../../assets/Chechbox.svg"
 import type { ActiveFilter } from "../../../pages/CatalogPage/CatalogPage"
+import { formatLabel } from "../../../utils/FormatLabel";
 
 type Props = {
-  title: string
+  id: string;
+  title: string;
   activeFilters: ActiveFilter[];
   onToggleFilter: (filter: ActiveFilter) => void;
   checktype: "category" | "status";
 }
 
-export default function CustomCheckbox({ title, activeFilters, onToggleFilter, checktype }: Props) {
+export default function CustomCheckbox({ title, activeFilters, onToggleFilter, checktype, id }: Props) {
   const isChecked = activeFilters.some(
-    f => f.type === checktype && f.value === title
-  )
+    f => f.type === checktype && f.id === id
+  );
 
   return (
     <label className="custom__checkbox">
@@ -23,7 +25,7 @@ export default function CustomCheckbox({ title, activeFilters, onToggleFilter, c
           onToggleFilter({
             type: checktype,
             value: title,
-            id: `${checktype}-${title}`,
+            id: id,
           })
         }
         hidden
@@ -37,7 +39,7 @@ export default function CustomCheckbox({ title, activeFilters, onToggleFilter, c
         {isChecked && <img src={checkIcon} alt="checked" />}
       </span>
 
-      <span className="custom__checkbox-text">{title.includes("_") ? title.replace(/_/g, " ") : title}</span>
+      <span className="custom__checkbox-text">{formatLabel(title)}</span>
     </label>
   )
 }

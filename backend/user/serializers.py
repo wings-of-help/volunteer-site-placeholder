@@ -158,3 +158,7 @@ class PhoneNumberAvailabilitySerializer(serializers.Serializer):
                 "This phone number is already in use."
             )
         return value
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)

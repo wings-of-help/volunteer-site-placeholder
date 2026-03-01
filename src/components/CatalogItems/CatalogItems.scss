@@ -16,6 +16,7 @@
 .catalog__load-more-button {
   @include centeredFlexBox;
   @include text-h3;
+  cursor: pointer;
   width: 184px;
   height: 57px;
   gap: 8px;

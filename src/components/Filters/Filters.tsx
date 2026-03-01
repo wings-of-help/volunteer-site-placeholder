@@ -1,4 +1,5 @@
 import type { ActiveFilter } from '../../pages/CatalogPage/CatalogPage';
+import { formatLabel } from '../../utils/FormatLabel';
 import Filter from '../UI-elements/Filter/Filter'
 import './Filters.scss'
 
@@ -15,7 +16,7 @@ export default function Filters({filters, onRemove, onClear}: Props) {
       {filters.map(filter => (
         <Filter
           key={filter.id}
-          filter={filter.value}
+          filter={formatLabel(filter.value)}
           onRemove={() => onRemove(filter.id)}
           // onToggleFilter={onToggleFilter}
         />
