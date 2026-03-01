@@ -21,15 +21,17 @@ export default function CatalogItems({
   sortType,
   kind
 }: Props) {
+
   const { t } = useTranslation();
 
   const [carts, setCarts] = useState<HelpCart[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
   const [nextUrl, setNextUrl] = useState<string | null>(null);
 
-  const buildParams = () => {
+  const buildParams = (pageNumber: number) => {
     const locationFilter = activeFilters.find(
       (f) => f.type === "location"
     )?.id;
@@ -47,66 +49,91 @@ export default function CatalogItems({
 
     return {
       kind,
-      location: Number(locationFilter),
+      location: locationFilter ? Number(locationFilter) : undefined,
       status: statusFilters,
       category: categoryFilters,
       ordering,
-      page,
+      page: pageNumber,
     };
   };
 
-  const fetchCarts = async (isLoadMore = false) => {
-    try {
-      setIsLoading(true);
-      setIsError(false);
+  const fetchCarts = (pageNumber: number, isLoadMore = false) => {
 
-      const data = await GetHelpCarts(buildParams());
+  if (isLoadMore) {
+    setIsLoadingMore(true);
+  } else {
+    setIsInitialLoading(true);
+  }
+
+  setIsError(false);
+
+  GetHelpCarts(buildParams(pageNumber))
+    .then((data) => {
 
       if (isLoadMore) {
-        setCarts(prev => [...prev, ...data.results]);
+        // 🔥 затримуємо ДОДАВАННЯ карток
+        setTimeout(() => {
+          setCarts(prev => [...prev, ...data.results]);
+          setIsLoadingMore(false);
+        }, 1000);
+
       } else {
-        setCarts(data.results);
+        setTimeout(() => {
+          setCarts(data.results);
+          setIsInitialLoading(false);
+        }, 1000);
       }
 
       setNextUrl(data.next);
-    } catch (err) {
+    })
+    .catch((err) => {
       console.log(err);
       setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      setIsLoadingMore(false);
+      setIsInitialLoading(false);
+    });
+};
 
   useEffect(() => {
     setPage(1);
-    setCarts([]);
+    fetchCarts(1, false);
   }, [kind, activeFilters, sortType]);
 
-  useEffect(() => {
-    fetchCarts(page > 1);
-  }, [page]);
+  const handleLoadMore = () => {
+    // setTimeout(() => {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      fetchCarts(nextPage, true);
+    // }, 1000)
+  };
 
   return (
     <div className="catalog__container">
       <div className="catalog__items">
-        {carts.map((cart) => (
-          <CartItem
-            key={cart.id}
-            type={type}
-            id={cart.id}
-            title={cart.title}
-            location={cart.location_name}
-            description={cart.description}
-            status={cart.status}
-            category={cart.category_name}
-            kind={cart.kind}
-          />
-        ))}
 
-        {isLoading && <Loader />}
+        {isInitialLoading ? (
+          <Loader />
+        ) : (
+          <>
+            {carts.map((cart) => (
+              <CartItem
+                key={cart.id}
+                type={type}
+                id={cart.id}
+                title={cart.title}
+                location={cart.location_name}
+                description={cart.description}
+                status={cart.status}
+                category={cart.category_name}
+                kind={cart.kind}
+              />
+            ))}
+          </>
+        )}
+
       </div>
 
-      {!isLoading && carts.length === 0 && !isError && (
+      {!isInitialLoading && carts.length === 0 && !isError && (
         <div className="no-results">
           <h3 className="no-results__title">{t("No-results")}</h3>
           <p className="no-results__p">
@@ -121,10 +148,16 @@ export default function CatalogItems({
         </div>
       )}
 
-      {nextUrl && !isLoading && (
+      {isLoadingMore && (
+        <div className="catalog__loading-more">
+          <Loader />
+        </div>
+      )}
+
+      {nextUrl && !isLoadingMore && !isInitialLoading && (
         <div
           className="catalog__load-more-button"
-          onClick={() => setPage(prev => prev + 1)}
+          onClick={handleLoadMore}
         >
           {t("Load-more")}
           <img className="arrow" src={arrowDown} alt="dropdown" />
