@@ -214,7 +214,7 @@
     display: block;
     text-decoration: none;
   }
-}
+
 
 .mobile-menu__close {
   align-self: flex-end;
@@ -231,7 +231,7 @@
   align-items: center;
 }
 
-.mobile-menu__nav {
+&__nav {
   height: 400px;
 
   display: flex;
@@ -250,7 +250,7 @@
   }
 }
 
-.mobile-menu__buttons {
+&__buttons {
   width: 100%;
 
   display: flex;
@@ -278,7 +278,7 @@
   }
 }
 
-.mobile-menu__profile {
+&__profile {
   width: 100%;
 
   @include button-primary;
@@ -300,7 +300,7 @@
   }
 }
 
-.mobile-menu__lang {
+&__lang {
   width: 100%;
 
   .custom-select--lang {
@@ -321,4 +321,5 @@
     justify-content: center;
     align-items: center;
   }
+}
 }

@@ -33,6 +33,18 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const ActivateLink = ({ isActive }: { isActive: boolean }) =>
     classNames('header__nav__pages__page', {
       'has-underline': isActive,
@@ -124,20 +136,38 @@ export default function Header() {
             className='mobile-menu__close'
             onClick={() => setIsMenuOpen(false)}
           >
-           <img src={closeIcon} alt="close menu" />
+            <img src={closeIcon} alt='close menu' />
           </button>
 
           <nav className='mobile-menu__nav'>
-            <NavLink to='/requests' onClick={() => setIsMenuOpen(false)}>
-              {t('Requests')}
+            <NavLink
+              to='/requests'
+              className='header__nav__pages__page'
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className='header__nav__pages__page__title'>
+                {t('Requests')}
+              </span>
             </NavLink>
 
-            <NavLink to='/offers' onClick={() => setIsMenuOpen(false)}>
-              {t('Offers')}
+            <NavLink
+              to='/offers'
+              className='header__nav__pages__page'
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className='header__nav__pages__page__title'>
+                {t('Offers')}
+              </span>
             </NavLink>
 
-            <NavLink to='/about' onClick={() => setIsMenuOpen(false)}>
-              {t('About')}
+            <NavLink
+              to='/about'
+              className='header__nav__pages__page'
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className='header__nav__pages__page__title'>
+                {t('About')}
+              </span>
             </NavLink>
           </nav>
 
