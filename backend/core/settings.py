@@ -191,18 +191,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
-EMAIL_HOST = "in-v3.mailjet.com"
-EMAIL_PORT = 25
-
-EMAIL_HOST_USER = os.environ.get("MAILJET_API_KEY")
-EMAIL_HOST_PASSWORD = os.environ.get("MAILJET_SECRET_API_KEY")
-
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-
-DEFAULT_FROM_EMAIL = "bliznukanton5@gmail.com"
 ADMIN_SECRET_CODE = os.environ.get("ADMIN_SECRET_CODE")
 
 if not DEBUG:

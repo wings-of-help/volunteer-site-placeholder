@@ -7,12 +7,19 @@
   max-width: 2400px;
   margin: 0 auto;
   background: $color-white;
+  @include mobile {
+    margin: 8px 16px 0;
+  }
 
   &__header {
     margin: 24px 108px 0;
     height: $control-height;
     @include flex-center;
     justify-content: flex-start;
+
+    @include mobile {
+      margin: 8px 16px 0;
+    }
   }
 
   &__brand {
@@ -33,13 +40,26 @@
   }
 
   &__form {
-    @include flex-center;
-    margin-top: 88px;
-    padding-bottom: 200px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    @media (min-width: 1025px) {
+      align-items: center;
+      margin-top: 118px;
+    }
+    @include mobile {
+      margin-top: 24px;
+      padding-bottom: 48px;
+    }
   }
 
   &__container {
     width: $container-width;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 }
 
@@ -50,6 +70,7 @@
 .auth-form {
   display: flex;
   flex-direction: column;
+  flex: 1;
 
   &__header {
     @include flex-column(8px);
@@ -86,6 +107,10 @@
 
   &__fields {
     @include flex-column(16px);
+
+    @include mobile {
+      flex: 1;
+    }
   }
 
   /* =========================
@@ -149,6 +174,9 @@
   &__actions {
     @include flex-column;
     align-items: center;
+    @include mobile {
+      margin-top: auto;
+    }
   }
 
   /* =========================
@@ -161,7 +189,7 @@
     align-items: baseline;
     justify-content: center;
     gap: 16px;
-     align-items: baseline; 
+    align-items: baseline;
 
     @include text-body;
     color: $color-gray-9;
@@ -219,13 +247,14 @@
     gap: 8px;
     padding: 0 16px;
 
+    width: 110px;
+    flex-shrink: 0;
+
     height: 100%;
     background: $color-gray-1;
     border-right: 2px solid $color-gray-4;
 
-    font-size: 20px;
-    line-height: 1.35;
-    font-weight: 400;
+    @include text-body-regular;
     color: $color-gray-9;
 
     img {
@@ -371,21 +400,22 @@
 
   &__checkbox {
     display: flex;
-    align-items: center;
+    // align-items: center;
     gap: 8px;
     cursor: pointer;
     margin-top: 8px;
   }
 
   &__checkbox-box {
-    width: 20px;
-    height: 20px;
-    border: 2px solid $color-gray-4;
+    width: 24px;
+    height: 24px;
+    border: 2px solid $color-primary-500;
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    flex-shrink: 0;
 
     &--checked {
       border-color: $color-primary-500;

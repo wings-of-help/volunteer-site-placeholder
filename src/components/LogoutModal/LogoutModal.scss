@@ -65,3 +65,37 @@
     @include text-body-med;
   }
 }
+
+@include mobile {
+
+  .logout-modal {
+    width: 100%;
+    max-width: 361px;
+
+    padding: 16px;
+
+    &__icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 16px;
+    }
+
+    &__title {
+      @include text-body-med;
+    }
+
+    &__description {
+      margin-bottom: 16px;
+    }
+
+    &__actions {
+      gap: 16px;
+    }
+
+    &__btn {
+      height: 48px;
+      font-size: 16px;
+    }
+  }
+
+}

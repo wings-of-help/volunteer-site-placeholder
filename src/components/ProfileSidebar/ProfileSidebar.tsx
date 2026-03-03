@@ -2,7 +2,9 @@ import { NavLink } from 'react-router-dom';
 import infoIcon from '../../assets/profile2.svg';
 import infoIconGrey from '../../assets/infoIcon-grey.svg';
 import requestsIcon from '../../assets/HandsPraying.svg';
+import requestsIconWhite from '../../assets/HandsPraying-wite.svg';
 import responsesIcon from '../../assets/ArrowsClockwise.svg';
+import responsesIconWhite from '../../assets/ArrowsClockwise-wite.svg';
 import logoutIcon from '../../assets/Logout.svg';
 import './ProfileSidebar.scss';
 import type { User } from '../../api/types/auth';
@@ -17,8 +19,6 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
   const { t } = useTranslation();
 
   const role = user.role;
-
-  // admin поводиться як distressed
   const isRequester = role === 'distressed' || role === 'admin';
   const isVolunteer = role === 'volunteer';
 
@@ -36,7 +36,7 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
       <nav className='profile__menu'>
         {/* PERSONAL INFO — для всіх */}
         <NavLink
-          to='/profile'
+          to="/profile/info"
           end
           className={({ isActive }) =>
             `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
@@ -55,13 +55,15 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           <NavLink
             to='/profile/requests'
             className={({ isActive }) =>
-              `profile__menu-item ${
-                isActive ? 'profile__menu-item--active' : ''
-              }`
+              `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
             }
           >
-            <img src={requestsIcon} alt='' />
-            <span>{t('My-Requests')}</span>
+            {({ isActive }) => (
+              <>
+                <img src={isActive ? requestsIconWhite : requestsIcon} alt='' />
+                <span>{t('My-Requests')}</span>
+              </>
+            )}
           </NavLink>
         )}
 
@@ -70,13 +72,15 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
           <NavLink
             to='/profile/offers'
             className={({ isActive }) =>
-              `profile__menu-item ${
-                isActive ? 'profile__menu-item--active' : ''
-              }`
+              `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
             }
           >
-            <img src={requestsIcon} alt='' />
-            <span>{t('My-Offers')}</span>
+            {({ isActive }) => (
+              <>
+                <img src={isActive ? requestsIconWhite : requestsIcon} alt='' />
+                <span>{t('My-Offers')}</span>
+              </>
+            )}
           </NavLink>
         )}
 
@@ -87,8 +91,12 @@ export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
             `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
           }
         >
-          <img src={responsesIcon} alt='' />
-          <span>{t('My-Responses')}</span>
+          {({ isActive }) => (
+            <>
+              <img src={isActive ? responsesIconWhite : responsesIcon} alt='' />
+              <span>{t('My-Responses')}</span>
+            </>
+          )}
         </NavLink>
 
         {/* LOGOUT */}

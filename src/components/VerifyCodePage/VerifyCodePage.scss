@@ -7,6 +7,10 @@
   gap: 14px;
   margin-bottom: 32px;
 
+  @include mobile {
+    gap: 8px;
+  }
+
   &__back {
     @include text-small-med;
 
@@ -44,12 +48,16 @@
     &:focus {
       border-color: $color-primary-500;
     }
-    
+
     &::placeholder {
-    color: $color-gray-6;
-    font-size: 20px;
-    line-height: 1;
-  }
+      color: $color-gray-6;
+      font-size: 20px;
+      line-height: 1;
+    }
+    @include mobile {
+      width: 53.5px;
+      height: 56px;
+    }
   }
 
   &__label {

@@ -138,13 +138,15 @@ export const NewPasswordPage = () => {
               />
             </div>
           </label>
+        </div>
 
-          <button
+        <div className='auth-form__actions'>
+                    <button
             className='auth-form__button forgot__mt'
             disabled={!isValid}
             onClick={handleSubmit}
           >
-            {t('Sign-in')}
+            {t('Create-new-password')}
           </button>
         </div>
       </div>

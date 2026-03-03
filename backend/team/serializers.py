@@ -15,6 +15,7 @@ class SocialLinkSerializer(serializers.ModelSerializer):
 
 class TeammateSerializer(serializers.ModelSerializer):
     social_links = SocialLinkSerializer(many=True)
+    photo = serializers.SerializerMethodField()
 
     class Meta:
         model = Teammate
@@ -30,3 +31,8 @@ class TeammateSerializer(serializers.ModelSerializer):
             "photo",
             "social_links"
         )
+
+    def get_photo(self, obj):
+        if obj.photo:
+            return obj.photo.url
+        return None
