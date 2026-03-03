@@ -3,6 +3,8 @@ import { ProfileModal } from '../../ProfileModal/ProfileModal';
 import { useAuth } from '../../../../context/AuthContext';
 import { updateMyProfileRequest } from '../../../../api/user.api';
 import { formatPhoneForDisplay } from '../../../../utils/phone';
+import { ProfilePasswordModal } from '../../../../components/ProfilePasswordModal/ProfilePasswordModal';
+import { changePasswordRequest } from '../../../../api/user.api';
 import './ProfileInfo.scss';
 import { useTranslation } from 'react-i18next';
 
@@ -72,11 +74,18 @@ export const ProfileInfo = () => {
     }
   };
 
-  const handleModalSuccess = async (value: string) => {
+  const handleModalSuccess = async (value: any) => {
     if (!activeModal || !user) return;
 
     if (activeModal === 'email' || activeModal === 'phone') {
       await handleContactChange(activeModal, value);
+    }
+
+    if (activeModal === 'password') {
+      await changePasswordRequest({
+        old_password: value.oldPassword,
+        new_password: value.newPassword,
+      });
     }
 
     await getMyProfile();
@@ -193,11 +202,18 @@ export const ProfileInfo = () => {
         </div>
       </div>
 
-      {activeModal && (
+      {(activeModal === 'email' || activeModal === 'phone') && (
         <ProfileModal
           type={activeModal}
           onClose={() => setActiveModal(null)}
           onSuccess={handleModalSuccess}
+        />
+      )}
+
+      {activeModal === 'password' && (
+        <ProfilePasswordModal
+          onClose={() => setActiveModal(null)}
+          onConfirm={handleModalSuccess}
         />
       )}
     </>

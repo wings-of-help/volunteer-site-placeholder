@@ -245,6 +245,8 @@
 
   "Verification-code": "Verification code",
   "Create-new-password": "Create new password",
+  "Current-password": "Current password",
+  "Current-password-is-incorrect": "Current password is incorrect",
   "Enter-a-new-password-to-finish-resetting-your-account": "Enter a new password to finish resetting your account.",
   "Didnt-receive-the-code": "Didn't receive the code?",
   "roles": {

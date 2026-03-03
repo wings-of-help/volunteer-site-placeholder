@@ -51,7 +51,16 @@ export const Root = () => {
                 <Route path='/' element={<App />}>
                   <Route index element={<HomePage />} />
                   <Route path='profile' element={<ProfilePage />}>
-                    <Route index element={<ProfileInfo />} />
+                    <Route
+                      index
+                      element={
+                        window.innerWidth > 1024 ? (
+                          <Navigate to='info' replace />
+                        ) : null
+                      }
+                    />
+
+                    <Route path='info' element={<ProfileInfo />} />
 
                     {/* REQUESTS */}
                     <Route path='requests' element={<MyRequests />} />
@@ -106,10 +115,7 @@ export const Root = () => {
                     element={<CartDetails type={'offers'} />}
                   />
 
-                  <Route
-                    path='about'
-                    element={<AboutTeam />}
-                  />
+                  <Route path='about' element={<AboutTeam />} />
 
                   <Route path='home' element={<Navigate to='/' replace />} />
                 </Route>

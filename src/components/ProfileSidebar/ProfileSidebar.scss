@@ -8,6 +8,11 @@
     padding: 24px;
     background-color: $color-primary-100;
     border-radius: 4px;
+
+    @include mobile {
+      width: 100%;
+      padding: 16px;
+    }
   }
 
   &__user {
@@ -62,6 +67,10 @@
     &--logout {
       color: $color-error;
       margin-top: 16px;
+    }
+
+    @include mobile {
+      padding: 0 8px;
     }
   }
 }

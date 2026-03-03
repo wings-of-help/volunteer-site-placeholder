@@ -5,6 +5,10 @@
   padding: 80px 0;
   @include flex-center;
 
+  @include mobile {
+    padding: 24px 0;
+  }
+
   &__layout {
     max-width: 1400px;
     width: 100%;
@@ -14,10 +18,45 @@
     display: grid;
     grid-template-columns: 392px minmax(24px, 128px) 1fr;
     align-items: start;
+
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 0 16px;
+    }
   }
 
   &__content {
     grid-column: 3;
     min-width: 400px;
+
+    @include mobile {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+
+  &__back {
+    display: none;
+
+    @include mobile {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 24px;
+
+      background: transparent;
+      border: none;
+      cursor: pointer;
+
+      @include text-small-med;
+      color: $color-gray-9;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+    }
   }
 }

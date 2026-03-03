@@ -4,14 +4,82 @@
 @use 'sass:color';
 
 .user-request-card {
-  word-break: break-word;
-  overflow-wrap: break-word;
-  
+  position: relative;
   width: 100%;
   max-width: 704px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  &__menu {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+
+    display: none;
+
+    @include mobile {
+      display: block;
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 45px;
+    right: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 131px;
+
+    background: $color-gray-0;
+    border-radius: 4px;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+    button {
+      padding: 12px 16px;
+      background: transparent;
+      border: none;
+
+      text-align: left;
+      cursor: pointer;
+
+      @include text-body-regular;
+
+      color: $color-gray-9;
+
+      &:hover {
+        background: $color-gray-3;
+      }
+
+      &:active {
+        background: $color-gray-4;
+      }
+    }
+  }
+
+  &__dropdown-divider {
+    width: 99px;
+    margin: 0 auto;
+    height: 1px;
+    background: $color-gray-3;
+  }
+
+  &__dropdown-delete {
+    &:hover {
+      background: $color-error-200 !important;
+    }
+
+    &:active {
+      background: $color-error-300 !important;
+    }
+  }
 
   /* ================= CARD LINK ================= */
 
@@ -31,6 +99,10 @@
 
     &:hover {
       background: $color-gray-0;
+    }
+
+    @include mobile {
+      padding: 16px;
     }
   }
 
@@ -129,6 +201,10 @@
   &__actions {
     display: flex;
     gap: 8px;
+
+    @include mobile {
+      flex-direction: column;
+    }
   }
 
   &__edit {
@@ -137,6 +213,10 @@
     @include button-base;
     @include button-border;
     @include text-body-med;
+
+    @include mobile {
+      display: none;
+    }
   }
 
   &__view {
@@ -145,6 +225,15 @@
     @include button-base;
     @include button-primary;
     @include text-body-med;
+
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   &__delete {
@@ -160,6 +249,10 @@
       width: 24px;
       height: 24px;
       pointer-events: none;
+    }
+
+    @include mobile {
+      display: none;
     }
   }
 }

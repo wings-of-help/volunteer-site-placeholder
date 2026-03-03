@@ -1,9 +1,15 @@
 @use '../variables' as *;
+@use './media' as *;
 
 @mixin text-h1 {
   font-size: 56px;
   line-height: 1.25;
   font-weight: 500;
+
+  @include mobile {
+    font-size: 40px;
+    line-height: 1.3;
+  }
 }
 
 @mixin text-h2 {
@@ -22,6 +28,9 @@
   font-size: 24px;
   line-height: 1.25;
   font-weight: 700;
+  @include mobile {
+    font-size: 18px;
+  }
 }
 
 @mixin text-body {
@@ -34,6 +43,10 @@
   font-size: 20px;
   line-height: 1.35;
   font-weight: 500;
+
+  @include mobile {
+    font-size: 18px;
+  }
 }
 
 @mixin text-small-med {
@@ -52,6 +65,10 @@
   font-size: 20px;
   line-height: 1.35;
   font-weight: 400;
+
+  @include mobile {
+    font-size: 18px;
+  }
 }
 
 @mixin text-caption {

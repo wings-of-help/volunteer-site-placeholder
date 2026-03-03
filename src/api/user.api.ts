@@ -38,3 +38,21 @@ export const updateMyProfileRequest = async (
 
   return response.json();
 };
+
+export const changePasswordRequest = async (payload: {
+  old_password: string
+  new_password: string
+}) => {
+  const response = await authFetch(`${BASE_URL}/user/change-password/`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.detail || 'Failed to change password');
+  }
+
+  return data;
+};

@@ -45,12 +45,12 @@ export const MyOffers = () => {
 
   /* ===== DELETE HANDLER ===== */
   const handleDeleted = (deletedId: number) => {
-    setOffers(prev => prev.filter(o => o.id !== deletedId));
+    setOffers((prev) => prev.filter((o) => o.id !== deletedId));
   };
 
   /* ===== FILTER ===== */
-  const filteredOffers = offers.filter(offer =>
-    tab === 'active' ? offer.status !== 'done' : offer.status === 'done'
+  const filteredOffers = offers.filter((offer) =>
+    tab === 'active' ? offer.status !== 'done' : offer.status === 'done',
   );
 
   /* ===== STATES ===== */
@@ -60,13 +60,10 @@ export const MyOffers = () => {
   const isEmpty = offers.length === 0;
 
   const handleCompleted = (completedId: number) => {
-  setOffers(prev =>
-    prev.map(o =>
-      o.id === completedId ? { ...o, status: 'done' } : o
-    )
-  );
-};
-
+    setOffers((prev) =>
+      prev.map((o) => (o.id === completedId ? { ...o, status: 'done' } : o)),
+    );
+  };
 
   return (
     <div className='help-list'>
@@ -89,26 +86,28 @@ export const MyOffers = () => {
       ) : (
         <>
           {/* TABS */}
-          <div className='help-list__tabs'>
-            <button
-              className={`help-list__tab ${
-                tab === 'active' ? 'help-list__tab--active' : ''
-              }`}
-              onClick={() => setTab('active')}
-            >
-              {t("Active-Offers")}
-            </button>
+          {!isEmpty && (
+            <div className='help-list__tabs'>
+              <button
+                className={`help-list__tab ${
+                  tab === 'active' ? 'help-list__tab--active' : ''
+                }`}
+                onClick={() => setTab('active')}
+              >
+                Active Offers
+              </button>
 
-            <button
-              className={`help-list__tab ${
-                tab === 'past' ? 'help-list__tab--active' : ''
-              }`}
-              onClick={() => setTab('past')}
-            >
-              {t("Past-Offers")}
-            </button>
-          </div>
-
+              <button
+                className={`help-list__tab ${
+                  tab === 'past' ? 'help-list__tab--active' : ''
+                }`}
+                onClick={() => setTab('past')}
+              >
+                Past Offers
+              </button>
+            </div>
+            )}
+            
           {/* LIST */}
           <div className='help-list__list'>
             {filteredOffers.map((offer) => (
@@ -120,8 +119,8 @@ export const MyOffers = () => {
                 title={offer.title}
                 description={offer.description}
                 status={offer.status}
-                mode="owner-offer"
-                kind="offer"
+                mode='owner-offer'
+                kind='offer'
                 onDeleted={handleDeleted}
                 onCompleted={handleCompleted}
               />
