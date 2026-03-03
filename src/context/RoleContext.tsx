@@ -30,7 +30,6 @@ const RoleProvider = ({ children }: { children: ReactNode }) => {
     setUserRole: setRoleHandler,
   };
 
-  console.log(userRole)
   return (
     <RoleContext.Provider value={value}>
       {children}

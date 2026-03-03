@@ -1,0 +1,39 @@
+.about-cart {
+  display: flex;
+  flex-direction: column;
+  width: 288px;
+  height: 475px;
+
+  &__image {
+    height: 363px;
+    // background-color: greenyellow;
+    border-radius: 24px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 16px;
+
+    &__name {
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 20px;
+      color: #212529;
+    }
+
+    &__role {
+      font-weight: 400;
+      font-style: Regular;
+      font-size: 20px;
+      color: #868E96;
+    }
+  }
+
+  &__socials {
+    display: flex;
+    width: 100%;
+    gap: 24px;
+  }
+}

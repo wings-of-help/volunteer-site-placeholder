@@ -64,6 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    setIsLoading(true)
     const initAuth = async () => {
       try {
         const access = localStorage.getItem('access');
@@ -74,7 +75,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         await getMyProfile();
       } finally {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000)
       }
     };
 

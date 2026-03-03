@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from django.contrib.auth.password_validation import validate_password
-from django.core.mail import send_mail
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -11,20 +10,23 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework import status, viewsets
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import GenericAPIView
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from rest_framework.parsers import MultiPartParser, FormParser
+
+from user.utils import send_email
 
 from .models import PasswordResetCode, User
 from .permissions import UserAccessPermission
 from .serializers import (
     AdminRegisterSerializer,
+    ChangePasswordSerializer,
     CustomTokenObtainPairSerializer,
     EmailAvailabilitySerializer,
     LogoutSerializer,
@@ -32,8 +34,8 @@ from .serializers import (
     PasswordResetRequestSerializer,
     PhoneNumberAvailabilitySerializer,
     RegisterSerializer,
+    UserProfilePictureSerializer,
     UserRetrieveSerializer,
-    UserProfilePictureSerializer
 )
 from .utils import generate_reset_code
 
@@ -259,6 +261,46 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema(
+        summary="Change user password",
+        description="Change user's password.(admin or owner of user account)",
+        request=ChangePasswordSerializer,
+        responses={200: OpenApiResponse(description="Password changed successfully")},
+        tags=["Users"],
+    )
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    user = request.user
+    serializer = ChangePasswordSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    old_password = serializer.validated_data["old_password"]
+    new_password = serializer.validated_data["new_password"]
+
+    if not user.check_password(old_password):
+        return Response(
+            {"detail": "Old password is incorrect."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    try:
+        validate_password(new_password, user=user)
+    except ValidationError:
+        return Response(
+            {"detail": "new password is invalid."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    user.set_password(new_password)
+    user.save()
+
+    return Response(
+        {"detail": "Password changed successfully"},
+        status=status.HTTP_200_OK,
+    )
+
+
+@extend_schema(
     summary="Request password reset",
     request=PasswordResetRequestSerializer,
     responses={
@@ -293,11 +335,10 @@ def request_password_reset(request):
             expires_at=timezone.now() + timedelta(minutes=10)
         )
 
-        send_mail(
+        send_email(
             subject="Password reset code",
-            message=f"Your password reset code is: {code}",
-            from_email=None,
-            recipient_list=[user.email],
+            html_content=f"Your password reset code is: {code}",
+            to_email=user.email,
         )
 
     return Response({"detail": "If the email exists, a code was sent."})

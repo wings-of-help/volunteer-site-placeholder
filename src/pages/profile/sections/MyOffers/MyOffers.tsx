@@ -8,10 +8,13 @@ import { UserRequestCard } from '../../../../components/UserRequestCard/UserRequ
 import '../MyRequests/MyRequests.scss';
 import plusIcon from '../../../../assets/Plus.svg';
 import type { HelpCart } from '../../../../api/types/HelpCart';
+import { useTranslation } from 'react-i18next';
+import { TextLoader } from '../../../../components/TextLoader/TextLoader';
 
 type Tab = 'active' | 'past';
 
 export const MyOffers = () => {
+  const {t} = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -31,7 +34,9 @@ export const MyOffers = () => {
       } catch {
         setError('Failed to load offers');
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000)
       }
     };
 
@@ -49,7 +54,7 @@ export const MyOffers = () => {
   );
 
   /* ===== STATES ===== */
-  if (loading) return <div className='help-list'>Loading...</div>;
+  if (loading) return <TextLoader />;
   if (error) return <div className='help-list'>{error}</div>;
 
   const isEmpty = offers.length === 0;
@@ -69,14 +74,14 @@ export const MyOffers = () => {
           onClick={() => navigate('/profile/offers/new')}
         >
           <img src={plusIcon} alt='' />
-          <span>Create New Offer</span>
+          <span>{t("Create New Offer")}</span>
         </button>
       </div>
 
       {/* EMPTY */}
       {isEmpty ? (
         <div className='help-list help-list--empty'>
-          <p className='help-list__empty'>You haven’t created any offers yet</p>
+          <p className='help-list__empty'>{t("You-haven’t-created-any-offers-yet")}</p>
         </div>
       ) : (
         <>

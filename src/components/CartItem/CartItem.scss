@@ -2,6 +2,9 @@
 @use '../../styles/mixins/index' as *;
 
 .cart-item {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  
   @include disableLinkStyles;
   display: flex;
   flex-direction: column;
