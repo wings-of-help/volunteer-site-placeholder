@@ -68,5 +68,9 @@
       color: $color-error;
       margin-top: 16px;
     }
+
+    @include mobile {
+      padding: 0 8px;
+    }
   }
 }
