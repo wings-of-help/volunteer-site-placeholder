@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ProfileSidebar } from '../../../components/ProfileSidebar/ProfileSidebar';
 import arrowLeft from '../../../assets/arrow-left-2.svg';
@@ -16,36 +17,60 @@ export const ProfileLayout = ({ children, user, onLogout }: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const isRootProfile =
     location.pathname === '/profile' || location.pathname === '/profile/';
 
-  const isMobile = window.innerWidth <= 1024;
-
-  const showSidebar = !isMobile || isRootProfile;
+  const isCreateOrEdit =
+    location.pathname.includes('/new') || location.pathname.includes('/edit');
 
   return (
     <div className='profile'>
       <div className='profile__layout'>
-        {/* SIDEBAR */}
-        {showSidebar && <ProfileSidebar user={user} onLogoutClick={onLogout} />}
+        {/* DESKTOP */}
+        {!isMobile && (
+          <>
+            <ProfileSidebar user={user} onLogoutClick={onLogout} />
 
-        <main className='profile__content'>
-          {/* BACK BUTTON */}
-          {isMobile && !isRootProfile && (
-            <button
-              className='profile__back'
-              onClick={() => {
-                navigate('/profile');
-                window.scrollTo(0, 0);
-              }}
-            >
-              <img src={arrowLeft} alt='Back' />
-              <span>Back to My Account</span>
-            </button>
-          )}
+            <main className='profile__content'>{children}</main>
+          </>
+        )}
 
-          {children}
-        </main>
+        {/* MOBILE SIDEBAR */}
+        {isMobile && isRootProfile && (
+          <ProfileSidebar user={user} onLogoutClick={onLogout} />
+        )}
+
+        {/* MOBILE CONTENT */}
+        {isMobile && !isRootProfile && (
+          <main className='profile__content'>
+            {!isCreateOrEdit && (
+              <button
+                className='profile__back'
+                onClick={() => {
+                  navigate('/profile');
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <img src={arrowLeft} alt='Back' />
+                <span>Back to My Account</span>
+              </button>
+            )}
+
+            {children}
+          </main>
+        )}
       </div>
     </div>
   );
