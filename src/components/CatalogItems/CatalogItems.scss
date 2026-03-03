@@ -11,6 +11,11 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr); 
   gap: 24px;
+
+  @include mobile {
+    grid-template-columns: repeat(1, 2fr);
+    gap: 16px;
+  }
 }
 
 .catalog__load-more-button {

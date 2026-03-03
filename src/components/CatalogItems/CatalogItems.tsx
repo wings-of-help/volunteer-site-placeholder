@@ -71,7 +71,6 @@ export default function CatalogItems({
     .then((data) => {
 
       if (isLoadMore) {
-        // 🔥 затримуємо ДОДАВАННЯ карток
         setTimeout(() => {
           setCarts(prev => [...prev, ...data.results]);
           setIsLoadingMore(false);
@@ -100,11 +99,9 @@ export default function CatalogItems({
   }, [kind, activeFilters, sortType]);
 
   const handleLoadMore = () => {
-    // setTimeout(() => {
       const nextPage = page + 1;
       setPage(nextPage);
       fetchCarts(nextPage, true);
-    // }, 1000)
   };
 
   return (

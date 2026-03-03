@@ -1,6 +1,7 @@
 @use '../../styles/mixins' as *;
 @use '../../styles/mixins/index' as *;
 @use '../../styles/variables' as *;
+@use "../../styles/mixins/media" as *;
 
 .home__page {
   width: 100%;
@@ -9,6 +10,10 @@
   margin-top: 190px;
   margin-bottom: 120px;
   gap: 120px;
+
+  @include mobile {
+    gap: 72px;
+  }
 }
 
 .home {
@@ -17,16 +22,28 @@
   gap: 80px;
   margin-bottom: 160px;
 
+  @include mobile{
+    margin-bottom: 100px;
+  }
+
   &__main {
     @include centeredFlexBox;
     flex-direction: column;
     gap: 16px;
     max-width: 807px;
 
+    @include mobile {
+      max-width: 361px;
+    }
+
     &__title {
       @include text-h2;
       font-size: 56px;
       text-align: center;
+
+      @include mobile {
+        font-size: 40px;
+      }
     }
     &__p {
       @include text-h3;
@@ -40,6 +57,11 @@
     @include text-h3;
     gap: 24px;
 
+    @include mobile {
+      flex-direction: column;
+      gap: 8px;
+    }
+
     &__button {
       @include centeredFlexBox;
       min-height: 57px;
@@ -47,6 +69,10 @@
       min-width: 207px;
       box-sizing: border-box;
 
+      @include mobile {
+        width: 361px;
+      }
+      
       text-decoration: none;
     }
   }
@@ -66,6 +92,10 @@
   max-width: 1224px;
   gap: 40px;
 
+  @include mobile {
+    gap: 24px;
+  }
+
   &__main {
     display: flex;
     flex-direction: column;
@@ -75,6 +105,10 @@
     &__title {
       @include text-h2;
       font-size: 40px;
+
+      @include mobile {
+        font-size: 32px
+      }
     }
 
     &__p {
@@ -86,6 +120,11 @@
     display: flex;
     gap: 24px;
 
+    @include mobile {
+      flex-direction: column;
+      gap: 16px;
+    }
+
     &__block {
       border-radius: 5px;
       display: flex;
@@ -96,7 +135,13 @@
       width: 292px;
       height: 299px;
       padding: 24px;
-      box-sizing: border-box; // ask sofia if need to change
+      box-sizing: border-box;
+
+      @include mobile {
+        width: 358px;
+        height: 304px;
+        padding: 16px;
+      }
 
       &__image {
         width: 160px;
@@ -113,6 +158,13 @@
 
         width: 240px;
         height: 60px;
+
+        @include mobile {
+          width: 326px;
+          height: 24px;
+          font-size: 18px;
+        }
+
         margin-top: 8px;
 
         transform: translateY(0px); 
@@ -121,6 +173,10 @@
       &__p {
         @include text-h3;
         display: none;
+
+        @include mobile {
+          display: block;
+        }
       }
 
       &__num {
@@ -131,6 +187,11 @@
         font-style: Medium;
         font-size: 20px;
         line-height: 135%;
+
+        @include mobile {
+          width: 326px;
+          height: 24px;
+        }
 
         color: #2277FF;
 
@@ -175,15 +236,27 @@
   gap: 40px;
   max-width: 1224px;
 
+  @include mobile {
+    gap: 24px;
+  }
+
   &__title {
     align-self: flex-start;
     @include text-h1;
     font-size: 40px;
+
+    @include mobile {
+      font-size: 32px;
+    }
   }
 
   &__blocks {
     display: flex;
     gap: 24px;
+
+    @include mobile {
+      flex-direction: column;
+    }
 
     &__block {
       border-radius: 5px;
@@ -195,16 +268,40 @@
       justify-content: space-between;
       padding: 24px;
 
+      @include mobile {
+        width: 361px;
+        height: 367px;
+        padding: 16px;
+        gap: 0px;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      &__photo {
+        @include mobile {
+          width: 200px;
+          height: 200px;
+        }
+      }
+
       &__wrapper {
         display: flex;
         flex-direction: column;
         justify-content: center;
         gap: 16px;
+
+        @include mobile {
+          gap: 8px;
+        }
       }
 
       &__title {
         @include text-h2;
         font-size: 32px;
+
+        @include mobile {
+          font-style: 24px;
+        }
       }
 
       &__paragraphs {
@@ -233,6 +330,11 @@
   gap: 40px;
   max-width: 1224px;
 
+  @include mobile {
+    align-items: center;
+    max-width: 361px;
+  }
+
   &__main {
     display: flex;
     flex-direction: column;
@@ -242,6 +344,10 @@
     &__title {
       @include text-h1;
       font-size: 40px;
+
+      @include mobile {
+        font-size: 32px;
+      }
     }
 
     &__paragraphs {
@@ -266,5 +372,16 @@
     &__button {
       object-fit: contain;
     }
+  }
+}
+
+
+.icon {
+  width: 24px;
+  height: 24px;
+
+  @include mobile {
+    width: 16px;
+    height: 16px;
   }
 }

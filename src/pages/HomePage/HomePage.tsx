@@ -92,7 +92,7 @@ export default function HomePage() {
         <div className="home-description__blocks">
 
           <div className="home-description__blocks__block">
-            <img className="home-instructions__blocks__block__photo" src={bigpost1} />
+            <img className="home-description__blocks__block__photo" src={bigpost1} />
             
             <div className="home-description__blocks__block__wrapper">
               <div className="home-description__blocks__block__title">{t("description-1st-block-title")}</div>
@@ -124,7 +124,7 @@ export default function HomePage() {
           </div>
 
           <div className="home-description__blocks__block">
-            <img className="home-instructions__blocks__block__photo" src={bigpost2} />
+            <img className="home-description__blocks__block__photo" src={bigpost2} />
             
             <div className="home-description__blocks__block__wrapper">
               <div className="home-description__blocks__block__title">{t("description-2nd-block-title")}</div>
