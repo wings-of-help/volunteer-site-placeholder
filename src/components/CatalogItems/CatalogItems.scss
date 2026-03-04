@@ -15,6 +15,7 @@
   @include mobile {
     grid-template-columns: repeat(1, 2fr);
     gap: 16px;
+    width: 361px;
   }
 }
 
@@ -37,6 +38,12 @@
   @include centeredFlexBox;
   width: 808px;
   flex-direction: column;
+  
+  @include mobile {
+    width: 361px;
+    margin-bottom: 184px;
+    margin-top: 70px;
+  }
 
   &__title {
     @include text-h2;

@@ -12,7 +12,7 @@ export default function App() {
   const isProfilePage = location.pathname.startsWith('/profile');
 
   return (
-    <div className={`home-layout ${isHomePage ? 'home-layout--bg' : ''}`}>
+    <div className={`home-layout ${(isHomePage) ? 'home-layout--bg' : ''}`}>
       <Header />
       <Outlet context={{ setIsPageLoading }} />
       {!isProfilePage && !isPageLoading && <Footer />}

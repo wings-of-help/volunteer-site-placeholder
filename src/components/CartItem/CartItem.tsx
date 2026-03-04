@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import "./CartItem.scss"
 import type { HelpStatus } from "../../api/types/help";
 import StatusBlock from "../UI-elements/StatusBlock/StatusBlock";
+import { useIsMobile } from "../../utils/IsMobileHook";
 
 type Props = {
   type: 'offers' | 'requests';
@@ -17,8 +18,12 @@ type Props = {
 
 export default function CartItem({title, location, description, category, status, id, type}: Props) {
   const { isAuth } = useAuth(); 
+  const isMobile = useIsMobile(1024);
 
   const currentLocation = useLocation();
+  
+  const limit = isMobile ? 100 : 146; 
+
   return (
     <Link 
       to={`/${type}/${id}`}
@@ -40,8 +45,8 @@ export default function CartItem({title, location, description, category, status
 
 
         <p className="cart-item__p">
-          {description.length > 146 ? (
-            `${description.slice(0, 146)}...`
+          {description.length > limit ? (
+            `${description.slice(0, limit)}...`
           ) : (
             description
           )}

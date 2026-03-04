@@ -1,10 +1,17 @@
 /* From Uiverse.io by mrpumps31232 */ 
+@use '../../../styles/mixins' as *;
+@use '../../../styles/mixins/index' as *;
+
 .loading-wave {
   width: 300px;
   height: 100px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
+
+  @include mobile {
+    width: 361px;
+  }
 }
 
 .loading-bar {

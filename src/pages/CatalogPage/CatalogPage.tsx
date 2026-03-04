@@ -6,6 +6,8 @@ import CustomSelect from "../../components/UI-elements/CustomSelect/CustomSelect
 import { useTranslation } from "react-i18next";
 import Filters from "../../components/Filters/Filters";
 import { useState } from "react";
+import { useIsMobile } from "../../utils/IsMobileHook";
+import FilterTarget from "../../components/UI-elements/FilterTarget/FilterTarget";
 
 type Props = {
   title: string;
@@ -28,6 +30,7 @@ export default function CatalogPage ({title, p, p2, path, kind}: Props) {
   const {t} = useTranslation();
   const [activeFilters, setActiveFilters] = useState<ActiveFilter[]>([])
   const [sortType, setSortType] = useState<string>('newest');
+  const isMobile = useIsMobile(1024);
 
   const toggleFilter = (filter: ActiveFilter) => {
     setActiveFilters(prev => {
@@ -54,6 +57,7 @@ export default function CatalogPage ({title, p, p2, path, kind}: Props) {
 
   return (
     <div className="catalog__page">
+    {isMobile ? (
       <div className="catalog">
 
         <div className="catalog__desc">
@@ -66,7 +70,13 @@ export default function CatalogPage ({title, p, p2, path, kind}: Props) {
         </div>
 
         <div className="catalog__sort">
-          <p className="catalog__sort__sort-by">{t("Sort-by")}</p>
+          {/* <p className="catalog__sort__sort-by">{t("Sort-by")}</p> */}
+
+          <FilterTarget 
+            activeFilters={activeFilters}
+            onToggleFilter={toggleFilter}
+            setSingleFilter={setSingleFilter}
+          />
 
           <CustomSelect options={[
             { label: "Newest", value: "newest" },
@@ -76,15 +86,10 @@ export default function CatalogPage ({title, p, p2, path, kind}: Props) {
           variant="filter"
           setSortType={setSortType}
           />
+
         </div>
 
         <div className="catalog__main">
-          <CatalogCategories
-            activeFilters={activeFilters}
-            onToggleFilter={toggleFilter}
-            setSingleFilter={setSingleFilter}
-          />
-
           <div className="catalog-items-box">
             {activeFilters.length > 0 && (
               <Filters
@@ -100,6 +105,54 @@ export default function CatalogPage ({title, p, p2, path, kind}: Props) {
           </div>
         </div>
       </div>
+      ) : (
+        <div className="catalog">
+
+          <div className="catalog__desc">
+            <h1 className="catalog__desc__title">{title}</h1>
+
+            <div className="catalog__desc__paragraphs">
+              <p className="catalog__desc__paragraphs__p">{p}</p>
+              <p className="catalog__desc__paragraphs__p">{p2}</p>
+            </div>
+          </div>
+
+          <div className="catalog__sort">
+            <p className="catalog__sort__sort-by">{t("Sort-by")}</p>
+
+            <CustomSelect options={[
+              { label: "Newest", value: "newest" },
+              { label: "Oldest", value: "oldest" }
+            ]}
+            placeholder={"Newest"}
+            variant="filter"
+            setSortType={setSortType}
+            />
+          </div>
+
+          <div className="catalog__main">
+            <CatalogCategories
+              activeFilters={activeFilters}
+              onToggleFilter={toggleFilter}
+              setSingleFilter={setSingleFilter}
+            />
+
+            <div className="catalog-items-box">
+              {activeFilters.length > 0 && (
+                <Filters
+                  filters={activeFilters}
+                  onRemove={(id: string) =>
+                    setActiveFilters(prev => prev.filter(f => f.id !== id))
+                  }
+                  onClear={() => setActiveFilters([])}
+                />
+              )}
+            
+              <CatalogItems type={path} activeFilters={activeFilters} sortType={sortType} kind={kind}/>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

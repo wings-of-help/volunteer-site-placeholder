@@ -283,5 +283,9 @@
   "Delete": "Delete",
 
   "No-results": "No results",
-  "Try-changing-a-city-or-category": "Try changing a city or category."
+  "Try-changing-a-city-or-category": "Try changing a city or category.",
+  "Filters": "Filters",
+  "Page-Not-Found": "Page Not Found",
+  "The-page-youre-looking-for-isnt-available": "The page you’re looking for isn’t available.",
+  "Go-back-Home": "Go back Home"
 }
