@@ -7,6 +7,10 @@
   width: 392px;
   gap: 10px;
 
+  @include mobile {
+    // display: none;
+  }
+
   &__header {
     display: flex;
     flex-direction: column;

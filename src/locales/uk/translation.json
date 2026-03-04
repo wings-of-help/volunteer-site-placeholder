@@ -6,7 +6,7 @@
   "Offers": "Пропозиції",
   "Sign-in": "Увійти",
   "Sign-up": "Реєстрація",
-  "describe": "Координація запитів та надання допомоги",
+  "describe": "Допомога людям знайти та запропонувати підтримку",
   "explores__requests": "Ознайомитись з запитами",
   "explores__offers": "Ознайомитись з пропозиціями",
 
@@ -33,9 +33,9 @@
 
   "description__title": "Для кого створено Wings of Help",
 
-  "description-1st-block-title": "Люди які потребують допомоги",
+  "description-1st-block-title": "Потребуючі",
   "description-1st-block-1st-p": "Знайдіть надійну допомогу",
-  "description-1st-block-2nd-p": "Статус запиту відстеження",
+  "description-1st-block-2nd-p": "Відстежуйте статус запиту",
   "description-1st-block-3rd-p": "Уникайте неперевірених пропозицій",
 
   "description-2nd-block-title": "Волонтери та Організації",

@@ -11,17 +11,30 @@
   margin-bottom: 120px;
   width: 100%;
   position: relative;
+
+  @include mobile {
+    margin-top: 24px;
+    margin-bottom: 56px;
+  }
   
   &__nav {
     display: flex;
     margin-bottom: 64px;
-    
+
+    @include mobile {
+      margin-bottom: 32px;
+    }
+  
     &-links {
       @include centeredFlexBox;
       @include disableLinkStyles;
       @include text-h2;
       font-size: 16px;
       cursor: pointer;
+
+      @include mobile {
+        font-size: 16px;
+      }
     }
   }
 
@@ -35,6 +48,11 @@
       font-size: 40px;
 
       margin-bottom: 27px;
+
+      @include mobile {
+        font-size: 32px;
+        margin-bottom: 16px;
+      }
     }
 
     &__points {
@@ -55,15 +73,28 @@
       flex-direction: column;
       gap: 8px;
 
+      @include mobile {
+        margin-top: 32px;
+      }
+
       &__title {
         @include text-h2;
         font-size: 24px;
+
+        @include mobile {
+          font-size: 18px;
+        }
       }
 
       &__p {
         @include text-h3;
         max-width: 790px;
+
         margin-bottom: 48px;
+
+        @include mobile {
+          max-width: 361px;
+        }
       }
 
       &__register {
@@ -73,9 +104,20 @@
         padding-bottom: 80px;
         border-bottom: 1px solid #000;
 
+        @include mobile {
+          width: 100%;
+          align-items: center;
+          padding-bottom: 40px;
+        }
+
         &__button {
           @include text-h2;
           @include blueButton;
+
+           @include mobile {
+            font-size: 18px;
+            width: 100%;
+          }
         }
 
         &__signin {
@@ -98,11 +140,19 @@
       flex-direction: column;
       margin-top: 24px;
       margin-bottom: 120px;
+      
+      @include mobile {
+        margin-bottom: 80px;
+      }
 
       &__title {
         @include text-h2;
         font-size: 24px;
         margin-bottom: 24px;
+
+        @include mobile {
+          font-size: 18px;
+        }
       }
 
       &__details {
@@ -140,6 +190,10 @@
 
 .cart-details-page__container {
   width: 1224px;
+  
+  @include mobile {
+    width: 361px;
+  }
 }
 
 .point-text {
@@ -167,15 +221,23 @@
   &__button {
     margin-bottom: 48px;
     @include blueButton;
+
+    @include mobile {
+      width: 100%;
+    }
   }
 
   &__wrong {
-    margin-top: 80px;
-    margin-bottom: 80px;
+    margin-block: 80px;
     font-weight: 600;
     font-style: Semi Bold;
     font-size: 18px;
     line-height: 140%;
+
+    @include mobile {
+      margin-bottom: 40px;
+      margin-top: 0;
+    }
   }
 }
 

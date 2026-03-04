@@ -18,6 +18,13 @@
   background-color: #F1F1F4;
   box-sizing: border-box;
 
+  @include mobile {
+    width: 361px;
+    height: 304px;
+    gap: 16px;
+  }
+
+
   &__header {
     display: flex;
     justify-content: space-between;
@@ -33,6 +40,11 @@
 
       padding: 8px 12px;
       white-space: nowrap;
+
+      @include mobile {
+        padding: 8px;
+        font-size: 18px;
+      }
     }
 
     &__city {
@@ -43,13 +55,21 @@
 
   &__title {
     @include text-h2;
-    
+    @include mobile {
+      font-size: 18px;
+    }
   }
 
   &__p {
     @include text-h3;
     max-height: 108px;
     flex-grow: 1;
+
+    @include mobile {
+      font-weight: 400;
+      font-size: 18px;
+      max-height: 96px;
+    }
   }
 
   &__bottom {
