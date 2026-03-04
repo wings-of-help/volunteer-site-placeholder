@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import checkIcon from '../../assets/CircleСheck.svg';
+import trashIcon from '../../assets/garbage.svg';
 import './ConfirmModal.scss';
 
 interface Props {
@@ -48,6 +49,13 @@ export const ConfirmModal = ({
           </button>
 
           <button className='confirm-modal__confirm' onClick={onConfirm}>
+            {variant === 'danger' && (
+              <img
+                src={trashIcon}
+                alt='delete'
+                className='confirm-modal__confirm-icon'
+              />
+            )}
             {confirmText}
           </button>
         </div>
