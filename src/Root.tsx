@@ -115,6 +115,8 @@ export const Root = () => {
                     element={<CartDetails type={'offers'} />}
                   />
 
+                  {/* <Route path='/filters-menu' element={<FiltersPage/>}/> */}
+
                   <Route path='about' element={<AboutTeam />} />
 
                   <Route path='home' element={<Navigate to='/' replace />} />

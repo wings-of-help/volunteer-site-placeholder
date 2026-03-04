@@ -104,6 +104,11 @@
   height: 57px;
   background-color: #F1F1F4;
 
+  @include mobile {
+    border-radius: 40px;
+    width: 171px;
+  }
+
   .custom-select__trigger {
     padding: 0;
     background: transparent;

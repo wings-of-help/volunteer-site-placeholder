@@ -7,12 +7,21 @@
   flex-direction: column;
   margin-top: 80px;
   margin-bottom: 120px;
+
+  @include mobile {
+    margin-top: 24px;
+    margin-bottom: 32px;
+  }
 }
 
 .catalog {
   width: 1224px;
   display: flex;
   flex-direction: column;
+
+  @include mobile {
+    width: 361px;
+  }
 
   &__desc {
     display: flex;
