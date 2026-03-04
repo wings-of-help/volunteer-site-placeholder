@@ -36,6 +36,8 @@ import { VerifyCodePage } from './components/VerifyCodePage/VerifyCodePage';
 import { NewPasswordPage } from './pages/NewPasswordPage/NewPasswordPage';
 import { ScrollToTop } from './utils/ScrollToTop';
 import AboutTeam from './pages/AboutTeam/AboutTeam';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
+import ErrorLayout from './pages/ErrorLayout/ErrorLayout';
 
 export const Root = () => {
   const { t } = useTranslation();
@@ -118,7 +120,7 @@ export const Root = () => {
                   {/* <Route path='/filters-menu' element={<FiltersPage/>}/> */}
 
                   <Route path='about' element={<AboutTeam />} />
-
+            
                   <Route path='home' element={<Navigate to='/' replace />} />
                 </Route>
 
@@ -172,6 +174,8 @@ export const Root = () => {
                     />
                   </Route>
                 </Route>
+
+              <Route path="*" element={<ErrorLayout />} />
               </Routes>
             </Router>
           </ToastProvider>

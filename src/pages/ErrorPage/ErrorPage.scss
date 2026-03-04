@@ -1,0 +1,56 @@
+@use "../../styles/mixins/index" as *;
+@use "../../styles/mixins" as *;
+
+.error-page {
+  height: 750px;
+  @include centeredFlexBox;
+  flex-direction: column;
+  gap: 50px;
+
+  &__404 {
+    width: 800px;
+    height: 300px;
+
+    @include mobile {
+      width: 360px;
+      height: 150px;
+    }
+  }
+
+  &__nav {
+    @include centeredFlexBox;
+    flex-direction: column;
+    gap: 32px;
+
+    &__text {
+      @include centeredFlexBox;
+      flex-direction: column;
+
+      &__title {
+        @include text-h3;
+
+        @include mobile {
+          font-size: 24px;
+        }
+      }
+
+      &__p {
+        color: #868E96;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 135%;
+
+        @include mobile {
+          font-size: 18px;
+        }
+      }
+    }
+
+    &__button {
+      @include disableLinkStyles;
+      @include blueButton;
+      max-width: 168px;
+      max-height: 59px;
+    }
+  }
+}
