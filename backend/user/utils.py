@@ -23,7 +23,7 @@ def send_email(to_email, subject, html_content):
         },
     )
 
-    if response.status_code != 200:
-        raise Exception(f"Email send failed: {response.text}")
+    if not response.ok:
+        raise Exception(f"Email send failed{response.text}")
 
     return response.json()
