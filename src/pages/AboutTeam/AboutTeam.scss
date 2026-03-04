@@ -10,6 +10,11 @@
   max-width: 1224px;
   margin-inline: auto;
   margin-bottom: 132px;
+
+  @include mobile {
+    max-width: 361px;
+    margin-top: 24px;
+  }
   
   &__main {
     display: flex;
@@ -37,6 +42,10 @@
     row-gap: 80px;
     column-gap: 24px;
     min-height: 475px;
+
+    @include mobile {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
 }
 
