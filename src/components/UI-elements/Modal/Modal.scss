@@ -23,17 +23,27 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+
+  @include mobile {
+    width: 361px;
+    height: 272px;
+  }
 }
 
 .modal__title {
   @include text-h3;
   font-size: 24px;
   text-align: center;
+
+  @include mobile {
+    font-size: 18px;
+  }
 }
 
 .modal__desc {
   @include text-h3;
   text-align: center;
+  font-weight: 400;
 }
 
 @media (max-width: 639px) {
@@ -50,10 +60,19 @@
   @include blueButton;
   @include text-h3;
   width: 100%;
+  
+  @include mobile {
+    font-size: 18px;
+  }
 }
 
 .modal__photo {
   height: 120px;
   width: 120px;
   justify-self: center;
+
+  @include mobile {
+    height: 80px;
+    width: 80px;
+  }
 }
