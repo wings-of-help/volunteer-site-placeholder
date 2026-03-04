@@ -53,14 +53,7 @@ export const Root = () => {
                 <Route path='/' element={<App />}>
                   <Route index element={<HomePage />} />
                   <Route path='profile' element={<ProfilePage />}>
-                    <Route
-                      index
-                      element={
-                        window.innerWidth > 1024 ? (
-                          <Navigate to='info' replace />
-                        ) : null
-                      }
-                    />
+                   <Route index element={<Navigate to="info" replace />} />
 
                     <Route path='info' element={<ProfileInfo />} />
 
