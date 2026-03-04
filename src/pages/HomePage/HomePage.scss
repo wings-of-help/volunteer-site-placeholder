@@ -94,6 +94,7 @@
 
   @include mobile {
     gap: 24px;
+    max-width: 361px;
   }
 
   &__main {
@@ -238,6 +239,7 @@
 
   @include mobile {
     gap: 24px;
+    max-width: 361px;
   }
 
   &__title {
