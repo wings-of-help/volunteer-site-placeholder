@@ -7,7 +7,8 @@ import { useState, useRef } from 'react';
 import { ConfirmModal } from '../../components/ConfirmModal/ConfirmModal';
 import { completeHelpRequest, deleteHelpRequest } from '../../api/help.api';
 import garbageIcon from '../../assets/garbage.svg';
-import trashIcon from '../../assets/Trash.svg';
+import trashIcon from '../../assets/garbage-big.svg';
+import trashIconMobile from '../../assets/garbage-big-mobile.svg';
 import moreIcon from '../../assets/more-vertical.svg';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import StatusBlock from '../UI-elements/StatusBlock/StatusBlock';
@@ -56,7 +57,8 @@ export const UserRequestCard = ({
   onDeleted,
   onCompleted,
 }: Props) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+  const isMobile = window.innerWidth <= 1024;
   const [isDoneModalOpen, setIsDoneModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [localStatus, setLocalStatus] = useState(status);
@@ -147,7 +149,7 @@ export const UserRequestCard = ({
                 >
                   Edit Request
                 </button>
-                
+
                 <div className='user-request-card__dropdown-divider' />
 
                 <button
@@ -189,7 +191,7 @@ export const UserRequestCard = ({
                   navigate(`/profile/${basePath}/${id}/edit`);
                 }}
               >
-                {t("Edit-Request")}
+                {t('Edit-Request')}
               </button>
 
               <button
@@ -205,7 +207,7 @@ export const UserRequestCard = ({
                   setIsDoneModalOpen(true);
                 }}
               >
-                {t("Mark-as-Done")}
+                {t('Mark-as-Done')}
               </button>
 
               <button
@@ -218,7 +220,11 @@ export const UserRequestCard = ({
                   setIsDeleteModalOpen(true);
                 }}
               >
-                <img src={garbageIcon} alt='Delete request' />
+                <img
+                  src={garbageIcon}
+                  alt='Delete request'
+                  className='user-request-card__delete-icon'
+                />
               </button>
             </div>
           )}
@@ -227,16 +233,16 @@ export const UserRequestCard = ({
         {/* DONE MODAL */}
         {isOwner && isDoneModalOpen && (
           <ConfirmModal
-            title={t("Are-you-sure-you-want-to-mark-this-request-as-done")}
+            title={t('Are-you-sure-you-want-to-mark-this-request-as-done')}
             description={
               <>
-                {t("This-action")}{' '}
+                {t('This-action')}{' '}
                 <span className='confirm-modal__warning'>
-                  {t("cannot-be-undone")}
+                  {t('cannot-be-undone')}
                 </span>
               </>
             }
-            confirmText={t("Yes-mark-as-done")}
+            confirmText={t('Yes-mark-as-done')}
             onCancel={() => setIsDoneModalOpen(false)}
             onConfirm={handleMarkDone}
           />
@@ -245,11 +251,12 @@ export const UserRequestCard = ({
         {/* DELETE MODAL */}
         {isOwner && isDeleteModalOpen && (
           <ConfirmModal
-            title={t("Are-you-sure-you-want-to-delete-this-post")}
-            confirmText={t("Delete")}
-            cancelText={t("Cancel")}
+            title={t('Are-you-sure-you-want-to-delete-this-post')}
+            description={t('This-action-cannot-be-undone')}
+            confirmText={t('Delete')}
+            cancelText={t('Cancel')}
             variant='danger'
-            icon={trashIcon}
+            icon={isMobile ? trashIconMobile : trashIcon}
             onCancel={() => {
               ignoreNextClick.current = true;
               setIsDeleteModalOpen(false);
