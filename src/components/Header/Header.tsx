@@ -166,7 +166,7 @@ export default function Header() {
               onClick={() => setIsMenuOpen(false)}
             >
               <span className='header__nav__pages__page__title'>
-                {t('About')}
+                {t('About-us')}
               </span>
             </NavLink>
           </nav>

@@ -19,7 +19,7 @@
   box-sizing: border-box;
 
   @include mobile {
-    width: 361px;
+    max-width: 361px;
     height: 304px;
     gap: 16px;
   }

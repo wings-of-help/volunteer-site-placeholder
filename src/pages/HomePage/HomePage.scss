@@ -127,7 +127,7 @@
     }
 
     &__block {
-      border-radius: 5px;
+       border-radius: 5px;
       display: flex;
       flex-direction: column;
       background-color: #e4f1ff;
@@ -145,18 +145,15 @@
       }
 
       &__image {
+        transition: transform 0.3s ease;
         max-width: 160px;
         width: 100%;
         height: auto;
         flex-shrink: 1;
 
         opacity: 1;
-        transform: scale(1);
-
-        transition:
-          opacity 1s ease,
-          transform 1s ease;
-
+        transform: scale(1)
+          
         @include mobile {
           max-width: 120px;
         }
@@ -179,10 +176,11 @@
 
       &__p {
         @include text-h3;
-        display: none;
+        opacity: 0;
+        transition: transform 0.3s ease;
 
         @include mobile {
-          display: block;
+          opacity: 1;
         }
       }
 
@@ -200,10 +198,9 @@
         color: #2277ff;
       }
 
-      transition:
-        background-color 1s ease,
-        transform 1s ease,
-        color 1s ease;
+      &__container {
+        transition: transform 0.3s ease;
+      }
 
       &:hover {
         transform: translateY(-6px);
@@ -216,10 +213,11 @@
 
         .home-instructions__blocks__block__container {
           justify-self: flex-start;
+          transform: translateY(-160px);
         }
 
         .home-instructions__blocks__block__image {
-          display: none;
+          opacity: 0;
         }
 
         .home-instructions__blocks__block__num {
@@ -233,8 +231,36 @@
         }
 
         .home-instructions__blocks__block__p {
-          display: block;
+          opacity: 1;
+          transform: translateY(-80px);
         }
+      }
+
+      @include mobile {
+        &:hover {
+        cursor: pointer;
+
+        .home-instructions__blocks__block__container {
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__image {
+          opacity: 1;
+        }
+
+        .home-instructions__blocks__block__num {
+          
+        }
+
+        .home-instructions__blocks__block__title {
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__p {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
       }
     }
   }
@@ -280,7 +306,7 @@
       padding: 24px;
 
       @include mobile {
-        width: 361px;
+        max-width: 361px;
         height: 367px;
         padding: 16px;
         gap: 0px;
@@ -394,4 +420,4 @@
     width: 16px;
     height: 16px;
   }
-}
+}    

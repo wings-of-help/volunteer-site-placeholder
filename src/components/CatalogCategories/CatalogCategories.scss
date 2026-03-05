@@ -8,7 +8,7 @@
   gap: 10px;
 
   @include mobile {
-    width: 361px;
+    max-width: 361px;
   }
 
   &__header {
