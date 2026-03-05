@@ -1,7 +1,7 @@
 @use '../../styles/mixins' as *;
 @use '../../styles/mixins/index' as *;
 @use '../../styles/variables' as *;
-@use '../../styles/mixins/media' as *;
+@use "../../styles/mixins/media" as *;
 
 .home__page {
   width: 100%;
@@ -22,7 +22,7 @@
   gap: 80px;
   margin-bottom: 160px;
 
-  @include mobile {
+  @include mobile{
     margin-bottom: 100px;
   }
 
@@ -72,18 +72,18 @@
       @include mobile {
         width: 361px;
       }
-
+      
       text-decoration: none;
     }
   }
 }
 
 .button1 {
-  @include button-primary;
+@include button-primary;
 }
 
 .button2 {
-  @include button-border;
+@include button-border;
 }
 
 .home-instructions {
@@ -102,13 +102,13 @@
     flex-direction: column;
     align-self: flex-start;
     gap: 8px;
-
+    
     &__title {
       @include text-h2;
       font-size: 40px;
 
       @include mobile {
-        font-size: 32px;
+        font-size: 32px
       }
     }
 
@@ -130,11 +130,11 @@
        border-radius: 5px;
       display: flex;
       flex-direction: column;
-      background-color: #e4f1ff;
+      background-color: #E4F1FF;
       justify-content: space-between;
       align-items: center;
       width: 292px;
-      min-height: 299px;
+      height: 299px;
       padding: 24px;
       box-sizing: border-box;
 
@@ -145,23 +145,22 @@
       }
 
       &__image {
+        width: 160px;
         transition: transform 0.3s ease;
-        max-width: 160px;
-        width: 100%;
-        height: auto;
-        flex-shrink: 1;
 
-        opacity: 1;
-        transform: scale(1);
-          
         @include mobile {
-          max-width: 120px;
+          width: 120px;
         }
       }
 
       &__title {
-        @include text-h4;
+        font-weight: 700;
+        font-style: Bold;
         align-self: flex-start;
+        font-size: 24px;
+        line-height: 125%;
+        letter-spacing: 0%;
+
         width: 240px;
         height: 60px;
 
@@ -172,6 +171,8 @@
         }
 
         margin-top: 8px;
+
+        transform: translateY(0px); 
       }
 
       &__p {
@@ -185,17 +186,22 @@
       }
 
       &__num {
-        border-bottom: 1px solid #a6d2ff;
+        border-bottom: 1px solid #A6D2FF;
         width: 240px;
 
-        @include text-body-med;
+        font-weight: 500;
+        font-style: Medium;
+        font-size: 20px;
+        line-height: 135%;
 
         @include mobile {
           width: 326px;
           height: 24px;
         }
 
-        color: #2277ff;
+        color: #2277FF;
+
+        transform: translateY(0); 
       }
 
       &__container {
@@ -203,13 +209,9 @@
       }
 
       &:hover {
-        transform: translateY(-6px);
-        transition:
-          background-color 1s ease,
-          transform 1s ease;
         cursor: pointer;
-        background-color: #2277ff;
-        color: #f8f9fa;
+        background-color: #2277FF;
+        color: #F8F9FA;
 
         .home-instructions__blocks__block__container {
           justify-self: flex-start;
@@ -221,12 +223,11 @@
         }
 
         .home-instructions__blocks__block__num {
-          color: #f8f9fa;
-          transform: translateY(0);
+          color: #F8F9FA;
         }
 
         .home-instructions__blocks__block__title {
-          color: #f8f9fa;
+          color: #F8F9FA;
           transform: translateY(0);
         }
 
@@ -246,10 +247,6 @@
 
         .home-instructions__blocks__block__image {
           opacity: 1;
-        }
-
-        .home-instructions__blocks__block__num {
-          transform: translateY(0);
         }
 
         .home-instructions__blocks__block__title {
@@ -299,7 +296,7 @@
       border-radius: 5px;
       display: flex;
       gap: 24px;
-      background-color: #ffe3f6;
+      background-color: #FFE3F6;
       width: 600px;
       height: 250px;
       justify-content: space-between;
@@ -316,8 +313,8 @@
 
       &__photo {
         @include mobile {
-          width: 180px;
-          height: 180px;
+          width: 200px;
+          height: 200px;
         }
       }
 
@@ -412,6 +409,7 @@
   }
 }
 
+
 .icon {
   width: 24px;
   height: 24px;
@@ -420,4 +418,4 @@
     width: 16px;
     height: 16px;
   }
-}    
+}
