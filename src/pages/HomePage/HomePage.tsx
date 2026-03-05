@@ -14,9 +14,10 @@ import icon2 from "../../assets/Home-page-icon2.svg"
 import icon3 from "../../assets/Home-page-icon3.svg"
 import icon4 from "../../assets/Home-page-icon4.svg"
 import icon5 from "../../assets/Home-page-icon5.svg"
+import classNames from "classnames";
   
 export default function HomePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <div className="home__page">
       <div className="home">
@@ -53,7 +54,14 @@ export default function HomePage() {
                 <div className="home-instructions__blocks__block__num">01</div>
                 <div className="home-instructions__blocks__block__title">{t("instructions-1st-block-title")}</div>
               </div>
-            <p className="home-instructions__blocks__block__p">{t("instructions-1st-block-p")}</p>
+               <p
+                className={classNames({
+                  "home-instructions__blocks__block__p": !i18n.language.startsWith("uk"),
+                  "home-instructions__blocks__block__p--ukr": i18n.language.startsWith("uk"),
+                })}
+              >
+                {t("instructions-1st-block-p")}
+              </p>
           </div>
 
           <div className="home-instructions__blocks__block">
