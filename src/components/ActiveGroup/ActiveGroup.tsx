@@ -1,16 +1,39 @@
-import { useTranslation } from "react-i18next";
-import RequestCart from "../RequestCart/RequestCart";
+import { useEffect, useMemo, useState } from "react";
+import type { HelpCart } from "../../api/types/HelpCart";
 import "./ActiveGroup.scss"
+import { Link } from "react-router-dom";
+import vector from "../../assets/Vector.svg"
+import { GetHelpCarts } from "../../api/helpCarts.api";
+import CartItem from "../CartItem/CartItem";
 
 type Props = {
   title: string;
-  p: string;
-  p2: string;
+  p?: string;
+  p2?: string;
   seeAll: string;
+  path: string;
+  kind: "offer" | "request";
 }
 
-export default function ActiveGroup({title, p, p2, seeAll}: Props) {
-  const { t } = useTranslation();
+export default function ActiveGroup({title, p = "", p2 = "", seeAll, path, kind}: Props) {
+  const [carts, setCarts] = useState<HelpCart[]>([]);
+
+  useEffect(() => {
+      GetHelpCarts({kind}).then((data) => {
+        setCarts(data.results.slice(0, 3));
+      });
+    }, [kind, path]);
+
+    const cartType: "offer" | "request" =
+      path === "offers" ? "offer" : "request";
+
+    const filteredCarts = useMemo(() => {
+      return carts.filter((cart) => cart.kind === cartType);
+    }, [carts, cartType]);
+
+    console.log(carts, filteredCarts);
+    
+  
   return (
     <div className="home-active-requests">
 
@@ -27,19 +50,30 @@ export default function ActiveGroup({title, p, p2, seeAll}: Props) {
         </div>
 
         <div className="home-active-requests__carts">
-          <RequestCart />
-          <RequestCart />
-          <RequestCart />
+          {carts.map((cart: HelpCart) => {
+            return <CartItem
+              type={path.replace("/", "") as 'offers' | 'requests'}
+              kind={cart.kind}
+              key={cart.id}
+              id={cart.id}
+              title={cart.title}
+              location={cart.location_name}
+              description={cart.description}
+              status={cart.status}
+              category={cart.category_name}
+              />
+          })}
+         
         </div>
         
-      <div className="home-active-requests__see-all">
-        <p className="home-active-requests__see-all__p">{seeAll}</p>
-        <img 
-          src="/images/ui/ph_arrow-right-light.png" 
-          alt="arrow-right-button" 
-          className="home-active-requests__see-all__button" 
-        />
-      </div>
+        <Link to={path} className="home-active-requests__see-all">
+          <p className="home-active-requests__see-all__p">{seeAll}</p>
+          <img 
+            src={vector} 
+            alt="arrow-right-button" 
+            className="home-active-requests__see-all__button" 
+          />
+        </Link>
     </div>
   )
 }

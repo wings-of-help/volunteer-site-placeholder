@@ -3,7 +3,12 @@ from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
+from corsheaders.defaults import default_headers
 from dotenv import load_dotenv
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "authorization",
+]
 
 load_dotenv()
 
@@ -26,10 +31,19 @@ USE_X_FORWARDED_HOST = True
 
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1").split(",")
+
+
 CSRF_TRUSTED_ORIGINS = [
-    "https://alert-ambition-dev.up.railway.app",
+    "https://volunteer-site-placeholder-dev.up.railway.app"
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:8000",
+    "https://volunteer-site-placeholder-dev.up.railway.app",
+]
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -47,10 +61,13 @@ INSTALLED_APPS = [
     'drf_spectacular',
     "django_filters",
     "corsheaders",
+    "cloudinary",
+    "cloudinary_storage",
 
     # Local
     'main',
-    'user'
+    'user',
+    'team'
 ]
 
 MIDDLEWARE = [
@@ -65,12 +82,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:8000",
-]
-CORS_ALLOW_CREDENTIALS = True
+
 
 if DEBUG:
     INSTALLED_APPS += ["debug_toolbar"]
@@ -156,7 +168,7 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 10,
+    "PAGE_SIZE": 8,
 }
 
 SPECTACULAR_SETTINGS = {
@@ -179,12 +191,6 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ["EMAIL_HOST_USER"]
-EMAIL_HOST_PASSWORD = os.environ["EMAIL_HOST_PASSWORD"]
 
 ADMIN_SECRET_CODE = os.environ.get("ADMIN_SECRET_CODE")
 
@@ -194,3 +200,15 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
+}
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB

@@ -1,19 +1,14 @@
 @use '../variables' as *;
 @use './flex' as *;
+@use './typography' as *; 
 
 @mixin button-base {
   height: $control-height;
-  padding: 0 24px;
+  padding: 0 16px;
   @include flex-center;
-  font-size: 16px;
-  line-height: 1.4;
-  border: none;
-  cursor: pointer;
-}
-
-@mixin button-primary {
-  background: $color-black;
-  color: $color-white;
+  @include text-body-med;
+  letter-spacing: 0;
+  border-radius: 4px;
   cursor: pointer;
 }
 
@@ -23,8 +18,131 @@
   border: 1px solid $color-black;
 }
 
+@mixin button-black {
+  background: $color-black;
+  color: $color-white;
+  border: 1px solid $color-black;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    background-color: $color-hover;
+    border-color: $color-hover;
+  }
+  &:active {
+    background-color: $color-pressed;
+    border-color: $color-pressed;
+  }
+}
+
 @mixin button-disabled {
-  background: $color-gray-main;
+  background: $color-disabled;
   color: $color-white;
   cursor: not-allowed;
+}
+
+@mixin button-border {
+  border: 2px solid $color-primary-500;
+  border-radius: 4px;
+  background-color: transparent;
+  color: $color-gray-9;
+
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    border-color: $color-hover;
+  }
+
+  &:active {
+    border-color: $color-pressed;
+  }
+
+  &:disabled {
+    border-color: $color-disabled;
+    color: $color-disabled;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  background-color: $color-primary-500;
+  border: 2px solid $color-primary-500;
+  border-radius: 4px;
+  color: $color-gray-0;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+
+  &:hover {
+    background-color: $color-hover;
+    border-color: $color-hover;
+  }
+  &:active {
+    background-color: $color-pressed;
+    border-color: $color-pressed;
+  }
+
+  &:disabled {
+    background-color: $color-disabled;
+    border-color: $color-disabled;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-danger {
+  background-color: $color-error-200;
+  border: none;
+
+  transition:
+    background-color 0.15s ease,
+    transform 0.08s ease;
+
+  &:hover {
+    background-color: $color-error-300;
+  }
+
+  &:active {
+    background-color: $color-error-400;
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    background-color: $color-gray-2;
+    cursor: not-allowed;
+  }
+}
+
+@mixin text-button {
+  @include text-small-med;
+
+  position: relative;
+  display: inline-flex;
+  align-items: flex-end;
+  height: 1em;
+
+  color: $color-primary-500;
+  text-decoration: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: currentColor;
+  }
+
+  span {
+    transform: translateY(0.12em);
+  }
+
+  &:hover { color: $color-hover; }
+  &:active { color: $color-pressed; }
 }

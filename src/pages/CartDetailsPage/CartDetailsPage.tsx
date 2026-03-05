@@ -1,114 +1,338 @@
-import { Link, useNavigate } from "react-router-dom"
-import "./CartDetailsPage.scss"
+import { Link, useNavigate, useParams, useLocation, useOutletContext } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import './CartDetailsPage.scss';
+
+import arrow from '../../assets/arrow-down.svg';
+import calendar from '../../assets/CalendarBlank.png';
+import map from '../../assets/MapPin.png';
+import phone from '../../assets/phone.svg';
+import envelope from '../../assets/mail.svg';
+// import dot from '../../assets/Ellipse 3.png';
+
+import { useAuth } from '../../context/AuthContext';
+
+import ActiveGroup from '../../components/ActiveGroup/ActiveGroup';
+import Modal from '../../components/UI-elements/Modal/Modal';
+import { GetHelpCartById } from '../../api/helpCarts.api';
+import classNames from 'classnames';
+import type { HelpCartFull } from '../../api/types/HelpCart';
+// import type { HelpCart } from '../../api/types/HelpCart';
+// import { GetHelpCarts } from '../../api/helpCarts.api';
+import { respondToHelp } from '../../api/help.api';
+import StatusBlock from '../../components/UI-elements/StatusBlock/StatusBlock';
+import Loader from '../../components/UI-elements/Loader/Loader';
 
 type Props = {
-  type: string;
-}
+  type: 'requests' | 'offers';
+};
 
-export default function CartDetailsPage({type}: Props) {
+type OutletContextType = {
+  setIsPageLoading?: (loading: boolean) => void;
+};
+
+export default function CartDetailsPage({ type }: Props) {
+  const { setIsPageLoading } = useOutletContext<OutletContextType>() || {}
+  
+  const [activeModal, setActiveModal] = useState(false);
+  const { cartId } = useParams();
+  const [wasClicked, setWasClicked] = useState(() => {
+    return localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
+  });
+  const [cart, setCart] = useState<HelpCartFull>();
+  const [isLoading, setIsLoading] = useState(true);
+  
   const navigate = useNavigate();
+  const location = useLocation();
+  const { t } = useTranslation();
+  
+  const { isAuth, user } = useAuth();
+  
+  const originRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    const fromState = (location.state as { from?: string })?.from;
+
+    if (!originRef.current && fromState) {
+      originRef.current = fromState;
+    }
+  }, [location.state]);
+
+  const origin = originRef.current ?? `/${type}`;
+  const backPath =
+  (location.state as { from?: string })?.from ?? '/';
+
+  const normalizeOrigin = origin.split("/").join(" ")
+  const normalizeBackPath = backPath.split("/").join(" ")
+
+  useEffect(() => {
+    setIsLoading(true);
+    setIsPageLoading?.(true);
+
+    GetHelpCartById(Number(cartId))
+      .then((data) => setCart(data))
+      .catch(console.error)
+      .finally(() => {
+        setTimeout(() => {
+          setIsLoading(false);
+          setIsPageLoading?.(false);
+        }, 1000)
+      })
+
+      const clicked = localStorage.getItem(`offerButtonClicked-${cartId}`) === 'true';
+      setWasClicked(clicked);
+  }, [cartId]);
+
+  const isDisabled = !cart || wasClicked || cart.status !== 'new';
+
+  const buttonText =
+    cart?.status === 'done'
+      ? t('Help-completed')
+      : cart?.status === 'in_progress'
+        ? wasClicked
+          ? t('Offer-sent')
+          : t('Help-in-progress')
+        : t('Offer-help');
+
+  function navigateTo(path?: string) {
+    navigate(path && path !== "/" ? path : origin);
+  }
+  
+  function formatDate(date: string) {
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+  
+  const handleRespond = async () => {
+    if (!cart) return;
+
+    try {
+      console.log('TRY RESPOND', cart.id);
+
+      const res = await respondToHelp(cart.id);
+
+      console.log('SUCCESS', res);
+
+      setActiveModal(true);
+      setCart(prev => prev ? { ...prev, status: "in_progress" } : prev);
+
+    } catch (e) {
+      console.error('RESPOND ERROR:', e);
+      alert('Respond failed — дивись console');
+    }
+  };
+
+   if (!cart) {
+    return (
+      <>
+        {!isLoading && (<h2>Cart not found</h2>)}
+      </>
+    )
+  }
+
   return (
-    <div className="cart-details-page">
-      <div className="cart-details-page__container">
-        
-        <nav className="cart-details-page__nav">
-          <div onClick={() => navigate(-1)} className="cart-details-page__nav-links">
-            <img
-              className="cart-details-page__nav-link"
-              src="src/assets/arrow-down.svg"
-              alt="home"
-            />
-            <p className="cart-details-page__nav-text">Back to {type}</p>
+    <>
+      <div className='cart-details-page'>
+        {isLoading ? (
+          <div className='loader'>
+            <Loader />
           </div>
-        </nav>
-
-        <div className="cart-details-page__info">
-          <h1 className="cart-details-page__info__title">Food & Hygiene Supplies for IDP Family</h1>
-
-          <div className="cart-details-page__info__points">
-
-            <div className="cart-details-page__info__points-point">
-              <img src="src/assets/CalendarBlank.png" alt="calendar" className="date-point" />
-              <p className="point-text">Jan 18, 2026</p>
+        ) : (
+        <div className='cart-details-page__container'>
+          {/* NAV */}
+          <nav className='cart-details-page__nav'>
+            <div
+              className='cart-details-page__nav-links'
+              onClick={() => navigateTo(backPath)}
+            >
+              <img
+                className='cart-details-page__nav-link'
+                src={arrow}
+                alt='back'
+              />
+              <p className='cart-details-page__nav-text'>
+                {t('Back-to')} {backPath !== "/" ? normalizeBackPath : normalizeOrigin}
+              </p>
             </div>
+          </nav>
 
-            <div className="cart-details-page__info__points-point">
-              <img src="src/assets/MapPin.png" alt="map" className="map-point" />
-              <p className="point-text">Lviv</p>
-            </div>
+          {/* INFO */}
+          <div className='cart-details-page__info'>
+            <h1 className='cart-details-page__info__title'>{cart.title}</h1>
 
-            <div className="cart-details-page__info__points-point">
-              <p className="point-text aid">Humanitarian Aid</p>
-            </div>
+            <div className="cart-details-page__info__points">
+              <div className="cart-details-page__info__points-point">
+                <img src={calendar} alt="calendar" />
+                <p className="point-text">{formatDate(cart.created_at)}</p>
+              </div>
 
-          </div>
+              <div className='cart-details-page__info__points-point'>
+                <img src={map} alt='map' />
+                <p className='point-text'>{cart.location_name}</p>
+              </div>
 
-          <div className="cart-details-page__info__about">
-            <div className="cart-details-page__info__about__title">About</div>
+              <div className='container'>
+                <div className='cart-details-page__info__points-point'>
+                  <p className='point-text aid'>{cart.category_name}</p>
+                </div>
 
-            <div className="cart-details-page__info__about__p">
-              A family of four, recently displaced due to ongoing conflict,
-              has just relocated to Lviv and is facing urgent basic needs.
-              The family includes two young children, aged 5 and 9, who 
-              require daily meals and essential hygiene products. The parents 
-              are doing their best to settle in, but currently do not have enough
-              food, cleaning supplies, or personal care items to cover the next 
-              few days. Immediate assistance with food packages, hygiene kits, 
-              and other essentials is critical to ensure the family’s well-being 
-              and to help them stabilize in their new environment. They would greatly 
-              benefit from support within the next three days.
-            </div>
+                {isAuth && (
+                  <StatusBlock status={cart.status}/>
+                )}
+              </div>
 
-            <div className="cart-details-page__info__about__register">
-              <button onClick={() => navigate("/signup")} className="cart-details-page__info__about__register__button">
-                Register to Help
-              </button>
+              <div className='cart-details-page__info__about'>
+                <h1 className='cart-details-page__info__about'>{t('About')}</h1>
 
-              <div className="cart-details-page__info__about__register__signin">
-                <p className="cart-details-page__info__about__register__signin__p">
-                  Already have an account?
+                <p className='cart-details-page__info__about__p'>
+                  {cart.description}
                 </p>
-                <Link to="/signin" className="cart-details-page__info__about__register__signin__link">Sign In</Link>
               </div>
             </div>
 
+            {/* ACTIONS */}
+            {!isAuth && type === 'requests' && (
+              <div className='cart-details-page__info__about__register'>
+                <button
+                  className='cart-details-page__info__about__register__button'
+                  onClick={() => navigate('/signup')}
+                >
+                  {t('Register-to-Help')}
+                </button>
+
+                <div className='cart-details-page__info__about__register__signin'>
+                  <p>{t('Already-have-an-account')}</p>
+                  <Link to='/signin'>{t('Sign-In')}</Link>
+                </div>
+              </div>
+            )}
+
+            {isAuth && user?.role === "volunteer" && type === 'requests' && (
+              <button
+                className={classNames("offer__button", {
+                  "disabled" : isDisabled
+                })}
+                disabled={isDisabled}
+                onClick={() => {
+                  handleRespond();
+                }}
+              >
+                {buttonText}
+              </button>
+            )}
+
+            {isAuth && user?.role === 'distressed' && type === 'requests' && (
+              <p className='offer__wrong'>
+                {t('Only-registered-volunteers-can-respond-to-this-request')}
+              </p>
+            )}
+
+            {!isAuth && type === 'offers' && (
+              <div className='cart-details-page__info__about__register'>
+                <button
+                  className='cart-details-page__info__about__register__button'
+                  onClick={() => navigate('/signup')}
+                >
+                  {t('Sign-up-to-Request-Help')}
+                </button>
+
+                <div className='cart-details-page__info__about__register__signin'>
+                  <p>{t('Already-have-an-account')}</p>
+                  <Link to='/signin'>{t('Sign-In')}</Link>
+                </div>
+              </div>
+            )}
+
+            {isAuth && user?.role === 'volunteer' && type === 'offers' && (
+              <p className='offer__wrong'>
+                {t('Only registered requesters can respond to this offer.')}
+              </p>
+            )}
+
+            {isAuth && user?.role === "distressed" && type === 'offers' && (
+              <button
+                className={classNames("offer__button", {
+                  "disabled" : isDisabled
+                })}
+                disabled={isDisabled}
+                onClick={() => {
+                  handleRespond();
+                }}
+              >
+                {!isDisabled ? (t("Request-help")) : (t("Request-sent"))}
+              </button>
+            )}
           </div>
-            <div className="cart-details-page__info__person-info">
-    
-              <h1 className="cart-details-page__info__person-info__title">Requester</h1>
+
+          {/* PERSON INFO */}
+          <div className='cart-details-page__info__person-info'>
+            <h1>
+              {type === 'requests' ? t('Requester') : t('Volunteer')}
+              {!isAuth && `: ${cart.creator_info.first_name} ${cart.creator_info.last_name}`}
+            </h1>
+
+            {isAuth && (
               <div className="cart-details-page__info__person-info__details">
-
-                <div className="cart-details-page__info__person-info__details-box">
-                  <div className="cart-details-page__info__person-info__details__name">
-                    Cody Warren
-                  </div>
-                  <div className="cart-details-page__info__person-info__details__d">
-                    <img src="src/assets/Phone.png" alt="phone" />
-                    +380 123 456 78 90
-                  </div>
-                  <div className="cart-details-page__info__person-info__details__d">
-                    <img src="src/assets/Envelope.png" alt="phone" />
-                    cody.warren@example.com
-                  </div>
+                <div 
+                  className="cart-details-page__info__person-info__details__name"
+                >
+                  {`${cart.creator_info.first_name} ${cart.creator_info.last_name}`}
                 </div>
-
-                <div className="cart-details-page__info__person-info__register">
-                  <button onClick={() => navigate("/signup")} 
-                    className="cart-details-page__info__person-info__register__button">
-                    Sign up to view
-                  </button>
-
-                  <div className="cart-details-page__info__person-info__register__signin">
-                    <p className="cart-details-page__info__person-info__register__signin-p">
-                      Already have an account?
-                    </p>
-                    <Link to="/signin" className="cart-details-page__info__about__register__signin__link">Sign in</Link>
-                  </div>
+                <div
+                  className="cart-details-page__info__person-info__details__d"
+                >
+                  <img src={phone} className="icon" alt="phone" />
+                  {cart.creator_info.phone_number}
+                </div>
+                <div
+                  className="cart-details-page__info__person-info__details__d"
+                >
+                  <img src={envelope} className="icon" alt="email" />
+                  {cart.creator_info.email}
                 </div>
               </div>
-            </div>
+            )}
+          </div>
+
+          <ActiveGroup
+            title={
+              type === 'requests'
+                ? t('Explore-Other-Requests')
+                : t("Explore-Other-Offers")
+            }
+            seeAll={
+              type === 'requests' ? t('see-all-requests') : t('see-all-offers')
+            }
+            path={`/${type}`}
+            kind={cart.kind}
+          />
         </div>
+        )}
       </div>
-    </div>
-  )
+
+      {activeModal && (
+        <Modal 
+          setActive={setActiveModal} 
+          setWasClicked={setWasClicked} 
+          cartId={cartId}
+          title={
+            type === 'requests'
+              ? t('Your-offer-has-been-sent')
+              : t('Your-request-has-been-sent')
+          }
+          p={
+            type === 'requests'
+              ? t('Your-support-can-make-a-real-difference')
+              : t(
+                  'Thank-you-for-reaching-out-the-volunteer-may-contact-you-soon',
+                )
+          }
+        />
+      )}
+    </>
+  );
 }

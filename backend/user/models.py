@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -39,6 +40,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         ADMIN = "admin", "Admin"
 
     email = models.EmailField(unique=True)
+    profile_picture = CloudinaryField(
+        "photo",
+        blank=True,
+        null=True,
+        folder="profile_pictures"
+    )
     phone_number = models.CharField(max_length=20, unique=True)
 
     first_name = models.CharField(max_length=150)

@@ -1,44 +1,37 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-
 import { ProfileLayout } from './ProfileLayout/ProfileLayout';
-import { ProfileInfo } from './sections/ProfileInfo/ProfileInfo';
-import { MyRequests } from './sections/MyRequests/MyRequests';
-import { MyResponses } from './sections/MyResponses/MyResponses';
-import { userFromServer } from '../../api/user.mock';
-import { CreateRequest } from '../../components/CreateRequest/CreateRequest';
+import { TextLoader } from '../../components/TextLoader/TextLoader';
+import { LogoutModal } from '../../components/LogoutModal/LogoutModal';
+import { useState } from 'react';
+import Footer from '../../components/Footer/Footer';
 
 export const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState<'info' | 'requests' | 'responses'>(
-    'info',
-  );
-  const [isCreating, setIsCreating] = useState(false);
-
-  const { logout } = useAuth();
+  const { user, isLoading, logout } = useAuth();
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
+  if (isLoading) return <TextLoader />;
+  if (!user) return <Navigate to="/" replace />;
+
+  const handleLogoutConfirm = async () => {
+    await logout();
     navigate('/');
   };
 
   return (
-    <ProfileLayout
-      activeTab={activeTab}
-      onTabChange={setActiveTab}
-      user={userFromServer}
-      onLogout={handleLogout}
-    >
-      {activeTab === 'info' && <ProfileInfo />}
-      {activeTab === 'requests' && !isCreating && (
-        <MyRequests onCreate={() => setIsCreating(true)} />
-      )}
+    <>
+      <ProfileLayout user={user} onLogout={() => setIsLogoutModalOpen(true)}>
+        <Outlet />
+      </ProfileLayout>
+      <Footer />
 
-      {activeTab === 'requests' && isCreating && (
-        <CreateRequest onBack={() => setIsCreating(false)} />
+      {isLogoutModalOpen && (
+        <LogoutModal
+          onCancel={() => setIsLogoutModalOpen(false)}
+          onConfirm={handleLogoutConfirm}
+        />
       )}
-      {activeTab === 'responses' && <MyResponses />}
-    </ProfileLayout>
+    </>
   );
 };

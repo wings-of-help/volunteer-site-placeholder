@@ -1,4 +1,5 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
 
 .catalog__page {
   width: 100%;
@@ -6,12 +7,21 @@
   flex-direction: column;
   margin-top: 80px;
   margin-bottom: 120px;
+
+  @include mobile {
+    margin-top: 24px;
+    margin-bottom: 32px;
+  }
 }
 
 .catalog {
   width: 1224px;
   display: flex;
   flex-direction: column;
+
+  @include mobile {
+    max-width: 361px;
+  }
 
   &__desc {
     display: flex;
@@ -21,7 +31,8 @@
     margin-bottom: 24px;
 
     &__title {
-      @include title-styles;
+      @include text-h1;
+      font-size: 40px;
     }
 
     &__paragraphs {
@@ -29,7 +40,7 @@
       flex-direction: column;
       gap: 0px;
       &__p {
-        @include p-styles;
+        @include text-h3;
       }
     }
   }
@@ -42,12 +53,12 @@
 
     &__sort-by {
       color: #868E96;
-      @include p-styles
+      @include text-h3;
     }
 
     // &__sort-button {
     //   @include centeredFlexBox;
-    //   @include p-styles;
+    //   @include text-h3;
     //   width: 141px;
     //   height: 57px;
     //   gap: 8px;
@@ -68,4 +79,10 @@
 .arrow {
   width: 16px;
   height: 16px;
+}
+
+.catalog-items-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }

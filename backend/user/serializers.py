@@ -68,17 +68,34 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class UserRetrieveSerializer(serializers.ModelSerializer):
+    profile_picture = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = [
             "id",
             "email",
+            "profile_picture",
             "first_name",
             "last_name",
             "phone_number",
             "role",
+            "date_joined",
+            "last_login",
         ]
-        read_only_fields = ["id", "role"]
+        read_only_fields = ["id", "role", "profile_picture"]
+
+    def get_profile_picture(self, obj):
+        if obj.profile_picture:
+            return obj.profile_picture.url
+        return None
+
+
+
+class UserProfilePictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["profile_picture"]
 
 
 class AdminRegisterSerializer(RegisterSerializer):
@@ -141,3 +158,7 @@ class PhoneNumberAvailabilitySerializer(serializers.Serializer):
                 "This phone number is already in use."
             )
         return value
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)

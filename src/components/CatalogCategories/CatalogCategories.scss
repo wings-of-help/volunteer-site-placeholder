@@ -1,10 +1,15 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
 
 .catalog__categories {
   display: flex;
   flex-direction: column;
   width: 392px;
   gap: 10px;
+
+  @include mobile {
+    max-width: 361px;
+  }
 
   &__header {
     display: flex;
@@ -14,12 +19,12 @@
     box-sizing: border-box;
 
     &__title {
-      @include title-styles;
+      @include text-h2;
       font-size: 24px;
     }
 
     &__p {
-      @include p-styles;
+      @include text-h3;
       font-size: 16px;
       color: #868E96;
     }
@@ -32,7 +37,7 @@
     margin-bottom: 17px;
 
     &__category {
-      @include p-styles;
+      @include text-h3;
       display: flex;
       gap: 1px;
       max-width: 344px;
@@ -45,7 +50,7 @@
     gap: 16px;
 
     &__title {
-      @include title-styles;
+      @include text-h2;
       font-size: 24px;
       padding: 8px;
     }
@@ -63,7 +68,7 @@
     gap: 16px;
 
     &__title {
-      @include title-styles;
+      @include text-h2;
       font-size: 24px;
       padding: 8px;
     }

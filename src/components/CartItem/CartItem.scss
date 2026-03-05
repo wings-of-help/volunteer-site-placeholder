@@ -1,18 +1,28 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
 
 .cart-item {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  
   @include disableLinkStyles;
   display: flex;
   flex-direction: column;
-  
+  border-radius: 3%;
+
   width: 392px;
-  min-height: 286px;
-  max-height: 100%;
+  height: 366px;
+
   gap: 24px;
   padding: 24px;
   background-color: #F1F1F4;
-
   box-sizing: border-box;
+
+  @include mobile {
+    max-width: 361px;
+    height: 304px;
+    gap: 16px;
+  }
 
 
   &__header {
@@ -20,34 +30,75 @@
     justify-content: space-between;
     align-items: center;
 
-    &__city {
-      @include p-styles;
+    &__category {
+      border-radius: 5%;
+      background-color: #A6D2FF;
+      color: #2277FF;
+
+      @include text-h2;
+      font-size: 20px;
+
+      padding: 8px 12px;
+      white-space: nowrap;
+
+      @include mobile {
+        padding: 8px;
+        font-size: 18px;
+      }
     }
 
-    &__category {
-      @include p-styles;
-      color: #FFF;
-      background-color: #5C6569;
-      padding: 8px;
+    &__city {
+      @include text-h3;
+      color: #5C6569;
     }
   }
 
   &__title {
-    @include title-styles;
-    font-size: 24px;
+    @include text-h2;
+    @include mobile {
+      font-size: 18px;
+    }
   }
 
   &__p {
-    @include p-styles;
+    @include text-h3;
+    max-height: 108px;
+    flex-grow: 1;
+
+    @include mobile {
+      font-weight: 400;
+      font-size: 18px;
+      max-height: 96px;
+    }
+  }
+
+  &__bottom {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
   }
 
   &__status {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    width: 100%;
-    @include p-styles;
-    padding: 8px;
-    background-color: #fff;
+    gap: 8px;
+    border-radius: 10%;
+
+    background-color: #D0BFFF;
+    color: #845EF7;
+
+    @include text-h3;
+
+    padding: 8px 12px;
     height: 41px;
+    white-space: nowrap;
   }
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }

@@ -1,26 +1,32 @@
 from datetime import timedelta
 
 from django.contrib.auth.password_validation import validate_password
-from django.core.mail import send_mail
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiResponse,
     extend_schema,
 )
 from rest_framework import status, viewsets
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import GenericAPIView
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from user.utils import send_email
 
 from .models import PasswordResetCode, User
 from .permissions import UserAccessPermission
 from .serializers import (
     AdminRegisterSerializer,
+    ChangePasswordSerializer,
     CustomTokenObtainPairSerializer,
     EmailAvailabilitySerializer,
     LogoutSerializer,
@@ -28,30 +34,32 @@ from .serializers import (
     PasswordResetRequestSerializer,
     PhoneNumberAvailabilitySerializer,
     RegisterSerializer,
+    UserProfilePictureSerializer,
     UserRetrieveSerializer,
 )
 from .utils import generate_reset_code
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class CustomTokenRefreshView(TokenRefreshView):
+    permission_classes = [AllowAny]
+
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
         summary="Refresh JWT tokens",
         description="Get a new access token using a refresh token.",
-        request={
-            "refresh": "jwt_refresh_token"
-        },
+        request=TokenRefreshSerializer,
         responses={
             200: OpenApiResponse(
                 description="Tokens refreshed",
                 examples=[
                     OpenApiExample(
                         "Success",
-                        value={
-                            "access": "new_jwt_access_token"
-                        }
+                        value={"access": "new_jwt_access_token"},
                     )
-                ]
+                ],
             ),
             401: OpenApiResponse(description="Invalid refresh token"),
         },
@@ -61,8 +69,13 @@ class CustomTokenRefreshView(TokenRefreshView):
         return super().post(request, *args, **kwargs)
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+    permission_classes = [AllowAny]
+
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
 
     @extend_schema(
         summary="Login user",
@@ -121,9 +134,13 @@ class RegisterView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
 
+        refresh = CustomTokenObtainPairSerializer.get_token(user)
+
         return Response(
             {
                 "message": "User registered successfully",
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
                 "id": user.id,
                 "email": user.email,
                 "role": user.role,
@@ -244,6 +261,46 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 @extend_schema(
+        summary="Change user password",
+        description="Change user's password.(admin or owner of user account)",
+        request=ChangePasswordSerializer,
+        responses={200: OpenApiResponse(description="Password changed successfully")},
+        tags=["Users"],
+    )
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def change_password(request):
+    user = request.user
+    serializer = ChangePasswordSerializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+
+    old_password = serializer.validated_data["old_password"]
+    new_password = serializer.validated_data["new_password"]
+
+    if not user.check_password(old_password):
+        return Response(
+            {"detail": "Old password is incorrect."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    try:
+        validate_password(new_password, user=user)
+    except ValidationError:
+        return Response(
+            {"detail": "new password is invalid."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    user.set_password(new_password)
+    user.save()
+
+    return Response(
+        {"detail": "Password changed successfully"},
+        status=status.HTTP_200_OK,
+    )
+
+
+@extend_schema(
     summary="Request password reset",
     request=PasswordResetRequestSerializer,
     responses={
@@ -278,11 +335,10 @@ def request_password_reset(request):
             expires_at=timezone.now() + timedelta(minutes=10)
         )
 
-        send_mail(
+        send_email(
             subject="Password reset code",
-            message=f"Your password reset code is: {code}",
-            from_email=None,
-            recipient_list=[user.email],
+            html_content=f"Your password reset code is: {code}",
+            to_email=user.email,
         )
 
     return Response({"detail": "If the email exists, a code was sent."})
@@ -406,3 +462,55 @@ class LogoutView(APIView):
             {"detail": "Successfully logged out"},
             status=status.HTTP_205_RESET_CONTENT,
         )
+
+@extend_schema(
+    summary="My profile",
+    description="See your profile, just pass access token in headers.",
+    responses={
+        200: OpenApiResponse(description="See user data"),
+        400: OpenApiResponse(description="Token wasn't provided or invalid."),
+    },
+    tags=["Users"],
+    )
+class MyProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = UserRetrieveSerializer(request.user).data
+        return Response(
+            user,
+            status=status.HTTP_200_OK,
+        )
+
+
+class ChangeProfilePictureView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
+
+    @extend_schema(
+        summary="Change profile picture.",
+        description="Changes profile picture of users who sends the request.",
+        request={
+            "multipart/form-data": {
+                "type": "object",
+                "properties": {
+                    "profile_picture": {
+                        "type": "string",
+                        "format": "binary",
+                    }
+                },
+                "required": ["profile_picture"],
+            }
+        },
+        responses={
+            200: OpenApiResponse(description="profile picture was successfully changed."),
+        },
+        tags=["Users"],
+    )
+    def patch(self, request):
+        user = request.user
+        serializer = UserProfilePictureSerializer(user, data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({"detail": "profile picture was successfully changed."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

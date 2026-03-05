@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import (
     OpenApiParameter,
     OpenApiResponse,
@@ -68,6 +69,7 @@ class HelpCategoryViewSet(ModelViewSet):
     queryset = HelpCategory.objects.all()
     serializer_class = HelpCategorySerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = None
 
 
 @extend_schema_view(
@@ -86,8 +88,13 @@ class HelpCategoryViewSet(ModelViewSet):
             ),
             OpenApiParameter(
                 name="category",
-                type=int,
-                description="Filter by category ID",
+                type=str,
+                description="Filter by multiple category IDs (comma-separated). Example: 1,2,3",
+            ),
+            OpenApiParameter(
+                name="location",
+                type=str,
+                description="Filter by multiple location IDs (comma-separated). Example: 5,6",
             ),
             OpenApiParameter(
                 name="creator",
@@ -101,15 +108,18 @@ class HelpCategoryViewSet(ModelViewSet):
             ),
             OpenApiParameter(
                 name="status",
-                type=str,
-                enum=[c[0] for c in Help.Status.choices],
-                description="Filter by help status",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description=(
+                        "Filter by multiple statuses (comma-separated). "
+                        "Example: NEW,IN_PROGRESS"
+                ),
             ),
             OpenApiParameter(
                 name="kind",
                 type=str,
                 enum=[c[0] for c in Help.Kind.choices],
-                description="Filter by help kind",
+                description="Filter by help kind (single value)",
             ),
             OpenApiParameter(
                 name="completed",
@@ -349,3 +359,4 @@ class CityViewSet(ModelViewSet):
     queryset = City.objects.all()
     serializer_class = CitySerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = None

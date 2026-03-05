@@ -1,0 +1,91 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins/index' as *;
+
+.code {
+  @include flex-center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 32px;
+
+  @include mobile {
+    gap: 8px;
+  }
+
+  &__back {
+    @include text-small-med;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    color: $color-gray-9;
+    text-decoration: none;
+    margin-bottom: 16px;
+  }
+
+  &__back-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__input {
+    width: 80px;
+    height: 59px;
+
+    border-radius: 4px;
+    border: 2px solid $color-gray-4;
+    background-color: $color-white;
+
+    @include flex-center;
+    font-size: 20px;
+    line-height: 1;
+    text-align: center;
+    @include text-body-regular;
+    color: $color-gray-9;
+
+    outline: none;
+
+    &:focus {
+      border-color: $color-primary-500;
+    }
+
+    &::placeholder {
+      color: $color-gray-6;
+      font-size: 20px;
+      line-height: 1;
+    }
+    @include mobile {
+      width: 53.5px;
+      height: 56px;
+    }
+  }
+
+  &__label {
+    @include text-body-med;
+    color: $color-gray-9;
+    margin-bottom: 8px;
+    padding: 0 16px;
+  }
+
+  &__resend {
+    margin-top: 16px;
+    @include flex-center;
+    gap: 8px;
+
+    @include text-small-reg;
+    color: $color-gray-9;
+  }
+
+  &__resend-link {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    @include text-small-med;
+
+    color: $color-primary-500;
+
+    @include link-primary;
+  }
+}

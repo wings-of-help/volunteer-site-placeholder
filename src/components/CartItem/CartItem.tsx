@@ -1,37 +1,64 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./CartItem.scss"
+import type { HelpStatus } from "../../api/types/help";
+import StatusBlock from "../UI-elements/StatusBlock/StatusBlock";
+import { useIsMobile } from "../../utils/IsMobileHook";
 
-export default function CartItem() {
-  const { isAuth } = useAuth();
-  const { pathname } = useLocation()
+type Props = {
+  type: 'offers' | 'requests';
+  id: number;
+  title: string;
+  location: string;
+  description: string;
+  category: string;
+  status: HelpStatus;
+  kind: "offer" | "request";
+}
+
+export default function CartItem({title, location, description, category, status, id, type}: Props) {
+  const { isAuth } = useAuth(); 
+  const isMobile = useIsMobile(1024);
+
+  const currentLocation = useLocation();
+  
+  const limit = isMobile ? 100 : 146; 
 
   return (
-    <Link to={`cartId`} className="cart-item">
+    <Link 
+      to={`/${type}/${id}`}
+      state={{ from: currentLocation.pathname + currentLocation.search }}
+      className="cart-item"
+    >
+        <h1 className="cart-item__title">
+          {title.length > 43? (
+            `${title.slice(0, 43)}...`
+          ) : (
+            title
+          )}
+          {/* {title} */}
+        </h1>
+
         <div className="cart-item__header">
-          <p className="cart-item__header__city">Kyiv</p>
-          <p className="cart-item__header__category">Food & Basic Supplies</p>
+          <p className="cart-item__header__category">{category}</p>
         </div>
 
-        <h1 className="cart-item__title">Free Grocery Delivery for Displaced Families</h1>
 
         <p className="cart-item__p">
-          A family of four who recently relocated is in urgent need 
-          of food packages and basic hygiene supplies. Two children (ages 5 and 9). Assistance
-          needed within the next 3 days.
+          {description.length > limit ? (
+            `${description.slice(0, limit)}...`
+          ) : (
+            description
+          )}
         </p>
         
-        {isAuth && pathname === "/offers" ? 
-          <div className="cart-item__status" style={{ maxWidth: "124px" }}>
-            <img src="src/assets/Dot.png" alt="dot" />
-            <p>Available</p>
-          </div>
-          :
-          <div className="cart-item__status" style={{ maxWidth: "181px", gap: "8px" }}>
-            <img src="src/assets/Hourglass.png" alt="hourglass" />
-            <p>Waiting for help</p>
-          </div>
-        }
+        <div className="cart-item__bottom">
+          <p className="cart-item__header__city">{location}</p>
+
+          {isAuth && (
+            <StatusBlock status={status}/>
+          )}
+        </div>
     </Link>
   )
 }

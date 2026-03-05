@@ -1,4 +1,7 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
+@use '../../styles/variables' as *;
+@use "../../styles/mixins/media" as *;
 
 .home__page {
   width: 100%;
@@ -7,6 +10,10 @@
   margin-top: 190px;
   margin-bottom: 120px;
   gap: 120px;
+
+  @include mobile {
+    gap: 72px;
+  }
 }
 
 .home {
@@ -15,19 +22,31 @@
   gap: 80px;
   margin-bottom: 160px;
 
+  @include mobile{
+    margin-bottom: 100px;
+  }
+
   &__main {
     @include centeredFlexBox;
     flex-direction: column;
     gap: 16px;
     max-width: 807px;
 
+    @include mobile {
+      max-width: 361px;
+    }
+
     &__title {
-      @include title-styles;
+      @include text-h2;
       font-size: 56px;
       text-align: center;
+
+      @include mobile {
+        font-size: 40px;
+      }
     }
     &__p {
-      @include p-styles;
+      @include text-h3;
       letter-spacing: 0%;
       text-align: center;
     }
@@ -35,8 +54,13 @@
 
   &__buttons {
     display: flex;
-    @include p-styles;
+    @include text-h3;
     gap: 24px;
+
+    @include mobile {
+      flex-direction: column;
+      gap: 8px;
+    }
 
     &__button {
       @include centeredFlexBox;
@@ -45,19 +69,21 @@
       min-width: 207px;
       box-sizing: border-box;
 
+      @include mobile {
+        width: 361px;
+      }
+      
       text-decoration: none;
     }
   }
 }
 
 .button1 {
-  background-color: #000;
-  color: #fff;
+@include button-primary;
 }
 
 .button2 {
-  border: 1px solid #000;
-  color: #000;
+@include button-border;
 }
 
 .home-instructions {
@@ -65,20 +91,29 @@
   flex-direction: column;
   max-width: 1224px;
   gap: 40px;
-  
+
+  @include mobile {
+    gap: 24px;
+    max-width: 361px;
+  }
+
   &__main {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
     gap: 8px;
-
+    
     &__title {
-      @include title-styles;
+      @include text-h2;
       font-size: 40px;
+
+      @include mobile {
+        font-size: 32px
+      }
     }
 
     &__p {
-      @include p-styles;
+      @include text-h3;
     }
   }
 
@@ -86,28 +121,165 @@
     display: flex;
     gap: 24px;
 
+    @include mobile {
+      flex-direction: column;
+      gap: 16px;
+    }
+
     &__block {
+       border-radius: 5px;
       display: flex;
       flex-direction: column;
-      background-color: #F1F1F4;
+      background-color: #E4F1FF;
       justify-content: space-between;
       align-items: center;
-      width: 288px;
-      height: 288px;
+      width: 292px;
+      height: 299px;
       padding: 24px;
-      box-sizing: border-box; // ask sofia if need to change 
+      box-sizing: border-box;
 
-      &__title {
-        @include title-styles;
-        font-size: 24px;
-
-        width: 240px;
-        height: 30px;
+      @include mobile {
+        width: 358px;
+        height: 304px;
+        padding: 16px;
       }
 
-      &__p {
-        @include p-styles;
+      &__image {
+        width: 160px;
+        transition: transform 0.3s ease;
+
+        @include mobile {
+          width: 120px;
+        }
+      }
+
+      &__title {
+        font-weight: 700;
+        font-style: Bold;
+        align-self: flex-start;
+        font-size: 24px;
+        line-height: 125%;
+        letter-spacing: 0%;
+
         width: 240px;
+        height: 60px;
+
+        @include mobile {
+          width: 326px;
+          height: 24px;
+          font-size: 18px;
+        }
+
+        margin-top: 8px;
+
+        transform: translateY(0px); 
+      }
+
+      &__p--ukr {
+        box-sizing: border-box;
+        min-height: 100px;
+        @include text-h3;
+        opacity: 0;
+        transition: transform 0.3s ease;
+
+        @include mobile {
+          opacity: 1;
+        }
+      }
+      &__p {
+        box-sizing: border-box;
+        min-height: 100px;
+        @include text-h3;
+        opacity: 0;
+        transition: transform 0.3s ease;
+
+        @include mobile {
+          opacity: 1;
+        }
+      }
+      
+
+      &__num {
+        border-bottom: 1px solid #A6D2FF;
+        width: 240px;
+
+        font-weight: 500;
+        font-style: Medium;
+        font-size: 20px;
+        line-height: 135%;
+
+        @include mobile {
+          width: 326px;
+          height: 24px;
+        }
+
+        color: #2277FF;
+
+        transform: translateY(0); 
+      }
+
+      &__container {
+        transition: transform 0.3s ease;
+      }
+
+      &:hover {
+        cursor: pointer;
+        background-color: #2277FF;
+        color: #F8F9FA;
+
+        .home-instructions__blocks__block__container {
+          justify-self: flex-start;
+          transform: translateY(-160px);
+        }
+
+        .home-instructions__blocks__block__image {
+          opacity: 0;
+        }
+
+        .home-instructions__blocks__block__num {
+          color: #F8F9FA;
+        }
+
+        .home-instructions__blocks__block__title {
+          color: #F8F9FA;
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__p--ukr {
+          opacity: 1;
+          transform: translateY(-125px);
+        }
+        .home-instructions__blocks__block__p {
+          opacity: 1;
+          transform: translateY(-75px);
+        }
+      }
+
+      @include mobile {
+        &:hover {
+        cursor: pointer;
+
+        .home-instructions__blocks__block__container {
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__image {
+          opacity: 1;
+        }
+
+        .home-instructions__blocks__block__title {
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__p--ukr {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        .home-instructions__blocks__block__p {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
       }
     }
   }
@@ -119,57 +291,119 @@
   gap: 40px;
   max-width: 1224px;
 
+  @include mobile {
+    gap: 24px;
+    max-width: 361px;
+  }
+
   &__title {
     align-self: flex-start;
-    @include title-styles;
+    @include text-h1;
+    font-size: 40px;
+
+    @include mobile {
+      font-size: 32px;
+    }
   }
 
   &__blocks {
     display: flex;
     gap: 24px;
 
-    &__block {
-      display: flex;
+    @include mobile {
       flex-direction: column;
+    }
+
+    &__block {
+      border-radius: 5px;
+      display: flex;
       gap: 24px;
-      background-color: #F1F1F4;
+      background-color: #FFE3F6;
       width: 600px;
-      height: 187px;
+      height: 250px;
       justify-content: space-between;
       padding: 24px;
 
+      @include mobile {
+        max-width: 361px;
+        height: 367px;
+        padding: 16px;
+        gap: 0px;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      &__photo {
+        @include mobile {
+          width: 200px;
+          height: 200px;
+        }
+      }
+
+      &__wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+
+        @include mobile {
+          gap: 8px;
+        }
+      }
+
       &__title {
-        @include title-styles;
+        @include text-h2;
         font-size: 32px;
+
+        @include mobile {
+          font-style: 24px;
+        }
       }
 
       &__paragraphs {
         display: flex;
         flex-direction: column;
+        gap: 8px;
+
+        &__wrapper {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+
         &__p {
           margin: 0;
-          @include p-styles;
+          @include text-h3;
         }
       }
     }
   }
 }
 
-
 .home-active-requests {
   display: flex;
   flex-direction: column;
   gap: 40px;
   max-width: 1224px;
-  
+
+  @include mobile {
+    align-items: center;
+    max-width: 361px;
+  }
+
   &__main {
     display: flex;
     flex-direction: column;
     align-self: flex-start;
     gap: 8px;
-    
+
     &__title {
-      @include title-styles;
+      @include text-h1;
+      font-size: 40px;
+
+      @include mobile {
+        font-size: 32px;
+      }
     }
 
     &__paragraphs {
@@ -177,12 +411,10 @@
       flex-direction: column;
       &__p {
         margin: 0;
-        @include p-styles;
+        @include text-h3;
       }
     }
   }
-
-  
 
   &__see-all {
     display: flex;
@@ -190,11 +422,22 @@
     gap: 8px;
 
     &__p {
-      @include p-styles;
+      @include text-h3;
     }
 
     &__button {
       object-fit: contain;
     }
+  }
+}
+
+
+.icon {
+  width: 24px;
+  height: 24px;
+
+  @include mobile {
+    width: 16px;
+    height: 16px;
   }
 }

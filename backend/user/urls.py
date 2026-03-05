@@ -3,10 +3,13 @@ from rest_framework.routers import DefaultRouter
 
 from user.views import (
     AdminRegisterView,
+    ChangeProfilePictureView,
     CheckEmailAvailabilityView,
     CheckPhoneNumberAvailabilityView,
     LogoutView,
+    MyProfileView,
     UserViewSet,
+    change_password,
     confirm_password_reset,
     request_password_reset,
 )
@@ -28,5 +31,8 @@ urlpatterns = [
         name="check_phone_number_availability"
     ),
     path("user/logout/", LogoutView.as_view(), name="logout"),
+    path("user/my-profile/", MyProfileView.as_view(), name="my-profile"),
+    path("user/change-profile-picture/", ChangeProfilePictureView.as_view(), name="change_profile_picture"),
+    path("user/change-password/", change_password),
     path("", include(router.urls)),
 ]

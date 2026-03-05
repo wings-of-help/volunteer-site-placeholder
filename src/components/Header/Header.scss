@@ -6,28 +6,42 @@
   height: 57px;
   max-width: 1400px;
   width: 100%;
-  margin: 24px auto 1px;
-
+  margin: 0 auto 1px;
+  padding-top: 24px;
   @include flex-center;
+
+  &__burger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    width: 40px;
+    height: 40px;
+
+    @include mobile {
+      @include centeredFlexBox;
+    }
+  }
 
   &__nav {
     padding: 0 108px;
     width: 100%;
     @include flex-between;
+    padding-top: 24px;
 
     &__wings-sector {
-      width: 288px;
+      width: 260px;
       @include flex-center;
       justify-content: flex-start;
       gap: 4px;
       flex-shrink: 0;
 
       &__title {
-        @include text-body;
+        @include africad;
         font-weight: 500;
         font-style: Medium;
         line-height: 100%;
-        font-size: 16px;
       }
     }
 
@@ -35,33 +49,54 @@
       display: flex;
       justify-self: center;
       align-self: center;
+      gap: 24px;
+
+      &__item {
+        @include centeredFlexBox;
+        width: 115px;
+      }
 
       &__page {
         @include centeredFlexBox;
-        width: 184px;
-        height: 41px;
-        
-        text-decoration: none;
-        color: #000;
+        width: fit-content;
+        height: 27px;
+        padding: 8px 0;
+        gap: 8px;
 
+        text-decoration: none;
+        color: $color-gray-9;
         position: relative;
 
-        &__title {
-          @include title-styles;
-          font-size: 18px;
+        &:hover {
+          color: $color-hover;
         }
 
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50;
+        &:active {
+          color: $color-pressed;
+        }
 
-          width: 0;
-          height: 2px;
-          background-color: #000;
+        &:hover .header__nav__pages__page__title::after {
+          transform: scaleX(1);
+        }
 
-          transition: width 0.3s ease;
+        &__title {
+          @include text-body-med;
+          position: relative;
+          display: inline-block;
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.25s ease;
+          }
         }
       }
     }
@@ -89,7 +124,7 @@
         @include centeredFlexBox;
 
         &.lang-changer {
-          background-color: $color-input-bg;
+          background-color: $color-gray-0;
         }
       }
     }
@@ -100,22 +135,39 @@
       gap: 4px;
       text-decoration: none;
       color: inherit;
+      @include text-color-states;
+    }
+  }
+
+  @include mobile {
+    &__burger {
+      display: block;
+    }
+
+    &__nav {
+      padding: 0 16px;
+
+      &__pages {
+        display: none;
+      }
+
+      &__buttons {
+        display: none;
+      }
     }
   }
 
   &__profile-btn {
-    width: 184px;
+    width: 100%;
     height: 57px;
     padding: 16px;
 
     @include button-base;
     @include button-primary;
-    @include text-body-lg;
+    @include text-body-med;
 
     gap: 8px;
-
     border: none;
-    @include p-styles;
 
     img {
       @include icon-24;
@@ -124,20 +176,152 @@
 }
 
 .sign-in {
-  border: 1px solid #000;
-  @include p-styles;
+  @include button-border;
+  @include text-h3;
 }
 
 .sign-up {
-  background-color: #000;
-  color: #fff;
-  @include p-styles;
+  @include button-primary;
+  @include text-h3;
 }
 
 .has-underline {
-  color: #000;
+  color: $color-primary-500;
 
-  &::after {
-    width: 50%;
+  .header__nav__pages__page__title::after {
+    transform: scaleX(1);
   }
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  overflow-y: auto;
+
+  background: $color-gray-0;
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 24px 16px;
+
+  a {
+    width: 100%;
+    display: block;
+    text-decoration: none;
+  }
+
+
+.mobile-menu__close {
+  align-self: flex-end;
+
+  width: 40px;
+  height: 40px;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+&__nav {
+  height: 250px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+
+  gap: 32px;
+
+  a {
+    text-decoration: none;
+    color: $color-gray-9;
+    text-align: center;
+
+    @include text-body-med;
+  }
+}
+
+&__buttons {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  margin-bottom: 40px;
+
+  a {
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  a:first-child {
+    @include button-border;
+    @include text-body-med;
+    padding: 16px;
+  }
+
+  a:last-child {
+    @include button-primary;
+    @include text-body-med;
+    padding: 16px;
+  }
+}
+
+&__profile {
+  width: 100%;
+
+  @include button-primary;
+  @include text-body-med;
+
+  border: none;
+  padding: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-bottom: 8px;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+&__lang {
+  width: 100%;
+
+  .custom-select--lang {
+    width: 100%;
+    height: 56px;
+    padding: 16px;
+  }
+
+  .custom-select__trigger {
+    width: 100%;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .custom-select__option {
+    padding-right: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
 }

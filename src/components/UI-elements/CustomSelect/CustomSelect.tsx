@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./CustomSelect.scss";
 import arrowDown from '../../../assets/arrow-down-gray.svg';
+// import type { SortType } from "../../../pages/CatalogPage/CatalogPage";
 
 type Option = {
   label: string;
@@ -12,6 +13,7 @@ type Props = {
   placeholder?: string;
   onChange?: (value: string) => void;
   variant?: "default" | "lang" | "filter";
+  setSortType?: (value: string) => void;
 };
 
 export default function CustomSelect({
@@ -19,6 +21,7 @@ export default function CustomSelect({
   placeholder,
   onChange,
   variant = "default",
+  setSortType = () => {},
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<Option | null>(null);
@@ -37,6 +40,7 @@ export default function CustomSelect({
 
   const handleSelect = (option: Option) => {
     setSelected(option);
+    setSortType(option.value);
     setIsOpen(false);
     onChange?.(option.value);
   };

@@ -1,4 +1,15 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
+
 .home-active-requests__carts {
   display: flex;
   gap: 24px;
+
+  @include mobile {
+    flex-direction: column;
+  }
+}
+
+.home-active-requests__see-all {
+  @include disableLinkStyles;
 }

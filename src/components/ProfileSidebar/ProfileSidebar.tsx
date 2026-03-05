@@ -1,72 +1,111 @@
-import profileFoto from '../../assets/Profile_foto.svg';
+import { NavLink } from 'react-router-dom';
 import infoIcon from '../../assets/profile2.svg';
+import infoIconGrey from '../../assets/infoIcon-grey.svg';
 import requestsIcon from '../../assets/HandsPraying.svg';
+import requestsIconWhite from '../../assets/HandsPraying-wite.svg';
 import responsesIcon from '../../assets/ArrowsClockwise.svg';
+import responsesIconWhite from '../../assets/ArrowsClockwise-wite.svg';
 import logoutIcon from '../../assets/Logout.svg';
 import './ProfileSidebar.scss';
+import type { User } from '../../api/types/auth';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
-  activeTab: 'info' | 'requests' | 'responses';
-  onTabChange: (tab: 'info' | 'requests' | 'responses') => void;
-  user: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
-  onLogout: () => void;
+  user: User;
+  onLogoutClick: () => void;
 }
 
-export const ProfileSidebar = ({
-  activeTab,
-  onTabChange,
-  user,
-  onLogout,
-}: Props) => {
+export const ProfileSidebar = ({ user, onLogoutClick }: Props) => {
+  const { t } = useTranslation();
+
+  const role = user.role;
+  const isRequester = role === 'distressed' || role === 'admin';
+  const isVolunteer = role === 'volunteer';
+
   return (
     <aside className='profile__sidebar'>
       <div className='profile__user'>
-        <div className='profile__avatar--sidebar'>
-          <img src={profileFoto} alt='Profile avatar' />
-        </div>
         <div className='profile__user-info'>
           <p className='profile__name'>
-            {user.firstName} {user.lastName}
+            {user.first_name} {user.last_name}
           </p>
           <p className='profile__email'>{user.email}</p>
         </div>
       </div>
 
       <nav className='profile__menu'>
-        <button
-          className={`profile__menu-item ${activeTab === 'info' ? 'profile__menu-item--active' : ''}`}
-          onClick={() => onTabChange('info')}
+        {/* PERSONAL INFO — для всіх */}
+        <NavLink
+          to="/profile/info"
+          end
+          className={({ isActive }) =>
+            `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
+          }
         >
-          <img src={infoIcon} alt='' />
-          <span>Personal Information</span>
-        </button>
+          {({ isActive }) => (
+            <>
+              <img src={isActive ? infoIcon : infoIconGrey} alt='' />
+              <span>{t('Personal-Information')}</span>
+            </>
+          )}
+        </NavLink>
 
-        <button
-          className={`profile__menu-item ${activeTab === 'requests' ? 'profile__menu-item--active' : ''}`}
-          onClick={() => onTabChange('requests')}
+        {/* REQUESTER (distressed + admin) */}
+        {isRequester && (
+          <NavLink
+            to='/profile/requests'
+            className={({ isActive }) =>
+              `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <img src={isActive ? requestsIconWhite : requestsIcon} alt='' />
+                <span>{t('My-Requests')}</span>
+              </>
+            )}
+          </NavLink>
+        )}
+
+        {/* VOLUNTEER */}
+        {isVolunteer && (
+          <NavLink
+            to='/profile/offers'
+            className={({ isActive }) =>
+              `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <img src={isActive ? requestsIconWhite : requestsIcon} alt='' />
+                <span>{t('My-Offers')}</span>
+              </>
+            )}
+          </NavLink>
+        )}
+
+        {/* MY RESPONSES — для всіх */}
+        <NavLink
+          to='/profile/responses'
+          className={({ isActive }) =>
+            `profile__menu-item ${isActive ? 'profile__menu-item--active' : ''}`
+          }
         >
-          <img src={requestsIcon} alt='' />
-          <span>My Requests</span>
-        </button>
+          {({ isActive }) => (
+            <>
+              <img src={isActive ? responsesIconWhite : responsesIcon} alt='' />
+              <span>{t('My-Responses')}</span>
+            </>
+          )}
+        </NavLink>
 
-        <button
-          className={`profile__menu-item ${activeTab === 'responses' ? 'profile__menu-item--active' : ''}`}
-          onClick={() => onTabChange('responses')}
-        >
-          <img src={responsesIcon} alt='' />
-          <span>My Responses</span>
-        </button>
-
+        {/* LOGOUT */}
         <button
           className='profile__menu-item profile__menu-item--logout'
-          onClick={onLogout}
+          onClick={onLogoutClick}
         >
           <img src={logoutIcon} alt='' />
-          <span>Log out</span>
+          <span>{t('Log-out')}</span>
         </button>
       </nav>
     </aside>

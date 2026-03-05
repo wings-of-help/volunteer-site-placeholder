@@ -3,7 +3,7 @@
 @mixin control-base {
   height: $control-height;
   padding: 16px;
-  border: 1px solid $color-gray-main;
+  border: 1px solid $color-gray-7;
   background: $color-white;
   font-family: $font-main;
   font-size: 16px;
@@ -16,12 +16,6 @@
   }
 
   &::placeholder {
-    color: $color-gray-main;
+    color: $color-gray-7;
   }
-}
-
-@mixin textarea-base {
-  min-height: calc(#{$control-height} * 2);
-  resize: none;
-  overflow: hidden;
 }

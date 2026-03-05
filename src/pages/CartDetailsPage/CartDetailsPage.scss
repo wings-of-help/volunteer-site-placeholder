@@ -1,33 +1,58 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/mixins/index' as *;
 
 .cart-details-page {
+  word-break: break-word;
+  overflow-wrap: break-word;
+
   @include centeredFlexBox;
   flex-direction: column;
   margin-top: 72px;
   margin-bottom: 120px;
   width: 100%;
   position: relative;
+
+  @include mobile {
+    margin-top: 24px;
+    margin-bottom: 56px;
+  }
   
   &__nav {
     display: flex;
     margin-bottom: 64px;
-    
+
+    @include mobile {
+      margin-bottom: 32px;
+    }
+  
     &-links {
       @include centeredFlexBox;
       @include disableLinkStyles;
-      @include title-styles;
+      @include text-h2;
       font-size: 16px;
       cursor: pointer;
+
+      @include mobile {
+        font-size: 16px;
+      }
     }
   }
 
   &__info {
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid #000;
 
     &__title {
-      @include title-styles;
+      @include text-h1;
+      font-size: 40px;
+
       margin-bottom: 27px;
+
+      @include mobile {
+        font-size: 32px;
+        margin-bottom: 16px;
+      }
     }
 
     &__points {
@@ -48,14 +73,28 @@
       flex-direction: column;
       gap: 8px;
 
+      @include mobile {
+        margin-top: 32px;
+      }
+
       &__title {
-        @include title-styles;
+        @include text-h2;
         font-size: 24px;
+
+        @include mobile {
+          font-size: 18px;
+        }
       }
 
       &__p {
-        @include p-styles;
+        @include text-h3;
         max-width: 790px;
+
+        margin-bottom: 48px;
+
+        @include mobile {
+          max-width: 361px;
+        }
       }
 
       &__register {
@@ -65,26 +104,31 @@
         padding-bottom: 80px;
         border-bottom: 1px solid #000;
 
+        @include mobile {
+          width: 100%;
+          align-items: center;
+          padding-bottom: 40px;
+        }
+
         &__button {
-          background-color: #000;
-          color: #fff;
-          width: 288px;
-          height: 57px;
-          gap: 8px;
-          padding: 16px;
-          @include p-styles;
-          margin-top: 60px;
-          cursor: pointer;
+          @include text-h2;
+          @include blueButton;
+
+           @include mobile {
+            font-size: 18px;
+            width: 100%;
+          }
         }
 
         &__signin {
           display: flex;
           align-items: center;
           gap: 16px;
-          @include p-styles;
+          @include text-h3;
           font-size: 16px;
-
+          
           &__link {
+            @include disableLinkStyles;
             color: #000;
           }
         }
@@ -95,65 +139,49 @@
       display: flex;
       flex-direction: column;
       margin-top: 24px;
+      margin-bottom: 120px;
+      
+      @include mobile {
+        margin-bottom: 80px;
+      }
 
       &__title {
-        @include title-styles;
+        @include text-h2;
         font-size: 24px;
         margin-bottom: 24px;
+
+        @include mobile {
+          font-size: 18px;
+        }
       }
 
       &__details {
+        margin-top: 24px;
         display: flex;
-        align-items: center;
-        gap: 250px;
+        flex-direction: column;
+        align-self: flex-start;
 
         &__name {
-          font-weight: 600;
-          font-style: Semi Bold;
-          font-size: 18px;
-          line-height: 140%;
+          @include text-h2;
+          font-size: 20px;
         }
 
         &__d {
+          @include text-h2;
+          font-size: 20px;
           display: flex;
           align-items: center;
-          @include p-styles;
-          gap: 8px;
-        }
-      }
-
-      &__register {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-
-        &__button {
-          background-color: #fff;
-          color: #000;
-          width: 288px;
-          height: 57px;
-          gap: 8px;
-          padding: 16px;
-          @include p-styles;
-          cursor: pointer;
-        }
-
-        &__signin {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          @include p-styles;
-          font-size: 16px;
-
-          &__link {
-            color: #000;
-          }
+          gap: 5px;
         }
       }
     }
   }
 }
 
+.icon {
+  height: 24px;
+  width: 24px;
+}
 
 
 .cart-details-page__nav-link {
@@ -162,16 +190,24 @@
 
 .cart-details-page__container {
   width: 1224px;
+  
+  @include mobile {
+    max-width: 361px;
+  }
 }
 
 .point-text {
-  @include p-styles;
+  @include text-h3;
 }
 
 .aid {
-  margin-top: 10px;
-  background-color: #5C6569;
-  color: #fff;
+  @include text-h2;
+
+  font-size: 20px;
+  color: #2277FF;
+  background-color: #A6D2FF;
+  border-radius: 5%;
+
   padding: 8px;
 }
 
@@ -179,4 +215,68 @@
   background-color: #fff;
   color: #000;
   border: 1px solid #000;
+}
+
+.offer {
+  &__button {
+    margin-bottom: 48px;
+    @include blueButton;
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  &__wrong {
+    margin-block: 80px;
+    font-weight: 600;
+    font-style: Semi Bold;
+    font-size: 18px;
+    line-height: 140%;
+
+    @include mobile {
+      margin-bottom: 40px;
+      margin-top: 0;
+    }
+  }
+}
+
+.status {
+  @include centeredFlexBox;
+  @include text-h3;
+  background-color: #D0BFFF;
+  border-radius: 10%;
+
+  gap: 8px;
+  padding: 8px;
+}
+
+.status__dot {
+  object-fit: contain;
+  width: 8px;
+  height: 8px;
+}
+
+.status-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.container {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.disabled {
+  color: #F8F9FA;
+  background-color: #B3D0FF;
+  pointer-events: none;
+  cursor: not-allowed; 
+}
+
+.loader {
+  position: absolute;
+  top: 0;
 }

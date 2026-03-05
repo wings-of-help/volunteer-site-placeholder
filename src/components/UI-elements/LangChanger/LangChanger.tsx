@@ -10,7 +10,7 @@ type LangOption = {
 
 const LANG_OPTIONS: LangOption[] = [
   { label: "EN", value: "en" },
-  { label: "UK", value: "uk" },
+  { label: "UA", value: "uk" },
 ];
 
 export const LangChanger = () => {

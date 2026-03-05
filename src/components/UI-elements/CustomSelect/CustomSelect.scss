@@ -1,4 +1,6 @@
 @use '../../../styles/mixins.scss' as *;
+@use '../../../styles/mixins/index' as *;
+@use '../../../styles/variables' as *;
 
 .custom-select {
   position: relative;
@@ -37,7 +39,7 @@
     padding: 12px 14px;
     cursor: pointer;
     transition: 0.15s;
-    @include p-styles;
+    @include text-h3;
 
     &:hover {
       background: #f3f3f3;
@@ -47,7 +49,7 @@
 
 .selected-ops {
   color: #868E96;
-  @include p-styles;
+  @include text-h3;
 }
 
 .arrow {
@@ -60,7 +62,7 @@
   gap: 8px;
   width: 80px;
   height: 57px;
-  background-color: #F1F1F4;
+  background-color: $color-gray-2;
 
   .custom-select__trigger {
     background: transparent;
@@ -87,7 +89,7 @@
   //styles above are for changing ops styles
 
   .selected-ops {
-    @include p-styles;
+    @include text-h3;
     color: #000;
   }
 }
@@ -102,6 +104,11 @@
   height: 57px;
   background-color: #F1F1F4;
 
+  @include mobile {
+    border-radius: 40px;
+    width: 171px;
+  }
+
   .custom-select__trigger {
     padding: 0;
     background: transparent;
@@ -109,7 +116,7 @@
   }
 
   .selected-ops {
-    @include p-styles;
+    @include text-h3;
     color: #000;
   }
 }
