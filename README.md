@@ -10,7 +10,7 @@ The project was created as an MVP with the goal of providing a simple and scalab
 ## Live Demo
 
 🌐 **Frontend:**  
-[Live Demo](https://wingsofhelps.world)
+[Live Demo]([https://wingsofhelps.world](https://volunteer-site-placeholder-production.up.railway.app/))
 
 ⚙️ **Backend API:**  
 [Swagger API](https://alert-ambition-dev.up.railway.app/api/v1/swagger/)
