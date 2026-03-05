@@ -152,7 +152,7 @@
         flex-shrink: 1;
 
         opacity: 1;
-        transform: scale(1)
+        transform: scale(1);
           
         @include mobile {
           max-width: 120px;
