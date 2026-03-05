@@ -20,7 +20,7 @@
   flex-direction: column;
 
   @include mobile {
-    width: 361px;
+    max-width: 361px;
   }
 
   &__desc {

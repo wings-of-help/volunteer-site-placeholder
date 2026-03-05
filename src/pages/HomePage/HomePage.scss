@@ -127,7 +127,7 @@
     }
 
     &__block {
-      border-radius: 5px;
+       border-radius: 5px;
       display: flex;
       flex-direction: column;
       background-color: #E4F1FF;
@@ -147,6 +147,7 @@
       &__image {
         width: 160px;
         height: 160px;
+        transition: transform 0.3s ease;
       }
 
       &__title {
@@ -173,10 +174,11 @@
 
       &__p {
         @include text-h3;
-        display: none;
+        opacity: 0;
+        transition: transform 0.3s ease;
 
         @include mobile {
-          display: block;
+          opacity: 1;
         }
       }
 
@@ -199,6 +201,10 @@
         transform: translateY(0); 
       }
 
+      &__container {
+        transition: transform 0.3s ease;
+      }
+
       &:hover {
         cursor: pointer;
         background-color: #2277FF;
@@ -206,15 +212,15 @@
 
         .home-instructions__blocks__block__container {
           justify-self: flex-start;
+          transform: translateY(-160px);
         }
 
         .home-instructions__blocks__block__image {
-          display: none;
+          opacity: 0;
         }
 
         .home-instructions__blocks__block__num {
           color: #F8F9FA;
-          transform: translateY(0);
         }
 
         .home-instructions__blocks__block__title {
@@ -223,10 +229,37 @@
         }
 
         .home-instructions__blocks__block__p {
-          display: block;
+          opacity: 1;
+          transform: translateY(-80px);
         }
       }
-      
+
+      @include mobile {
+        &:hover {
+        cursor: pointer;
+
+        .home-instructions__blocks__block__container {
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__image {
+          opacity: 1;
+        }
+
+        .home-instructions__blocks__block__num {
+          
+        }
+
+        .home-instructions__blocks__block__title {
+          transform: translateY(0);
+        }
+
+        .home-instructions__blocks__block__p {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      }
     }
   }
 }
@@ -271,7 +304,7 @@
       padding: 24px;
 
       @include mobile {
-        width: 361px;
+        max-width: 361px;
         height: 367px;
         padding: 16px;
         gap: 0px;
@@ -387,3 +420,5 @@
     height: 16px;
   }
 }
+
+     
