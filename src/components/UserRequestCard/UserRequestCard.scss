@@ -168,7 +168,7 @@
 
     @include text-body-med;
 
-    img {
+    &-icon {
       width: 24px;
       height: 24px;
     }
@@ -245,7 +245,7 @@
 
     border-radius: 4px;
 
-    img {
+    &-icon {
       width: 24px;
       height: 24px;
       pointer-events: none;

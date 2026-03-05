@@ -17,17 +17,27 @@
   background: $color-white;
   border-radius: 8px;
 
+  @include mobile {
+    width: 360px;
+  }
+
   @include flex-column(8px);
   align-items: center;
   text-align: center;
 
   &__icon {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+
+    @include mobile {
+      width: 80px;
+      height: 80px;
+    }
   }
 
   &__title {
-    @include text-h2;
+    @include text-h4;
     margin: 0;
   }
 
@@ -62,29 +72,29 @@
     @include button-primary;
     @include text-body-med;
   }
-  
+
   &--danger {
     .confirm-modal__confirm {
-      background-color: $color-error;
+      background-color: $color-error-200;
+      gap: 8px;
       border: none;
-      color: $color-white;
+      color: $color-gray-9;
 
       transition:
         background-color 0.2s ease,
         transform 0.1s ease;
 
       &:hover {
-        background-color: color.adjust($color-error, $lightness: 8%);
+        background-color: $color-error-300;
       }
 
       &:active {
-        background-color: color.adjust($color-error, $lightness: 12%);
-        transform: scale(0.96);
+        background-color: $color-error-400;
       }
     }
 
     .confirm-modal__cancel {
-      border: 1px solid $color-black;
+      border: 2px solid $color-hover;
       color: $color-black;
       background: transparent;
 
@@ -94,12 +104,12 @@
         transform 0.1s ease;
 
       &:hover {
-        background-color: $color-gray-1;
+        border: 2px solid $color-primary-500;
       }
 
       &:active {
         transform: scale(0.96);
-        background-color: $color-gray-2;
+        border: 2px solid $color-pressed;
       }
     }
   }

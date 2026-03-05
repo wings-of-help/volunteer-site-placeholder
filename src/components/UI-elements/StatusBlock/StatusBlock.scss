@@ -14,7 +14,7 @@
 
     @include text-body-med;
 
-    img {
+    &-icon {
       width: 24px;
       height: 24px;
     }
@@ -40,10 +40,5 @@
       background: $color-green-200;
       color: $color-green-500;
     }
-  }
-
-  img {
-    width: 24px;
-    height: 24px;
   }
 }

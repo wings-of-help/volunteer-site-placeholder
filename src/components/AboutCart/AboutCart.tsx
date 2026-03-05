@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import './AboutCart.scss'
+import { Link } from 'react-router-dom';
+import './AboutCart.scss';
 import telegramIcon from '../../assets/Telegram-icon.svg';
 import mailIcon from '../../assets/mailIcon.svg';
 import gitHubIcon from '../../assets/GitHubIcon.svg';
@@ -13,18 +13,25 @@ type Social = {
   id: number;
   name: string;
   link: string;
-}
+};
 
 type Props = {
   firstName: string;
   lastName: string;
   role: string;
   web: string;
-  socials: Social[]
+  socials: Social[];
   photo: string;
-}
+};
 
-export default function AboutCart({firstName, lastName, role, web, photo, socials}: Props) {
+export default function AboutCart({
+  firstName,
+  lastName,
+  role,
+  web,
+  photo,
+  socials,
+}: Props) {
   const socialIcons: Record<string, string> = {
     telegram: telegramIcon,
     email: mailIcon,
@@ -34,24 +41,36 @@ export default function AboutCart({firstName, lastName, role, web, photo, social
     facebook: facebookIcon,
     behance: BehanceIcon,
   };
+
+  const getSocialLink = (social: Social) => {
+    const name = social.name.toLowerCase();
+
+    if (name === 'email') {
+      const cleanEmail = social.link.replace(/^https?:\/\//, '');
+      return `https://mail.google.com/mail/?view=cm&to=${cleanEmail}`;
+    }
+
+    return social.link;
+  };
+
   return (
-    <div className="about-cart">
-      <img className="about-cart__image" src={photo} alt="teammate-photo" />
+    <div className='about-cart'>
+      <img className='about-cart__image' src={photo} alt='teammate-photo' />
       {/* <div className="about-cart__image"></div> */}
 
-      <div className="about-cart__info">
-        <p className="about-cart__info__name">{`${firstName} ${lastName}`}</p>
-        <p className="about-cart__info__role">{role}</p>
+      <div className='about-cart__info'>
+        <p className='about-cart__info__name'>{`${firstName} ${lastName}`}</p>
+        <p className='about-cart__info__role'>{role}</p>
       </div>
 
-      <div className="about-cart__socials">
-        <div className="about-cart__socials">
-          {socials.map(social => (
+      <div className='about-cart__socials'>
+        <div className='about-cart__socials'>
+          {socials.map((social) => (
             <Link
               key={social.id}
-              to={social.link}
-              className="about-cart__socials__link"
-              target="_blank"
+              to={getSocialLink(social)}
+              className='about-cart__socials__link'
+              target='_blank'
             >
               <img
                 src={socialIcons[social.name.toLowerCase()]}
@@ -63,14 +82,14 @@ export default function AboutCart({firstName, lastName, role, web, photo, social
           {web && (
             <Link
               to={web}
-              className="about-cart__socials__link"
-              target="_blank"
+              className='about-cart__socials__link'
+              target='_blank'
             >
-              <img src={webIcon} alt="website" />
+              <img src={webIcon} alt='website' />
             </Link>
           )}
         </div>
-        
+
         {/* <Link to={""} className="about-cart__socials__link">
           <img src={mailIcon} alt="mailIcon" />
         </Link>
@@ -91,5 +110,5 @@ export default function AboutCart({firstName, lastName, role, web, photo, social
         </Link> */}
       </div>
     </div>
-  )
+  );
 }
