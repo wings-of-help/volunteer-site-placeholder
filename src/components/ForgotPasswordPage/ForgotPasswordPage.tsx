@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import arrowLeft from '../../assets/ep_arrow-left.svg';
+import { requestPasswordReset } from '../../api/user.api';
 import { useTranslation } from 'react-i18next';
 
 import './ForgotPasswordPage.scss';
 
 export const ForgotPasswordPage = () => {
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
 
@@ -14,13 +18,30 @@ export const ForgotPasswordPage = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isValid = emailRegex.test(email);
 
-const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!isValid) return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  navigate('/verify-code', { state: { email } });
-};
+    if (!isValid) return;
 
+    try {
+      setError('');
+      setLoading(true);
+
+      await requestPasswordReset(email);
+
+      navigate('/verify-code', { state: { email } });
+    } catch (err: any) {
+      if (err?.email) {
+        setError(err.email[0]);
+      } else if (err?.detail) {
+        setError(err.detail);
+      } else {
+        setError('Something went wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className='forgot'>
@@ -49,8 +70,14 @@ const handleSubmit = (e: React.FormEvent) => {
             className='forgot__input'
           />
 
-          <button type='submit' disabled={!isValid} className='forgot__button'>
-            {t('Send-code')}
+           {error && <p className='forgot__error'>{error}</p>}
+
+          <button
+            type='submit'
+            disabled={!isValid || loading}
+            className='forgot__button'
+          >
+            {loading ? t('Sending...') : t('Send-code')}
           </button>
         </form>
       </div>

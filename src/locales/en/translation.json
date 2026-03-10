@@ -289,5 +289,9 @@
   "Filters": "Filters",
   "Page-Not-Found": "Page Not Found",
   "The-page-youre-looking-for-isnt-available": "The page you’re looking for isn’t available.",
-  "Go-back-Home": "Go back Home"
+  "Go-back-Home": "Go back Home",
+  "Reset-password": "Reset password",
+  "Enter-the-code-and-create-a-new-password": "Enter the code and create a new password",
+  "Invalid-or-expired-code": "Invalid or expired code",
+  "Invalid-code-or-password": "Invalid code or password"
 }
