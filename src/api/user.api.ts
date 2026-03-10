@@ -56,3 +56,47 @@ export const changePasswordRequest = async (payload: {
 
   return data;
 };
+
+export const requestPasswordReset = async (email: string) => {
+  const response = await fetch(`${BASE_URL}/user/password-reset/request/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw data;
+  }
+
+  return data;
+};
+
+export const resetPassword = async (
+  email: string,
+  code: string,
+  new_password: string
+) => {
+  const response = await fetch(`${BASE_URL}/user/password-reset/confirm/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      code,
+      new_password,
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw data;
+  }
+
+  return data;
+};

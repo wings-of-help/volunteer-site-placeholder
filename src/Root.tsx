@@ -33,10 +33,8 @@ import RoleProvider from './context/RoleContext';
 import { useTranslation } from 'react-i18next';
 import { ForgotPasswordPage } from './components/ForgotPasswordPage/ForgotPasswordPage';
 import { VerifyCodePage } from './components/VerifyCodePage/VerifyCodePage';
-import { NewPasswordPage } from './pages/NewPasswordPage/NewPasswordPage';
 import { ScrollToTop } from './utils/ScrollToTop';
 import AboutTeam from './pages/AboutTeam/AboutTeam';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
 import ErrorLayout from './pages/ErrorLayout/ErrorLayout';
 
 export const Root = () => {
@@ -125,7 +123,6 @@ export const Root = () => {
                     element={<ForgotPasswordPage />}
                   />
                   <Route path='/verify-code' element={<VerifyCodePage />} />
-                  <Route path='/new-password' element={<NewPasswordPage />} />
 
                   <Route path='/administrationsignup'>
                     <Route index element={<Navigate to='step-1' replace />} />

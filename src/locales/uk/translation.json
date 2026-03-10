@@ -228,8 +228,8 @@
   "Check-your-email": "Перевірте вашу пошту",
   "Enter-the-6-digit-code-sent-to": "Введіть 6-значний код, надісланий на",
   "Create-new-password": "Створіть новий пароль",
-   "Current-password": "Поточний пароль",
-   "Current-password-is-incorrect": "Поточний пароль невірний",
+  "Current-password": "Поточний пароль",
+  "Current-password-is-incorrect": "Поточний пароль невірний",
   "Enter-a-new-password-to-finish-resetting-your-account": "Введіть новий пароль, щоб завершити відновлення облікового запису.",
   "Didnt-receive-the-code": "Не отримали код?",
   "roles": {
@@ -270,5 +270,9 @@
 
   "No-results": "Немає результатів",
   "Try-changing-a-city-or-category": "Спробуйте змінити місто чи категорію.",
-  "Filters": "Фільтри"
+  "'Sending...'": "Надсилання...",
+  "Filters": "Фільтри",
+  "Reset-password": "Cкинути пароль",
+  "Enter-the-code-and-create-a-new-password": "Введіть код і створіть новий пароль",
+  "Invalid or expired code": "Невірний або застарілий код"
 }
