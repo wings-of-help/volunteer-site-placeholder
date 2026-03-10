@@ -5,7 +5,6 @@
   @include flex-center;
   justify-content: space-between;
   gap: 14px;
-  margin-bottom: 32px;
 
   @include mobile {
     gap: 8px;
@@ -87,5 +86,20 @@
     color: $color-primary-500;
 
     @include link-primary;
+  }
+
+  &__error {
+    color: $color-error;
+    @include text-small-reg;
+    margin-top: 8px;
+  }
+
+  &__confirm {
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  &__wrapper {
+    margin-bottom: 24px;
   }
 }
